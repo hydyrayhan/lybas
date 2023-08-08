@@ -1,0 +1,24 @@
+*{
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+button{
+  background: none;
+  outline: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+.container{
+  width: 95%;
+  margin: 0 auto 0;
+  max-width: 1420px;
+}
