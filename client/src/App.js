@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+// Pages
+import Main from './pages/index';
+
 export const AppContext = createContext();
 
 function App() {
@@ -38,6 +41,7 @@ function App() {
           <Route path='/' element={(
             <>
               <Header />
+              <Main />
               <Footer />
             </>
           )} />
