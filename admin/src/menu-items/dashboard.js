@@ -13,7 +13,7 @@ const dashboard = {
   children: [
     {
       id: 'default',
-      title: 'Dashboard',
+      title: 'Baş sahypa',
       type: 'item',
       url: '/dashboard/default',
       icon: icons.IconDashboard,

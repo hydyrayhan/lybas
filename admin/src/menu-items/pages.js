@@ -1,50 +1,54 @@
 // assets
-import { IconKey,IconList } from '@tabler/icons';
+import { IconList,IconCategory } from '@tabler/icons';
 
-// constant
-const icons = {
-  IconKey, IconList
-};
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
   id: 'pages',
   title: 'Pages',
-  caption: 'Pages Caption',
+  // caption: 'Pages Caption',
   type: 'group',
   children: [
     {
       id: 'orders',
-      title: 'Orders',
+      title: 'Zakazlar',
       type: 'item',
       url:'/orders',
-      icon: icons.IconList,
+      icon: IconList,
       target: false
     },
     {
-      id: 'authentication',
-      title: 'Authentication',
-      type: 'collapse',
-      icon: icons.IconKey,
+      id: 'categories',
+      title: 'Kategorylar',
+      type: 'item',
+      url:'/category',
+      icon: IconCategory,
+      target: false
+    },
+    // {
+    //   id: 'authentication',
+    //   title: 'Authentication',
+    //   type: 'collapse',
+    //   icon: icons.IconKey,
 
-      children: [
-        {
-          id: 'login3',
-          title: 'Login',
-          type: 'item',
-          url: '/pages/login/login3',
-          target: true
-        },
-        {
-          id: 'register3',
-          title: 'Register',
-          type: 'item',
-          url: '/pages/register/register3',
-          target: true
-        }
-      ]
-    }
+    //   children: [
+    //     {
+    //       id: 'login3',
+    //       title: 'Login',
+    //       type: 'item',
+    //       url: '/pages/login/login3',
+    //       target: true
+    //     },
+    //     {
+    //       id: 'register3',
+    //       title: 'Register',
+    //       type: 'item',
+    //       url: '/pages/register/register3',
+    //       target: true
+    //     }
+    //   ]
+    // }
   ]
 };
 

@@ -24,6 +24,7 @@ const customizationReducer = (state = initialState, action) => {
         isOpen: [id]
       };
     case actionTypes.SET_MENU:
+      console.log(action)
       return {
         ...state,
         opened: action.opened
