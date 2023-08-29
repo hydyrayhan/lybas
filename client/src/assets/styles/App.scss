@@ -1,4 +1,7 @@
 //configs
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import './config/variables';
 @import './config/mixins';
 @import './config/fonts';
