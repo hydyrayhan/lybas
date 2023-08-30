@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;/*# sourceMappingURL=App.css.map */
+@tailwind utilities;
+.footer-input-focus input:focus {
+  border: 0.5px solid rgb(90, 90, 90);
+}
+.footer-input-focus input:focus ~ .footer-input-button-container .footer-input-devider {
+  background: rgb(90, 90, 90) !important;
+}/*# sourceMappingURL=App.css.map */

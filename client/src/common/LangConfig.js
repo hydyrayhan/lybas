@@ -8,6 +8,13 @@ const resources = {
       dresses:'Dresses',
       dressmakers:'Dressmakers',
       blog:'Blog',
+      deliveryAndPaymentOptions:'Delivery and Payment Options',
+      termsOfUse:'Terms of Use (separate for dressmakers)',
+      aboutUs:'About Us',
+      termAndConditions:'Terms & Conditions',
+      contactUs:'Contact Us',
+      subcribeNewsLetter:'Subscribe Newsletter',
+      enterEmail:"Enter your email",
     }
   },
   ru:{
@@ -16,6 +23,13 @@ const resources = {
       dresses:'Платья',
       dressmakers:'Портнихи',
       blog:'Блог',
+      deliveryAndPaymentOptions: 'Опции доставки и оплаты',
+      termsOfUse: 'Условия использования (отдельно для портных)',
+      aboutUs: 'О нас',
+      termAndConditions: 'Условия и положения',
+      contactUs:'Связаться с нами',
+      subcribeNewsLetter:'Подписаться на рассылку',
+      enterEmail:"Введите адрес электронной почты",
     }
   },
   tm:{
@@ -24,6 +38,13 @@ const resources = {
       dresses:'Köýnekler',
       dressmakers:'Satyjylar',
       blog:'Blog',
+      deliveryAndPaymentOptions:'Eltip bermek we Töleg görnüşleri',
+      termsOfUse:'Ulanylyş düzgünleri (Satyjylar üçin aýratyn)',
+      aboutUs:'Biz barada',
+      termAndConditions:'Hukuklar & Şertler',
+      contactUs:'Biz bilen habarlaşmak',
+      subcribeNewsLetter:'Täzeliklere ýazylyň',
+      enterEmail:"Email giriziň",
     }
   }
 }
