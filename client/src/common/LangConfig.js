@@ -2,19 +2,28 @@ import { initReactI18next } from "react-i18next";
 import i18n from "i18next";
 
 const resources = {
+  en:{
+    translation:{
+      home:"Home",
+      dresses:'Dresses',
+      dressmakers:'Dressmakers',
+      blog:'Blog',
+    }
+  },
   ru:{
     translation:{
-      home:"Home ru",
+      home:"Домашняя",
+      dresses:'Платья',
+      dressmakers:'Портнихи',
+      blog:'Блог',
     }
   },
   tm:{
     translation:{
-      home:"Home tm"
-    }
-  },
-  en:{
-    translation:{
-      home:"Home en"
+      home:"Baş sahypa",
+      dresses:'Köýnekler',
+      dressmakers:'Satyjylar',
+      blog:'Blog',
     }
   }
 }
