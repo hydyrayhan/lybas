@@ -6,6 +6,7 @@
 @import './config/mixins';
 @import './config/fonts';
 
+//Footer
 .footer-input-focus{
   input{
     &:focus{
@@ -17,4 +18,18 @@
       }
     }
   }
+}
+
+//Main page Swiper
+.main-swiper-button{
+  padding: 5px;
+  transition: .3s;
+  border-radius: 50%;
+  &:hover{
+    background: rgb(172, 171, 171);
+  }
+}
+
+.swiper-pagination-bullet-active{
+  background: black !important;
 }
