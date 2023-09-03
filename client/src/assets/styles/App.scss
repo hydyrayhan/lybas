@@ -6,6 +6,12 @@
 @import './config/mixins';
 @import './config/fonts';
 
+//pages
+@import './pages/index';
+
+//component
+@import './components/recommended_dress';
+
 //Footer
 .footer-input-focus{
   input{

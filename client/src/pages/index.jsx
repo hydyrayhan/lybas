@@ -1,8 +1,12 @@
-import React, { useRef } from 'react'
+import React, { useRef,useContext } from 'react'
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { AppContext } from '../App';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/pagination';
+
+import Recommended_dress from '../components/Recommended_dress';
 
 const image1 = require('../assets/images/young-japanese-woman-portrait-copy-space 1.png')
 
@@ -50,9 +54,10 @@ const swiper_slide_content_p_style = {
 
 function Index() {
   const swiperRef = useRef(false);
+  const { t } = useContext(AppContext);
   return (
     <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <div className="main-swiper pt-[40px] pb-[60px]" style={swiper_container}>
+      <div className="main-swiper pt-[40px] pb-[40px]" style={swiper_container}>
         <button onClick={() => swiperRef.current?.slidePrev()} className='main-swiper-button' id="main-swiper-prev_arrow" style={{...swiper_arrows.prev,...swiper_arrows.both}}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.91663 17.0001L20.2545 5.66675L22.6666 8.31119L14.7409 17.0001L22.6666 25.689L20.2545 28.3334L9.91663 17.0001Z" fill="#0E1217" />
@@ -103,6 +108,18 @@ function Index() {
             </div>
           </SwiperSlide>
         </Swiper>
+      </div>
+
+      <div className="recommended-products">
+        <div className="section-header">
+          <div className="section-header_name">{t('recommendedDress')}</div>
+          <Link to="/" className="section-header_link"><span>{t('viewAll')}</span> Icon gerek</Link>
+        </div>
+        <div className="recommended-products_container">
+          <Recommended_dress />
+          <Recommended_dress />
+          <Recommended_dress />  
+        </div>
       </div>
     </div>
   )

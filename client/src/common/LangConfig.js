@@ -15,6 +15,13 @@ const resources = {
       contactUs:'Contact Us',
       subcribeNewsLetter:'Subscribe Newsletter',
       enterEmail:"Enter your email",
+      recommendedDress:"Recommended Dresses",
+      viewAll:"View all",
+      goto:"Go to",
+      shop:"shop",
+      s:"'s",
+      tmt:'TMT',
+      add:"Add",
     }
   },
   ru:{
@@ -30,6 +37,12 @@ const resources = {
       contactUs:'Связаться с нами',
       subcribeNewsLetter:'Подписаться на рассылку',
       enterEmail:"Введите адрес электронной почты",
+      recommendedDress:"Recommended Dresses ru",
+      viewAll:"View all ru",
+      goto:"Go to ru",
+      shop:"shop ru",
+      s:"'s ru",
+      tmt:'TMT',
     }
   },
   tm:{
@@ -45,6 +58,12 @@ const resources = {
       contactUs:'Biz bilen habarlaşmak',
       subcribeNewsLetter:'Täzeliklere ýazylyň',
       enterEmail:"Email giriziň",
+      recommendedDress:"Teklip edilýän köýnekler",
+      viewAll:"Hemmesini görmek",
+      goto:"Görmek",
+      shop:"dükanyny",
+      s:"-yň",
+      tmt:"TMT",
     }
   }
 }
