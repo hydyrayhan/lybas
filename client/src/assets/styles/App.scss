@@ -5,12 +5,14 @@
 @import './config/variables';
 @import './config/mixins';
 @import './config/fonts';
+@import './config/layout';
 
 //pages
 @import './pages/index';
 
 //component
-@import './components/recommended_dress';
+@import './components/dress';
+
 
 //Footer
 .footer-input-focus{

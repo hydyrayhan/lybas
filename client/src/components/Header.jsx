@@ -106,7 +106,7 @@ export default function Header() {
       <header className="relative bg-white" style={{ boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.2)' }}>
         <p className="flex h-10 items-center justify-center px-4 text-sm font-medium text-white sm:px-6 lg:px-8" style={styleHeader}></p>
 
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav aria-label="Top" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div>
             <div className="flex h-16 items-center">
               <button type="button" className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden" onClick={() => setOpen(true)}>

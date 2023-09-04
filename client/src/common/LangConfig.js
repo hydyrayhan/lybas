@@ -22,6 +22,7 @@ const resources = {
       s:"'s",
       tmt:'TMT',
       add:"Add",
+      mostPopularDresses:"Most Popular"
     }
   },
   ru:{

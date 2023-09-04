@@ -4,8 +4,8 @@ import { NavLink, Link } from "react-router-dom";
 import { AppContext } from '../App';
 
 const footer_rights_styles = {
-  background:'white',
-  fontSize:'14px',
+  background: 'white',
+  fontSize: '14px',
 }
 
 function Footer() {
@@ -156,7 +156,7 @@ function Footer() {
         </div>
       </footer>
       <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4' style={footer_rights_styles}>
-        c 2023-2024, All Rights Reserved
+        © 2023-2024, All Rights Reserved
       </div>
     </>
   );
