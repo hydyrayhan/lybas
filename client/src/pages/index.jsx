@@ -7,6 +7,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import Dress from '../components/Dress';
+import Dressmaker from '../components/Dressmaker';
+import Blog from '../components/Blog';
 
 const image1 = require('../assets/images/young-japanese-woman-portrait-copy-space 1.png')
 
@@ -108,10 +110,11 @@ function Index() {
         </Swiper>
       </div>
 
+      {/* Recommended */}
       <div className="recommended-products">
         <div className="section-header">
           <div className="section-header_name">{t('recommendedDress')}</div>
-          <Link to="/" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
+          <Link to="/dresses" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
             </svg>
@@ -124,6 +127,7 @@ function Index() {
         </div>
       </div>
 
+      {/* Most Popular */}
       <div className="most-popular-products pt-5">
         <div className="section-header">
           <div className="section-header_name">{t('mostPopularDresses')}</div>
@@ -139,6 +143,60 @@ function Index() {
           <Dress hover={'most_popular'} />
           <Dress hover={'most_popular'} />
           <Dress hover={'most_popular'} />
+        </div>
+      </div>
+
+      {/* On Sale */}
+      <div className="on-sale-products pt-5">
+        <div className="section-header">
+          <div className="section-header_name">{t('mostPopularDresses')}</div>
+          <Link to="/" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+            </svg>
+          </Link>
+        </div>
+        <div className="grid grid-cols-5 gap-4">
+          <Dress hover={'on_sale'} />
+          <Dress hover={'on_sale'} />
+          <Dress hover={'on_sale'} />
+          <Dress hover={'on_sale'} />
+          <Dress hover={'on_sale'} />
+        </div>
+      </div>
+
+      {/* Dress makers */}
+      <div className="dress-makers-products pt-5">
+        <div className="section-header">
+          <div className="section-header_name">{t('dressmakers')}</div>
+          <Link to="/" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+            </svg>
+          </Link>
+        </div>
+        <div className="dressmakers grid grid-cols-5 gap-4">
+          <Dressmaker />
+          <Dressmaker />
+          <Dressmaker />
+          <Dressmaker />
+          <Dressmaker />
+        </div>
+      </div>
+
+      {/* Blogs */}
+      <div className="blogs -products pt-5">
+        <div className="section-header">
+          <div className="section-header_name">{t('blog')}</div>
+          <Link to="/" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+            </svg>
+          </Link>
+        </div>
+        <div className="blogs grid grid-cols-2 gap-5 mb-[120px]">
+          <Blog />
+          <Blog />
         </div>
       </div>
     </div>

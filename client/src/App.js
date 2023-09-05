@@ -8,6 +8,8 @@ import Footer from './components/Footer';
 
 // Pages
 import Main from './pages/index';
+import Dresses from './pages/dresses';
+import Dress from './pages/dress'
 
 export const AppContext = createContext();
 
@@ -42,6 +44,20 @@ function App() {
             <>
               <Header />
               <Main />
+              <Footer />
+            </>
+          )} />
+          <Route path='/dresses' element={(
+            <>
+              <Header />
+              <Dresses />
+              <Footer />
+            </>
+          )} />
+          <Route path='/dresses/:id' element={(
+            <>
+              <Header />
+              <Dress />
               <Footer />
             </>
           )} />

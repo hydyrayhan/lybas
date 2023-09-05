@@ -22,7 +22,10 @@ const resources = {
       s:"'s",
       tmt:'TMT',
       add:"Add",
-      mostPopularDresses:"Most Popular"
+      mostPopularDresses:"Most Popular",
+      more:"More",
+      allCategories:"All categories",
+      price:'Price',
     }
   },
   ru:{

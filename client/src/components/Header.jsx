@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 
 const navigation = {
   pages: [
-    { name: 'home', href: '#' },
-    { name: 'dresses', href: '#' },
-    { name: 'dressmakers', href: '#' },
-    { name: 'blog', href: '#' }
+    { name: 'home', to: '#' },
+    { name: 'dresses', to: '#' },
+    { name: 'dressmakers', to: '#' },
+    { name: 'blog', to: '#' }
   ]
 };
 
@@ -70,32 +70,32 @@ export default function Header() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                      <Link to={page.to} className="-m-2 block p-2 font-medium text-gray-900">
                         {page.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                    <Link to="#" className="-m-2 block p-2 font-medium text-gray-900">
                       Sign in
-                    </a>
+                    </Link>
                   </div>
                   <div className="flow-root">
-                    <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                    <Link to="#" className="-m-2 block p-2 font-medium text-gray-900">
                       Create account
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
                 <div className="border-t border-gray-200 px-4 py-6">
-                  <a href="#" className="-m-2 flex items-center p-2">
+                  <Link to="#" className="-m-2 flex items-center p-2">
                     <img src="https://tailwindui.com/img/flags/flag-canada.svg" alt="" className="block h-auto w-5 flex-shrink-0" />
                     <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
                     <span className="sr-only">, change currency</span>
-                  </a>
+                  </Link>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -117,7 +117,7 @@ export default function Header() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link to="/">
                   <span className="sr-only">Your Company</span>
                   <svg width="87" height="21" viewBox="0 0 87 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -125,16 +125,16 @@ export default function Header() {
                       fill="#0E1217"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.pages.map((page) => (
-                    <a key={page.name} href={page.href} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                    <Link key={page.name} to={page.to} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                       {t(page.name)}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </Popover.Group>

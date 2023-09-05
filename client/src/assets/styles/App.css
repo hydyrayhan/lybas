@@ -51,6 +51,160 @@ a {
   border-radius: 5px 5px 0 0;
 }
 
+.sidebar {
+  border-radius: 8px;
+  background: var(--ui-2-color-quatermany-2, #FFF);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+  padding: 5px 20px;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.sidebar .select.dressmakers .search {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #F6F6F6;
+  background: #F6F6F6;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+.sidebar .select.dressmakers .search span {
+  display: flex;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.sidebar .select.dressmakers .search #serch {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #64748B;
+  font-size: 16px;
+}
+.sidebar .select .top {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 18px;
+  padding-top: 15px;
+}
+.sidebar .select .top .top_title {
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+}
+.sidebar .select .top span {
+  display: flex;
+  transition: 0.3s;
+}
+.sidebar .select .top span.show {
+  transform: rotate(180deg);
+}
+.sidebar .select .items_con {
+  overflow: hidden;
+  transition: all 0.5s;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.sidebar .select .items_con ::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar .select .items_con ::-webkit-scrollbar-track {
+  background: rgb(199, 197, 197);
+  border-radius: 10px;
+}
+.sidebar .select .items_con ::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+.sidebar .select .items_con ::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+.sidebar .select .items_con .items {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+  overflow: auto;
+}
+.sidebar .select .items_con .items .item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.sidebar .select .items_con .items .item:last-child {
+  margin-bottom: 15px;
+}
+.sidebar .select .items_con .items .item span {
+  display: flex;
+  margin-right: 8px;
+}
+.sidebar .select .items_con .items .item p {
+  color: black;
+  font-size: 15px;
+}
+
+.MuiAccordion-region {
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.MuiAccordion-region ::-webkit-scrollbar {
+  width: 5px;
+}
+.MuiAccordion-region ::-webkit-scrollbar-track {
+  background: rgb(199, 197, 197);
+  border-radius: 10px;
+}
+.MuiAccordion-region ::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+.MuiAccordion-region ::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+.MuiAccordionDetails-root {
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 0 !important;
+}
+.MuiAccordionDetails-root .item {
+  display: flex;
+  cursor: pointer;
+}
+.MuiAccordionDetails-root .item span {
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+.css-1betqn-MuiAccordionSummary-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .footer-input-focus input:focus {
   border: 0.5px solid rgb(90, 90, 90);
 }
