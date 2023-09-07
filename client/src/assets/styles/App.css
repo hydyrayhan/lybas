@@ -31,6 +31,22 @@ a {
   max-width: 1420px;
 }
 
+.lybas-blue-button {
+  background: rgb(26, 84, 235);
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.lybas-button {
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 100%;
+  font-weight: 500;
+}
+
 .section-header {
   display: flex;
   flex-direction: row;
@@ -43,7 +59,7 @@ a {
   font-weight: bold;
 }
 .section-header .section-header_link {
-  color: #0f0fd2;
+  color: rgb(26, 84, 235);
   font-size: 20px;
 }
 

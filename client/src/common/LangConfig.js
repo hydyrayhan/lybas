@@ -42,6 +42,16 @@ const resources = {
       checkout:"Checkout now",
       seller:"Seller",
       remindMe:"Remind me when in stock",
+      remindMeWhenInStock:'Remind me when in stock',
+      remindMeText:'You will be notified when the item arrives. Sorry for out of stock',
+      remindMePlaceholder:"Your email or phone number*",
+      send:'Send',
+      myCart:'My cart',
+      remove:'Remove', 
+      totalPrice:"Total Price",
+      checkout:"Checkout now",
+      or:'or',
+      continueShopping:'Continue Shopping',
     }
   },
   ru:{

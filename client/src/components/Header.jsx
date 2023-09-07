@@ -3,12 +3,14 @@ import { Dialog, Popover, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 import { AppContext } from '../App';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
+import Cart from './Cart';
 
 const navigation = {
   pages: [
-    { name: 'home', to: '#' },
-    { name: 'dresses', to: '#' },
+    { name: 'home', to: '/' },
+    { name: 'dresses', to: '/dresses' },
     { name: 'dressmakers', to: '#' },
     { name: 'blog', to: '#' }
   ]
@@ -20,6 +22,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [openCart, setOpenCart] = useState(true);
 
   const { t, changeLanguage } = useContext(AppContext);
 
@@ -29,6 +32,7 @@ export default function Header() {
 
   return (
     <div className="bg-white">
+      <Cart open={openCart} setOpen={setOpenCart}/>
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -55,7 +59,7 @@ export default function Header() {
               leaveTo="-translate-x-full"
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                <div className="flex px-4 pb-2 pt-5">
+                <div className="flex px-4 pb-2 pt-5"> 
                   <button
                     type="button"
                     className="relative -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
@@ -70,13 +74,13 @@ export default function Header() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <Link to={page.to} className="-m-2 block p-2 font-medium text-gray-900">
+                      <NavLink to={page.to} className="-m-2 block p-2 font-medium text-gray-900">
                         {page.name}
-                      </Link>
+                      </NavLink>
                     </div>
                   ))}
                 </div>
-
+ 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
                     <Link to="#" className="-m-2 block p-2 font-medium text-gray-900">
@@ -132,9 +136,9 @@ export default function Header() {
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.pages.map((page) => (
-                    <Link key={page.name} to={page.to} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                    <NavLink key={page.name} to={page.to} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                       {t(page.name)}
-                    </Link>
+                    </NavLink>
                   ))}
                 </div>
               </Popover.Group>
@@ -168,30 +172,30 @@ export default function Header() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <button onClick={()=>setOpenCart(true)} className="text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M2 21C1.45 21 0.979167 20.8042 0.5875 20.4125C0.195833 20.0208 0 19.55 0 19V7C0 6.45 0.195833 5.97917 0.5875 5.5875C0.979167 5.19583 1.45 5 2 5H4C4 3.61667 4.4875 2.4375 5.4625 1.4625C6.4375 0.4875 7.61667 0 9 0C10.3833 0 11.5625 0.4875 12.5375 1.4625C13.5125 2.4375 14 3.61667 14 5H16C16.55 5 17.0208 5.19583 17.4125 5.5875C17.8042 5.97917 18 6.45 18 7V19C18 19.55 17.8042 20.0208 17.4125 20.4125C17.0208 20.8042 16.55 21 16 21H2ZM9 13C10.3833 13 11.5625 12.5125 12.5375 11.5375C13.5125 10.5625 14 9.38333 14 8H12C12 8.83333 11.7083 9.54167 11.125 10.125C10.5417 10.7083 9.83333 11 9 11C8.16667 11 7.45833 10.7083 6.875 10.125C6.29167 9.54167 6 8.83333 6 8H4C4 9.38333 4.4875 10.5625 5.4625 11.5375C6.4375 12.5125 7.61667 13 9 13ZM6 5H12C12 4.16667 11.7083 3.45833 11.125 2.875C10.5417 2.29167 9.83333 2 9 2C8.16667 2 7.45833 2.29167 6.875 2.875C6.29167 3.45833 6 4.16667 6 5Z"
                         fill="#64748B"
                       />
                     </svg>
-                  </Link>
-                  <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  </button>
+                  <NavLink to="/" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M0 17V15H2V8C2 6.61667 2.41667 5.3875 3.25 4.3125C4.08333 3.2375 5.16667 2.53333 6.5 2.2V1.5C6.5 1.08333 6.64583 0.729167 6.9375 0.4375C7.22917 0.145833 7.58333 0 8 0C8.41667 0 8.77083 0.145833 9.0625 0.4375C9.35417 0.729167 9.5 1.08333 9.5 1.5V2.2C10.8333 2.53333 11.9167 3.2375 12.75 4.3125C13.5833 5.3875 14 6.61667 14 8V15H16V17H0ZM8 20C7.45 20 6.97917 19.8042 6.5875 19.4125C6.19583 19.0208 6 18.55 6 18H10C10 18.55 9.80417 19.0208 9.4125 19.4125C9.02083 19.8042 8.55 20 8 20Z"
                         fill="#64748B"
                       />
                     </svg>
-                  </Link>
-                  <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  </NavLink>
+                  <NavLink to="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M10 18.9999L8.55 17.6999C6.86667 16.1832 5.475 14.8749 4.375 13.7749C3.275 12.6749 2.4 11.6874 1.75 10.8124C1.1 9.9374 0.645833 9.13324 0.3875 8.3999C0.129167 7.66657 0 6.91657 0 6.1499C0 4.58324 0.525 3.2749 1.575 2.2249C2.625 1.1749 3.93333 0.649902 5.5 0.649902C6.36667 0.649902 7.19167 0.833236 7.975 1.1999C8.75833 1.56657 9.43333 2.08324 10 2.7499C10.5667 2.08324 11.2417 1.56657 12.025 1.1999C12.8083 0.833236 13.6333 0.649902 14.5 0.649902C16.0667 0.649902 17.375 1.1749 18.425 2.2249C19.475 3.2749 20 4.58324 20 6.1499C20 6.91657 19.8708 7.66657 19.6125 8.3999C19.3542 9.13324 18.9 9.9374 18.25 10.8124C17.6 11.6874 16.725 12.6749 15.625 13.7749C14.525 14.8749 13.1333 16.1832 11.45 17.6999L10 18.9999Z"
                         fill="#64748B"
                       />
                     </svg>
-                  </Link>
+                  </NavLink>
                   <Menu as="div" className="relative inline-block text-left">
                     <div>
                       <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 py-2 text-sm font-semibold text-gray-900">

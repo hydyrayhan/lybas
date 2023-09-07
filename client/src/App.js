@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Main from './pages/index';
 import Dresses from './pages/dresses';
 import Dress from './pages/dress'
+import Checkout from "./pages/checkout";
 
 export const AppContext = createContext();
 
@@ -58,6 +59,13 @@ function App() {
             <>
               <Header />
               <Dress />
+              <Footer />
+            </>
+          )} />
+          <Route path='/checkout' element={(
+            <>
+              <Header />
+              <Checkout />
               <Footer />
             </>
           )} />

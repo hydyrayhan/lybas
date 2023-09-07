@@ -24,7 +24,7 @@ const Sidebar = () => {
 
 
   return (
-    <div className='sidebar w-1/5'>
+    <div className='sidebar'>
       <div className="select all_categories">
         <Accordion defaultExpanded={true} >
           <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
