@@ -31,11 +31,7 @@ const products = [
 
 export default function Cart({ open, setOpen }) {
   const cancelButtonRef = useRef(null)
-
-  useEffect(() => {
-    console.log(open);
-  }, [open])
-
+  
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -72,7 +68,7 @@ export default function Cart({ open, setOpen }) {
                           <button
                             type="button"
                             className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setOpen(false)}
+                            onClick={()=>setOpen(false)}
                           >
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Close panel</span>
@@ -142,7 +138,7 @@ export default function Cart({ open, setOpen }) {
                         <p className='font-semibold'>{t('totalPrice')}</p>
                         <p className='font-semibold'>262 {t('tmt')}</p>
                       </div>
-                      <div className="mt-6">
+                      <div className="mt-6" onClick={()=>setOpen(false)}>
                         <Link
                           to="/checkout"
                           className="flex items-center justify-center rounded-md border border-transparent bg-lybas-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
@@ -156,7 +152,7 @@ export default function Cart({ open, setOpen }) {
                           <button
                             type="button"
                             className="font-medium text-lybas-blue hover:text-indigo-500"
-                            onClick={() => setOpen(false)}
+                            onClick={()=>setOpen(false)}
                           >
                             {t('continueShopping')}
                             <span aria-hidden="true"> &rarr;</span>

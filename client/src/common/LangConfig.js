@@ -52,6 +52,8 @@ const resources = {
       checkout:"Checkout now",
       or:'or',
       continueShopping:'Continue Shopping',
+      yourOrder:"Your order",
+      discount:"Discount",
     }
   },
   ru:{
