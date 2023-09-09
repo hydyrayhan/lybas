@@ -13,7 +13,10 @@ module.exports = {
       },
       boxShadow:{
         'lybas-1': '0px 0px 4px 0px rgba(0, 0, 0, 0.2)'
-      }
+      },
+      transitionProperty: {
+        'width': 'width'
+    },
     },
   },
   plugins: [

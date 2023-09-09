@@ -12,7 +12,7 @@ function Footer() {
   const { t } = useContext(AppContext);
   return (
     <>
-      <footer className="relative z-10 pt-50 pb-10 lg:pt-[50px] lg:pb-[46px]" style={{ borderTop: '1px solid rgba(246, 246, 246, 1)', background: 'rgba(246, 246, 246, 1)' }}>
+      <footer className="relative z-10 pt-50 pb-10 lg:pt-[50px] lg:pb-[46px] mt-[120px]" style={{ borderTop: '1px solid rgba(246, 246, 246, 1)', background: 'rgba(246, 246, 246, 1)' }}>
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 sm:w-2/3 lg:w-3/12">

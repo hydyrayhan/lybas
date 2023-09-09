@@ -11,6 +11,7 @@ import Main from './pages/index';
 import Dresses from './pages/dresses';
 import Dress from './pages/dress'
 import Checkout from "./pages/checkout";
+import Account from "./pages/account";
 
 export const AppContext = createContext();
 
@@ -66,6 +67,13 @@ function App() {
             <>
               <Header />
               <Checkout />
+              <Footer />
+            </>
+          )} />
+          <Route path='/account' element={(
+            <>
+              <Header />
+              <Account />
               <Footer />
             </>
           )} />

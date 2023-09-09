@@ -137,12 +137,25 @@ function Checkout() {
                 <p className="font-semibold">1 114 TMT</p>
               </div>
             </div>
-            <div className="">
-              <h2 className="">Payment</h2>
-              <option value="">
-              </option>
+            <div className="checkout_cards_payment-card rounded-lg shadow-lybas-1 my-7">
+              <h2 className="checkout_cards_payment-card_title text-2xl font-bold p-4 bg-lybas-light-gray">{t('payment')}</h2>
+              <div className="checkout_cards_payment-card_type p-4">
+                <button className="type flex items-center mb-4">
+                  <svg className='mr-3' width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="9.25" fill="#F7F7F7" stroke="#1A54EB" strokeWidth="1.5" />
+                    <circle cx="10" cy="10" r="4.5" fill="#1A54EB" stroke="#1A54EB" />
+                  </svg>
+                  <span className='text-lybas-gray'>{t('cash')}</span>
+                </button>
+                <button className="type flex items-center">
+                  <svg className='mr-3' width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="9.25" fill="#F7F7F7" stroke="#1A54EB" strokeWidth="1.5" />
+                  </svg>
+                  <span className='text-lybas-gray'>{t('terminal')}</span>
+                </button>
+              </div>
             </div>
-            <button type="submit">  </button>
+            <button type="submit" className='lybas-blue-button'>{t('checkout')}</button>
           </div>
           <div>
           </div>

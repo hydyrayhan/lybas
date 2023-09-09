@@ -41,3 +41,20 @@ a{
   width: 100%;
   font-weight: 500;
 }
+
+.account_card_links .active{
+  background: $blue;
+  color: white;
+}
+
+.input{
+  border: 1.5px solid $lightGray;
+  padding: 15px;
+  color: $gray;
+  border-radius: 8px;
+  outline: none;
+
+  &:focus{
+    border: 1.5px solid $blue;
+  }
+}

@@ -47,6 +47,22 @@ a {
   font-weight: 500;
 }
 
+.account_card_links .active {
+  background: rgb(26, 84, 235);
+  color: white;
+}
+
+.input {
+  border: 1.5px solid rgb(246, 246, 246);
+  padding: 15px;
+  color: rgb(100, 116, 139);
+  border-radius: 8px;
+  outline: none;
+}
+.input:focus {
+  border: 1.5px solid rgb(26, 84, 235);
+}
+
 .section-header {
   display: flex;
   flex-direction: row;
