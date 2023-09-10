@@ -124,7 +124,7 @@
   }
 }
 
-.MuiAccordion-region{
+.sidebar .MuiAccordion-region{
   /* width */
   ::-webkit-scrollbar {
     width: 5px;
@@ -148,7 +148,7 @@
   }
 }
 
-.MuiAccordionDetails-root {
+.sidebar .MuiAccordionDetails-root {
   max-height: 300px;
   overflow-y: scroll;
   padding: 0 !important;
@@ -162,7 +162,7 @@
   }
 }
 
-.css-1betqn-MuiAccordionSummary-content{
+.sidebar .css-1betqn-MuiAccordionSummary-content{
   padding: 0 !important;
   margin: 0 !important;
 }

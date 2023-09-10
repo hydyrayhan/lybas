@@ -197,42 +197,42 @@ a {
   font-size: 15px;
 }
 
-.MuiAccordion-region {
+.sidebar .MuiAccordion-region {
   /* width */
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-.MuiAccordion-region ::-webkit-scrollbar {
+.sidebar .MuiAccordion-region ::-webkit-scrollbar {
   width: 5px;
 }
-.MuiAccordion-region ::-webkit-scrollbar-track {
+.sidebar .MuiAccordion-region ::-webkit-scrollbar-track {
   background: rgb(199, 197, 197);
   border-radius: 10px;
 }
-.MuiAccordion-region ::-webkit-scrollbar-thumb {
+.sidebar .MuiAccordion-region ::-webkit-scrollbar-thumb {
   background: gray;
   border-radius: 10px;
 }
-.MuiAccordion-region ::-webkit-scrollbar-thumb:hover {
+.sidebar .MuiAccordion-region ::-webkit-scrollbar-thumb:hover {
   background: #b30000;
 }
 
-.MuiAccordionDetails-root {
+.sidebar .MuiAccordionDetails-root {
   max-height: 300px;
   overflow-y: scroll;
   padding: 0 !important;
 }
-.MuiAccordionDetails-root .item {
+.sidebar .MuiAccordionDetails-root .item {
   display: flex;
   cursor: pointer;
 }
-.MuiAccordionDetails-root .item span {
+.sidebar .MuiAccordionDetails-root .item span {
   margin-right: 10px;
   margin-bottom: 15px;
 }
 
-.css-1betqn-MuiAccordionSummary-content {
+.sidebar .css-1betqn-MuiAccordionSummary-content {
   padding: 0 !important;
   margin: 0 !important;
 }

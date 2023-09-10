@@ -70,6 +70,13 @@ const resources = {
       phoneNumber:"Phone number",
       address:"Address",
       addNewAddress:"Add new address",
+      doYouWantToLogout:"Do you really want to logout?",
+      ok:"Ok",
+      buyAgain:"Buy again",
+      user:"User",
+      whoWillUseWebsiteAs:"Who will you use the website as?",
+      customer:"Customer",
+      dressmaker:"Dressmaker",
     }
   },
   ru:{
