@@ -6,8 +6,8 @@ import Loadable from 'ui-component/Loadable';
 import Orders from 'views/pages/orders/Orders';
 import OneOrder from 'views/pages/orders/OneOrder';
 import Category from 'views/pages/category/Category';
-import AddCategory from 'views/pages/category/AddCategory';
-import EditCategory from 'views/pages/category/EditCategory';
+import Color from 'views/pages/Color'
+import Size from 'views/pages/Size'
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -53,13 +53,13 @@ const MainRoutes = {
       element: <Category />
     },
     {
-      path: '/category/add',
-      element: <AddCategory />
+      path: '/color',
+      element: <Color />
     },
     {
-      path: '/category/edit/:id',
-      element: <EditCategory />
-    },
+      path: '/size',
+      element: <Size />
+    }
   ]
 };
 

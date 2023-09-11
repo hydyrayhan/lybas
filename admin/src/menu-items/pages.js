@@ -1,5 +1,5 @@
 // assets
-import { IconList,IconCategory } from '@tabler/icons';
+import { IconList,IconCategory,IconColorFilter,IconRuler3 } from '@tabler/icons';
 
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -24,6 +24,22 @@ const pages = {
       type: 'item',
       url:'/category',
       icon: IconCategory,
+      target: false
+    },
+    {
+      id: 'color',
+      title: 'Reňkler',
+      type: 'item',
+      url:'/color',
+      icon: IconColorFilter,
+      target: false
+    },
+    {
+      id: 'size',
+      title: 'Razmerler',
+      type: 'item',
+      url:'/size',
+      icon: IconRuler3,
       target: false
     },
     // {

@@ -10,8 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
-import { green } from '@mui/material/colors';
 import Box from '@mui/material/Box';
+import { AxiosInstance } from 'common/AxiosInstance';
 
 
 
@@ -24,7 +24,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { ROWS_PER_PAGE, PAGE } from 'store/orderPagination';
 import { Button } from '@mui/material';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { useTheme } from '@mui/material/styles';
@@ -33,70 +32,31 @@ import { useTheme } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-
+import { getCategories } from 'features/categories';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  { id: 'name_tm', label: 'Türkmen ady', minWidth: 170 },
+  { id: 'name_ru', label: 'Rus ady', minWidth: 170 },
+  { id: 'name_en', label: 'Iňlis ady', minWidth: 170 },
 ];
 
 export default function Category() {
-  const orderPagination = useSelector((state) => state.orderPagination);
+  const dataCategories = useSelector((state) => state?.fetchCategories?.data);
+  const count = useSelector((state) => state?.fetchCategories?.count);
+  const page = useSelector((state) => state?.fetchCategories?.page)
+  const limit = useSelector((state) => state?.fetchCategories?.limit)
   const dispatch = useDispatch();
-  const [page, setPage] = useState(orderPagination.page);
-  const [rowsPerPage, setRowsPerPage] = useState(orderPagination.rows_per_page);
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
   const [fillFree, setFillFree] = useState(false);
   const [loadingDialog, setLoadingDialog] = useState(false);
-  const [successDialog, setSuccessDialog] = useState(false);
+  const [successDialog, setSuccessDialog] = useState(true);
+  const [deleteId, setDeleteId] = useState(null);
   const timer = useRef();
 
   useEffect(() => {
+    dispatch(getCategories({ page, limit }));
     return () => {
       clearTimeout(timer.current);
     };
@@ -114,23 +74,45 @@ export default function Category() {
 
   const handleClickOpen = () => {
     setOpenDialog(true);
+    setData({name_tm:'',name_ru:'',name_en:''})
   };
 
-  const handleClose = (type) => {
-    if (type === 'add') {
+  const handleClose = async (type,row) => {
+    if (type === 'add' && !data.id) {
       if (data.name_tm && data.name_en && data.name_ru) {
-        console.log(data);
         if (!loadingDialog) {
           setSuccessDialog(false);
           setLoadingDialog(true);
-
-          // After data sent to the back bottom will be work
-            // setSuccessDialog(true);
-            // setLoadingDialog(false);
+          try {
+            const { status } = await AxiosInstance.post('/categories/add', data)
+            if (status === 201) {
+              dispatch(getCategories({ page: 0, limit }));
+              setSuccessDialog(true);
+              setLoadingDialog(false);
+              setOpenDialog(false);
+            }
+          } catch (error) {
+            console.log(error);
+          }
         }
         setFillFree(false);
       } else {
         setFillFree(true);
+      }
+    } else if (type === 'edit') {
+      setData({...row})
+      setOpenDialog(true)
+    } else if(data.id && type === 'add'){
+      setLoadingDialog(true);
+      try {
+        const {status} = await AxiosInstance.patch('/categories/'+data.id,data);
+        if(status === 200){
+          dispatch(getCategories({ page, limit }));
+          setOpenDialog(false);
+          setLoadingDialog(false);
+        }
+      } catch (error) {
+        console.log(error)
       }
     } else {
       setOpenDialog(false);
@@ -139,21 +121,35 @@ export default function Category() {
       setFillFree(false);
     }
   };
-
-  const handleChangePage = (event, newPage) => {
-    dispatch({ type: PAGE, page: newPage });
-    setPage(newPage);
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialog(false);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    dispatch({ type: ROWS_PER_PAGE, rowsPerPage: event.target.value })
-    dispatch({ type: PAGE, page: 0 })
-    setPage(0);
+  const handleChangePage = (event, page) => {
+    dispatch(getCategories({ page, limit }));
   };
 
-  const deleteRow = (id) => {
-    console.log(id);
+  const handleChangeRowsPerPage = (event, limit) => {
+    dispatch(getCategories({ page: 0, limit: event.target.value }))
+  };
+
+  const deleteRow = async (id) => {
+    setDeleteDialog(true);
+    if (id === 'delete') {
+      try {
+        setLoadingDialog(true);
+        const { status } = await AxiosInstance.post('/categories/delete/' + deleteId)
+        if (status === 200) {
+          dispatch(getCategories({ page, limit }));
+          setLoadingDialog(false);
+          setDeleteDialog(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setDeleteId(id);
+    }
   }
 
   return (
@@ -184,15 +180,14 @@ export default function Category() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(orderPagination.page * rowsPerPage, orderPagination.page * rowsPerPage + rowsPerPage)
+              {dataCategories ? dataCategories
                 .map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.map((column) => {
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                      {columns.map((column, index) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={index} align={column.align}>
                             {column.format && typeof value === 'number'
                               ? column.format(value)
                               : value}
@@ -204,7 +199,7 @@ export default function Category() {
                       >
 
                         <AnimateButton>
-                          <Button onClick={() => deleteRow(1)} style={{ marginRight: '10px' }} variant='outlined' startIcon={<DeleteIcon />} sx={{
+                          <Button onClick={() => deleteRow(row.id)} style={{ marginRight: '10px' }} variant='outlined' startIcon={<DeleteIcon />} sx={{
                             background: theme.palette.error.main,
                             color: 'white',
                             '&:hover': {
@@ -212,30 +207,28 @@ export default function Category() {
                             }
                           }}>Pozmak</Button>
                         </AnimateButton>
-                        <Link to={'/category/edit/1'}>
-                          <AnimateButton>
-                            <Button variant='contained' startIcon={<OpenInBrowserIcon />} sx={{
-                              background: theme.palette.secondary.light,
-                              color: theme.palette.secondary.dark,
-                              '&:hover': {
-                                background: theme.palette.secondary.dark,
-                                color: theme.palette.secondary.light
-                              }
-                            }}>Açmak</Button>
-                          </AnimateButton>
-                        </Link>
+                        <AnimateButton>
+                          <Button variant='contained' onClick={()=>handleClose('edit',row)} startIcon={<OpenInBrowserIcon />} sx={{
+                            background: theme.palette.secondary.light,
+                            color: theme.palette.secondary.dark,
+                            '&:hover': {
+                              background: theme.palette.secondary.dark,
+                              color: theme.palette.secondary.light
+                            }
+                          }}>Üýtgetmek</Button>
+                        </AnimateButton>
                       </TableCell>
                     </TableRow>
                   );
-                })}
+                }) : ''}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 100]}
           component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
+          count={count}
+          rowsPerPage={limit}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -254,6 +247,7 @@ export default function Category() {
             variant="standard"
             autoComplete='off'
             required
+            value={data.name_tm}
             onChange={handleChange('name_tm')}
           />
           <TextField
@@ -265,6 +259,7 @@ export default function Category() {
             variant="standard"
             autoComplete='off'
             required
+            value={data.name_ru}
             onChange={handleChange('name_ru')}
           />
           <TextField
@@ -276,6 +271,7 @@ export default function Category() {
             variant="standard"
             autoComplete='off'
             required
+            value={data.name_en}
             onChange={handleChange('name_en')}
           />
           {
@@ -290,11 +286,49 @@ export default function Category() {
             <Box sx={{ m: 1, position: 'relative' }}>
               <Button
                 variant="default"
-                sx={{ color: theme.palette.success.dark,border: theme.palette.error.main }}
+                sx={{ color: theme.palette.success.dark, border: theme.palette.error.main }}
                 disabled={loadingDialog}
                 onClick={() => handleClose('add')}
               >
                 Goşmak
+              </Button>
+              {loadingDialog && (
+                <CircularProgress
+                  size={24}
+                  sx={{
+                    color: theme.palette.success.dark,
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-12px',
+                    marginLeft: '-12px',
+                  }}
+                />
+              )}
+            </Box>
+          </Box>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={deleteDialog} onClose={handleCloseDeleteDialog}>
+        <DialogTitle style={{ fontSize: 24, fontWeight: 'bold', marginBottom: -20 }}>Siz hakykatdanam pozmak isleýäňizmi?</DialogTitle>
+        <DialogContent>
+          {
+            fillFree ?
+              <div style={{ color: 'red', paddingTop: '20px', fontSize: 16 }}>Boşluklary dolduryň!</div>
+              : ''
+          }
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose()} sx={{ color: theme.palette.error.main }}>Ýatyrmak</Button>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ m: 1, position: 'relative' }}>
+              <Button
+                variant="default"
+                sx={{ color: theme.palette.success.dark, border: theme.palette.error.main }}
+                disabled={loadingDialog}
+                onClick={() => deleteRow('delete')}
+              >
+                Howa
               </Button>
               {loadingDialog && (
                 <CircularProgress
