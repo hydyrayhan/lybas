@@ -12,6 +12,12 @@ import Dresses from './pages/dresses';
 import Dress from './pages/dress'
 import Checkout from "./pages/checkout";
 import Account from "./pages/account";
+import Sidebar from "./pages/sellerProfile/components/Sidebar";
+import Dashboard from "./pages/sellerProfile/Dashboard";
+import Orders from "./pages/sellerProfile/Orders";
+import Users from "./pages/sellerProfile/Users";
+import Comments from "./pages/sellerProfile/Comments";
+import SellerProfileDresses from './pages/sellerProfile/Dresses';
 
 export const AppContext = createContext();
 
@@ -42,6 +48,14 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <Routes>
+          <Route path="/sellerProfile/" element={<Sidebar />}>
+            <Route index element={<Dashboard />}/>
+            <Route path="/sellerProfile/orders" element={<Orders />} />
+            <Route path="/sellerProfile/users" element={<Users />} />
+            <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
+            <Route path="/sellerProfile/comments" element={<Comments />} />
+          </Route>
+
           <Route path='/' element={(
             <>
               <Header />
@@ -77,6 +91,13 @@ function App() {
               <Footer />
             </>
           )} />
+
+          {/* Seller routes start */}
+          {/* <Route path='/sellerProfile' element={(
+            <>
+              <Sidebar />
+            </>
+          )} /> */}
         </Routes>
       </BrowserRouter>
     </div>

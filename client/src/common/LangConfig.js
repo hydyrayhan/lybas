@@ -77,6 +77,10 @@ const resources = {
       whoWillUseWebsiteAs:"Who will you use the website as?",
       customer:"Customer",
       dressmaker:"Dressmaker",
+      hello:"Hello",
+      welcomeDashboard:"Welcome back to dashboard",
+      users:'Users',
+      comments:"Comments",      
     }
   },
   ru:{

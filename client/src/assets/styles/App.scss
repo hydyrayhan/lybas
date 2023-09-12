@@ -42,3 +42,20 @@
 .swiper-pagination-bullet-active{
   background: black !important;
 }
+
+
+// seller admin list active style
+.sellerProfile_sidebar{
+  .sidebar_link{
+    a.active{
+      background: rgba(7, 98, 200, 0.05);
+      border-left: 7px solid rgba(26, 84, 235, 1);
+      span{
+        color: $blue;
+      }
+      svg{
+        fill: $blue;
+      }
+    }
+  }
+}
