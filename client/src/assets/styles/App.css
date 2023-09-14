@@ -74,6 +74,11 @@ a {
   font-size: 24px;
   font-weight: bold;
 }
+@media (max-width: 1000px) {
+  .section-header .section-header_name {
+    font-size: 18px;
+  }
+}
 .section-header .section-header_link {
   color: rgb(26, 84, 235);
   font-size: 20px;

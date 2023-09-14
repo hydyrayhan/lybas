@@ -12,21 +12,21 @@ function Footer() {
   const { t } = useContext(AppContext);
   return (
     <>
-      <footer className="relative z-10 pt-50 pb-10 lg:pt-[50px] lg:pb-[46px] mt-[120px]" style={{ borderTop: '1px solid rgba(246, 246, 246, 1)', background: 'rgba(246, 246, 246, 1)' }}>
+      <footer className="relative z-10 pt-10 md:pt-50 pb-10 lg:pt-[50px] lg:pb-[46px] mt-20 md:mt-[120px]" style={{ borderTop: '1px solid rgba(246, 246, 246, 1)', background: 'rgba(246, 246, 246, 1)' }}>
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
-              <div className="mb-10 w-full">
-                <Link to="#" className="mb-6 inline-block max-w-[160px]">
+              <div className="mb-3 md:mb-10 w-full pb-2 border-b border-b-white">
+                <Link to="#" className="mb-0 md:mb-6 inline-block max-w-[160px]">
                   <svg width="87" height="21" viewBox="0 0 87 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.524 16.304H11.796V20H0.736V0.343999H5.524V16.304ZM30.9358 0.343999L24.1318 13.504V20H19.3438V13.504L12.5398 0.343999H17.9718L21.7798 8.576L25.5598 0.343999H30.9358ZM44.7649 9.92C45.9036 10.1627 46.8182 10.732 47.5089 11.628C48.1996 12.5053 48.5449 13.5133 48.5449 14.652C48.5449 16.2947 47.9662 17.6013 46.8089 18.572C45.6702 19.524 44.0742 20 42.0209 20H32.8649V0.343999H41.7129C43.7102 0.343999 45.2689 0.801332 46.3889 1.716C47.5276 2.63067 48.0969 3.872 48.0969 5.44C48.0969 6.59733 47.7889 7.55867 47.1729 8.324C46.5756 9.08933 45.7729 9.62133 44.7649 9.92ZM37.6529 8.296H40.7889C41.5729 8.296 42.1702 8.128 42.5809 7.792C43.0102 7.43733 43.2249 6.924 43.2249 6.252C43.2249 5.58 43.0102 5.06667 42.5809 4.712C42.1702 4.35733 41.5729 4.18 40.7889 4.18H37.6529V8.296ZM41.1809 16.136C41.9836 16.136 42.5996 15.9587 43.0289 15.604C43.4769 15.2307 43.7009 14.6987 43.7009 14.008C43.7009 13.3173 43.4676 12.776 43.0009 12.384C42.5529 11.992 41.9276 11.796 41.1249 11.796H37.6529V16.136H41.1809ZM63.5579 16.528H56.2219L55.0459 20H50.0339L57.1459 0.343999H62.6899L69.8019 20H64.7339L63.5579 16.528ZM62.3259 12.832L59.8899 5.636L57.4819 12.832H62.3259ZM79.0785 20.196C77.6411 20.196 76.3531 19.9627 75.2145 19.496C74.0758 19.0293 73.1611 18.3387 72.4705 17.424C71.7985 16.5093 71.4438 15.408 71.4065 14.12H76.5025C76.5771 14.848 76.8291 15.408 77.2585 15.8C77.6878 16.1733 78.2478 16.36 78.9385 16.36C79.6478 16.36 80.2078 16.2013 80.6185 15.884C81.0291 15.548 81.2345 15.0907 81.2345 14.512C81.2345 14.0267 81.0665 13.6253 80.7305 13.308C80.4131 12.9907 80.0118 12.7293 79.5265 12.524C79.0598 12.3187 78.3878 12.0853 77.5105 11.824C76.2411 11.432 75.2051 11.04 74.4025 10.648C73.5998 10.256 72.9091 9.67733 72.3305 8.912C71.7518 8.14667 71.4625 7.148 71.4625 5.916C71.4625 4.08667 72.1251 2.65867 73.4505 1.632C74.7758 0.586666 76.5025 0.0639997 78.6305 0.0639997C80.7958 0.0639997 82.5411 0.586666 83.8665 1.632C85.1918 2.65867 85.9011 4.096 85.9945 5.944H80.8145C80.7771 5.30933 80.5438 4.81467 80.1145 4.46C79.6851 4.08667 79.1345 3.9 78.4625 3.9C77.8838 3.9 77.4171 4.05867 77.0625 4.376C76.7078 4.67467 76.5305 5.11333 76.5305 5.692C76.5305 6.32667 76.8291 6.82133 77.4265 7.176C78.0238 7.53067 78.9571 7.91333 80.2265 8.324C81.4958 8.75333 82.5225 9.164 83.3065 9.556C84.1091 9.948 84.7998 10.5173 85.3785 11.264C85.9571 12.0107 86.2465 12.972 86.2465 14.148C86.2465 15.268 85.9571 16.2853 85.3785 17.2C84.8185 18.1147 83.9971 18.8427 82.9145 19.384C81.8318 19.9253 80.5531 20.196 79.0785 20.196Z" fill="#0E1217" />
                   </svg>
                 </Link>
-                <p className="text-body-color mb-7 text-base">
+                <p className="text-body-color mb-7 text-base hidden md:block">
                   Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
                   totam rem aperiam.
                 </p>
-                <p className="text-dark flex items-center text-sm font-medium">
+                <p className="text-dark hidden md:flex items-center text-sm font-medium">
                   <Link to='#' target="_blank" className="text-primary mr-[36px]">
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_522_699)">
@@ -59,7 +59,7 @@ function Footer() {
                 </p>
               </div>
             </div>
-            <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
+            <div className="w-full px-4 sm:w-1/2 lg:w-3/12 hidden md:block">
               <div className="w-full">
                 <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('aboutUs')}</h4>
                 <ul>
@@ -98,7 +98,7 @@ function Footer() {
                 </ul>
               </div>
             </div>
-            <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
+            <div className="contact w-full px-4 sm:w-1/2 lg:w-3/12 hidden md:block">
               <div className="w-full">
                 <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('contactUs')}</h4>
                 <ul>
@@ -121,11 +121,11 @@ function Footer() {
                 </ul>
               </div>
             </div>
-            <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
+            <div className="w-full px-4 sm:w-1/2 lg:w-3/12 mb-6 md:mb-0">
               <div className="w-full">
-                <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('subcribeNewsLetter')}</h4>
+                <h4 className="text-dark mb-2 md:mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('subcribeNewsLetter')}</h4>
                 <div className="mb-6 flex items-center">
-                  <p className="text-body-color mb-7 text-base">
+                  <p className="text-body-color mb-2 md:mb-7 text-base">
                     Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
                     totam rem aperiam.
                   </p>
@@ -150,6 +150,29 @@ function Footer() {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="contact w-full px-4 sm:w-1/2 lg:w-3/12  md:hidden mt-3">
+              <div className="w-full">
+                <h4 className="text-dark mb-2 md:mb-[20px] font-bold" style={{textTransform: 'uppercase' }}>{t('contactUs')}</h4>
+                <ul className='flex justify-between md:block'>
+                  <li>
+                    <span
+                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
+                      style={{ fontSize: '14px' }}
+                    >
+                      +993 61 101010
+                    </span>
+                  </li>
+                  <li>
+                    <span
+                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
+                      style={{ fontSize: '14px' }}
+                    >
+                      lybas_info@gmail.com
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

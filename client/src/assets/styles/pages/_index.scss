@@ -4,6 +4,9 @@
   .section-header_name{
     font-size: 24px;
     font-weight: bold;
+    @include tablet{
+      font-size: 18px;
+    }
   }
   .section-header_link{
     color: $blue;

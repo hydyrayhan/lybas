@@ -81,6 +81,7 @@ const resources = {
       welcomeDashboard:"Welcome back to dashboard",
       users:'Users',
       comments:"Comments",      
+      onSale:"On sale",
     }
   },
   ru:{
