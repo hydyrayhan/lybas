@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react'
+import React, { useRef, useContext, useEffect } from 'react'
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { AppContext } from '../App';
@@ -10,7 +10,12 @@ import Dress from '../components/Dress';
 import Dressmaker from '../components/Dressmaker';
 import Blog from '../components/Blog';
 
+// reduxes
+import { useSelector,useDispatch } from "react-redux";
+import { bannersSlice } from '../redux/features/banners';
+
 const image1 = require('../assets/images/young-japanese-woman-portrait-copy-space 1.png')
+
 
 const swiper_container = {
   position: 'relative',
@@ -57,6 +62,17 @@ const swiper_slide_content_p_style = {
 function Index() {
   const swiperRef = useRef(false);
   const { t } = useContext(AppContext);
+
+  const dispatch = useDispatch();
+
+  const banners = useSelector((state)=>state?.banners?.data)
+
+  useEffect(()=>{
+    if(!banners){
+    }
+    console.log(banners);
+  },[])
+
   return (
     <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
       <div className="main-swiper pt-[40px] pb-[40px]" style={swiper_container}>

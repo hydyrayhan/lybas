@@ -15,8 +15,8 @@ const navigation = {
   pages: [
     { name: 'home', to: '/' },
     { name: 'dresses', to: '/dresses' },
-    { name: 'dressmakers', to: '#' },
-    { name: 'blog', to: '#' }
+    { name: 'dressmakers', to: '/dressmakers' },
+    { name: 'blog', to: '/blog' }
   ]
 };
 
@@ -38,7 +38,7 @@ export default function Header() {
 
   const dispatch = useDispatch();
   
-  const openCartDropdown = useSelector(state => state.dropdowns.setCart);
+  const openCartDropdown = useSelector(state => state?.dropdowns?.setCart);
 
   return (
     <div className="bg-white">

@@ -18,6 +18,8 @@ import Orders from "./pages/sellerProfile/Orders";
 import Users from "./pages/sellerProfile/Users";
 import Comments from "./pages/sellerProfile/Comments";
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
+import Blog from "./pages/blog";
+import Dressmaker from "./pages/dressmaker";
 
 export const AppContext = createContext();
 
@@ -70,6 +72,20 @@ function App() {
               <Footer />
             </>
           )} />
+          <Route path='/blog' element={(
+            <>
+              <Header />
+              <Blog />
+              <Footer />
+            </>
+          )} />
+          <Route path='/dressmakers' element={(
+            <>
+              <Header />
+              <Dressmaker />
+              <Footer />
+            </>
+          )} />
           <Route path='/dresses/:id' element={(
             <>
               <Header />
@@ -91,13 +107,7 @@ function App() {
               <Footer />
             </>
           )} />
-
-          {/* Seller routes start */}
-          {/* <Route path='/sellerProfile' element={(
-            <>
-              <Sidebar />
-            </>
-          )} /> */}
+          
         </Routes>
       </BrowserRouter>
     </div>
