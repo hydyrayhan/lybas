@@ -32,8 +32,8 @@ function Dress({ hover }) {
       location: 'dress-card_rate_city flex items-center text-lybas-gray text-sm',
       discount: 'mt-2 text-lybas-red line-through',
       go_link_hover: 'dress-card_custom-buttons_link text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1] mb-2',
-      like: 'absolute z-10 top-[5px] bg-black right-[5px] p-[5px] rounded',
-      discount_top: 'absolute z-10 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm',
+      like: 'absolute z-3 top-[5px] bg-black right-[5px] p-[5px] rounded',
+      discount_top: 'absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm',
       price: 'dress-card_price font-bold text-xl my-1',
     },
     on_sale: {
@@ -42,8 +42,8 @@ function Dress({ hover }) {
       location: 'dress-card_rate_city flex items-center text-lybas-gray text-sm',
       discount: 'mt-2 text-lybas-red line-through',
       go_link_hover: 'dress-card_custom-buttons_link text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]',
-      like: 'absolute z-10 top-[5px] bg-black right-[5px] p-[5px] rounded',
-      discount_top: 'absolute z-10 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm',
+      like: 'absolute z-3 top-[5px] bg-black right-[5px] p-[5px] rounded',
+      discount_top: 'absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm',
       price: 'dress-card_price font-bold text-xl my-1 flex justify-between items-center w-full',
     },
   }
@@ -53,7 +53,7 @@ function Dress({ hover }) {
       <Link to={'/dresses/1'}>
         <div className="dress-card_image"><img className='w-full object-cover' src={dressImage} alt="" /></div>
         <div className={size_style[hover].name}>Nike sportswear Futura Luxe</div>
-        <div className="dress-card_rate flex flex-col lg:flex-row lg:items-center">
+        <div className="dress-card_rate flex flex-col xl:flex-row xl:items-center">
           <div className='flex items-center'>
             {
               stars.map((e, index) => (
