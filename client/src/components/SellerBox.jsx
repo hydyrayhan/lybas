@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function SellerBox() {
   return (
-    <Link to='/' className='seller block p-5 rounded-lg shadow-lybas-1 mb-5'>
+    <Link to='/' className='seller p-5 rounded-lg shadow-lybas-1 mb-5 hidden md:block'>
       <div className="seller_name text-lg font-semibold mb-[15px]">{t('seller')}</div>
       <div className="seller_address flex">
         <svg className='mr-4 h-full' width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
