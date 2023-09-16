@@ -30,11 +30,11 @@ const Sidebar = () => {
         <div className='sidebar_mobile_back fixed top-0 left-0 h-screen w-screen bg-lybas-sidebar-back z-[8] md:hidden' onClick={()=>setSidebar(false)}></div>
         :''
       }
-      <div className={"sidebar py-5 fixed z-[9] bg-white left-0 right-0 bottom-0 md:relative container md:mx-0 min-w-full mx-auto px-6 md:px-0 md:max-h-full transition-max-height duration-300 " +(sidebar ? 'max-h-[60%]' : 'max-h-[50px]')}>
+      <div className={"sidebar rounded-3xl md:rounded-lg py-5 fixed z-[9] bg-white left-0 right-0 bottom-0 md:relative container md:mx-0 min-w-full mx-auto px-6 md:px-0 md:max-h-full transition-max-height duration-300 " +(sidebar ? 'max-h-[90%]' : 'max-h-[50px]')}>
         <div className="sidebar_mobile-top w-full flex md:hidden justify-center py-5" onClick={()=>setSidebar(!sidebar)}>
           <span className="h-2 w-10 bg-gray-500 rounded-full flex justify-center"></span>
         </div>
-        <div className="p-5 max-h-[50vh] md:max-h-auto overflow-auto w-full md:w-auto">
+        <div className="p-5 max-h-[80vh] md:max-h-auto overflow-auto w-full md:w-auto">
           <div className="select all_categories">
             <Accordion defaultExpanded={true}>
               <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
@@ -136,6 +136,8 @@ const Sidebar = () => {
               </AccordionDetails>
             </Accordion>
           </div>
+
+          <button className="select_search-button text-center w-full bg-lybas-blue text-white py-3 rounded-lg mb-10 mt-5" onClick={()=>setSidebar(false)}>Search (1525)</button>
         </div>
       </div>
     </>
