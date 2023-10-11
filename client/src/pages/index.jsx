@@ -115,9 +115,9 @@ function Index() {
           </Link>
         </div>
         <div className="recommended-products_container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <Dress hover={'recommended'} />
-          <Dress hover={'recommended'} />
-          <Dress hover={'recommended'} />
+          <Dress hover={'big'} />
+          <Dress hover={'big'} />
+          <Dress hover={'big'} />
         </div>
       </div>
 
@@ -133,11 +133,11 @@ function Index() {
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <Dress hover={'most_popular'} />
-          <Dress hover={'most_popular'} />
-          <Dress hover={'most_popular'} />
-          <Dress hover={'most_popular'} />
-          <Dress hover={'most_popular'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
         </div>
       </div>
 
@@ -153,11 +153,11 @@ function Index() {
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <Dress hover={'on_sale'} />
-          <Dress hover={'on_sale'} />
-          <Dress hover={'on_sale'} />
-          <Dress hover={'on_sale'} />
-          <Dress hover={'on_sale'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
+          <Dress hover={'small'} />
         </div>
       </div>
 

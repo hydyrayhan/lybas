@@ -10,13 +10,12 @@ function Dress({ hover }) {
   const [starsFree, setStarsFree] = useState(Array.from({ length: 2 }));
 
   const dynamic_add_button_hover = {
-    recommended: 'flex items-center justify-center bg-lybas-blue py-[10px] px-[35px] text-white rounded transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]',
-    most_popular: 'bg-lybas-blue py-[5px] px-[15px] text-white flex items-center justify-center rounded md:hidden',
-    on_sale: 'items-center bg-lybas-blue py-[5px] px-[15px] text-white rounded transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1] text-base font-medium',
+    big: 'flex items-center justify-center bg-lybas-blue py-[10px] px-[35px] text-white rounded transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]',
+    small: 'items-center bg-lybas-blue py-[5px] px-[15px] text-white rounded transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1] text-base font-medium',
   }
 
   const size_style = {
-    recommended: {
+    big: {
       name: 'dress-card_name text-sm md:text-lg my-2 font-semibold',
       count: 'dress-card_rate_count mx-2 text-lg flex items-center',
       location: 'dress-card_rate_city flex items-center text-lybas-gray text-sm',
@@ -26,17 +25,7 @@ function Dress({ hover }) {
       discount_top: 'hidden',
       price: 'dress-card_price font-bold text-3xl my-1',
     },
-    most_popular: {
-      name: 'dress-card_name text-sm md:text-base my-2 font-semibold',
-      count: 'dress-card_rate_count mx-2 text-sm',
-      location: 'dress-card_rate_city flex items-center text-lybas-gray text-sm',
-      discount: 'mt-2 text-lybas-red line-through',
-      go_link_hover: 'dress-card_custom-buttons_link text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1] mb-2',
-      like: 'absolute z-3 top-[5px] bg-black right-[5px] p-[5px] rounded',
-      discount_top: 'absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm',
-      price: 'dress-card_price font-bold text-xl my-1',
-    },
-    on_sale: {
+    small: {
       name: 'dress-card_name text-sm md:text-base my-2 font-semibold',
       count: 'dress-card_rate_count mx-2 text-sm',
       location: 'dress-card_rate_city flex items-center text-lybas-gray text-sm',
@@ -80,7 +69,7 @@ function Dress({ hover }) {
           <span className={size_style[hover].price}>130 {t('tmt')}</span>
         </div>
         {
-          hover === 'on_sale' ?
+          hover === 'small' ?
             <button className={dynamic_add_button_hover[hover] + ' hidden md:flex items-center h-fit'}>
               <svg className='mr-2' width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.16667 18.3334C1.70833 18.3334 1.31597 18.1702 0.989583 17.8438C0.663194 17.5174 0.5 17.125 0.5 16.6667V6.66671C0.5 6.20837 0.663194 5.81601 0.989583 5.48962C1.31597 5.16324 1.70833 5.00004 2.16667 5.00004H3.83333C3.83333 3.84726 4.23958 2.86462 5.05208 2.05212C5.86458 1.23962 6.84722 0.833374 8 0.833374C9.15278 0.833374 10.1354 1.23962 10.9479 2.05212C11.7604 2.86462 12.1667 3.84726 12.1667 5.00004H13.8333C14.2917 5.00004 14.684 5.16324 15.0104 5.48962C15.3368 5.81601 15.5 6.20837 15.5 6.66671V16.6667C15.5 17.125 15.3368 17.5174 15.0104 17.8438C14.684 18.1702 14.2917 18.3334 13.8333 18.3334H2.16667ZM8 11.6667C9.15278 11.6667 10.1354 11.2605 10.9479 10.448C11.7604 9.63546 12.1667 8.65282 12.1667 7.50004H10.5C10.5 8.19449 10.2569 8.78476 9.77083 9.27087C9.28472 9.75699 8.69444 10 8 10C7.30556 10 6.71528 9.75699 6.22917 9.27087C5.74306 8.78476 5.5 8.19449 5.5 7.50004H3.83333C3.83333 8.65282 4.23958 9.63546 5.05208 10.448C5.86458 11.2605 6.84722 11.6667 8 11.6667ZM5.5 5.00004H10.5C10.5 4.3056 10.2569 3.71532 9.77083 3.22921C9.28472 2.7431 8.69444 2.50004 8 2.50004C7.30556 2.50004 6.71528 2.7431 6.22917 3.22921C5.74306 3.71532 5.5 4.3056 5.5 5.00004Z" fill="white" />
@@ -98,7 +87,7 @@ function Dress({ hover }) {
             {t('goto')} Kumush{t('s')} {t('shop')}
           </span>
         </Link>
-        <button className={dynamic_add_button_hover[hover] + ' ' + (hover === 'on_sale' ? 'flex items-center md:hidden justify-center mt-2' : '')}>
+        <button className={dynamic_add_button_hover[hover] + ' ' + (hover === 'small' ? 'flex items-center md:hidden justify-center mt-2' : '')}>
           <svg className='mr-2' width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.16667 18.3334C1.70833 18.3334 1.31597 18.1702 0.989583 17.8438C0.663194 17.5174 0.5 17.125 0.5 16.6667V6.66671C0.5 6.20837 0.663194 5.81601 0.989583 5.48962C1.31597 5.16324 1.70833 5.00004 2.16667 5.00004H3.83333C3.83333 3.84726 4.23958 2.86462 5.05208 2.05212C5.86458 1.23962 6.84722 0.833374 8 0.833374C9.15278 0.833374 10.1354 1.23962 10.9479 2.05212C11.7604 2.86462 12.1667 3.84726 12.1667 5.00004H13.8333C14.2917 5.00004 14.684 5.16324 15.0104 5.48962C15.3368 5.81601 15.5 6.20837 15.5 6.66671V16.6667C15.5 17.125 15.3368 17.5174 15.0104 17.8438C14.684 18.1702 14.2917 18.3334 13.8333 18.3334H2.16667ZM8 11.6667C9.15278 11.6667 10.1354 11.2605 10.9479 10.448C11.7604 9.63546 12.1667 8.65282 12.1667 7.50004H10.5C10.5 8.19449 10.2569 8.78476 9.77083 9.27087C9.28472 9.75699 8.69444 10 8 10C7.30556 10 6.71528 9.75699 6.22917 9.27087C5.74306 8.78476 5.5 8.19449 5.5 7.50004H3.83333C3.83333 8.65282 4.23958 9.63546 5.05208 10.448C5.86458 11.2605 6.84722 11.6667 8 11.6667ZM5.5 5.00004H10.5C10.5 4.3056 10.2569 3.71532 9.77083 3.22921C9.28472 2.7431 8.69444 2.50004 8 2.50004C7.30556 2.50004 6.71528 2.7431 6.22917 3.22921C5.74306 3.71532 5.5 4.3056 5.5 5.00004Z" fill="white" />
           </svg>

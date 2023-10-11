@@ -354,10 +354,10 @@ function Dress() {
                 </Link>
               </div>
               <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <DressComp hover="on_sale" />
-                <DressComp hover="on_sale" />
-                <DressComp hover="on_sale" />
-                <DressComp hover="on_sale" />
+                <DressComp hover="small" />
+                <DressComp hover="small" />
+                <DressComp hover="small" />
+                <DressComp hover="small" />
               </div>
             </div>
           </div>
