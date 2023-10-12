@@ -82,6 +82,7 @@ const resources = {
       users:'Users',
       comments:"Comments",      
       onSale:"On sale",
+      sizeChart:"Size chart",
     }
   },
   ru:{

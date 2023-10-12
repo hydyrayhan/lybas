@@ -52,7 +52,7 @@ function Index() {
 
   return (
     <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <div className="main-swiper py-[20px] md:py-[30px] lg:py-[40px]" style={swiper_container}>
+      <div className="main-swiper h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden py-[20px] md:py-[30px] lg:py-[40px]" style={swiper_container}>
         <button onClick={() => swiperRef.current?.slidePrev()} className='hidden md:block main-swiper-button' id="main-swiper-prev_arrow" style={{ ...swiper_arrows.prev, ...swiper_arrows.both }}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.91663 17.0001L20.2545 5.66675L22.6666 8.31119L14.7409 17.0001L22.6666 25.689L20.2545 28.3334L9.91663 17.0001Z" fill="#0E1217" />
@@ -64,6 +64,7 @@ function Index() {
           </svg>
         </button>
         <Swiper
+          className='h-full rounded-lg overflow-hidden'
           modules={[Autoplay, Pagination]}
           spaceBetween={20}
           slidesPerView={1}
@@ -79,25 +80,25 @@ function Index() {
             swiperRef.current = swiper;
           }}
         >
-          <SwiperSlide className='relative'>
-            <img src={image1} alt="" />
+          <SwiperSlide className='relative h-full founded-lg overflow-hidden'>
+            <img src={image1} alt="" className='w-full h-full object-cover'/>
             <div className="main-swiper-content absolute z-1 top-1/2 ml-5 sm:ml-10 md:ml-14 lg:ml-20 -translate-y-1/2">
-              <h1 className='text-[20px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
-              <p className='text-[14px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
+              <h1 className='text-[26px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
+              <p className='text-[20px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
             </div>
           </SwiperSlide>
-          <SwiperSlide className='relative'>
-            <img src={image1} alt="" />
+          <SwiperSlide className='relative h-full'>
+            <img src={image1} alt="" className='w-full h-full object-cover'/>
             <div className="main-swiper-content absolute z-1 top-1/2 ml-5 sm:ml-10 md:ml-14 lg:ml-20 -translate-y-1/2">
-              <h1 className='text-[20px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
-              <p className='text-[14px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
+              <h1 className='text-[26px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
+              <p className='text-[20px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
             </div>
           </SwiperSlide>
-          <SwiperSlide className='relative'>
-            <img src={image1} alt="" />
+          <SwiperSlide className='relative h-full'>
+            <img src={image1} alt="" className='w-full h-full object-cover'/>
             <div className="main-swiper-content absolute z-1 top-1/2 ml-5 sm:ml-10 md:ml-14 lg:ml-20 -translate-y-1/2">
-              <h1 className='text-[20px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
-              <p className='text-[14px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
+              <h1 className='text-[26px] sm:text-[30px] md:text-[50px] lg:text-[70px]'>Find Your Dream Dress</h1>
+              <p className='text-[20px] sm:text-[20px] md:text-[24px] lg:text-[30px] w-3/5'>Dressmaking Service Made Enjoyable Find your dream dress by</p>
             </div>
           </SwiperSlide>
         </Swiper>
@@ -117,7 +118,7 @@ function Index() {
         <div className="recommended-products_container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <Dress hover={'big'} />
           <Dress hover={'big'} />
-          <Dress hover={'big'} />
+          <Dress hover={'big'} className={'sm:hidden md:block'}/>
         </div>
       </div>
 
@@ -136,8 +137,8 @@ function Index() {
           <Dress hover={'small'} />
           <Dress hover={'small'} />
           <Dress hover={'small'} />
-          <Dress hover={'small'} />
-          <Dress hover={'small'} />
+          <Dress hover={'small'} className={"blcok sm:hidden md:block"} />
+          <Dress hover={'small'} className={"hidden lg:block"} />
         </div>
       </div>
 
@@ -156,8 +157,8 @@ function Index() {
           <Dress hover={'small'} />
           <Dress hover={'small'} />
           <Dress hover={'small'} />
-          <Dress hover={'small'} />
-          <Dress hover={'small'} />
+          <Dress hover={'small'} className={"blcok sm:hidden md:block"} />
+          <Dress hover={'small'} className={"hidden lg:block"} />
         </div>
       </div>
 
@@ -176,8 +177,8 @@ function Index() {
           <Dressmaker />
           <Dressmaker />
           <Dressmaker />
-          <Dressmaker />
-          <Dressmaker />
+          <Dressmaker className={"blcok sm:hidden md:block"} />
+          <Dressmaker className={"hidden lg:block"} />
         </div>
       </div>
 

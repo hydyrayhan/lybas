@@ -92,6 +92,24 @@ a {
   background: var(--ui-2-color-quatermany-2, #FFF);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
   padding: 5px 20px;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+.sidebar ::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar ::-webkit-scrollbar-track {
+  background: rgb(199, 197, 197);
+  border-radius: 10px;
+}
+.sidebar ::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+.sidebar ::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
 }
 .sidebar .select.dressmakers .search {
   width: 100%;
@@ -220,8 +238,6 @@ a {
 }
 
 .sidebar .MuiAccordionDetails-root {
-  max-height: 300px;
-  overflow-y: scroll;
   padding: 0 !important;
 }
 .sidebar .MuiAccordionDetails-root .item {
@@ -267,4 +283,11 @@ a {
 }
 .sellerProfile_sidebar .sidebar_link a.active svg {
   fill: rgb(26, 84, 235);
+}
+
+.dressmaker_header {
+  background-image: url("./../images/dressmakerBack.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }/*# sourceMappingURL=App.css.map */

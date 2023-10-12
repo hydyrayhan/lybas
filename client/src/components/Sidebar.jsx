@@ -36,7 +36,7 @@ const Sidebar = () => {
         </div>
         <div className="p-5 max-h-[80vh] md:max-h-auto overflow-auto w-full md:w-auto">
           <div className="select all_categories">
-            <Accordion defaultExpanded={true}>
+            <Accordion defaultExpanded={false}>
               <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
                 <button className="top">
                   <p className="top_title">{t('allCategories')}</p>
@@ -137,7 +137,7 @@ const Sidebar = () => {
             </Accordion>
           </div>
 
-          <button className="select_search-button text-center w-full bg-lybas-blue text-white py-3 rounded-lg mb-10 mt-5" onClick={()=>setSidebar(false)}>Search (1525)</button>
+          <button className="select_search-button text-center w-full bg-lybas-blue text-white py-3 rounded-lg mb-5 mt-5" onClick={()=>setSidebar(false)}>Search (1525)</button>
         </div>
       </div>
     </>

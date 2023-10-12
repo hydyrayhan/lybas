@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const dressImage = require('../assets/images/dressImage.png')
 
-function Dress({ hover }) {
+function Dress({ hover, className }) {
   const { t } = useContext(AppContext);
   const [stars, setStars] = useState(Array.from({ length: 3 }));
   const [starsFree, setStarsFree] = useState(Array.from({ length: 2 }));
@@ -38,7 +38,7 @@ function Dress({ hover }) {
   }
 
   return (
-    <div className='dress-card group relative'>
+    <div className={'dress-card group relative '+className}>
       <Link to={'/dresses/1'}>
         <div className="dress-card_image"><img className='w-full object-cover' src={dressImage} alt="" /></div>
         <div className={size_style[hover].name}>Nike sportswear Futura Luxe</div>

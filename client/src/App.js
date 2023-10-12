@@ -16,9 +16,10 @@ import Sidebar from "./pages/sellerProfile/components/Sidebar";
 import Dashboard from "./pages/sellerProfile/Dashboard";
 import Orders from "./pages/sellerProfile/Orders";
 import Users from "./pages/sellerProfile/Users";
-import Comments from "./pages/sellerProfile/Comments";
+import Comments from "./pages/comments";
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
 import Blog from "./pages/blog";
+import Dressmakers from "./pages/dressmakers";
 import Dressmaker from "./pages/dressmaker";
 
 export const AppContext = createContext();
@@ -82,10 +83,18 @@ function App() {
           <Route path='/dressmakers' element={(
             <>
               <Header />
+              <Dressmakers />
+              <Footer />
+            </>
+          )} />
+          <Route path='/dressmakers/:id' element={(
+            <>
+              <Header />
               <Dressmaker />
               <Footer />
             </>
           )} />
+
           <Route path='/dresses/:id' element={(
             <>
               <Header />
@@ -104,6 +113,13 @@ function App() {
             <>
               <Header />
               <Account />
+              <Footer />
+            </>
+          )} />
+          <Route path='/comments/:id' element={(
+            <>
+              <Header />
+              <Comments />
               <Footer />
             </>
           )} />

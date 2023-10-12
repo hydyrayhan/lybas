@@ -2,8 +2,30 @@
   background: var(--ui-2-color-quatermany-2, #FFF);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.20);
   padding: 5px 20px;
+
   // position: sticky;
   // top: 20px;
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: rgb(199, 197, 197);
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
 
   .select {
     &.dressmakers {
@@ -121,24 +143,25 @@
   }
 }
 
-.sidebar .MuiAccordion-region{
+.sidebar .MuiAccordion-region {
+
   /* width */
   ::-webkit-scrollbar {
     width: 5px;
   }
-  
+
   /* Track */
   ::-webkit-scrollbar-track {
     background: rgb(199, 197, 197);
     border-radius: 10px;
   }
-  
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: gray;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #b30000;
@@ -146,20 +169,20 @@
 }
 
 .sidebar .MuiAccordionDetails-root {
-  max-height: 300px;
-  overflow-y: scroll;
   padding: 0 !important;
-  .item{
+
+  .item {
     display: flex;
     cursor: pointer;
-    span{
+
+    span {
       margin-right: 10px;
       margin-bottom: 15px;
     }
   }
 }
 
-.sidebar .css-1betqn-MuiAccordionSummary-content{
+.sidebar .css-1betqn-MuiAccordionSummary-content {
   padding: 0 !important;
   margin: 0 !important;
 }

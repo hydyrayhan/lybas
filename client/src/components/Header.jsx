@@ -83,7 +83,7 @@ export default function Header() {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
-                    <div key={page.name} className="flow-root">
+                    <div key={page.name} onClick={()=>setOpen(false)} className="flow-root">
                       <NavLink to={page.to} className="-m-2 block p-2 font-medium text-gray-900">
                         {t(page.name)}
                       </NavLink>
