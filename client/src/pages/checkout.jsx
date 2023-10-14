@@ -1,38 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
-
+import DOMPurify from 'dompurify';
+import AddAddressPopup from '../components/popups/addAddressPopup';
+import AccountOneAddress from '../components/AccountOneAddress';
 const image = require('../assets/images/leftSmallImage.png')
 
 function Checkout() {
+  const [addAddressPopupOpen, setAddAddressPopupOpen] = useState(false);
+  const [data,setData] = useState({
+    name:'',
+    surname:'',
+    phone:'',
+    note:'',
+    address:'',
+    products:[]
+  })
+
+  const handleData = (e)=>{
+    setData({...data,[e.target.name]:e.target.value})
+  }
+
   return (
     <>
       <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <Breadcrumb />
-        <h1 className="text-3xl font-bold tracking-tighter mb-3">Checkout</h1>
-        <p className="text-lybas-gray tracking-tighter mb-7">There are 3 products in your cart</p>
+        <h1 className="text-3xl font-bold tracking-tighter mb-3">{t('checkout')}</h1>
+        <p className="text-lybas-gray tracking-tighter mb-7">{t('thereAre')} 3 {t('productsInYourCart')}</p>
         <div className="grid grid-cols-2 gap-7">
           <div className="">
-            <h3 className="text-2xl font-bold mb-5">Billing Details</h3>
+            <h3 className="text-2xl font-bold mb-5">{t('billingDetails')}</h3>
             <div className='grid grid-cols-2 gap-7 mb-7'>
-              <input type="text" placeholder="First name*" className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
-              <input type="text" placeholder="Last name*" className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
-              <input type="text" placeholder="Phone number*" className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
-              <div className='text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue'></div>
+              <input type="text" placeholder={t('firstName')+'*'} name='name' className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
+              <input type="text" placeholder={t('lastName')+'*'} name='surname' className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
+              <input type="text" placeholder={t('phoneNumber')+'*'} name='phone' className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
+              <input type="text" placeholder={t('note')} name='note' className="text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue" />
             </div>
-            <div className='grid grid-cols-1 gap-7'>
-              <textarea name="" id="" rows="5" placeholder="your address*" className="resize-none text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue"></textarea>
-              <textarea name="" id="" rows="5" placeholder="Note*" className="resize-none text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue"></textarea>
+            <div className='order_addresses flex flex-wrap w-full h-[150px] overflow-auto border-2 border-lybas-light-gray p-2 rounded-lg'>
+              {/* <textarea name="" id="" rows="5" disabled placeholder={t('yourAddress')+'*'} className="resize-none text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue"></textarea> */}
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
             </div>
+            <button onClick={()=>setAddAddressPopupOpen(true)} className="bg-lybas-blue text-white rounded-lg py-2 px-10 mt-5 mb-10">{t('addAddress')}</button>
+            <div className='orderLaw' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('orderLaw')) }}></div>
           </div>
           <div className="">
             <h3 className="text-2xl font-bold mb-5">{t('yourOrder')}</h3>
             {/* Cart's products card */}
             <div className="shadow-lybas-1 rounded-lg">
               <div className="p-5 bg-lybas-light-gray grid grid-cols-4 gap-1">
-                <h4 className='col-span-2'>Product</h4>
-                <h4>Number</h4>
-                <h4 className='text-end'>Subtotal</h4>
+                <h4 className='col-span-2'>{t('products')}</h4>
+                <h4>{t('quantity')}</h4>
+                <h4 className='text-end'>{t('subtotal')}</h4>
               </div>
               <div className="">
                 {/* One cart product */}
@@ -124,20 +145,20 @@ function Checkout() {
                 </div>
               </div>
               {/* All cart's total price */}
-              <div className="flex justify-between items-center p-5">
+              {/* <div className="flex justify-between items-center p-5">
                 <h3 className="">{t('totalPrice')}</h3>
                 <p className="font-semibold">1 325 TMT</p>
-              </div>
-              <div className="text-lybas-red flex justify-between items-center p-5 pt-0 border-b border-b-lybas-light-gray">
+              </div> */}
+              {/* <div className="text-lybas-red flex justify-between items-center p-5 pt-0 border-b border-b-lybas-light-gray">
                 <h3 className="">{t('discount')}</h3>
                 <p className="font-semibold">1 325 TMT</p>
-              </div>
+              </div> */}
               <div className="p-5 flex justify-between items-center">
-                <h3 className="">Total Payable</h3>
+                <h3 className="">{t('totalPrice')}</h3>
                 <p className="font-semibold">1 114 TMT</p>
               </div>
             </div>
-            <div className="checkout_cards_payment-card rounded-lg shadow-lybas-1 my-7">
+            {/* <div className="checkout_cards_payment-card rounded-lg shadow-lybas-1 my-7">
               <h2 className="checkout_cards_payment-card_title text-2xl font-bold p-4 bg-lybas-light-gray">{t('payment')}</h2>
               <div className="checkout_cards_payment-card_type p-4">
                 <button className="type flex items-center mb-4">
@@ -154,13 +175,15 @@ function Checkout() {
                   <span className='text-lybas-gray'>{t('terminal')}</span>
                 </button>
               </div>
-            </div>
-            <button type="submit" className='lybas-blue-button'>{t('checkout')}</button>
+            </div> */}
+            <button type="submit" className='lybas-blue-button mt-5'>{t('checkout')}</button>
           </div>
           <div>
           </div>
         </div>
       </div>
+
+      <AddAddressPopup open={addAddressPopupOpen} setOpen={setAddAddressPopupOpen}/>
     </>
   );
 }

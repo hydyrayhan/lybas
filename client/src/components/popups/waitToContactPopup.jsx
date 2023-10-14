@@ -2,10 +2,11 @@ import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 
-export default function DressmakerPopup({ open, setOpen }) {
+export default function WaitToContact({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
   const [isSignIn, setIsSignIn] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -38,37 +39,25 @@ export default function DressmakerPopup({ open, setOpen }) {
                   <div className="">
                     <div className="mt-3 text-center">
                       <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 mb-8 flex justify-between items-center">
-                        {t('dressmaker')}
+                        {t("waitToContact")}
                         <svg onClick={() => { setOpen(false) }} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#0E1217" />
                         </svg>
                       </Dialog.Title>
-                      <div className="buttons flex">
-                        <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
-                        <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
+                      <div className="inputs py-3">
+                        <span className='text-left text-lybas-gray block w-full'>{t("verificationHelpWord") + " +99364813309"}</span>
                       </div>
-                      {
-                        !isSignIn ?
-                        <div className="inputs py-3">
-                          <input type="text" className='input w-full mb-3' placeholder={t('firstName')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('lastName')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('bussinessName')} />
-                          <input type="text" className='input w-full' placeholder={t('phoneNumber')} />
-                        </div>:
-                        <div className="inputs py-3">
-                          <input type="text" className='input w-full mb-3' placeholder={t('phoneNumber')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('password')} />
-                        </div>
-                      }
                     </div>
                   </div>
                 </div>
                 <div className="px-10 pt-3 pb-7 grid grid-cols-2 gap-5">
+                  <span></span>
                   <button
                     type="button"
-                    className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
+                    className="rounded-md bg-lybas-blue py-2 text-sm text-white hover:bg-blue-800"
+                    onClick={()=>setOpen(false)}
                   >
-                    {t('confirm')}
+                    {t('ok')}
                   </button>
                 </div>
               </Dialog.Panel>

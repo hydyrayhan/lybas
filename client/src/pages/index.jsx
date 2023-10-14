@@ -52,7 +52,7 @@ function Index() {
 
   return (
     <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <div className="main-swiper h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden py-[20px] md:py-[30px] lg:py-[40px]" style={swiper_container}>
+      <div className="main-swiper h-[300px] md:h-[400px] lg:h-auto overflow-hidden py-[20px] md:py-[30px] lg:py-[40px]" style={swiper_container}>
         <button onClick={() => swiperRef.current?.slidePrev()} className='hidden md:block main-swiper-button' id="main-swiper-prev_arrow" style={{ ...swiper_arrows.prev, ...swiper_arrows.both }}>
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.91663 17.0001L20.2545 5.66675L22.6666 8.31119L14.7409 17.0001L22.6666 25.689L20.2545 28.3334L9.91663 17.0001Z" fill="#0E1217" />

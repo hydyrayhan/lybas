@@ -10,6 +10,9 @@ import { Link, NavLink } from 'react-router-dom';
 import Cart from './Cart';
 import UserPopup from './popups/userPopup';
 import DressmakerPopup from './popups/dressmakerPopup';
+import CustomerPopup from './popups/customerPopup';
+import VerificationPopup from './popups/verificationPopup';
+import WaitToContact from './popups/waitToContactPopup';
 
 const navigation = {
   pages: [
@@ -29,6 +32,9 @@ export default function Header() {
   const [openCart, setOpenCart] = useState(true);
   const [openUserPopup, setOpenUserPopup] = useState(false);
   const [openDressmakerPopup, setOpenDressmakerPopup] = useState(false);
+  const [openCustomerPopup, setOpenCustomerPopup] = useState(false);
+  const [openVerificationPopup, setOpenVerificationPopup] = useState(false);
+  const [waitToContact, setWaitToContact] = useState(false)
 
   const { t, changeLanguage } = useContext(AppContext);
 
@@ -275,6 +281,9 @@ export default function Header() {
       {/* popups */}
       <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} />
       <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} />
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup}/>
+      <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup}/>
+      <WaitToContact open={waitToContact} setOpen={setWaitToContact}/>
     </div>
   );
 }

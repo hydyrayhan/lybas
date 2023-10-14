@@ -79,7 +79,7 @@ function Comment() {
           {/* Image show like gallery */}
           {
             galleryOpen &&
-            <div className='gallery-container w-full h-full fixed z-10 top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
+            <div className='gallery-container w-full h-full fixed z-[100] top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
               <div ref={galleryRef} className="gallery-container_image-container w-full md:w-3/5 lg:w-2/5 bg-white flex flex-col items-end rounded-lg overflow-hidden p-5">
                 <button onClick={() => setGalleryOpen(false)} className='mb-5'>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

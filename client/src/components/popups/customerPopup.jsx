@@ -2,10 +2,11 @@ import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 
-export default function DressmakerPopup({ open, setOpen }) {
+export default function CustomerPopup({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
   const [isSignIn, setIsSignIn] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -38,7 +39,7 @@ export default function DressmakerPopup({ open, setOpen }) {
                   <div className="">
                     <div className="mt-3 text-center">
                       <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 mb-8 flex justify-between items-center">
-                        {t('dressmaker')}
+                        {t('becomeMember')}
                         <svg onClick={() => { setOpen(false) }} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#0E1217" />
                         </svg>
@@ -47,19 +48,32 @@ export default function DressmakerPopup({ open, setOpen }) {
                         <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
                         <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
                       </div>
-                      {
-                        !isSignIn ?
-                        <div className="inputs py-3">
-                          <input type="text" className='input w-full mb-3' placeholder={t('firstName')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('lastName')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('bussinessName')} />
-                          <input type="text" className='input w-full' placeholder={t('phoneNumber')} />
-                        </div>:
-                        <div className="inputs py-3">
-                          <input type="text" className='input w-full mb-3' placeholder={t('phoneNumber')} />
-                          <input type="text" className='input w-full mb-3' placeholder={t('password')} />
+                      <div className="inputs py-3">
+                        <input type="text" className='input w-full mb-3' placeholder='+993' />
+                        <input type="password" className='input w-full mb-3' placeholder={t('password') + "*"} />
+                        {
+                          !isSignIn &&
+                          <input type="password" className='input w-full mb-3' placeholder={t('confirmPassword') + '*'} />
+                        }
+                        <div className='flex justify-between'>
+                          <button className='flex items-center' onClick={() => { setCheckbox(!checkbox) }}>
+                            {
+                              !checkbox ?
+                                <svg className='cursor-pointer' width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.25" fill="white" />
+                                  <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.25" stroke="#F7F7F7" stroke-width="1.5" />
+                                </svg> :
+                                <svg className='cursor-pointer' width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" fill="#1A54EB" />
+                                  <path d="M12.5516 21.0001L6.85156 15.3001L8.27656 13.8751L12.5516 18.1501L21.7266 8.9751L23.1516 10.4001L12.5516 21.0001Z" fill="white" />
+                                  <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" stroke="#1A54EB" />
+                                </svg>
+                            }
+                            <span className='ml-3 text-lybas-gray'>{t('rememberMe')}</span>
+                          </button>
+                          <span className='text-lybas-blue underline underline-offset-1'>{t('forgotYourPassword')}</span>
                         </div>
-                      }
+                      </div>
                     </div>
                   </div>
                 </div>

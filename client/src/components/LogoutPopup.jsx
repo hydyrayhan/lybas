@@ -44,13 +44,13 @@ export default function LogoutPopup({ open, setOpen }) {
                         {t('logout')}
                         <svg onClick={()=>{setOpen(false)}} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#0E1217" />
-                        </svg>  
+                        </svg>
                       </Dialog.Title>
                       <p className='text-left'>{t("doYouWantToLogout")}</p>
                     </div>
                   </div>
                 </div>
-                <div className="px-10 py-3 flex justify-between">
+                <div className="px-10 pt-3 pb-7 flex justify-between">
                   <button
                     type="button"
                     className=" rounded-md px-20 py-2 text-sm text-lybas-blue hover:bg-gray-100 shadow-lybas-1"

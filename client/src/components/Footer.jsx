@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink, Link } from "react-router-dom";
 
 import { AppContext } from '../App';
+import DeliveryAbroadPopup from './popups/deliveryAbroadPopup';
 
 const footer_rights_styles = {
   background: 'white',
@@ -10,6 +11,7 @@ const footer_rights_styles = {
 
 function Footer() {
   const { t } = useContext(AppContext);
+  const [open, setOpen] = useState(false);
   return (
     <>
       <footer className="relative z-10 pt-10 md:pt-50 pb-10 lg:pt-[50px] lg:pb-[46px] mt-20 md:mt-[120px]" style={{ borderTop: '1px solid rgba(246, 246, 246, 1)', background: 'rgba(246, 246, 246, 1)' }}>
@@ -64,7 +66,16 @@ function Footer() {
                 <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('aboutUs')}</h4>
                 <ul>
                   <li>
-                    <Link to='#'
+                    <button
+                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
+                      style={{ fontSize: '14px' }}
+                      onClick={()=>setOpen(true)}
+                    >
+                      {t('deliveryAbroad')}
+                    </button>
+                  </li>
+                  <li>
+                    <Link to='/deliveryPayment'
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
@@ -72,15 +83,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to='#'
-                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
-                      style={{ fontSize: '14px' }}
-                    >
-                      {t('termsOfUse')}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#'
+                    <Link to='/aboutUs'
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
@@ -88,7 +91,7 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to='#'
+                    <Link to='/termsCondition'
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
@@ -181,6 +184,7 @@ function Footer() {
       <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4' style={footer_rights_styles}>
         © 2023-2024, All Rights Reserved
       </div>
+      <DeliveryAbroadPopup open={open} setOpen={setOpen}/>
     </>
   );
 }

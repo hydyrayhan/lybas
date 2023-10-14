@@ -17,10 +17,14 @@ import Dashboard from "./pages/sellerProfile/Dashboard";
 import Orders from "./pages/sellerProfile/Orders";
 import Users from "./pages/sellerProfile/Users";
 import Comments from "./pages/comments";
+import SellerComments from './pages/sellerProfile/Comments'
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
 import Blog from "./pages/blog";
 import Dressmakers from "./pages/dressmakers";
 import Dressmaker from "./pages/dressmaker";
+import AboutUs from "./components/AboutUs";
+import DeliveryPayment from "./pages/DeliveryPayment";
+import TermsConditions from "./pages/TermsConditions";
 
 export const AppContext = createContext();
 
@@ -56,7 +60,7 @@ function App() {
             <Route path="/sellerProfile/orders" element={<Orders />} />
             <Route path="/sellerProfile/users" element={<Users />} />
             <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
-            <Route path="/sellerProfile/comments" element={<Comments />} />
+            <Route path="/sellerProfile/comments" element={<SellerComments />} />
           </Route>
 
           <Route path='/' element={(
@@ -120,6 +124,27 @@ function App() {
             <>
               <Header />
               <Comments />
+              <Footer />
+            </>
+          )} />
+          <Route path='/aboutUs' element={(
+            <>
+              <Header />
+              <AboutUs />
+              <Footer />
+            </>
+          )} />
+          <Route path='/deliveryPayment' element={(
+            <>
+              <Header />
+              <DeliveryPayment />
+              <Footer />
+            </>
+          )} />
+          <Route path='/termsCondition' element={(
+            <>
+              <Header />
+              <TermsConditions />
               <Footer />
             </>
           )} />
