@@ -9,7 +9,7 @@ function dressmakers() {
       <Breadcrumb />
       <div className="dressmakers_content flex">
         <div className="dressmakers_sidebar w-1/5 mr-10">
-          <Sidebar />
+          <Sidebar dressmakers={true}/>
         </div>
         <div className="dressmakers_dressmakers w-4/5 grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <Dressmaker />

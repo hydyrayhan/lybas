@@ -132,6 +132,8 @@ const resources = {
       doYouWantToDelete:"Do you really want to delete?",
       favorites:"Favorites",
       login:"Login",
+      deliveryLocation:"Delivery location",
+      notification:"Notification",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

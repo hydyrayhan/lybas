@@ -2,13 +2,13 @@ import { Fragment, useEffect, useState, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 
-export default function Popup({ open, setOpen, edit=false, editData=null }) {
+export default function Popup({ open, setOpen, edit = false, editData = null }) {
   const [provinceOpen, setProvinceOpen] = useState(false)
   const [dataFull, setDataFull] = useState(false);
 
   const data = useRef({
-    province:'',
-    address:'',
+    province: '',
+    address: '',
   })
 
   const cancelButtonRef = useRef(null)
@@ -81,8 +81,13 @@ export default function Popup({ open, setOpen, edit=false, editData=null }) {
                         </svg>
                       </Dialog.Title>
                       <div className="mt-2">
-                        <div onClick={() => setProvinceOpen(!provinceOpen)} className='w-full rounded-lg border-2 border-lybas-light-gray p-2 mb-3 outline-none text-lybas-gray text-sm flex justify-between'>{data?.current?.province ? t(data.current.province) : t('province')}</div>
-                        <div className={"add-address_addresses border-2 border-lybas-light-gray rounded-lg mb-3 " + (!provinceOpen && 'hidden')}>
+                        <div onClick={() => setProvinceOpen(!provinceOpen)} className='w-full rounded-lg border-2 border-lybas-light-gray p-2 mb-3 outline-none text-lybas-gray text-sm flex justify-between'>
+                          <span>{data?.current?.province ? t(data.current.province) : t('province')}</span>
+                          <svg className={'transition-all '+(provinceOpen ? 'rotate-180' : 'rotate-0')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 17L4 9.7027L5.86667 8L12 13.5946L18.1333 8L20 9.7027L12 17Z" fill="#0E1217" />
+                          </svg>
+                        </div>
+                        <div className={"add-address_addresses border-2 border-lybas-light-gray rounded-lg mb-3 overflow-hidden transition-all " + (provinceOpen ? 'h-[225px]' : 'h-0')}>
                           <div onClick={() => (selectProvince('ashgabat'), setProvinceOpen(false))} className={'w-full p-2 hover:bg-blue-100 hover:text-lybas-blue text-gray-500 text-[14px] text-left cursor-pointer tracking-tight ' + (data.current.province === 'ashgabat' && 'bg-blue-100 text-lybas-blue')}>{t('ashgabat')}</div>
                           <div onClick={() => (selectProvince('balkan'), setProvinceOpen(false))} className={'w-full p-2 hover:bg-blue-100 hover:text-lybas-blue text-gray-500 text-[14px] text-left cursor-pointer tracking-tight ' + (data.current.province === 'balkan' && 'bg-blue-100 text-lybas-blue')}>{t('balkan')}</div>
                           <div onClick={() => (selectProvince('ahal'), setProvinceOpen(false))} className={'w-full p-2 hover:bg-blue-100 hover:text-lybas-blue text-gray-500 text-[14px] text-left cursor-pointer tracking-tight ' + (data.current.province === 'ahal' && 'bg-blue-100 text-lybas-blue')}>{t('ahal')}</div>
@@ -98,7 +103,7 @@ export default function Popup({ open, setOpen, edit=false, editData=null }) {
                 <div className="px-10 py-3">
                   <button
                     type="button"
-                    className={"w-full rounded-md px-20 py-2 text-sm text-white shadow-sm "+(dataFull ? 'bg-lybas-blue' : 'bg-lybas-gray')}
+                    className={"w-full rounded-md px-20 py-2 text-sm text-white shadow-sm " + (dataFull ? 'bg-lybas-blue' : 'bg-lybas-gray')}
                     onClick={sendData}
                     disabled={!dataFull}
                   >

@@ -13,6 +13,7 @@ import DressmakerPopup from './popups/dressmakerPopup';
 import CustomerPopup from './popups/customerPopup';
 import VerificationPopup from './popups/verificationPopup';
 import WaitToContact from './popups/waitToContactPopup';
+import NotificationPopup from './popups/notificationPopup';
 
 const navigation = {
   pages: [
@@ -20,7 +21,7 @@ const navigation = {
     { name: 'dresses', to: '/dresses' },
     { name: 'dressmakers', to: '/dressmakers' },
     { name: 'blog', to: '/blog' },
-    { name: 'favorites', to: '/favorites'}
+    { name: 'favorites', to: '/favorites' }
   ]
 };
 
@@ -36,6 +37,7 @@ export default function Header() {
   const [openCustomerPopup, setOpenCustomerPopup] = useState(false);
   const [openVerificationPopup, setOpenVerificationPopup] = useState(false);
   const [waitToContact, setWaitToContact] = useState(false)
+  const [notification, setNotification] = useState(false);
 
   const { t, changeLanguage } = useContext(AppContext);
 
@@ -90,7 +92,7 @@ export default function Header() {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
-                    <div key={page.name} onClick={()=>setOpen(false)} className="flow-root">
+                    <div key={page.name} onClick={() => setOpen(false)} className="flow-root">
                       <NavLink to={page.to} className="-m-2 block p-2 font-medium text-gray-900">
                         {t(page.name)}
                       </NavLink>
@@ -172,14 +174,23 @@ export default function Header() {
                       />
                     </svg>
                   </button>
-                  <NavLink to="/" className="alert mr-5 lg:mr-0 text-sm font-medium text-gray-700 hover:text-gray-800">
-                    <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M0 17V15H2V8C2 6.61667 2.41667 5.3875 3.25 4.3125C4.08333 3.2375 5.16667 2.53333 6.5 2.2V1.5C6.5 1.08333 6.64583 0.729167 6.9375 0.4375C7.22917 0.145833 7.58333 0 8 0C8.41667 0 8.77083 0.145833 9.0625 0.4375C9.35417 0.729167 9.5 1.08333 9.5 1.5V2.2C10.8333 2.53333 11.9167 3.2375 12.75 4.3125C13.5833 5.3875 14 6.61667 14 8V15H16V17H0ZM8 20C7.45 20 6.97917 19.8042 6.5875 19.4125C6.19583 19.0208 6 18.55 6 18H10C10 18.55 9.80417 19.0208 9.4125 19.4125C9.02083 19.8042 8.55 20 8 20Z"
-                        fill="#64748B"
-                      />
-                    </svg>
-                  </NavLink>
+
+                  <div className='relative flex'>
+                    <button onClick={() => setNotification(!notification)}>
+                      <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M0 17V15H2V8C2 6.61667 2.41667 5.3875 3.25 4.3125C4.08333 3.2375 5.16667 2.53333 6.5 2.2V1.5C6.5 1.08333 6.64583 0.729167 6.9375 0.4375C7.22917 0.145833 7.58333 0 8 0C8.41667 0 8.77083 0.145833 9.0625 0.4375C9.35417 0.729167 9.5 1.08333 9.5 1.5V2.2C10.8333 2.53333 11.9167 3.2375 12.75 4.3125C13.5833 5.3875 14 6.61667 14 8V15H16V17H0ZM8 20C7.45 20 6.97917 19.8042 6.5875 19.4125C6.19583 19.0208 6 18.55 6 18H10C10 18.55 9.80417 19.0208 9.4125 19.4125C9.02083 19.8042 8.55 20 8 20Z"
+                          fill="#64748B"
+                        />
+                      </svg>
+                      <span className='absolute -top-[10px] -right-[10px] w-[20px] h-[20px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'>2</span>
+                    </button>
+                    {
+                      notification &&
+                      <NotificationPopup open={notification} setOpen={setNotification} />
+                    }
+                  </div>
+
                   <NavLink to="/favorites" className="favorite hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -282,9 +293,9 @@ export default function Header() {
       {/* popups */}
       <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} />
       <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} />
-      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup}/>
-      <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup}/>
-      <WaitToContact open={waitToContact} setOpen={setWaitToContact}/>
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} />
+      <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup} />
+      <WaitToContact open={waitToContact} setOpen={setWaitToContact} />
     </div>
   );
 }
