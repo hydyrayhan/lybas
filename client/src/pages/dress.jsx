@@ -145,14 +145,14 @@ function Dress() {
                 {/* Size chart big image */}
                 {
                   sizeChartOpen &&
-                  <div className='size-chart-container w-full h-full fixed top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
+                  <div className='size-chart-container w-full h-full fixed z-[12] top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
                     <div ref={refImage} className="size-chart-container_image-container bg-white flex flex-col items-end rounded-lg overflow-hidden p-5">
                       <button onClick={() => setSizeChartOpen(false)}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="#0E1217" />
                         </svg>
                       </button>
-                      <img className='w-full' src={require('../assets/images/sizeChart.png')} alt="" />
+                      <img className='max-h-[80vh]' src={require('../assets/images/sizeChart.png')} alt="" />
                     </div>
                   </div>
                 }
@@ -328,7 +328,8 @@ function Dress() {
           </div>
         </div>
       </div>
-      <div className='w-full fixed md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
+      <Popup open={popupOpen} setOpen={setPopupOpen} />
+      <div className='w-full fixed z-[11] md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
         <button className='w-full rounded-lg py-2 bg-lybas-blue flex items-center justify-center' onClick={()=>setPopupOpen(true)}>
           <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.66667 18.3333C1.20833 18.3333 0.815972 18.1701 0.489583 17.8437C0.163194 17.5173 0 17.1249 0 16.6666V6.66659C0 6.20825 0.163194 5.81589 0.489583 5.4895C0.815972 5.16311 1.20833 4.99992 1.66667 4.99992H3.33333C3.33333 3.84714 3.73958 2.8645 4.55208 2.052C5.36458 1.2395 6.34722 0.833252 7.5 0.833252C8.65278 0.833252 9.63542 1.2395 10.4479 2.052C11.2604 2.8645 11.6667 3.84714 11.6667 4.99992H13.3333C13.7917 4.99992 14.184 5.16311 14.5104 5.4895C14.8368 5.81589 15 6.20825 15 6.66659V16.6666C15 17.1249 14.8368 17.5173 14.5104 17.8437C14.184 18.1701 13.7917 18.3333 13.3333 18.3333H1.66667ZM7.5 11.6666C8.65278 11.6666 9.63542 11.2603 10.4479 10.4478C11.2604 9.63534 11.6667 8.6527 11.6667 7.49992H10C10 8.19436 9.75694 8.78464 9.27083 9.27075C8.78472 9.75686 8.19444 9.99992 7.5 9.99992C6.80556 9.99992 6.21528 9.75686 5.72917 9.27075C5.24306 8.78464 5 8.19436 5 7.49992H3.33333C3.33333 8.6527 3.73958 9.63534 4.55208 10.4478C5.36458 11.2603 6.34722 11.6666 7.5 11.6666ZM5 4.99992H10C10 4.30547 9.75694 3.7152 9.27083 3.22909C8.78472 2.74297 8.19444 2.49992 7.5 2.49992C6.80556 2.49992 6.21528 2.74297 5.72917 3.22909C5.24306 3.7152 5 4.30547 5 4.99992Z" fill="white" />
@@ -336,7 +337,6 @@ function Dress() {
           <span className='ml-2 text-white'>{t('remindMe')}</span>
         </button>
       </div>
-      <Popup open={popupOpen} setOpen={setPopupOpen} />
     </div>
   );
 }

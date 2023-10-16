@@ -129,6 +129,9 @@ const resources = {
       deliveryAbroad:"Delivery Abroad",
       deliveryAbroadDefinition:"Siz sargyt etjek köýnegiňiziň URL sylkasyny bellenen ýere goýuň we sargyt ediň",
       URLlink:"URL link",
+      doYouWantToDelete:"Do you really want to delete?",
+      favorites:"Favorites",
+      login:"Login",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 
-export default function Popup({ open, setOpen }) {
+export default function Popup({ open, setOpen, edit=false, editData=null }) {
   const [provinceOpen, setProvinceOpen] = useState(false)
   const [dataFull, setDataFull] = useState(false);
 

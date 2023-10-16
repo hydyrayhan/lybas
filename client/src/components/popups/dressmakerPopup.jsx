@@ -8,7 +8,7 @@ export default function DressmakerPopup({ open, setOpen }) {
   const [isSignIn, setIsSignIn] = useState(false);
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={false} as={Fragment}>
       <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child
           as={Fragment}
@@ -56,7 +56,7 @@ export default function DressmakerPopup({ open, setOpen }) {
                           <input type="text" className='input w-full' placeholder={t('phoneNumber')} />
                         </div>:
                         <div className="inputs py-3">
-                          <input type="text" className='input w-full mb-3' placeholder={t('phoneNumber')} />
+                          <input type="text" className='input w-full mb-3' placeholder={t('login')} />
                           <input type="text" className='input w-full mb-3' placeholder={t('password')} />
                         </div>
                       }

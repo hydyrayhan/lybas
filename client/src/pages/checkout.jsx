@@ -39,9 +39,9 @@ function Checkout() {
             <div className='order_addresses flex flex-wrap w-full h-[150px] overflow-auto border-2 border-lybas-light-gray p-2 rounded-lg'>
               {/* <textarea name="" id="" rows="5" disabled placeholder={t('yourAddress')+'*'} className="resize-none text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue"></textarea> */}
               <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
-              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
               <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
-              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
+              <AccountOneAddress className={'mr-3 mb-3 w-[250px] cursor-pointer'} data={data} setData={setData} address={{province:'Mary',address:'Mary bla bla'}} action={false}/>
             </div>
             <button onClick={()=>setAddAddressPopupOpen(true)} className="bg-lybas-blue text-white rounded-lg py-2 px-10 mt-5 mb-10">{t('addAddress')}</button>
             <div className='orderLaw' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('orderLaw')) }}></div>

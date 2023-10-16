@@ -20,11 +20,13 @@ import Comments from "./pages/comments";
 import SellerComments from './pages/sellerProfile/Comments'
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
 import Blog from "./pages/blog";
+import OneBlog from "./pages/oneBlog";
 import Dressmakers from "./pages/dressmakers";
 import Dressmaker from "./pages/dressmaker";
 import AboutUs from "./components/AboutUs";
 import DeliveryPayment from "./pages/DeliveryPayment";
 import TermsConditions from "./pages/TermsConditions";
+import Favorites from "./pages/favorites";
 
 export const AppContext = createContext();
 
@@ -81,6 +83,13 @@ function App() {
             <>
               <Header />
               <Blog />
+              <Footer />
+            </>
+          )} />
+          <Route path='/blog/:id' element={(
+            <>
+              <Header />
+              <OneBlog />
               <Footer />
             </>
           )} />
@@ -145,6 +154,13 @@ function App() {
             <>
               <Header />
               <TermsConditions />
+              <Footer />
+            </>
+          )} />
+          <Route path='/favorites' element={(
+            <>
+              <Header />
+              <Favorites />
               <Footer />
             </>
           )} />
