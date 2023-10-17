@@ -327,4 +327,8 @@ a {
 }
 .account_card_feedback_feedbacks::-webkit-scrollbar-thumb:hover {
   background: #4b5b71;
+}
+
+.graphic-header_date input {
+  outline: none;
 }/*# sourceMappingURL=App.css.map */

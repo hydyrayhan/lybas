@@ -39,7 +39,7 @@ export default function Header() {
   const [waitToContact, setWaitToContact] = useState(false)
   const [notification, setNotification] = useState(false);
 
-  const { t, changeLanguage } = useContext(AppContext);
+  const { t, changeLanguage, lang } = useContext(AppContext);
 
   const styleHeader = {
     background: '#F6F6F6'
@@ -98,6 +98,17 @@ export default function Header() {
                       </NavLink>
                     </div>
                   ))}
+                </div>
+                <div className="mobile-menu_languages flex justify-end pr-5">
+                  <button onClick={() => changeLanguage('tm')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'tm' && 'bg-lybas-blue text-white')}>
+                    TM
+                  </button>
+                  <button onClick={() => changeLanguage('ru')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'ru' && 'bg-lybas-blue text-white')}>
+                    RU
+                  </button>
+                  <button onClick={() => changeLanguage('en')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'en' && 'bg-lybas-blue text-white')}>
+                    EN
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -175,7 +186,7 @@ export default function Header() {
                     </svg>
                   </button>
 
-                  <div className='relative flex'>
+                  <div className='relative flex mr-5'>
                     <button onClick={() => setNotification(!notification)}>
                       <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path

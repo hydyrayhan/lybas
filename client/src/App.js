@@ -27,6 +27,7 @@ import AboutUs from "./components/AboutUs";
 import DeliveryPayment from "./pages/DeliveryPayment";
 import TermsConditions from "./pages/TermsConditions";
 import Favorites from "./pages/favorites";
+import OneOrder from "./pages/sellerProfile/OneOrder";
 
 export const AppContext = createContext();
 
@@ -60,6 +61,7 @@ function App() {
           <Route path="/sellerProfile/" element={<Sidebar />}>
             <Route index element={<Dashboard />}/>
             <Route path="/sellerProfile/orders" element={<Orders />} />
+            <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
             <Route path="/sellerProfile/users" element={<Users />} />
             <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
             <Route path="/sellerProfile/comments" element={<SellerComments />} />
