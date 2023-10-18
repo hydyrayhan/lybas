@@ -49,7 +49,7 @@ function OneOrder() {
                       Laptop PC
                     </td>
                   </tr>
-                  <tr className="bg-white dark:bg-gray-800">
+                  <tr className="bg-white border-b">
                     <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       Magic Mouse 2
                     </td>
@@ -58,6 +58,16 @@ function OneOrder() {
                     </td>
                     <td className="px-6 py-4">
                       Accessories
+                    </td>
+                  </tr>
+                  <tr className="bg-white border-b">
+                    <td scope="row" className="px-6 py-4 font-semibold text-black">
+                      {t('subtotal')}
+                    </td>
+                    <td className="px-6 py-4">
+                    </td>
+                    <td className="px-6 py-4 font-semibold text-black">
+                      1320 TMT
                     </td>
                   </tr>
                 </tbody>
@@ -94,13 +104,10 @@ function OneOrder() {
 
           <div className="name my-5"><span className='font-semibold'>{t('fullName')}:</span><span className='text-lybas-gray'> Selbi</span></div>
           <div className="name mb-5">
-            <span className='font-semibold'>{t('address')}:</span>
-            <br />
-            <span className='text-lybas-gray'>Ashgabat</span>
-            <br />
-            <span className='text-lybas-gray'>Tejen vsooky gaty coy jayy</span>
-            <br />
-            <span className='text-lybas-gray'>+99364813309</span>
+            <span className='font-semibold block mb-3'>{t('address')}:</span>
+            <span className='text-lybas-gray block mb-1'>Ashgabat</span>
+            <span className='text-lybas-gray block mb-1'>Tejen vsooky gaty coy jayy</span>
+            <span className='text-lybas-gray block mb-1'>+99364813309</span>
           </div>
           <div className="name my-5"><span className='font-semibold'>{t('dressmaker')}:</span><span className='text-lybas-gray'> Jeren Otelya</span></div>
         </div>

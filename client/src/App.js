@@ -15,10 +15,10 @@ import Account from "./pages/account";
 import Sidebar from "./pages/sellerProfile/components/Sidebar";
 import Dashboard from "./pages/sellerProfile/Dashboard";
 import Orders from "./pages/sellerProfile/Orders";
-import Users from "./pages/sellerProfile/Users";
 import Comments from "./pages/comments";
 import SellerComments from './pages/sellerProfile/Comments'
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
+import SellerProfileAddDress from './pages/sellerProfile/DressesAdd';
 import Blog from "./pages/blog";
 import OneBlog from "./pages/oneBlog";
 import Dressmakers from "./pages/dressmakers";
@@ -62,9 +62,9 @@ function App() {
             <Route index element={<Dashboard />}/>
             <Route path="/sellerProfile/orders" element={<Orders />} />
             <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
-            <Route path="/sellerProfile/users" element={<Users />} />
             <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
             <Route path="/sellerProfile/comments" element={<SellerComments />} />
+            <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
           </Route>
 
           <Route path='/' element={(

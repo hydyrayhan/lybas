@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Users() {
+function DressesAdd() {
   return (
     <div>
-      Users
+      Add
     </div>
   );
 }
 
-export default Users;
+export default DressesAdd;
