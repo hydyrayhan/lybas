@@ -28,6 +28,11 @@ import DeliveryPayment from "./pages/DeliveryPayment";
 import TermsConditions from "./pages/TermsConditions";
 import Favorites from "./pages/favorites";
 import OneOrder from "./pages/sellerProfile/OneOrder";
+import CommentOne from "./pages/sellerProfile/CommentOne";
+import Emails from "./pages/sellerProfile/Emails";
+import EmailOne from "./pages/sellerProfile/EmailOne";
+import Profile from "./pages/sellerProfile/Profile";
+
 
 export const AppContext = createContext();
 
@@ -64,7 +69,11 @@ function App() {
             <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
             <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
             <Route path="/sellerProfile/comments" element={<SellerComments />} />
+            <Route path="/sellerProfile/comments/:id" element={<CommentOne />} />
             <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
+            <Route path="/sellerProfile/emails" element={<Emails />} />
+            <Route path="/sellerProfile/emails/:id" element={<EmailOne />} />
+            <Route path="/sellerProfile/profile" element={<Profile />} />
           </Route>
 
           <Route path='/' element={(

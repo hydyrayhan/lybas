@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Search from './components/Search';
 import { t } from 'i18next';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,10 @@ import { Switch } from "@material-tailwind/react";
 const tableHeader = ['nameOfDressAndDressmaker', 'price', 'fabric', 'dateTime', 'edit', 'action']
 
 function Dresses() {
+  const [toggle, setToggle] = useState(false);
   return (
     <div className='dresses'>
       <Search title='dresses' className='mt-5' action={{ link: '/sellerProfile/dresses/add', text: 'Add dress' }} filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
-
       <div className="dresses_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <table className="w-full text-left text-gray-500 dark:text-gray-400">
@@ -52,57 +52,20 @@ function Dresses() {
                       <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#FF3521" />
                     </svg>
                   </button>
-                  <Switch
-                    id="custom-switch-component"
-                    // ripple={false}
-                    className="h-full w-full checked:bg-[#2ec946]"
-                    containerProps={{
-                      className: "w-11 h-6",
+
+                  <div
+                    className={"md:w-10 md:h-5 w-10 h-4 flex items-center rounded-full p-1 cursor-pointer "+(toggle ? 'bg-green-600' : 'bg-gray-300')}
+                    onClick={() => {
+                      setToggle(!toggle);
                     }}
-                    circleProps={{
-                      className: "before:hidden left-0.5 border-none",
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Microsoft Surface Pro
-                </td>
-                <td className="px-6 py-4">
-                  White
-                </td>
-                <td className="px-6 py-4">
-                  Laptop PC
-                </td>
-                <td className="px-6 py-4">
-                  $1999
-                </td>
-                <td className="px-6 py-4">
-                  $1999
-                </td>
-                <td className="px-6 py-4">
-                  $1999
-                </td>
-              </tr>
-              <tr className="bg-white dark:bg-gray-800">
-                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Magic Mouse 2
-                </td>
-                <td className="px-6 py-4">
-                  Black
-                </td>
-                <td className="px-6 py-4">
-                  Accessories
-                </td>
-                <td className="px-6 py-4">
-                  $99
-                </td>
-                <td className="px-6 py-4">
-                  $99
-                </td>
-                <td className="px-6 py-4">
-                  $99
+                  >
+                    <div
+                      className={
+                        "bg-white md:w-4 md:h-4 h-3 w-3 rounded-full shadow-md transform duration-300 ease-in-out " +
+                        (toggle ? ' transform translate-x-4' : '')
+                      }
+                    ></div>
+                  </div>
                 </td>
               </tr>
             </tbody>

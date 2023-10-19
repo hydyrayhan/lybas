@@ -1,12 +1,12 @@
 import { t, changeLanguage } from 'i18next';
 import React, { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Dropdown from './Dropdown';
 
 
 function Sidebar() {
   const location = useLocation();
-  console.log(location.pathname.split('/')[2])
+  const navigate = useNavigate();
   const [active, setActive] = useState(location.pathname.split('/')[2] ? location.pathname.split('/')[2] : 'sellerProfile');
 
   return (
@@ -35,7 +35,7 @@ function Sidebar() {
                     </svg>
                     <span className='alert_red absolute w-3 h-3 bg-red-500 top-1 right-2 rounded-full border-2 border-white'></span>
                   </button>
-                  <button className="message border rounded-lg p-2 relative mx-4">
+                  <button onClick={()=>(navigate('/sellerProfile/emails'),setActive('emails'))} className={"message border rounded-lg p-2 relative mx-4 hover:bg-gray-100 "+(active === 'emails' && 'bg-gray-200')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" clipRule="evenodd" d="M4 5C3.45228 5 3 5.45228 3 6V18C3 18.5477 3.45228 19 4 19H20C20.5477 19 21 18.5477 21 18V6C21 5.45228 20.5477 5 20 5H4ZM1 6C1 4.34772 2.34772 3 4 3H20C21.6523 3 23 4.34772 23 6V18C23 19.6523 21.6523 21 20 21H4C2.34772 21 1 19.6523 1 18V6Z" fill="#64748B" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M1.18085 5.42654C1.49757 4.97409 2.1211 4.86406 2.57355 5.18077L12.0001 11.7793L21.4266 5.18077C21.8791 4.86406 22.5026 4.97409 22.8193 5.42654C23.136 5.87899 23.026 6.50252 22.5735 6.81923L12.5735 13.8192C12.2292 14.0603 11.7709 14.0603 11.4266 13.8192L1.42662 6.81923C0.974174 6.50252 0.864139 5.87899 1.18085 5.42654Z" fill="#64748B" />
@@ -49,34 +49,10 @@ function Sidebar() {
                 <div className="flex items-center">
                   <div className="flex items-center ml-3">
                     <div>
-                      <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 light:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                      <button onClick={()=>(navigate('/sellerProfile/profile'),setActive('profile'))} type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 light:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                         <span className="sr-only">Open user menu</span>
                         <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
                       </button>
-                    </div>
-                    <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow light:bg-gray-700 light:divide-gray-600" id="dropdown-user">
-                      <div className="px-4 py-3" role="none">
-                        <p className="text-sm text-gray-900 light:text-white" role="none">
-                          Neil Sims
-                        </p>
-                        <p className="text-sm font-medium text-gray-900 truncate light:text-gray-300" role="none">
-                          neil.sims@flowbite.com
-                        </p>
-                      </div>
-                      <ul className="py-1" role="none">
-                        <li>
-                          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:text-gray-300 light:hover:bg-gray-600 light:hover:text-white" role="menuitem">Dashboard</a>
-                        </li>
-                        <li>
-                          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:text-gray-300 light:hover:bg-gray-600 light:hover:text-white" role="menuitem">Settings</a>
-                        </li>
-                        <li>
-                          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:text-gray-300 light:hover:bg-gray-600 light:hover:text-white" role="menuitem">Earnings</a>
-                        </li>
-                        <li>
-                          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 light:text-gray-300 light:hover:bg-gray-600 light:hover:text-white" role="menuitem">Sign out</a>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>

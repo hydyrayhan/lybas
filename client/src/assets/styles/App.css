@@ -84,6 +84,10 @@ a {
   font-size: 20px;
 }
 
+.chip-set svg {
+  stroke: black;
+}
+
 .dress-card .dress-card_image img {
   border-radius: 5px 5px 0 0;
 }
@@ -310,25 +314,30 @@ a {
   background: #555;
 }
 
-.account_card_feedback_feedbacks {
+.account_card_feedback_feedbacks, .dress-add .dress-add_content_left, .dress-add .right-container {
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-.account_card_feedback_feedbacks::-webkit-scrollbar {
+.account_card_feedback_feedbacks::-webkit-scrollbar, .dress-add .dress-add_content_left::-webkit-scrollbar, .dress-add .right-container::-webkit-scrollbar {
   width: 7px;
 }
-.account_card_feedback_feedbacks::-webkit-scrollbar-track {
+.account_card_feedback_feedbacks::-webkit-scrollbar-track, .dress-add .dress-add_content_left::-webkit-scrollbar-track, .dress-add .right-container::-webkit-scrollbar-track {
   background: none;
 }
-.account_card_feedback_feedbacks::-webkit-scrollbar-thumb {
+.account_card_feedback_feedbacks::-webkit-scrollbar-thumb, .dress-add .dress-add_content_left::-webkit-scrollbar-thumb, .dress-add .right-container::-webkit-scrollbar-thumb {
   background: #64748B;
   border-radius: 9px;
 }
-.account_card_feedback_feedbacks::-webkit-scrollbar-thumb:hover {
+.account_card_feedback_feedbacks::-webkit-scrollbar-thumb:hover, .dress-add .dress-add_content_left::-webkit-scrollbar-thumb:hover, .dress-add .right-container::-webkit-scrollbar-thumb:hover {
   background: #4b5b71;
 }
 
 .graphic-header_date input {
   outline: none;
+}
+
+.star-for-size svg {
+  width: 15px;
+  height: 15px;
 }/*# sourceMappingURL=App.css.map */

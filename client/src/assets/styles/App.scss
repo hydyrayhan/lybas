@@ -93,7 +93,7 @@
   }
 }
 
-.account_card_feedback_feedbacks{
+.account_card_feedback_feedbacks, .dress-add .dress-add_content_left, .dress-add .right-container{
   &::-webkit-scrollbar {
     width: 7px;
   }
@@ -118,5 +118,12 @@
 .graphic-header_date{
   input{
     outline: none;
+  }
+}
+
+.star-for-size{
+  svg{
+    width: 15px;
+    height: 15px;
   }
 }
