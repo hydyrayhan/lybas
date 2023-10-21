@@ -3,7 +3,7 @@ import url from './Config'
 
 
 
-export const BASE_URL = url+"/"
+export const BASE_URL = url+"/public"
 const AxiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 100000,

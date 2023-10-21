@@ -1,28 +1,23 @@
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 
-// third party
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import i18n from "./common/LangConfig";
 
-// project imports
-import * as serviceWorker from 'serviceWorker';
-import App from 'App';
-import { store } from './app/store';
+import { store } from "./redux/app/store";
+import { Provider } from "react-redux";
 
-// style + assets
-import 'assets/scss/style.scss';
-import config from './config';
+import { ThemeProvider } from "@material-tailwind/react";
 
-// ==============================|| REACT DOM RENDER  ||============================== //
 
-const container = document.getElementById('root');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <BrowserRouter basename={config.basename}>
+  <ThemeProvider>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
-  </Provider>
+    </Provider>
+  </ThemeProvider>
 );
-
-serviceWorker.unregister();
