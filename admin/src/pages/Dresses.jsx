@@ -10,7 +10,7 @@ function Dresses() {
   const [toggle, setToggle] = useState(false);
   return (
     <div className='dresses'>
-      <Search title='dresses' className='mt-5' action={{ link: '/sellerProfile/dresses/add', text: 'Add dress' }} filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
+      <Search title='dresses' className='mt-5' action={{ link: '/dresses/add', text: 'Add dress' }} filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
       <div className="dresses_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <table className="w-full text-left text-gray-500 dark:text-gray-400">

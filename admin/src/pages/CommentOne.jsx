@@ -6,7 +6,7 @@ import { Rating } from '@material-tailwind/react';
 function CommentOne() {
   return (
     <div className='one-comment'>
-      <Breadcrumb page={'comments'} pageLink={'/sellerProfile/comments'} name={'Jeren'} />
+      <Breadcrumb page={'comments'} pageLink={'/comments'} name={'Jeren'} />
 
       <div className="one-comment_content flex mt-5">
         <div className="one-comment_content_left bg-white rounded-lg w-3/5 mr-5">

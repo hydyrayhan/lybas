@@ -61,6 +61,18 @@
         fill: $blue;
       }
     }
+    a.activeStroke{
+      background: rgba(7, 98, 200, 0.05);
+      border-left: 7px solid rgba(26, 84, 235, 1);
+  
+      span {
+        color: $blue;
+      }
+  
+      svg {
+        stroke: $blue;
+      }
+    }
   }
 }
 
@@ -131,4 +143,10 @@
 .welcome{
   background-image: url('./../images/shapes.png');
   background-size: cover;
+}
+
+.bannerDatepicker-background{
+  input{
+    background: rgb(245, 245, 245);
+  }
 }

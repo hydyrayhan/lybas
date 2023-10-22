@@ -26,7 +26,7 @@ function Emails() {
               </tr>
             </thead>
             <tbody>
-              <tr onClick={()=>navigate('/sellerProfile/emails/1')} className="bg-white border-b cursor-pointer">
+              <tr onClick={()=>navigate('/emails/1')} className="bg-white border-b cursor-pointer">
                 <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   Apple MacBook Pro 17"
                 </td>

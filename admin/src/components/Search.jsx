@@ -34,15 +34,18 @@ function Search({ className, title, action = null, filter = [] }) {
           <input className='w-full outline-none' type="text" placeholder={t('searchHere')} />
         </div>
         <div className="search_header_actions_filter-date flex">
-          <Filter open={open} setOpen={setOpen}>
-            {
-              filter.map((list, index) => (
-                <button className="list w-[200px] text-lybas-gray py-2 px-5 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{t(list.text)}</button>
-              ))
-            }
-          </Filter>
+          {
+            filter.length > 0 &&
+            <Filter open={open} setOpen={setOpen}>
+              {
+                filter.map((list, index) => (
+                  <button className="list w-[200px] text-lybas-gray py-2 px-5 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{t(list.text)}</button>
+                ))
+              }
+            </Filter>
+          }
           <div className="search_header_actions_date-picker border rounded-lg ml-5">
-            <Datepicker value={value} onChange={handleValueChange} showShortcuts={true} primaryColor={"blue"}/>
+            <Datepicker value={value} onChange={handleValueChange} showShortcuts={true} primaryColor={"blue"} />
           </div>
         </div>
       </div>

@@ -287,6 +287,16 @@ a {
 .sellerProfile_sidebar .sidebar_link a.active svg {
   fill: rgb(26, 84, 235);
 }
+.sellerProfile_sidebar .sidebar_link a.activeStroke {
+  background: rgba(7, 98, 200, 0.05);
+  border-left: 7px solid rgb(26, 84, 235);
+}
+.sellerProfile_sidebar .sidebar_link a.activeStroke span {
+  color: rgb(26, 84, 235);
+}
+.sellerProfile_sidebar .sidebar_link a.activeStroke svg {
+  stroke: rgb(26, 84, 235);
+}
 
 .dressmaker_header {
   background-image: url("./../images/dressmakerBack.png");
@@ -345,4 +355,8 @@ a {
 .welcome {
   background-image: url("./../images/shapes.png");
   background-size: cover;
+}
+
+.bannerDatepicker-background input {
+  background: rgb(245, 245, 245);
 }/*# sourceMappingURL=App.css.map */

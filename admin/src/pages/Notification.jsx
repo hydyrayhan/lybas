@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Search from '../components/Search';
 import { t } from 'i18next';
-import { Link } from 'react-router-dom';
-import LoginIcon from '@mui/icons-material/Login';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,12 +9,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const columns = [
   {
-    id: 'nameLocation',
-    label: 'nameLocation',
+    id: 'nameSimple',
+    label: 'nameSimple',
     minWidth: 170,
     align: 'left',
   },
@@ -33,23 +34,29 @@ const columns = [
     align: 'left',
   },
   {
-    id: 'edit',
-    label: 'edit',
+    id: '',
+    label: '',
     minWidth: 100,
-    align: 'right',
+    align: 'left',
+  },
+  {
+    id: '',
+    label: '',
+    minWidth: 100,
+    align: 'left',
   },
   {
     action: 'action',
     label: 'action',
-    minWidth: 100,
+    minWidth: 50,
     align: 'right'
   }
 ];
 
 
 
-function Dressmakers() {
-  const [toggle, setToggle] = useState(false);
+function Notification() {
+  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -61,10 +68,15 @@ function Dressmakers() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div className='dresses'>
-      <Search title='dressmaker' className='mt-5' action={{ link: '/dressmakers/add', text: 'addDressmaker' }} filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
-      <div className="dresses_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
+    <div className='notification'>
+      <Search title='notification' className='mt-5' action={{ link: '/notification/add', text: 'addNotification' }} />
+      <div className="notification_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -86,46 +98,28 @@ function Dressmakers() {
                   <TableRow hover role="checkbox" tabIndex={-1}>
                     <TableCell align={'left'}>
                       <div className={"table-with-grid_tr_data col-span-3 flex items-center"}>
-                        <img className='w-12 h-12 rounded-lg object-cover mr-3' src={require('./../assets/images/dressImage.png')} alt="" />
-                        <div className="data">
-                          <div className="name font-bold">Jeren</div>
-                          <div className="province text-lybas-gray text-sm">Mary</div>
-                        </div>
+                        <img className='w-[90px] h-[50px] rounded-lg object-cover mr-3' src={require('./../assets/images/dressImage.png')} alt="" />
                       </div>
                     </TableCell>
                     <TableCell align={'left'}>
-                      hydyrowayhan7@gmail.com
+                      <div className='banner_name'>
+                        <div className="name font-semibold">Aydymchylar sahnada</div>
+                      </div>
                     </TableCell>
                     <TableCell align={'left'}>
                       15.10.2023/22.00
                     </TableCell>
-                    <TableCell align={'right'}>
-                      <button>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M19.3 8.925L15.05 4.725L16.45 3.325C16.8333 2.94167 17.3042 2.75 17.8625 2.75C18.4208 2.75 18.8917 2.94167 19.275 3.325L20.675 4.725C21.0583 5.10833 21.2583 5.57083 21.275 6.1125C21.2917 6.65417 21.1083 7.11667 20.725 7.5L19.3 8.925ZM17.85 10.4L7.25 21H3V16.75L13.6 6.15L17.85 10.4Z" fill="#1A54EB" />
-                        </svg>
-                      </button>
+                    <TableCell align={'left'}>
+                    </TableCell>
+                    <TableCell align={'left'}>
                     </TableCell>
                     <TableCell align={'right'}>
                       <div className='flex justify-end items-end'>
-                        <button className='mr-3'>
+                        <button onClick={()=>setOpen(true)} className='mr-3'>
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#FF3521" />
                           </svg>
                         </button>
-                        <div
-                          className={"md:w-10 md:h-5 w-10 h-4 flex items-center rounded-full p-1 cursor-pointer " + (toggle ? 'bg-green-600' : 'bg-gray-300')}
-                          onClick={() => {
-                            setToggle(!toggle);
-                          }}
-                        >
-                          <div
-                            className={
-                              "bg-white md:w-4 md:h-4 h-3 w-3 rounded-full shadow-md transform duration-300 ease-in-out " +
-                              (toggle ? ' transform translate-x-4' : '')
-                            }
-                          ></div>
-                        </div>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -143,10 +137,25 @@ function Dressmakers() {
             />
           </Paper>
         </div>
-
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {t('doYouWantToDelete')}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose}>{t('cancel')}</Button>
+            <Button onClick={handleClose} autoFocus sx={{ color: 'red' }}>
+              {t('ok')}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );
 }
 
-export default Dressmakers;
+export default Notification;

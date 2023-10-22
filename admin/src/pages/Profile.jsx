@@ -4,9 +4,10 @@ import { t } from 'i18next';
 
 function Profile() {
   const [changePasswordPopup, setChangePasswordPopup] = useState(false);
+
   return (
     <div className='one-comment'>
-      <Breadcrumb page={'profile'} pageLink={'/sellerProfile/profile'} name={'Kumush'} />
+      <Breadcrumb page={'profile'} pageLink={'/profile'} name={'Kumush'} />
 
       <div className="one-comment_content flex mt-5">
         <div className="one-comment_content_left bg-white rounded-lg w-3/5 mr-5">
@@ -42,7 +43,7 @@ function Profile() {
             <div className="data col-span-4">
               <div className="data_title font-semibold mb-2">{t('password')}</div>
               <div className="data_title text-lybas-gray bg-gray-200 rounded-lg flex justify-between items-center pr-5">
-                <input type="password" value={'Ayhanjan'} className='py-2.5 px-5 w-full bg-gray-200 rounded-lg' />
+                <input type="password" className='py-2.5 px-5 w-full bg-gray-200 rounded-lg outline-none' />
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12.6 12L8 7.4L9.4 6L15.4 12L9.4 18L8 16.6L12.6 12Z" fill="#0E1217" />
                 </svg>

@@ -5,7 +5,7 @@ import { t } from 'i18next';
 function EmailOne() {
   return (
     <div className='one-comment'>
-      <Breadcrumb page={'email'} pageLink={'/sellerProfile/emails'} name={'Jeren'} />
+      <Breadcrumb page={'email'} pageLink={'/emails'} name={'Jeren'} />
 
       <div className="one-comment_content flex mt-5">
         <div className="one-comment_content_left bg-white rounded-lg w-3/5 mr-5">

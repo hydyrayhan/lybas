@@ -8,8 +8,8 @@ import PopupLogout from './PopupLogout';
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [active, setActive] = useState(location.pathname.split('/')[2] ? location.pathname.split('/')[2] : '/');
-  const [open,setOpen] = useState(false);
+  const [active, setActive] = useState(location.pathname.split('/')[1] ? location.pathname.split('/')[1] : '/');
+  const [open, setOpen] = useState(false);
 
   return (
     <div className='sellerProfile_sidebar'>
@@ -30,14 +30,14 @@ function Sidebar() {
               </div>
               <div className='flex items-center'>
                 <div className="buttons_alert_message">
-                  <button className="alert border rounded-lg bg-lybas-light-blue p-2 relative">
+                  <button onClick={()=>(navigate('/notification'), setActive('notification'))} className={"alert border rounded-lg p-2 relative "+ (active === 'notification' && 'bg-lybas-light-blue')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" clipRule="evenodd" d="M7.05033 3.05025C8.36309 1.7375 10.1436 1 12.0001 1C13.8566 1 15.6371 1.7375 16.9498 3.05025C18.2626 4.36301 19.0001 6.14349 19.0001 8C19.0001 11.3527 19.7171 13.4346 20.378 14.6461C20.7098 15.2544 21.0329 15.6535 21.2573 15.8904C21.3698 16.0091 21.4581 16.0878 21.5114 16.1322C21.538 16.1544 21.5558 16.168 21.5635 16.1737C21.5647 16.1746 21.5657 16.1753 21.5664 16.1758C21.9249 16.4221 22.0835 16.8725 21.9572 17.2898C21.8295 17.7115 21.4407 18 21.0001 18H3.00008C2.55941 18 2.17068 17.7115 2.04299 17.2898C1.91664 16.8725 2.07528 16.4221 2.43377 16.1758C2.43447 16.1753 2.43542 16.1746 2.43663 16.1737C2.44432 16.168 2.46218 16.1544 2.4888 16.1322C2.54202 16.0878 2.6304 16.0091 2.74288 15.8904C2.9673 15.6535 3.29039 15.2544 3.62218 14.6461C4.28301 13.4346 5.00008 11.3527 5.00008 8C5.00008 6.14348 5.73758 4.36301 7.05033 3.05025ZM2.44388 16.169C2.44395 16.1689 2.44403 16.1688 2.44411 16.1688C2.44411 16.1688 2.4441 16.1688 2.4441 16.1688L2.44388 16.169ZM5.1494 16H18.8508C18.7747 15.8753 18.6983 15.7434 18.6222 15.6039C17.783 14.0654 17.0001 11.6473 17.0001 8C17.0001 6.67392 16.4733 5.40215 15.5356 4.46447C14.5979 3.52678 13.3262 3 12.0001 3C10.674 3 9.40223 3.52678 8.46454 4.46447C7.52686 5.40215 7.00008 6.67392 7.00008 8C7.00008 11.6473 6.21715 14.0654 5.37797 15.6039C5.30188 15.7434 5.22549 15.8753 5.1494 16Z" fill="#64748B" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M9.76841 20.135C10.2461 19.8579 10.8581 20.0205 11.1352 20.4982C11.2231 20.6498 11.3493 20.7756 11.5011 20.863C11.6529 20.9504 11.825 20.9965 12.0002 20.9965C12.1754 20.9965 12.3475 20.9504 12.4993 20.863C12.6511 20.7756 12.7773 20.6498 12.8652 20.4982C13.1423 20.0205 13.7542 19.8579 14.232 20.135C14.7097 20.4121 14.8723 21.024 14.5952 21.5018C14.3315 21.9564 13.9529 22.3337 13.4975 22.5961C13.0421 22.8584 12.5258 22.9965 12.0002 22.9965C11.4746 22.9965 10.9583 22.8584 10.5028 22.5961C10.0474 22.3337 9.6689 21.9564 9.40518 21.5018C9.12806 21.024 9.29069 20.4121 9.76841 20.135Z" fill="#64748B" />
                     </svg>
                     <span className='alert_red absolute w-3 h-3 bg-red-500 top-1 right-2 rounded-full border-2 border-white'></span>
                   </button>
-                  <button onClick={() => (navigate('/emails'), setActive('emails'))} className={"message border rounded-lg p-2 relative mx-4 hover:bg-gray-100 " + (active === 'emails' && 'bg-gray-200')}>
+                  <button onClick={() => (navigate('/emails'), setActive('emails'))} className={"message border rounded-lg p-2 relative mx-4 hover:bg-gray-100 " + (active === 'emails' && 'bg-lybas-light-blue')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" clipRule="evenodd" d="M4 5C3.45228 5 3 5.45228 3 6V18C3 18.5477 3.45228 19 4 19H20C20.5477 19 21 18.5477 21 18V6C21 5.45228 20.5477 5 20 5H4ZM1 6C1 4.34772 2.34772 3 4 3H20C21.6523 3 23 4.34772 23 6V18C23 19.6523 21.6523 21 20 21H4C2.34772 21 1 19.6523 1 18V6Z" fill="#64748B" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M1.18085 5.42654C1.49757 4.97409 2.1211 4.86406 2.57355 5.18077L12.0001 11.7793L21.4266 5.18077C21.8791 4.86406 22.5026 4.97409 22.8193 5.42654C23.136 5.87899 23.026 6.50252 22.5735 6.81923L12.5735 13.8192C12.2292 14.0603 11.7709 14.0603 11.4266 13.8192L1.42662 6.81923C0.974174 6.50252 0.864139 5.87899 1.18085 5.42654Z" fill="#64748B" />
@@ -108,6 +108,26 @@ function Sidebar() {
                 <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("dresses")}</span>
               </Link>
             </li>
+            <li className='sidebar_link' onClick={() => setActive('filter')}>
+              <Link to={'/filter'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'filter' ? 'active' : '')}>
+                <svg className='flex-shrink-0 w-5 h-5 fill-gray-500 transition duration-75 light:fill-gray-400 group-hover:fill-gray-900 light:group-hover:fill-white' width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M1.5 2.25C1.5 1.83579 1.83579 1.5 2.25 1.5H7.5C7.91421 1.5 8.25 1.83579 8.25 2.25V7.5C8.25 7.91421 7.91421 8.25 7.5 8.25H2.25C1.83579 8.25 1.5 7.91421 1.5 7.5V2.25ZM3 3V6.75H6.75V3H3Z" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.75 2.25C9.75 1.83579 10.0858 1.5 10.5 1.5H15.75C16.1642 1.5 16.5 1.83579 16.5 2.25V7.5C16.5 7.91421 16.1642 8.25 15.75 8.25H10.5C10.0858 8.25 9.75 7.91421 9.75 7.5V2.25ZM11.25 3V6.75H15V3H11.25Z" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M9.75 10.5C9.75 10.0858 10.0858 9.75 10.5 9.75H15.75C16.1642 9.75 16.5 10.0858 16.5 10.5V15.75C16.5 16.1642 16.1642 16.5 15.75 16.5H10.5C10.0858 16.5 9.75 16.1642 9.75 15.75V10.5ZM11.25 11.25V15H15V11.25H11.25Z" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M1.5 10.5C1.5 10.0858 1.83579 9.75 2.25 9.75H7.5C7.91421 9.75 8.25 10.0858 8.25 10.5V15.75C8.25 16.1642 7.91421 16.5 7.5 16.5H2.25C1.83579 16.5 1.5 16.1642 1.5 15.75V10.5ZM3 11.25V15H6.75V11.25H3Z" />
+                </svg>
+                <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("filter")}</span>
+              </Link>
+            </li>
+            <li className='sidebar_link' onClick={() => setActive('banner')}>
+              <Link to={'/banner'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'banner' ? 'activeStroke' : '')}>
+                <svg className='flex-shrink-0 w-5 h-5 stroke-gray-500 transition duration-75 light:stroke-gray-400 group-hover:stroke-gray-900 light:group-hover:stroke-white' width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.04688 5.46875C5.27987 5.46875 5.46875 5.27987 5.46875 5.04688C5.46875 4.81388 5.27987 4.625 5.04688 4.625C4.81388 4.625 4.625 4.81388 4.625 5.04688C4.625 5.27987 4.81388 5.46875 5.04688 5.46875Z" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M14.75 8.75009L8.75009 14.75L1.25 7.24991V1.25H7.24991L14.75 8.75009Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("banner")}</span>
+              </Link>
+            </li>
             <li className='sidebar_link' onClick={() => setActive('comments')}>
               <Link to={'/comments'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'comments' ? 'active' : '')}>
                 <svg className='flex-shrink-0 w-5 h-5 fill-gray-500 transition duration-75 light:fill-gray-400 group-hover:fill-gray-900 light:group-hover:fill-white' width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -117,6 +137,14 @@ function Sidebar() {
               </Link>
             </li>
             <hr />
+            <li className='sidebar_link' onClick={() => setActive('blog')}>
+              <Link to={'/blog'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'blog' ? 'active' : '')}>
+                <svg className='flex-shrink-0 w-5 h-5 fill-gray-500 transition duration-75 light:fill-gray-400 group-hover:fill-gray-900 light:group-hover:fill-white' width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.77778 16C1.28889 16 0.87037 15.8259 0.522222 15.4778C0.174074 15.1296 0 14.7111 0 14.2222V1.77778C0 1.28889 0.174074 0.87037 0.522222 0.522222C0.87037 0.174074 1.28889 0 1.77778 0H9.77778V1.77778H1.77778V14.2222H14.2222V6.22222H16V14.2222C16 14.7111 15.8259 15.1296 15.4778 15.4778C15.1296 15.8259 14.7111 16 14.2222 16H1.77778ZM4.44444 12.4444V10.6667H11.5556V12.4444H4.44444ZM4.44444 9.77778V8H11.5556V9.77778H4.44444ZM4.44444 7.11111V5.33333H11.5556V7.11111H4.44444ZM12.4444 5.33333V3.55556H10.6667V1.77778H12.4444V0H14.2222V1.77778H16V3.55556H14.2222V5.33333H12.4444Z" />
+                </svg>
+                <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("blog")}</span>
+              </Link>
+            </li>
             <li className='sidebar_link' onClick={() => setOpen(true)}>
               <button className={"flex w-full items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'comments' ? 'active' : '')}>
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +159,7 @@ function Sidebar() {
         </div>
       </aside>
 
-      <PopupLogout open={open} setOpen={setOpen}/>
+      <PopupLogout open={open} setOpen={setOpen} />
 
       <div className="p-4 sm:ml-64 bg-[#F4F7FF] h-screen">
         <div className="p-4 rounded-lg mt-14">

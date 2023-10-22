@@ -8,7 +8,7 @@ function OneOrder() {
   const [open, setOpen] = useState(false);
   return (
     <div className='one-order'>
-      <Breadcrumb page={'orders'} pageLink={'/sellerProfile/orders'} link={'1'} name={'Selbi'} />
+      <Breadcrumb page={'orders'} pageLink={'/orders'} link={'1'} name={'Selbi'} />
 
       <div className="one-order_content bg-white border rounded-lg p-7 mt-5 flex">
         <div className="one-order_content_table w-3/5 mr-5">

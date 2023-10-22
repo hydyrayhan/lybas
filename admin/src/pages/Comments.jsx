@@ -39,7 +39,7 @@ function Comments() {
                   Laptop
                 </td>
                 <td className="px-6 py-4 flex items-center h-[100px] min-w-1/5">
-                  <Link to={'/sellerProfile/comments/1'} className='mr-3'>
+                  <Link to={'/comments/1'} className='mr-3'>
                     <OpenInNewIcon sx={{color:'green'}}/>
                   </Link>
 
