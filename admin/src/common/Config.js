@@ -1,4 +1,1 @@
-const ip = ''
-
-
-export default ip ;
+export const api = 'http://192.168.1.148/admin';

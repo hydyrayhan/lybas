@@ -1,84 +1,129 @@
 import { t } from 'i18next';
 import Search from '../components/Search';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataOrders, setOffset } from '../redux/features/Orders';
 
-const tableHeader = ['clientPhoneNumber', 'product', 'number', 'dateTime', 'status']
+const columns = [
+  {
+    id: 'clientPhoneNumber',
+    label: 'clientPhoneNumber',
+    minWidth: 170,
+    align: 'left',
+  },
+  {
+    id: 'product',
+    label: 'product',
+    minWidth: 170,
+    align: 'left',
+  },
+  {
+    id: 'number',
+    label: 'number',
+    minWidth: 170,
+    align: 'left',
+  },
+  {
+    id: 'dateTime',
+    label: 'dateTime',
+    minWidth: 100,
+    align: 'right',
+  },
+  {
+    action: 'status',
+    label: 'status',
+    minWidth: 100,
+    align: 'right'
+  }
+];
 
 function Orders() {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const data = useSelector((state) => state?.Orders?.data);
+  const offset = useSelector((state) => state?.Orders?.offset);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!data.length) dispatch(fetchDataOrders());
+  }, []);
   return (
     <div className='orders-page'>
       <Search title='orders' className='' filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
 
-      <div className="orders_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
+      <div className='orders_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden'>
         <div className="relative overflow-x-auto">
-          <table className="w-full text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {
-                  tableHeader.map((th, index) => (
-                    <th key={index} scope="col" className="px-6 py-3">
-                      {t(th)}
-                    </th>
-                  ))
-                }
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple MacBook Pro 17"
-                </td>
-                <td className="px-6 py-4">
-                  Silver
-                </td>
-                <td className="px-6 py-4">
-                  Laptop
-                </td>
-                <td className="px-6 py-4">
-                  $2999
-                </td>
-                <td className="px-6 py-4">
-                  $2999
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Microsoft Surface Pro
-                </td>
-                <td className="px-6 py-4">
-                  White
-                </td>
-                <td className="px-6 py-4">
-                  Laptop PC
-                </td>
-                <td className="px-6 py-4">
-                  $1999
-                </td>
-                <td className="px-6 py-4">
-                  $1999
-                </td>
-              </tr>
-              <tr className="bg-white dark:bg-gray-800">
-                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Magic Mouse 2
-                </td>
-                <td className="px-6 py-4">
-                  Black
-                </td>
-                <td className="px-6 py-4">
-                  Accessories
-                </td>
-                <td className="px-6 py-4">
-                  $99
-                </td>
-                <td className="px-6 py-4">
-                  $99
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column, index) => (
+                      <TableCell
+                        key={index}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth }}
+                      >
+                        <span className='font-bold'>{t(column.label)}</span>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow hover role="checkbox" tabIndex={-1}>
+                    <TableCell align={'left'}>
+                      <div className={"table-with-grid_tr_data"}>
+                        <div className="name font-semibold">Jeren</div>
+                        <div className="phone-number text-gray-600">+99364813308</div>
+                      </div>
+                    </TableCell>
+                    <TableCell align={'left'}>
+                      <div className={"table-with-grid_tr_data text-gray-600"}>
+                        <div className="name font-semibold">Jeren</div>
+                        <div className="phone-number text-gray-600">+99364813308</div>
+                      </div>
+                    </TableCell>
+                    <TableCell align={'left'}>
+                      15.10.2023/22.00
+                    </TableCell>
+                    <TableCell align={'right'}>
+                      12.23.2023
+                    </TableCell>
+                    <TableCell align={'right'}>
+                      Status
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[]}
+              component="div"
+              count={1}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
         </div>
-
       </div>
     </div>
 

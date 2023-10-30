@@ -10,9 +10,9 @@ const initialState = {
   count: 0,
   search: ''
 };
-export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, { getState }) => {
+export const fetchDataFabrics = createAsyncThunk('data/fetchDataFabrics', async (_, { getState }) => {
   try {
-    const { limit, offset } = getState().Blogs;
+    const { limit, offset } = getState().Fabrics;
     const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
@@ -22,8 +22,8 @@ export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, 
 });
 
 // Create a slice using Redux Toolkit
-const Blogs = createSlice({
-  name: 'Blogs',
+const Fabrics = createSlice({
+  name: 'Fabrics',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -39,16 +39,16 @@ const Blogs = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataBlogs.pending, (state) => {
+      .addCase(fetchDataFabrics.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataBlogs.fulfilled, (state, action) => {
+      .addCase(fetchDataFabrics.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data];
         state.count = action?.payload.count;
       })
-      .addCase(fetchDataBlogs.rejected, (state, action) => {
+      .addCase(fetchDataFabrics.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -56,5 +56,5 @@ const Blogs = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Blogs.actions;
-export default Blogs.reducer;
+export const { setLimit, setOffset, setSearch } = Fabrics.actions;
+export default Fabrics.reducer;

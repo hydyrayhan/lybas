@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Search from '../components/Search';
 import { t } from 'i18next';
-import { Link } from 'react-router-dom';
-import LoginIcon from '@mui/icons-material/Login';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +9,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataDressmakers, setOffset } from '../redux/features/Dressmakers';
 
 const columns = [
   {
@@ -52,6 +51,12 @@ function Dressmakers() {
   const [toggle, setToggle] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const data = useSelector((state) => state?.Dressmakers?.data);
+  const offset = useSelector((state) => state?.Dressmakers?.offset);
+
+  const dispatch = useDispatch();
+
+  console.log(data);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -61,6 +66,11 @@ function Dressmakers() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    if (!data.length) dispatch(fetchDataDressmakers());
+  }, []);
+
   return (
     <div className='dresses'>
       <Search title='dressmaker' className='mt-5' action={{ link: '/dressmakers/add', text: 'addDressmaker' }} filter={[{ text: 'waiting' }, { text: 'accepted' }, { text: 'onTheWay' }, { text: 'cancelled' }]} />
@@ -133,7 +143,7 @@ function Dressmakers() {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
+              rowsPerPageOptions={[]}
               component="div"
               count={1}
               rowsPerPage={rowsPerPage}
