@@ -13,7 +13,7 @@ const initialState = {
 export const fetchDataColors = createAsyncThunk('data/fetchDataColors', async (_, { getState }) => {
   try {
     const { limit, offset } = getState().Colors;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const data = await AxiosCustom(`/colors?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
     console.log(error)
@@ -45,8 +45,8 @@ const Colors = createSlice({
       })
       .addCase(fetchDataColors.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data?.colors];
+        state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataColors.rejected, (state, action) => {
         state.loading = false;

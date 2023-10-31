@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk,createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit';
 import { AxiosCustom } from '../../common/AxiosInstance.js'
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 export const fetchDataCategories = createAsyncThunk('data/fetchDataCategories', async (_, { getState }) => {
   try {
     const { limit, offset } = getState().Categories;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const data = await AxiosCustom(`/categories?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
     console.log(error)
@@ -45,8 +45,8 @@ const Categories = createSlice({
       })
       .addCase(fetchDataCategories.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data?.categories];
+        state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataCategories.rejected, (state, action) => {
         state.loading = false;

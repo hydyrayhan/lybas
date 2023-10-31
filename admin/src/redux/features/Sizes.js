@@ -13,7 +13,7 @@ const initialState = {
 export const fetchDataSizes = createAsyncThunk('data/fetchDataSizes', async (_, { getState }) => {
   try {
     const { limit, offset } = getState().Sizes;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const data = await AxiosCustom(`/sizes?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
     console.log(error)
@@ -45,8 +45,8 @@ const Sizes = createSlice({
       })
       .addCase(fetchDataSizes.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data?.sizes];
+        state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataSizes.rejected, (state, action) => {
         state.loading = false;
