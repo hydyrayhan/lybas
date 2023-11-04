@@ -14,6 +14,7 @@ export const fetchDataDressmakers = createAsyncThunk('data/fetchDataDressmakers'
   try {
     const { limit, offset } = getState().Dressmakers;
     const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error)

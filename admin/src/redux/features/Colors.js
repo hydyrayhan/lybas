@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 1000,
   offset: 0,
   count: 0,
   search: ''
@@ -17,6 +17,8 @@ export const fetchDataColors = createAsyncThunk('data/fetchDataColors', async (_
     return data;
   } catch (error) {
     console.log(error)
+    localStorage.setItem('lybas-token','')
+    window.location.replace('/login')
     throw error;
   }
 });
@@ -45,7 +47,7 @@ const Colors = createSlice({
       })
       .addCase(fetchDataColors.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data?.colors];
+        state.data = [...action?.payload?.data?.data];
         state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataColors.rejected, (state, action) => {

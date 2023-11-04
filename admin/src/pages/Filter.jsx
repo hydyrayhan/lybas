@@ -50,16 +50,17 @@ function Filter() {
   const size = useSelector((state) => state?.Sizes?.count);
   const material = useSelector((state) => state?.Materials?.count);
   const color = useSelector((state) => state?.Colors?.count);
+  
   useEffect(() => {
     if(!category) dispatch(fetchDataCategories())
     if(!size) dispatch(fetchDataSizes())
     if(!material) dispatch(fetchDataMaterials())
     if(!color) dispatch(fetchDataColors())
   }, []);
+
   return (
     <div className='filter'>
       <div className="filter_header bg-white border rounded-lg py-3 px-5 mt-5 font-bold">{t('filter')}</div>
-
       <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px', borderRadius: '10px' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">

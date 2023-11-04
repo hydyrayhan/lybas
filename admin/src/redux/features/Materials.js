@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 1000,
   offset: 0,
   count: 0,
   search: ''
@@ -14,6 +14,7 @@ export const fetchDataMaterials = createAsyncThunk('data/fetchDataMaterials', as
   try {
     const { limit, offset } = getState().Materials;
     const data = await AxiosCustom(`/materials?limit=${limit}&offset=${offset}`);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error)
@@ -45,8 +46,8 @@ const Materials = createSlice({
       })
       .addCase(fetchDataMaterials.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
       .addCase(fetchDataMaterials.rejected, (state, action) => {
         state.loading = false;

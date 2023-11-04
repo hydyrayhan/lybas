@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 1000,
   offset: 0,
   count: 0,
   search: ''

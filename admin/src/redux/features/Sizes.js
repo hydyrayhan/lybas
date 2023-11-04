@@ -5,7 +5,7 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 1000,
   offset: 0,
   count: 0,
   search: ''
@@ -45,7 +45,7 @@ const Sizes = createSlice({
       })
       .addCase(fetchDataSizes.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data?.sizes];
+        state.data = [...action?.payload?.data?.data];
         state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataSizes.rejected, (state, action) => {

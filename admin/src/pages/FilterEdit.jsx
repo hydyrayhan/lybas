@@ -37,11 +37,11 @@ function FilterEdit() {
   const color = useSelector((state) => state?.Colors?.data);
 
   const setEditId = (data)=>{
-    console.log(data,123321)
-    if(type === 'allCategories'){
+    if(type === 'fabric' || type === 'allCategories'){
       setCategoryData(data)
     }else if(type === 'size'){
-      setSizeData(data);
+    }else if(type === 'color'){
+      setSizeData({size:data.hex,id:data.id});
     }
   }
 
@@ -57,9 +57,9 @@ function FilterEdit() {
   };
 
   const handleInput = (e) => {
-    if (type === 'allCategories') {
+    if (type === 'allCategories' || type === 'fabric') {
       setCategoryData({ ...categoryData, [e.target.name]: e.target.value })
-    }else if(type === 'size'){
+    }else if(type === 'color' || type === 'size'){
       setSizeData({...sizeData, size:e.target.value})
     }
   }
@@ -85,15 +85,13 @@ function FilterEdit() {
             const res = await AxiosCustom('/categories/'+categoryData.id,{method:"PATCH",data:categoryData})
             if(res.status === 200){
               await dispatch(fetchDataCategories());
-              setLoading(false);
-              setOpen(false);
+              handleClose();
             }
           }else{
             const res = await AxiosCustom('/categories/add',{method:"POST",data:categoryData})
             if(res.status === 201){
               await dispatch(fetchDataCategories());
-              setLoading(false);
-              setOpen(false);
+              handleClose();
             }
           }
         } catch (error) {
@@ -119,8 +117,57 @@ function FilterEdit() {
             const res = await AxiosCustom('/sizes/add',{method:"POST",data:sizeData})
             if(res.status === 201){
               await dispatch(fetchDataSizes());
-              setLoading(false);
-              setOpen(false);
+              handleClose()
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          setLoading(false)
+        }
+      }else{
+        alert(t('fillTheGaps'))
+        setLoading(false);
+      }
+    }else if(type === 'fabric'){
+      if(Valid(categoryData)){
+        setLoading(true);
+        try {
+          if(categoryData.id){
+            const res = await AxiosCustom('/materials/'+categoryData.id,{method:"PATCH",data:categoryData})
+            if(res.status === 200){
+              await dispatch(fetchDataMaterials());
+              handleClose()
+            }
+          }else{
+            const res = await AxiosCustom('/materials/add',{method:"POST",data:categoryData})
+            if(res.status === 201){
+              await dispatch(fetchDataMaterials());
+              handleClose()
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          setLoading(false)
+        }
+      }else{
+        alert(t('fillTheGaps'))
+        setLoading(false);
+      }
+    }else if(type === 'color'){
+      if(Valid(sizeData)){
+        setLoading(true);
+        try {
+          if(sizeData.id){
+            const res = await AxiosCustom('/colors/'+sizeData.id,{method:"PATCH",data:{hex:sizeData.size}})
+            if(res.status === 200){
+              await dispatch(fetchDataColors());
+              handleClose()
+            }
+          }else{
+            const res = await AxiosCustom('/colors/add',{method:"POST",data:{hex:sizeData.size}})
+            if(res.status === 201){
+              await dispatch(fetchDataColors());
+              handleClose()
             }
           }
         } catch (error) {
@@ -151,6 +198,16 @@ function FilterEdit() {
               <OneFilter data={onedata} type={type} setOpenEdit={setOpen} setEditId={setEditId} index={index} key={index} />
             ))
           }
+          {
+            type === 'fabric' && material.map((onedata, index) => (
+              <OneFilter data={onedata} type={type} setOpenEdit={setOpen} setEditId={setEditId} index={index} key={index} />
+            ))
+          }
+          {
+            type === 'color' && color.map((onedata, index) => (
+              <OneFilter data={onedata} type={type} setOpenEdit={setOpen} setEditId={setEditId} index={index} key={index} />
+            ))
+          }
           <div className='flex items-end'>
             <button onClick={() => setOpen(true)} className='bg-lybas-blue h-[44px] text-white py-2 px-20 rounded-lg'>{t('add')}</button>
           </div>
@@ -168,7 +225,7 @@ function FilterEdit() {
         </DialogTitle>
         <DialogContent sx={{ width: "400px" }}>
           {
-            type === 'allCategories' && <>
+            (type === 'allCategories' || type === 'fabric') && <>
               <div className="input-filter flex flex-col mb-2">
                 <label className='mb-2 text-black cursor-pointer' htmlFor="tm">Türkmençe</label>
                 <input className='w-full text-lybas-gray rounded-lg bg-gray-100 outline-none py-2 px-5' type="text" id='tm' name='name_tm' onChange={handleInput} value={categoryData.name_tm} placeholder='Türkmençe' />
@@ -191,17 +248,10 @@ function FilterEdit() {
             </div>
           }
           {
-            type === 'fabric' &&
-            <div className="input-filter flex flex-col">
-              <label className='mb-2 text-black cursor-pointer' htmlFor="en">{t('fabric')}</label>
-              <input className='w-full text-lybas-gray rounded-lg bg-gray-100 outline-none py-2 px-5' type="text" id='en' placeholder={t('fabric')} />
-            </div>
-          }
-          {
             type === 'color' &&
             <div className="input-filter flex flex-col">
               <label className='mb-2 text-black cursor-pointer'>{t('fabric')}</label>
-              <input className='text-lybas-gray rounded-lg bg-gray-100 outline-none cursor-pointer' type="color" id='en' placeholder={t('fabric')} />
+              <input className='text-lybas-gray rounded-lg bg-gray-100 outline-none cursor-pointer' type="color" id='en' name='size' onChange={handleInput} value={sizeData.size} placeholder={t('color')} />
             </div>
           }
         </DialogContent>

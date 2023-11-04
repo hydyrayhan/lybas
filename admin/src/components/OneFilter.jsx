@@ -9,6 +9,7 @@ import { AxiosCustom } from '../common/AxiosInstance';
 import { useDispatch } from 'react-redux';
 import { fetchDataCategories } from '../redux/features/Categories';
 import { fetchDataSizes } from '../redux/features/Sizes';
+import { fetchDataColors } from '../redux/features/Colors';
 
 function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
   const [disabled, setDisabled] = useState(true);
@@ -16,6 +17,7 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const handleClose = () => {
+    setLoading(false);
     setOpen(false);
   };
   const deleteData = async () => {
@@ -23,17 +25,22 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
     try {
       if (type === 'allCategories') {
         const res = await AxiosCustom("/categories/delete/" + data.id, { method: "POST" })
-        console.log(res);
         if (res.status === 200) {
           await dispatch(fetchDataCategories());
-          setLoading(false);
+          handleClose();
         }
       }
       else if (type === 'size') {
         const res = await AxiosCustom("/sizes/delete/" + data.id, { method: "POST" })
         if (res.status === 200) {
           await dispatch(fetchDataSizes());
-          setLoading(false);
+          handleClose();
+        }
+      } else if (type === 'color') {
+        const res = await AxiosCustom("/colors/delete/" + data.id, { method: "POST" })
+        if (res.status === 200) {
+          await dispatch(fetchDataColors());
+          handleClose();
         }
       }
     } catch (error) {
@@ -44,7 +51,7 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
   return (
     <div className="data">
       <div className="data_label font-bold mb-2">{t('type')} {index + 1}</div>
-      <div className="data_input rounded-lg bg-gray-100 flex">
+      <div className="data_input rounded-lg bg-gray-100 flex items-center">
         {
           type === 'allCategories' &&
           <input type="text" className='outline-none w-full bg-gray-100 py-2.5 px-5 text-lybas-gray rounded-lg' disabled={disabled} placeholder={t('nameSimple')} value={data?.name_tm} />
@@ -52,6 +59,13 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
         {
           type === 'size' &&
           <input type="text" className='outline-none w-full bg-gray-100 py-2.5 px-5 text-lybas-gray rounded-lg' disabled={disabled} placeholder={t('nameSimple')} value={data?.size} />
+        }
+        {
+          type === 'color' &&
+          <>
+            <div className='min-w-[32px] h-8 rounded shadow-lybas-1 ml-3' style={{ background: data?.hex }}></div>
+            <input type="text" className='outline-none w-full bg-gray-100 py-2.5 pl-2 pr-5 text-lybas-gray rounded-lg' disabled={disabled} placeholder={t('nameSimple')} value={data?.hex} />
+          </>
         }
         <button className='mr-2' onClick={() => (setOpenEdit(true), setEditId(data))}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
