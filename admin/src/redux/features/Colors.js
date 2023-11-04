@@ -17,8 +17,6 @@ export const fetchDataColors = createAsyncThunk('data/fetchDataColors', async (_
     return data;
   } catch (error) {
     console.log(error)
-    localStorage.setItem('lybas-token','')
-    window.location.replace('/login')
     throw error;
   }
 });

@@ -14,6 +14,7 @@ export const fetchDataCategories = createAsyncThunk('data/fetchDataCategories', 
   try {
     const { limit, offset } = getState().Categories;
     const data = await AxiosCustom(`/categories?limit=${limit}&offset=${offset}`);
+    console.log("categlory")
     return data;
   } catch (error) {
     console.log(error)

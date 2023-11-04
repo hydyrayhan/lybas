@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
-import { Select, Option } from "@material-tailwind/react";
 import { t } from 'i18next';
 import Chip from '../components/Chip';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Person2Icon from '@mui/icons-material/Person2';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataCategories } from '../redux/features/Categories';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 function DressmakersAdd() {
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state?.Categories?.data);
   const [openPassword, setOpenPassword] = useState(false);
   const [data, setData] = useState({
-    size: []
+    category: [],
+    phone_number: '',
+    image: '',
+    password: '',
+    isActive: '',
+    email: '',
+    name: '',
+    username: '',
   });
-  const handleSize = (e) => {
+
+  useEffect(() => {
+    if (category[0] === 1) dispatch(fetchDataCategories());
+    console.log(category)
+  }, [])
+
+  const handleCategory = (e) => {
     console.log(e);
+  }
+  const handleInput = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleUploadImage = (event) => {
 
@@ -27,20 +50,20 @@ function DressmakersAdd() {
           <div className="inputs grid grid-cols-2 gap-5 p-5">
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='bussinessName'>{t('bussinessName')}</label>
-              <input type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('bussinessName')} id='bussinessName' />
+              <input type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('bussinessName')} id='bussinessName' name='name' onChange={handleInput} />
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='phoneNumber'>{t('phoneNumber')}</label>
-              <input type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('phoneNumber')} id='phoneNumber' />
+              <input name='phone_number' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('phoneNumber')} id='phoneNumber' />
             </div>
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='login'>{t('login')}</label>
-              <input type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('login')} id='login' />
+              <input name='username' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('login')} id='login' />
             </div>
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='password'>{t('password')}</label>
               <div className='text-lybas-gray flex items-center pr-5 bg-gray-100 rounded-lg'>
-                <input type={openPassword ? 'text' : 'password'} className='w-full bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('password')} id='password' />
+                <input type={openPassword ? 'text' : 'password'} name='password' onChange={handleInput} className='w-full bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('password')} id='password' />
                 <button onClick={() => setOpenPassword(!openPassword)}>
                   <VisibilityIcon />
                 </button>
@@ -51,19 +74,17 @@ function DressmakersAdd() {
               <div className="size flex flex-wrap items-center">
                 <div className="w-72 mr-5">
                   <Select
-                    label={t('size')}
-                    animate={{
-                      mount: { y: 0 },
-                      unmount: { y: 25 },
-                    }} color='gray'
-                    onChange={handleSize}
-                    className='bg-gray-100 border-none outline-none border-none'
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    // value={10}
+                    label="Age"
+                    onChange={handleCategory}
                   >
-                    <Option value='1'>Material Tailwind HTML</Option>
-                    <Option value='2'>Material Tailwind React</Option>
-                    <Option>Material Tailwind Vue</Option>
-                    <Option>Material Tailwind Angular</Option>
-                    <Option>Material Tailwind Svelte</Option>
+                    {
+                      category?.length > 0 && category.map((cate,index)=>(
+                        <MenuItem value={10}>Ten</MenuItem>
+                      ))
+                    }
                   </Select>
                 </div>
                 <div className='mt-4 flex flex-wrap w-full'>
@@ -86,7 +107,7 @@ function DressmakersAdd() {
                   <div className="title font-semibold mb-1">{t('uploadImage')}</div>
                   <div className="actions flex items-center">
                     <label htmlFor='upload-image' className='text-lybas-blue mr-2 cursor-pointer'>{t('upload')}</label>
-                    <input id='upload-image' type="file" className='hidden'/>
+                    <input id='upload-image' type="file" className='hidden' />
                     <button className='text-lybas-gray'>{t('delete')}</button>
                   </div>
                 </div>
