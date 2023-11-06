@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { fetchDataCategories } from '../redux/features/Categories';
 import { fetchDataSizes } from '../redux/features/Sizes';
 import { fetchDataColors } from '../redux/features/Colors';
+import { fetchDataMaterials } from '../redux/features/Materials';
 
 function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
   const [disabled, setDisabled] = useState(true);
@@ -42,6 +43,12 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
           await dispatch(fetchDataColors());
           handleClose();
         }
+      }else if(type === 'fabric'){
+        const res = await AxiosCustom("/materials/delete/" + data.id, { method: "POST" })
+        if (res.status === 200) {
+          await dispatch(fetchDataMaterials());
+          handleClose();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -53,7 +60,7 @@ function OneFilter({ data, type, setOpenEdit, setEditId, index }) {
       <div className="data_label font-bold mb-2">{t('type')} {index + 1}</div>
       <div className="data_input rounded-lg bg-gray-100 flex items-center">
         {
-          type === 'allCategories' &&
+          (type === 'allCategories' || type === 'fabric') &&
           <input type="text" className='outline-none w-full bg-gray-100 py-2.5 px-5 text-lybas-gray rounded-lg' disabled={disabled} placeholder={t('nameSimple')} value={data?.name_tm} />
         }
         {

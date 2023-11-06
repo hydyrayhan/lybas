@@ -1,30 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
-import CircularProgress from '@mui/material/CircularProgress';
+import Chip from '../components/Chip';
+import Datepicker from 'react-tailwindcss-datepicker';
+import { CircularProgress, MenuItem, FormControl, Select } from '@mui/material/';
 import { api } from '../common/Config';
 import axios from 'axios';
 import { Valid } from '../common/Valid';
 import { AxiosCustom } from '../common/AxiosInstance';
-import { useDispatch } from 'react-redux';
-import { fetchDataBlogs } from '../redux/features/Blogs';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchDataBanners } from '../redux/features/Banners';
+import { fetchDataDressmakers, setLimit } from '../redux/features/Dressmakers';
 
-function BlogAdd() {
+function BannerAdd() {
   const [data, setData] = useState({
-    header_tm: "",
-    header_en: "",
-    header_ru: "",
-    body_tm: "",
-    body_en: "",
-    body_ru: "",
-    image: "",
+    link: '',
+    name: '',
+    price: '',
+    sellerId: '',
+    startDate: '',
+    endDate: '',
+    image: '',
   });
+
+  const dressmakers = useSelector((state) => state?.Dressmakers?.data);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(setLimit(10000));
+    dispatch(fetchDataDressmakers());
+    const getData = async () => {
+      try {
+        const res = await AxiosCustom('/banners/' + id);
+        console.log(res.data)
+        setData(res.data);
+        setFile({ url: api + res.data.image })
+        setProgress(100)
+      } catch (error) {
+        alert(error);
+      }
+    }
+    getData();
+  }, [])
 
   function convertBytesToKBorMB(bytes) {
     const KB = 1024;
@@ -38,6 +61,12 @@ function BlogAdd() {
       return (bytes / MB).toFixed(2) + ' MB';
     }
   }
+
+  const handleValueChange = newValue => {
+    let help = { ...data, startDate: newValue.startDate }
+    setData({ ...help, endDate: newValue.endDate });
+  };
+
   const handleUploadImage = (event) => {
     const formData = new FormData();
     formData.append('file', event.target.files[0]);
@@ -46,7 +75,7 @@ function BlogAdd() {
       name: event.target.files[0].name,
       size: convertBytesToKBorMB(event.target.files[0].size),
     })
-    axios.post(api + 'admin/blogs/upload-image', formData, {
+    axios.post(api + 'admin/banners/upload-image', formData, {
       onUploadProgress: (progressEvent) => {
         const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         setProgress(progress);
@@ -60,25 +89,23 @@ function BlogAdd() {
         setFile({})
       });
   }
-
-
   const handleInput = (e) => {
     const value = e.target.value;
     const name = e.target.name;
     setData({ ...data, [name]: value })
   }
-
-  const sendData = async() => {
+  const sendData = async () => {
     setLoading(true);
     try {
-      if(Valid(data)){
-        const res = await AxiosCustom('/blogs/add',{method:"POST",data});
-        if(res.status === 201){
-          await dispatch(fetchDataBlogs());
+      if (Valid(data)) {
+        const res = await AxiosCustom('/banners/'+id, { method: "PATCH", data });
+        console.log(res);
+        if (res.status === 200) {
+          await dispatch(fetchDataBanners());
           setLoading(false);
-          navigate('/blog')
+          navigate('/banner')
         }
-      }else{
+      } else {
         alert(t('fillTheGaps'))
         setLoading(false);
       }
@@ -87,13 +114,18 @@ function BlogAdd() {
       setLoading(false);
     }
   }
-  const deleteImage = ()=>{
-    axios.post(api + 'admin/blogs/delete-image/'+data.image).then((response) => {
+  const deleteImage = () => {
+    axios.post(api + 'admin/banners/delete-image/' + data.image).then((response) => {
       setFile(null)
     })
-    .catch((error) => {
-      alert('Error', error);
-    });
+      .catch((error) => {
+        alert('Error', error);
+        setFile({})
+      });
+  }
+  const handleSellerId = (e) => {
+    const value = e.target.value;
+    setData({ ...data, sellerId: value });
   }
   return (
     <div className='dress-add'>
@@ -104,28 +136,41 @@ function BlogAdd() {
           <div className="name px-5 py-4 font-bold border-b">{t('aboutTheBanner')}</div>
           <div className="inputs grid grid-cols-2 gap-5 p-5">
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('nameSimple')} tm</label>
-              <input value={data.header_tm} name='header_tm' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('nameSimple') + ' tm'} id='name' />
+              <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('nameSimple')}</label>
+              <input value={data.name} name='name' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('nameSimple')} id='name' />
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('nameSimple')} en</label>
-              <input value={data.header_en} name='header_en' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('nameSimple') + ' en'} id='name' />
-            </div>
-            <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('nameSimple')} ru</label>
-              <input value={data.header_ru} name='header_ru' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('nameSimple') + ' ru'} id='name' />
+              <label className="label font-semibold block mb-2.5" htmlFor='price'>{t('price')}</label>
+              <input value={data.price} name='price' onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='price' />
             </div>
             <div className="dress-input col-span-2">
-              <label className="label font-semibold block mb-2.5" htmlFor='text-tm'>{t('textTm')}</label>
-              <textarea value={data.body_tm} name='body_tm' onChange={handleInput} className='w-full h-40 resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('textTm')} id='text-tm' />
+              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('startAndEndDate')}</label>
+              <div className='bannerDatepicker-background rounded w-full bg-gray-100'>
+                <Datepicker value={data} onChange={handleValueChange} showShortcuts={true} primaryColor={"blue"} />
+              </div>
             </div>
             <div className="dress-input col-span-2">
-              <label className="label font-semibold block mb-2.5" htmlFor='text-ru'>{t('textRu')}</label>
-              <textarea value={data.body_en} name='body_en' onChange={handleInput} className='w-full h-40 resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('textRu')} id='text-ru' />
+              <label className="w-full label font-semibold block mb-2.5" htmlFor='name-tm'>{t('dressmaker')}</label>
+              <div className="w-full">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="multi-select-label"
+                    id="multi-select"
+                    value={data.sellerId}
+                    onChange={handleSellerId}
+                  >
+                    {dressmakers.map((option) => (
+                      <MenuItem key={option.id} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
             <div className="dress-input col-span-2">
-              <label className="label font-semibold block mb-2.5" htmlFor='text-en'>{t('textEn')}</label>
-              <textarea value={data.body_ru} name='body_ru' onChange={handleInput} className='w-full h-40 resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('textEn')} id='text-en' />
+              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('link')}</label>
+              <textarea name='link' value={data.link} onChange={handleInput} className='w-full resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('link')} id='name-tm' />
             </div>
           </div>
         </div>
@@ -141,7 +186,7 @@ function BlogAdd() {
                         <div className="image w-full rounded-lg overflow-hidden">
                           <img className='max-h-[225px] w-full object-cover' src={file?.url} alt="" />
                         </div>
-                        <div className="info flex flex-col justify-center">
+                        <div className="info mt-3 flex flex-col justify-center">
                           <div className="name">{file?.name}</div>
                           <div className="size text-lybas-gray">{file?.size} / {progress < 100 ? 'Loading' : <span className='text-green-400'>Done</span>}</div>
                         </div>
@@ -187,4 +232,4 @@ function BlogAdd() {
   );
 }
 
-export default BlogAdd;
+export default BannerAdd;

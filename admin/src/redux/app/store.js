@@ -9,7 +9,7 @@ import Colors from '../features/Colors';
 import Materials from '../features/Materials';
 import Banners from '../features/Banners';
 import Comments from '../features/Comments';
-import Blog from '../features/Blogs';
+import Blogs from '../features/Blogs';
 
 export const store = configureStore({
   reducer:{
@@ -22,7 +22,7 @@ export const store = configureStore({
     Colors,
     Banners,
     Comments,
-    Blog,
+    Blogs,
   },
   middleware:(getDefaultMiddleware)=>
     getDefaultMiddleware({

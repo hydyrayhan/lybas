@@ -5,15 +5,17 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 5,
   offset: 0,
   count: 0,
-  search: ''
+  search: '',
+  filter:{},
+  welayat:'',
 };
 export const fetchDataDressmakers = createAsyncThunk('data/fetchDataDressmakers', async (_, { getState }) => {
   try {
-    const { limit, offset } = getState().Dressmakers;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const { limit, offset, search,filter,welayat } = getState().Dressmakers;
+    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&welayat=${welayat}`);
     console.log(data);
     return data;
   } catch (error) {
@@ -36,6 +38,15 @@ const Dressmakers = createSlice({
     },
     setSearch: (state, action) => {
       state.search = action.payload;
+      state.offset = 0
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+      state.offset = 0
+    },
+    setWelayat: (state, action) => {
+      state.welayat = action.payload;
+      state.offset = 0
     },
   },
   extraReducers: (builder) => {
@@ -46,8 +57,8 @@ const Dressmakers = createSlice({
       })
       .addCase(fetchDataDressmakers.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
       .addCase(fetchDataDressmakers.rejected, (state, action) => {
         state.loading = false;
@@ -57,5 +68,5 @@ const Dressmakers = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Dressmakers.actions;
+export const { setLimit, setOffset, setSearch, setFilter, setWelayat } = Dressmakers.actions;
 export default Dressmakers.reducer;

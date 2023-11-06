@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -8,9 +8,9 @@ import { Valid } from '../common/Valid';
 import { AxiosCustom } from '../common/AxiosInstance';
 import { useDispatch } from 'react-redux';
 import { fetchDataBlogs } from '../redux/features/Blogs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function BlogAdd() {
+function BlogEdit() {
   const [data, setData] = useState({
     header_tm: "",
     header_en: "",
@@ -25,6 +25,21 @@ function BlogAdd() {
   const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {id} = useParams();
+
+  useEffect(()=>{
+    const getData = async()=>{
+      try {
+        const res = await AxiosCustom('/blogs/'+id);
+        setData(res.data)
+        setProgress(100)
+        setFile({url:api+res.data.image})
+      } catch (error) {
+        alert(error)
+      }
+    }
+    getData();
+  },[])
 
   function convertBytesToKBorMB(bytes) {
     const KB = 1024;
@@ -72,8 +87,8 @@ function BlogAdd() {
     setLoading(true);
     try {
       if(Valid(data)){
-        const res = await AxiosCustom('/blogs/add',{method:"POST",data});
-        if(res.status === 201){
+        const res = await AxiosCustom('/blogs/'+id,{method:"PATCH",data});
+        if(res.status === 200){
           await dispatch(fetchDataBlogs());
           setLoading(false);
           navigate('/blog')
@@ -93,6 +108,7 @@ function BlogAdd() {
     })
     .catch((error) => {
       alert('Error', error);
+      setFile({})
     });
   }
   return (
@@ -187,4 +203,4 @@ function BlogAdd() {
   );
 }
 
-export default BlogAdd;
+export default BlogEdit;

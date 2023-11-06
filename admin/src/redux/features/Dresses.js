@@ -8,12 +8,14 @@ const initialState = {
   limit: 10,
   offset: 0,
   count: 0,
-  search: ''
+  search: '',
+  filter:'',
 };
 export const fetchDataDresses = createAsyncThunk('data/fetchDataDresses', async (_, { getState }) => {
   try {
-    const { limit, offset } = getState().Dresses;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const { limit, offset, search, filter } = getState().Dresses;
+    const data = await AxiosCustom(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error)
@@ -35,6 +37,11 @@ const Dresses = createSlice({
     },
     setSearch: (state, action) => {
       state.search = action.payload;
+      state.offset = 0
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+      state.offset = 0
     },
   },
   extraReducers: (builder) => {
@@ -45,8 +52,8 @@ const Dresses = createSlice({
       })
       .addCase(fetchDataDresses.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
       .addCase(fetchDataDresses.rejected, (state, action) => {
         state.loading = false;
@@ -56,5 +63,5 @@ const Dresses = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Dresses.actions;
+export const { setLimit, setOffset, setSearch, setFilter } = Dresses.actions;
 export default Dresses.reducer;

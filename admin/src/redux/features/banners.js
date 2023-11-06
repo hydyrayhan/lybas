@@ -5,15 +5,17 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 5,
   offset: 0,
   count: 0,
-  search: ''
+  search: '',
+  filter:{}
 };
 export const fetchDataBanners = createAsyncThunk('data/fetchDataBanners', async (_, { getState }) => {
+  const { limit, offset, filter,search } = getState().Banners;
   try {
-    const { limit, offset } = getState().Banners;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const data = await AxiosCustom(`/banners?filter=${JSON.stringify(filter)}&limit=${limit}&offset=${offset}&keyword=${search}`);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error)
@@ -36,6 +38,9 @@ const Banners = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,8 +50,8 @@ const Banners = createSlice({
       })
       .addCase(fetchDataBanners.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
       .addCase(fetchDataBanners.rejected, (state, action) => {
         state.loading = false;
@@ -56,5 +61,5 @@ const Banners = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Banners.actions;
+export const { setLimit, setOffset, setSearch, setFilter } = Banners.actions;
 export default Banners.reducer;

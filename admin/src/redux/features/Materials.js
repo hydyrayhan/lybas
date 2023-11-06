@@ -14,7 +14,6 @@ export const fetchDataMaterials = createAsyncThunk('data/fetchDataMaterials', as
   try {
     const { limit, offset } = getState().Materials;
     const data = await AxiosCustom(`/materials?limit=${limit}&offset=${offset}`);
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error)

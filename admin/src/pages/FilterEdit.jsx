@@ -40,6 +40,7 @@ function FilterEdit() {
     if(type === 'fabric' || type === 'allCategories'){
       setCategoryData(data)
     }else if(type === 'size'){
+      setSizeData(data);
     }else if(type === 'color'){
       setSizeData({size:data.hex,id:data.id});
     }
@@ -112,6 +113,7 @@ function FilterEdit() {
               await dispatch(fetchDataSizes());
               setLoading(false);
               setOpen(false);
+              handleClose();
             }
           }else{
             const res = await AxiosCustom('/sizes/add',{method:"POST",data:sizeData})

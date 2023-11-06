@@ -5,15 +5,18 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 5,
   offset: 0,
   count: 0,
-  search: ''
+  search: '',
+  filter:{}
 };
-export const fetchDataBanners = createAsyncThunk('data/fetchDataBanners', async (_, { getState }) => {
+export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, { getState }) => {
   try {
-    const { limit, offset } = getState().Banners;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const { limit, offset, filter,search } = getState().Blogs;
+    console.log(filter)
+    const data = await AxiosCustom(`/blogs?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
+    console.log(data)
     return data;
   } catch (error) {
     console.log(error)
@@ -22,8 +25,8 @@ export const fetchDataBanners = createAsyncThunk('data/fetchDataBanners', async 
 });
 
 // Create a slice using Redux Toolkit
-const Banners = createSlice({
-  name: 'Banners',
+const Blogs = createSlice({
+  name: 'Blogs',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -36,19 +39,23 @@ const Banners = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
+    setFilter:(state,action)=>{
+      console.log(action.payload,123)
+      state.filter = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataBanners.pending, (state) => {
+      .addCase(fetchDataBlogs.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataBanners.fulfilled, (state, action) => {
+      .addCase(fetchDataBlogs.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
-      .addCase(fetchDataBanners.rejected, (state, action) => {
+      .addCase(fetchDataBlogs.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -56,5 +63,5 @@ const Banners = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Banners.actions;
-export default Banners.reducer;
+export const { setLimit, setOffset, setSearch, setFilter } = Blogs.actions;
+export default Blogs.reducer;
