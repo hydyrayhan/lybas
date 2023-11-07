@@ -3,6 +3,8 @@ import Search from './components/Search';
 import { t } from 'i18next';
 import { Link } from 'react-router-dom';
 import { Switch } from "@material-tailwind/react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDataDresses } from '../../redux/features/dresses';
 
 const tableHeader = ['nameOfDressAndDressmaker', 'price', 'fabric', 'dateTime', 'edit', 'action']
 

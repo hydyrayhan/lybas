@@ -1,27 +1,76 @@
 import React, { useContext, useEffect, useState } from 'react';
 import CheckButton from './CheckButton';
 import { styled } from '@mui/material/styles';
-import { AccordionDetails, AccordionSummary } from '@mui/material';
-import MuiAccordion from '@mui/material/Accordion';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AppContext } from '../App';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
 
-const Sidebar = ({ dressmakers = false }) => {
+
+
+const Accordion = styled((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ theme }) => ({
+  '&:not(:last-child)': {
+    borderBottom: 0,
+  },
+  '&:before': {
+    display: 'none',
+  },
+}));
+
+const AccordionSummary = styled((props) => (
+  <MuiAccordionSummary
+    expandIcon={<ArrowForwardIosSharpIcon />}
+    {...props}
+  />
+))(({ theme }) => ({
+  flexDirection: 'row',
+  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    transform: 'rotate(180deg)',
+  }
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+}));
+
+
+
+
+const Sidebar = ({ dressmakers = false, dressmakersData, sizes, categories, materials, colors, sort, setSort }) => {
   const [sidebar, setSidebar] = useState(false);
-  const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
-    '&:not(:last-child)': {
-      borderBottom: 0
-    },
-    '&:before': {
-      display: 'none'
-    }
-  }));
+  const [expanded, setExpanded] = useState(dressmakers ? 'panel5' : 'panel1');
+
 
   useEffect(() => {
     sidebar ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'auto';
   }, [sidebar])
 
-  const { t } = useContext(AppContext);
+  const getSortedData = (name, value) => {
+    console.log(value, 'value');
+    if (name === 'price') {
+      setSort({ ...sort, price: value.min_price === sort.price.min_price ? {} : value })
+    } else {
+      setSort(() => {
+        const updatedArray = sort[name].includes(value)
+          ? sort[name].filter((item) => item !== value)
+          : [...sort[name], value];
+
+        return {
+          ...sort,
+          [name]: updatedArray,
+        };
+      });
+    }
+  }
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  const { t, lang } = useContext(AppContext);
   return (
     <>
       {
@@ -37,33 +86,24 @@ const Sidebar = ({ dressmakers = false }) => {
           {
             !dressmakers && <>
               <div className="select all_categories">
-                <Accordion defaultExpanded={false}>
+                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
                     <button className="top">
                       <p className="top_title">{t('allCategories')}</p>
                     </button>
                   </AccordionSummary>
+                  <hr style={{ marginBottom: '10px' }} />
                   <AccordionDetails>
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
+                    {
+                      categories?.length > 0 && categories.map((cate, index) => (
+                        <CheckButton checked={sort.category.includes(cate.id)} key={index} data={sort} setData={getSortedData} name={'category'} value={cate.id} text={t(cate['name_' + lang])} />
+                      ))
+                    }
                   </AccordionDetails>
                 </Accordion>
               </div>
 
-              <div className="select dressmakers mt-5">
+              {/* <div className="select dressmakers mt-5">
                 <div className="search">
                   <span>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,31 +149,57 @@ const Sidebar = ({ dressmakers = false }) => {
                     <CheckButton />
                   </AccordionDetails>
                 </Accordion>
-              </div>
+              </div> */}
 
-              <div className="select all_categories mt-5">
-                <Accordion>
+              <div className="select all_categories">
+                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
                     <button className="top">
                       <p className="top_title">{t('price')}</p>
                     </button>
                   </AccordionSummary>
+                  <hr style={{ marginBottom: '10px' }} />
                   <AccordionDetails>
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
-                    <CheckButton />
+                    <CheckButton checked={sort.price.min_price == 0} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 0, max_price: 100 }} text={'0 TMT - 100 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 100} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 100, max_price: 400 }} text={'100 TMT - 400 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 400} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 400, max_price: 700 }} text={'400 TMT - 700 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 700} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 700, max_price: 1000 }} text={'700 TMT - 1000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 1000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 1000, max_price: 2000 }} text={'1000 TMT - 2000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 2000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 2000, max_price: '' }} text={'2000 TMT +'} />
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+              <div className="select all_categories">
+                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
+                    <button className="top">
+                      <p className="top_title">{t('size')}</p>
+                    </button>
+                  </AccordionSummary>
+                  <hr style={{ marginBottom: '10px' }} />
+                  <AccordionDetails>
+                    {
+                      sizes?.length > 0 && sizes.map((size, index) => (
+                        <CheckButton checked={sort.size.includes(size.id)} key={index} data={sort} setData={getSortedData} name={'size'} value={size.id} text={size.size} />
+                      ))
+                    }
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+              <div className="select all_categories">
+                <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
+                    <button className="top">
+                      <p className="top_title">{t('fabric')}</p>
+                    </button>
+                  </AccordionSummary>
+                  <hr style={{ marginBottom: '10px' }} />
+                  <AccordionDetails>
+                    {
+                      materials?.length > 0 && materials.map((material, index) => (
+                        <CheckButton checked={sort.material.includes(material.id)} key={index} data={sort} setData={getSortedData} name={'material'} value={material.id} text={t(material['name_' + lang])} />
+                      ))
+                    }
                   </AccordionDetails>
                 </Accordion>
               </div>
@@ -141,31 +207,45 @@ const Sidebar = ({ dressmakers = false }) => {
           }
 
           <div className="select all_categories">
-            <Accordion defaultExpanded={true}>
+            <Accordion expanded={expanded === 'panel5'}  onChange={handleChange('panel5')}>
               <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
                 <button className="top">
-                  <p className="top_title">{t('deliveryLocation')}</p>
+                  <p className="top_title">{t('province')}</p>
                 </button>
               </AccordionSummary>
+              <hr style={{ marginBottom: '10px' }} />
               <AccordionDetails>
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
-                <CheckButton />
+                <CheckButton checked={sort.welayat.includes('ashgabat')} data={sort} setData={getSortedData} name={'welayat'} value={'ashgabat'} text={t('ashgabat')} />
+                <CheckButton checked={sort.welayat.includes('ahal')} data={sort} setData={getSortedData} name={'welayat'} value={'ahal'} text={t('ahal')} />
+                <CheckButton checked={sort.welayat.includes('balkan')} data={sort} setData={getSortedData} name={'welayat'} value={'balkan'} text={t('balkan')} />
+                <CheckButton checked={sort.welayat.includes('mary')} data={sort} setData={getSortedData} name={'welayat'} value={'mary'} text={t('mary')} />
+                <CheckButton checked={sort.welayat.includes('dashoguz')} data={sort} setData={getSortedData} name={'welayat'} value={'dashoguz'} text={t('dashoguz')} />
+                <CheckButton checked={sort.welayat.includes('lebap')} data={sort} setData={getSortedData} name={'welayat'} value={'lebap'} text={t('lebap')} />
               </AccordionDetails>
             </Accordion>
           </div>
+          {
+            !dressmakers &&
+            <div className="select all_categories">
+              <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
+                  <button className="top">
+                    <p className="top_title">{t('color')}</p>
+                  </button>
+                </AccordionSummary>
+                <hr style={{ marginBottom: '10px' }} />
+                <AccordionDetails>
+                  <div className='flex flex-wrap items-center'>
+                    {
+                      colors?.length && colors.map((color, index) => (
+                        <CheckButton key={index} checked={sort.color.includes(color.id)} data={sort} setData={getSortedData} name={'color'} value={color.id} color={color.hex} />
+                      ))
+                    }
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+            </div>
+          }
 
           {/* <button className="select_search-button text-center w-full bg-lybas-blue text-white py-3 rounded-lg mb-5 mt-5" onClick={() => setSidebar(false)}>Search (1525)</button> */}
         </div>

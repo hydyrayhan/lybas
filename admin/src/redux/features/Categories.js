@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk,createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit';
 import { AxiosCustom } from '../../common/AxiosInstance.js'
 
 const initialState = {
@@ -16,7 +16,11 @@ export const fetchDataCategories = createAsyncThunk('data/fetchDataCategories', 
     const data = await AxiosCustom(`/categories?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data.message)
+    const err = error.response.data.message;
+    if (err === 'jwt expired') {
+      localStorage.clear('lybas-token')
+    }
     throw error;
   }
 });

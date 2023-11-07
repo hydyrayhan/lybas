@@ -1,25 +1,55 @@
 import { t } from 'i18next';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState,useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Filter from './Filter';
 import Datepicker from "react-tailwindcss-datepicker";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataMaterials, setLimit as setLimitMaterial } from '../redux/features/Materials';
+import { fetchDataCategories, setLimit as setLimitCategory } from '../redux/features/Categories';
+import { fetchDataSizes, setLimit as setLimitSize } from '../redux/features/Sizes';
+import { AppContext } from '../App';
 
-function Search({ className, title, action = null, filter = [], setDate, setSearch, setWelayat }) {
+const welayat = [{ text: 'ashgabat' }, { text: 'ahal' }, { text: 'balkan' }, { text: 'dashoguz' }, { text: 'lebap' }]
+
+function Search({ className, title, action = null, filter = [], setDate, setSearch, setWelayat, longFilter = false, setCategory, setSize,setMaterial }) {
+  const {lang} = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [dropdown, setDropdown] = useState(-1);
   const [value, setValue] = useState({
     startDate: new Date(),
     endDate: new Date().setMonth(11)
   });
+  const dataMaterial = useSelector((state) => state?.Materials?.data);
+  const dataCategory = useSelector((state) => state?.Categories?.data);
+  const dataSize = useSelector((state) => state?.Sizes?.data);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/dresses') {
+      dispatch(fetchDataCategories())
+      dispatch(fetchDataSizes())
+      dispatch(fetchDataMaterials())
+    }
+  }, [])
 
   const handleValueChange = newValue => {
     setValue(newValue)
     setDate(newValue);
   };
 
-  const handleSearch = (e)=>{
+  const handleSearch = (e) => {
     setSearchValue(e.target.value);
     setSearch(e.target.value)
+  }
+
+  const handleDropdown = (index) => {
+    if(dropdown < 0 || dropdown !== index){
+      setDropdown(index)
+    }else{
+      setDropdown(-1)
+    }
   }
 
   return (
@@ -46,9 +76,63 @@ function Search({ className, title, action = null, filter = [], setDate, setSear
             <Filter open={open} setOpen={setOpen}>
               {
                 filter.map((list, index) => (
-                  <button onClick={()=>(setWelayat(list.text),setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{t(list.text)}</button>
+                  <button onClick={() => (setWelayat(list.text), setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{t(list.text)}</button>
                 ))
               }
+            </Filter>
+          }
+          {
+            longFilter && <Filter open={open} setOpen={setOpen}>
+              <div className='dropdown rounded-lg overflow-hidden'>
+                {/* Category */}
+                <button onClick={() => handleDropdown(0)} className="dropdown_head flex justify-between w-[200px] py-2 px-5 items-center text-left hover:bg-blue-50 hover:text-blue-600">
+                  <span className='text-lybas-gray'>{t('allCategories')}</span>
+                  <svg className={dropdown === 0 ? '-rotate-180' : ''} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.99998 14.1667L3.33331 8.08567L4.88887 6.66675L9.99998 11.3289L15.1111 6.66675L16.6666 8.08567L9.99998 14.1667Z" fill="#64748B" />
+                  </svg>
+                </button>
+                {
+                  dropdown === 0 && dataCategory.map((list, index) => (
+                    <button onClick={() => (setCategory(list.id), setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 pl-10 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{list['name_'+lang]}</button>
+                  ))
+                }
+                {/* Size */}
+                <button onClick={() => handleDropdown(1)} className="dropdown_head flex justify-between w-[200px] py-2 px-5 items-center text-left hover:bg-blue-50 hover:text-blue-600">
+                  <span className='text-lybas-gray'>{t('size')}</span>
+                  <svg className={dropdown === 1 ? '-rotate-180' : ''} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.99998 14.1667L3.33331 8.08567L4.88887 6.66675L9.99998 11.3289L15.1111 6.66675L16.6666 8.08567L9.99998 14.1667Z" fill="#64748B" />
+                  </svg>
+                </button>
+                {
+                  dropdown === 1 && dataSize.map((list, index) => (
+                    <button onClick={() => (setSize(list.id), setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 pl-10 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{list.size}</button>
+                  ))
+                }
+                {/* Material */}
+                <button onClick={() => handleDropdown(2)} className="dropdown_head flex justify-between w-[200px] py-2 px-5 items-center text-left hover:bg-blue-50 hover:text-blue-600">
+                  <span className='text-lybas-gray'>{t('fabric')}</span>
+                  <svg className={dropdown === 2 ? '-rotate-180' : ''} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.99998 14.1667L3.33331 8.08567L4.88887 6.66675L9.99998 11.3289L15.1111 6.66675L16.6666 8.08567L9.99998 14.1667Z" fill="#64748B" />
+                  </svg>
+                </button>
+                {
+                  dropdown === 2 && dataMaterial.map((list, index) => (
+                    <button onClick={() => (setMaterial(list.id), setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 pl-10 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{list['name_'+lang]}</button>
+                  ))
+                }
+                {/* Welayat */}
+                <button onClick={() => handleDropdown(3)} className="dropdown_head flex justify-between w-[200px] py-2 px-5 items-center text-left hover:bg-blue-50 hover:text-blue-600">
+                  <span className='text-lybas-gray'>{t('province')}</span>
+                  <svg className={dropdown === 3 ? '-rotate-180' : ''} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.99998 14.1667L3.33331 8.08567L4.88887 6.66675L9.99998 11.3289L15.1111 6.66675L16.6666 8.08567L9.99998 14.1667Z" fill="#64748B" />
+                  </svg>
+                </button>
+                {
+                  dropdown === 3 && welayat.map((list, index) => (
+                    <button onClick={() => (setWelayat(list.text), setOpen(false))} className="list w-[200px] text-lybas-gray py-2 px-5 pl-10 text-left hover:bg-blue-100 hover:text-blue-600" key={index}>{t(list.text)}</button>
+                  ))
+                }
+              </div>
             </Filter>
           }
           <div className="search_header_actions_date-picker border rounded-lg ml-5">

@@ -9,17 +9,20 @@ const initialState = {
   offset: 0,
   count: 0,
   search: '',
-  filter:{},
-  welayat:'',
+  filter: {},
+  welayat: '',
 };
 export const fetchDataDressmakers = createAsyncThunk('data/fetchDataDressmakers', async (_, { getState }) => {
   try {
-    const { limit, offset, search,filter,welayat } = getState().Dressmakers;
+    const { limit, offset, search, filter, welayat } = getState().Dressmakers;
     const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&welayat=${welayat}`);
-    console.log(data);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data.message)
+    const err = error.response.data.message;
+    if (err === 'jwt expired') {
+      localStorage.clear('lybas-token')
+    }
     throw error;
   }
 });

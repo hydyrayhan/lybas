@@ -9,17 +9,19 @@ const initialState = {
   offset: 0,
   count: 0,
   search: '',
-  filter:{}
+  filter: {}
 };
 export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, { getState }) => {
   try {
-    const { limit, offset, filter,search } = getState().Blogs;
-    console.log(filter)
+    const { limit, offset, filter, search } = getState().Blogs;
     const data = await AxiosCustom(`/blogs?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
-    console.log(data)
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data.message)
+    const err = error.response.data.message;
+    if (err === 'jwt expired') {
+      localStorage.clear('lybas-token')
+    }
     throw error;
   }
 });
@@ -39,8 +41,8 @@ const Blogs = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
-    setFilter:(state,action)=>{
-      console.log(action.payload,123)
+    setFilter: (state, action) => {
+      console.log(action.payload, 123)
       state.filter = action.payload;
     }
   },

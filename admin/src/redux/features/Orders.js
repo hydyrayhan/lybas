@@ -16,7 +16,11 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
     const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data.message)
+    const err = error.response.data.message;
+    if (err === 'jwt expired') {
+      localStorage.clear('lybas-token')
+    }
     throw error;
   }
 });

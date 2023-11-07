@@ -9,16 +9,19 @@ const initialState = {
   offset: 0,
   count: 0,
   search: '',
-  filter:{}
+  filter: {}
 };
 export const fetchDataBanners = createAsyncThunk('data/fetchDataBanners', async (_, { getState }) => {
-  const { limit, offset, filter,search } = getState().Banners;
+  const { limit, offset, filter, search } = getState().Banners;
   try {
     const data = await AxiosCustom(`/banners?filter=${JSON.stringify(filter)}&limit=${limit}&offset=${offset}&keyword=${search}`);
-    console.log(data);
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error.response.data.message)
+    const err = error.response.data.message;
+    if (err === 'jwt expired') {
+      localStorage.clear('lybas-token')
+    }
     throw error;
   }
 });

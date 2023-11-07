@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Search from '../components/Search';
 import { t } from 'i18next';
 import Paper from '@mui/material/Paper';
@@ -14,21 +14,29 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDataDresses, setOffset, setLimit, setFilter, setSearch } from '../redux/features/Dresses';
+import { fetchDataDresses, setOffset, setLimit, setFilter, setSearch, setCategory, setMaterial, setSize, setWelayat } from '../redux/features/Dresses';
 import { useNavigate } from 'react-router-dom';
 import { AxiosCustom } from '../common/AxiosInstance';
 import { api } from '../common/Config';
+import { AppContext } from '../App';
+
 
 const columns = [
   {
-    id: 'nameLocation',
-    label: 'nameLocation',
+    id: 'nameOfDressAndDressmaker',
+    label: 'nameOfDressAndDressmaker',
     minWidth: 170,
     align: 'left',
   },
   {
-    id: 'email',
-    label: 'email',
+    id: 'price',
+    label: 'price',
+    minWidth: 170,
+    align: 'left',
+  },
+  {
+    id: 'fabric',
+    label: 'fabric',
     minWidth: 170,
     align: 'left',
   },
@@ -53,6 +61,7 @@ const columns = [
 ];
 
 function Dresses() {
+  const { lang } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const data = useSelector((state) => state?.Dresses?.data);
   const offset = useSelector((state) => state?.Dresses?.offset);
@@ -84,7 +93,7 @@ function Dresses() {
 
   const deleteData = async () => {
     try {
-      const res = await AxiosCustom('/seller/delete/' + deleteId, { method: 'POST' })
+      const res = await AxiosCustom('/products/delete/' + deleteId, { method: 'POST' })
       if (res.status === 200) {
         handleClose();
         dispatch(fetchDataDresses());
@@ -96,7 +105,7 @@ function Dresses() {
 
   const changeIsActive = async (active, id) => {
     try {
-      await AxiosCustom('/seller/isActive', { method: "POST", data: { isActive: active, id } })
+      await AxiosCustom('/products/isActive', { method: "POST", data: { isActive: active, id } })
       await dispatch(fetchDataDresses());
     } catch (error) {
       alert(error)
@@ -112,15 +121,26 @@ function Dresses() {
     await dispatch(setSearch(search));
     await dispatch(fetchDataDresses());
   }
-  
-  // const setWelayatData = async (welayat)=>{
-  //   await dispatch(setWelayat(welayat));
-  //   await dispatch(fetchDataDresses());
-  // }
+  const setCategoryData = async (category) =>{
+    await dispatch(setCategory(category));
+    await dispatch(fetchDataDresses());
+  }
+  const setSizeData = async (size) =>{
+    await dispatch(setSize(size));
+    await dispatch(fetchDataDresses());
+  }
+  const setMaterialData = async (material) =>{
+    await dispatch(setMaterial(material));
+    await dispatch(fetchDataDresses());
+  }
+  const setWelayatData = async (welayat) =>{
+    await dispatch(setWelayat(welayat));
+    await dispatch(fetchDataDresses());
+  }
 
   return (
     <div className='dresses'>
-      <Search title='dresses' className='mt-5' action={{ link: '/dresses/add', text: 'addDress' }} setDate={setFilterData} setSearch={setSearchData} filter={[{ text: 'ashgabat' }, { text: 'ahal' }, { text: 'balkan' }, { text: 'dashoguz' }, { text: 'lebap' }]} />
+      <Search longFilter={true} setCategory={setCategoryData} setMaterial={setMaterialData} setSize={setSizeData} setWelayat={setWelayatData} title='dresses' className='mt-5' action={{ link: '/dresses/add', text: 'addDress' }} setDate={setFilterData} setSearch={setSearchData} />
       <div className="dresses_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -146,25 +166,28 @@ function Dresses() {
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data col-span-3 flex items-center"}>
                             {
-                              market.image ?
-                                <img className='w-12 h-12 rounded-lg object-cover mr-3' src={api + market.image} alt="" />
+                              market.images.length > 0 ?
+                                <img className='w-12 h-12 rounded-lg object-cover mr-3' src={api + market.images[0].image} alt="" />
                                 :
                                 <svg className="w-12 h-12 mr-3" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="Person2Icon"><path d="M18.39 14.56C16.71 13.7 14.53 13 12 13s-4.71.7-6.39 1.56C4.61 15.07 4 16.1 4 17.22V20h16v-2.78c0-1.12-.61-2.15-1.61-2.66zM9.78 12h4.44c1.21 0 2.14-1.06 1.98-2.26l-.32-2.45C15.57 5.39 13.92 4 12 4S8.43 5.39 8.12 7.29L7.8 9.74c-.16 1.2.77 2.26 1.98 2.26z"></path></svg>
                             }
                             <div className="data">
-                              <div className="name font-bold">{market.name}</div>
-                              <div className="province text-lybas-gray text-sm">{t(market.welayat)}</div>
+                              <div className="name font-bold">{market['name_' + lang]}</div>
+                              <div className="province text-lybas-gray text-sm">{t(market.seller.name)}</div>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>
-                          {market.email}
+                          {market.price}
+                        </TableCell>
+                        <TableCell align={'left'}>
+                          {market.material['name_' + lang]}
                         </TableCell>
                         <TableCell align={'left'}>
                           {market.createdAt.split('T')[0]} / {market.createdAt.split('T')[1].split('.')[0]}
                         </TableCell>
                         <TableCell align={'right'}>
-                          <button onClick={() => navigate('/dressmakers/' + market.id)}>
+                          <button onClick={() => navigate('/dresses/' + market.id)}>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M19.3 8.925L15.05 4.725L16.45 3.325C16.8333 2.94167 17.3042 2.75 17.8625 2.75C18.4208 2.75 18.8917 2.94167 19.275 3.325L20.675 4.725C21.0583 5.10833 21.2583 5.57083 21.275 6.1125C21.2917 6.65417 21.1083 7.11667 20.725 7.5L19.3 8.925ZM17.85 10.4L7.25 21H3V16.75L13.6 6.15L17.85 10.4Z" fill="#1A54EB" />
                             </svg>

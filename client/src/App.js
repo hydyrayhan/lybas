@@ -1,5 +1,5 @@
 import "./assets/styles/App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { createContext, useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 
@@ -61,123 +61,121 @@ function App() {
     lang: lang,
   }}>
     <div className="app">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/sellerProfile/" element={<Sidebar />}>
-            <Route index element={<Dashboard />}/>
-            <Route path="/sellerProfile/orders" element={<Orders />} />
-            <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
-            <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
-            <Route path="/sellerProfile/comments" element={<SellerComments />} />
-            <Route path="/sellerProfile/comments/:id" element={<CommentOne />} />
-            <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
-            <Route path="/sellerProfile/emails" element={<Emails />} />
-            <Route path="/sellerProfile/emails/:id" element={<EmailOne />} />
-            <Route path="/sellerProfile/profile" element={<Profile />} />
-          </Route>
+      <Routes>
+        <Route path="/sellerProfile/" element={<Sidebar />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/sellerProfile/orders" element={<Orders />} />
+          <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
+          <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
+          <Route path="/sellerProfile/comments" element={<SellerComments />} />
+          <Route path="/sellerProfile/comments/:id" element={<CommentOne />} />
+          <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
+          <Route path="/sellerProfile/emails" element={<Emails />} />
+          <Route path="/sellerProfile/emails/:id" element={<EmailOne />} />
+          <Route path="/sellerProfile/profile" element={<Profile />} />
+        </Route>
 
-          <Route path='/' element={(
-            <>
-              <Header />
-              <Main />
-              <Footer />
-            </>
-          )} />
-          <Route path='/dresses' element={(
-            <>
-              <Header />
-              <Dresses />
-              <Footer />
-            </>
-          )} />
-          <Route path='/blog' element={(
-            <>
-              <Header />
-              <Blog />
-              <Footer />
-            </>
-          )} />
-          <Route path='/blog/:id' element={(
-            <>
-              <Header />
-              <OneBlog />
-              <Footer />
-            </>
-          )} />
-          <Route path='/dressmakers' element={(
-            <>
-              <Header />
-              <Dressmakers />
-              <Footer />
-            </>
-          )} />
-          <Route path='/dressmakers/:id' element={(
-            <>
-              <Header />
-              <Dressmaker />
-              <Footer />
-            </>
-          )} />
+        <Route path='/' element={(
+          <>
+            <Header />
+            <Main />
+            <Footer />
+          </>
+        )} />
+        <Route path='/dresses' element={(
+          <>
+            <Header />
+            <Dresses />
+            <Footer />
+          </>
+        )} />
+        <Route path='/blog' element={(
+          <>
+            <Header />
+            <Blog />
+            <Footer />
+          </>
+        )} />
+        <Route path='/blog/:id' element={(
+          <>
+            <Header />
+            <OneBlog />
+            <Footer />
+          </>
+        )} />
+        <Route path='/dressmakers' element={(
+          <>
+            <Header />
+            <Dressmakers />
+            <Footer />
+          </>
+        )} />
+        <Route path='/dressmakers/:id' element={(
+          <>
+            <Header />
+            <Dressmaker />
+            <Footer />
+          </>
+        )} />
 
-          <Route path='/dresses/:id' element={(
-            <>
-              <Header />
-              <Dress />
-              <Footer />
-            </>
-          )} />
-          <Route path='/checkout' element={(
-            <>
-              <Header />
-              <Checkout />
-              <Footer />
-            </>
-          )} />
-          <Route path='/account' element={(
-            <>
-              <Header />
-              <Account />
-              <Footer />
-            </>
-          )} />
-          <Route path='/comments/:id' element={(
-            <>
-              <Header />
-              <Comments />
-              <Footer />
-            </>
-          )} />
-          <Route path='/aboutUs' element={(
-            <>
-              <Header />
-              <AboutUs />
-              <Footer />
-            </>
-          )} />
-          <Route path='/deliveryPayment' element={(
-            <>
-              <Header />
-              <DeliveryPayment />
-              <Footer />
-            </>
-          )} />
-          <Route path='/termsCondition' element={(
-            <>
-              <Header />
-              <TermsConditions />
-              <Footer />
-            </>
-          )} />
-          <Route path='/favorites' element={(
-            <>
-              <Header />
-              <Favorites />
-              <Footer />
-            </>
-          )} />
-          
-        </Routes>
-      </BrowserRouter>
+        <Route path='/dresses/:id' element={(
+          <>
+            <Header />
+            <Dress />
+            <Footer />
+          </>
+        )} />
+        <Route path='/checkout' element={(
+          <>
+            <Header />
+            <Checkout />
+            <Footer />
+          </>
+        )} />
+        <Route path='/account' element={(
+          <>
+            <Header />
+            <Account />
+            <Footer />
+          </>
+        )} />
+        <Route path='/comments/:id' element={(
+          <>
+            <Header />
+            <Comments />
+            <Footer />
+          </>
+        )} />
+        <Route path='/aboutUs' element={(
+          <>
+            <Header />
+            <AboutUs />
+            <Footer />
+          </>
+        )} />
+        <Route path='/deliveryPayment' element={(
+          <>
+            <Header />
+            <DeliveryPayment />
+            <Footer />
+          </>
+        )} />
+        <Route path='/termsCondition' element={(
+          <>
+            <Header />
+            <TermsConditions />
+            <Footer />
+          </>
+        )} />
+        <Route path='/favorites' element={(
+          <>
+            <Header />
+            <Favorites />
+            <Footer />
+          </>
+        )} />
+
+      </Routes>
     </div>
   </AppContext.Provider>
   );

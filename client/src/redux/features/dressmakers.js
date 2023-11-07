@@ -7,9 +7,9 @@ const initialState = {
   error: null,
   sort:'',  //3 teklip  //2 popuplar //4 onsale
 };
-export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, { getState }) => {
+export const fetchDataDressmakers = createAsyncThunk('data/fetchDataDressmakers', async (_, { getState }) => {
   try {
-    const data = await AxiosCustom(`/blogs?limit=10000`);
+    const data = await AxiosCustom(`/products?limit=10000`);
     console.log(data,'products')
     return data;
   } catch (error) {
@@ -23,22 +23,22 @@ export const fetchDataBlogs = createAsyncThunk('data/fetchDataBlogs', async (_, 
 });
 
 // Create a slice using Redux Toolkit
-const Blogs = createSlice({
-  name: 'Blogs',
+const Dressmakers = createSlice({
+  name: 'Dressmakers',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataBlogs.pending, (state) => {
+      .addCase(fetchDataDressmakers.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataBlogs.fulfilled, (state, action) => {
+      .addCase(fetchDataDressmakers.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data.data];
       })
-      .addCase(fetchDataBlogs.rejected, (state, action) => {
+      .addCase(fetchDataDressmakers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -46,5 +46,5 @@ const Blogs = createSlice({
 });
 
 // Export the actions and reducer
-export const {  } = Blogs.actions;
-export default Blogs.reducer;
+export const {  } = Dressmakers.actions;
+export default Dressmakers.reducer;

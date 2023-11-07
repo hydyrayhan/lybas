@@ -6,8 +6,9 @@ import Sidebar from "./../components/Sidebar";
 import Dashboard from "./../pages/Dashboard";
 import Orders from "./../pages/Orders";
 import SellerComments from './../pages/Comments'
-import SellerProfileDresses from './../pages/Dresses';
-import SellerProfileAddDress from './../pages/DressesAdd';
+import Dresses from './../pages/Dresses';
+import DressesAdd from './../pages/DressesAdd';
+import DressesEdit from './../pages/DressesEdit';
 import OneOrder from "./../pages/OneOrder";
 import CommentOne from "./../pages/CommentOne";
 import Emails from "./../pages/Emails";
@@ -72,10 +73,11 @@ const RoutesAdmin = () => {
         <Route path="/dressmakers" element={<Dressmakers />} />
         <Route path="/dressmakers/add" element={<DressmakersAdd />} />
         <Route path="/dressmakers/:id" element={<DressmakersEdit />} />
-        <Route path="/dresses" element={<SellerProfileDresses />} />
+        <Route path="/dresses" element={<Dresses />} />
+        <Route path="/dresses/add" element={<DressesAdd />} />
+        <Route path="/dresses/:id" element={<DressesEdit />} />
         <Route path="/comments" element={<SellerComments />} />
         <Route path="/comments/:id" element={<CommentOne />} />
-        <Route path="/dresses/add" element={<SellerProfileAddDress />} />
         <Route path="/emails" element={<Emails />} />
         <Route path="/emails/:id" element={<EmailOne />} />
         <Route path="/profile" element={<Profile />} />

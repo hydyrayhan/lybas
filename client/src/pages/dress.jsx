@@ -1,32 +1,47 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { AppContext } from '../App';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import DressComp from '../components/Dress';
 import Popup from '../components/Popup';
 import Comment from '../components/Comment';
+import { AxiosCustom } from '../common/AxiosInstance';
+import ip from '../common/Config';
 
 const image1 = require('../assets/images/leftSmallImage.png');
 const image2 = require('../assets/images/leftBig.png');
 
 function Dress() {
-  const { t } = useContext(AppContext);
+  const { t, lang } = useContext(AppContext);
   const refImage = useRef(null);
   const refImageOpenButton = useRef(null);
-  const [stars, setStars] = useState(Array.from({ length: 4 }));
-  const [freeStars, setFreeStars] = useState(Array.from({ length: 1 }));
+  const [data, setData] = useState(null);
+  const [stars, setStars] = useState(Array.from({ length: data?data.rating:0 }));
+  const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - (data?data.rating:0) }));
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
   const [inStock, setInStock] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
+  const { id } = useParams();
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await AxiosCustom(`/products/${id}`)
+        console.log(res.data.data.oneProduct);
+        setData(res?.data?.data?.oneProduct)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+
     const handleClickOutside = (event) => {
       if (refImage.current && !refImage.current.contains(event.target) && !refImageOpenButton.current.contains(event.target)) {
         setSizeChartOpen(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
 
     return () => document.removeEventListener("click", handleClickOutside);
@@ -34,23 +49,26 @@ function Dress() {
 
   return (
     <div className="dress-page container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <Breadcrumb />
+      <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: data && data['name_' + lang] }} />
       <div className="dress-page-container flex flex-row justify-between mb-[120px]">
         <div className="dress-page_left w-full md:w-7/10 lg:w-4/5 mr-0 md:mr-[30px]">
           <div className="flex flex-col lg:flex-row">
             <div className="dress-page_left_image w-full lg:w-1/2 flex mr-0 md:mr-[30px]">
               <div className="dress-page_left_image_small-images w-1/5 flex flex-col">
-                <img src={image1} alt="" className="rounded mt-[10px] cursor-pointer" />
-                <img src={image1} alt="" className="rounded mt-[10px] cursor-pointer" />
-                <img src={image1} alt="" className="rounded mt-[10px] cursor-pointer" />
-                <img src={image1} alt="" className="rounded mt-[10px] cursor-pointer" />
-                <img src={image1} alt="" className="rounded mt-[10px] cursor-pointer" />
+                {
+                  data?.images.length > 0 && data.images.map((image, index) => (
+                    <img onClick={() => setActiveImage(index)} src={ip + '/' + image.image} alt="" className="rounded mt-[10px] cursor-pointer" />
+                  ))
+                }
               </div>
               <div className="dress-page_left_big-image relative w-4/5 ml-[10px] mt-[10px]">
-                <img src={image2} alt="" className="w-full h-full object-cover rounded" />
-                <div className="dress-page_left_big-image_discount absolute top-[5px] left-[5px] bg-lybas-red rounded py-[5px] px-[10px] text-sm text-white">
-                  50%
-                </div>
+                <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full h-full object-cover rounded" />
+                {
+                  data?.discount &&
+                  <div className="dress-page_left_big-image_discount absolute top-[5px] left-[5px] bg-lybas-red rounded py-[5px] px-[10px] text-sm text-white">
+                    {data?.discount}%
+                  </div>
+                }
                 <div className="dress-page_left_big-image_like absolute top-[5px] right-[5px] bg-black rounded py-[5px] px-[10px] cursor-pointer">
                   <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -62,14 +80,17 @@ function Dress() {
               </div>
             </div>
             <div className="dress-page_left_content w-full lg:w-1/2 mt-[10px]">
-              <h1 className="dress-page_left_content_name text-xl md:text-2xl lg:text-3xl font-semibold">Nike Sportswear Futura Luxe</h1>
+              <h1 className="dress-page_left_content_name text-xl md:text-2xl lg:text-3xl font-semibold">{data ? data['name_' + lang] : ''}</h1>
               <div className="dress-page_left_content_prices my-1 md:my-2 lg:my-[10px] flex items-center">
-                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">150 {t('tmt')}</div>
-                <div className="dress-page_left_content_prices_discount text-lybas-red line-through">350 {t('tmt')}</div>
+                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{data?.price} {t('tmt')}</div>
+                {
+                  data?.discount &&
+                  <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{data?.price_old} {t('tmt')}</div>
+                }
               </div>
               <div className="dress-page_left_content_rating-stock flex items-center mb-[10px]">
                 <span>{t('rating')}: </span>
-                <span className="font-semibold mx-[8px]"> 4.0</span>
+                <span className="font-semibold mx-[8px]"> {data?.rating}.0</span>
                 <div className="stars flex items-center">
                   {stars.map((e, key) => (
                     <svg
@@ -87,7 +108,7 @@ function Dress() {
                       />
                     </svg>
                   ))}
-                  {freeStars.map((e, key) => (
+                  {starsFree.map((e, key) => (
                     <svg
                       className="mr-[2px]"
                       key={key}
@@ -122,6 +143,9 @@ function Dress() {
                       </clipPath>
                     </defs>
                   </svg>
+                  {
+                    
+                  }
                   <span className="font-semibold">{t('inStock')}</span>
                 </div>
               </div>
@@ -230,10 +254,10 @@ function Dress() {
                 </Link>
               </div>
               <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* <DressComp hover="small" />
                 <DressComp hover="small" />
                 <DressComp hover="small" />
-                <DressComp hover="small" />
-                <DressComp hover="small" />
+                <DressComp hover="small" /> */}
               </div>
             </div>
           </div>
@@ -330,7 +354,7 @@ function Dress() {
       </div>
       <Popup open={popupOpen} setOpen={setPopupOpen} />
       <div className='w-full fixed z-[11] md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
-        <button className='w-full rounded-lg py-2 bg-lybas-blue flex items-center justify-center' onClick={()=>setPopupOpen(true)}>
+        <button className='w-full rounded-lg py-2 bg-lybas-blue flex items-center justify-center' onClick={() => setPopupOpen(true)}>
           <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.66667 18.3333C1.20833 18.3333 0.815972 18.1701 0.489583 17.8437C0.163194 17.5173 0 17.1249 0 16.6666V6.66659C0 6.20825 0.163194 5.81589 0.489583 5.4895C0.815972 5.16311 1.20833 4.99992 1.66667 4.99992H3.33333C3.33333 3.84714 3.73958 2.8645 4.55208 2.052C5.36458 1.2395 6.34722 0.833252 7.5 0.833252C8.65278 0.833252 9.63542 1.2395 10.4479 2.052C11.2604 2.8645 11.6667 3.84714 11.6667 4.99992H13.3333C13.7917 4.99992 14.184 5.16311 14.5104 5.4895C14.8368 5.81589 15 6.20825 15 6.66659V16.6666C15 17.1249 14.8368 17.5173 14.5104 17.8437C14.184 18.1701 13.7917 18.3333 13.3333 18.3333H1.66667ZM7.5 11.6666C8.65278 11.6666 9.63542 11.2603 10.4479 10.4478C11.2604 9.63534 11.6667 8.6527 11.6667 7.49992H10C10 8.19436 9.75694 8.78464 9.27083 9.27075C8.78472 9.75686 8.19444 9.99992 7.5 9.99992C6.80556 9.99992 6.21528 9.75686 5.72917 9.27075C5.24306 8.78464 5 8.19436 5 7.49992H3.33333C3.33333 8.6527 3.73958 9.63534 4.55208 10.4478C5.36458 11.2603 6.34722 11.6666 7.5 11.6666ZM5 4.99992H10C10 4.30547 9.75694 3.7152 9.27083 3.22909C8.78472 2.74297 8.19444 2.49992 7.5 2.49992C6.80556 2.49992 6.21528 2.74297 5.72917 3.22909C5.24306 3.7152 5 4.30547 5 4.99992Z" fill="white" />
           </svg>

@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function PopupLogout({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
+  const navigate = useNavigate();
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -49,8 +51,7 @@ export default function PopupLogout({ open, setOpen }) {
                   <button
                     type="button"
                     className={"w-full rounded-md px-20 py-2 text-sm text-white shadow-sm " + (true ? 'bg-lybas-blue' : 'bg-lybas-gray')}
-                    // onClick={}
-                    // disabled={}
+                    onClick={()=>(localStorage.setItem('lybas-token',''),navigate('/login'))}
                   >
                     {t('ok')}
                   </button>

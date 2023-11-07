@@ -46,7 +46,6 @@ const AxiosCustom = async (url, options = { method: 'GET' }, file = false) => {
     },
     ...options,
   });
-
   return response;
 };
 
