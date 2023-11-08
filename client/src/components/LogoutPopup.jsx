@@ -8,6 +8,8 @@ export default function LogoutPopup({ open, setOpen }) {
 
   const logout = ()=>{
     setOpen(false);
+    // localStorage.setItem('lybas-seller-token','');
+    // localStorage.setItem('lybas-seller','');
   }
 
   return (

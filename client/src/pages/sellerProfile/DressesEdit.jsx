@@ -8,9 +8,9 @@ import { fetchDataSizes, setLimit as setLimitSize } from '../../redux/features/S
 import { fetchDataColors, setLimit as setLimitColor } from '../../redux/features/Colors';
 import { Select, MenuItem, FormControl, Chip, Box, CircularProgress } from '@mui/material';
 import { AxiosSeller } from '../../common/AxiosInstance';
-import { Valid } from '../../common/Valid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
+import ip from '../../common/Config';
 
 function DressesAdd() {
   const [data, setData] = useState({
@@ -22,6 +22,7 @@ function DressesAdd() {
     body_en: '',
     body_ru: '',
     categoryId: '',
+    sellerId: '',
     materialId: '',
     colorId: '',
     image: [],
@@ -34,6 +35,7 @@ function DressesAdd() {
   const dataColor = useSelector((state) => state?.Colors?.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [sizes, setSizes] = useState([]);
   const [file, setFile] = useState([]);
@@ -45,6 +47,27 @@ function DressesAdd() {
     dispatch(fetchDataColors())
     dispatch(fetchDataSizes())
     dispatch(fetchDataMaterials())
+    const getData = async () => {
+      try {
+        const res = await AxiosSeller('/products/' + id);
+        console.log(res);
+        if (res.status === 200) {
+          setData({ ...data, ...res.data })
+          setSizes(res.data.sizeIds)
+          const images = []
+          for (let i = 0; i < res.data.images.length; i++) {
+            images.push({
+              url: ip +'/'+ res.data.images[i].image,
+              id: res.data.images[i].id
+            })
+          }
+          setFile(images);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }, [])
 
   const handleSize = (e) => {
@@ -66,7 +89,7 @@ function DressesAdd() {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
-    for (let i = 0; i < (files.length + file.length < 8 ? files.length : 8 - file.length); i++) {
+    for (let i = 0; i < (files.length+file.length < 8 ? files.length : 8-file.length); i++) {
       arr1.push(files[i]);
       arr2.push({
         url: URL.createObjectURL(files[i]),
@@ -77,7 +100,14 @@ function DressesAdd() {
     setData({ ...data, image: [...data.image, ...arr1] })
     setFile([...file, ...arr2])
   }
-  const deleteImage = (index) => {
+  const deleteImage = async (index, image) => {
+    if (image.id) {
+      try {
+        const res = await AxiosSeller("/products/delete/image/" + image.id, { method: "POST" })
+      } catch (error) {
+        console.log(error);
+      }
+    }
     const newData = data.image
     newData.splice(index, 1)
     setData({ ...data, image: [...newData] })
@@ -98,29 +128,28 @@ function DressesAdd() {
 
   const sendData = async () => {
     setLoading(true);
-    if (Valid(data)) {
-      try {
-        const res = await AxiosSeller("/products/add", { method: "POST", data })
+    try {
+      const res = await AxiosSeller("/products/" + id, { method: "PATCH", data })
+      await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
+      if (data.image.length) {
         const formData = new FormData();
         for (let i = 0; i < data.image.length; i++) {
           formData.append("Image", data.image[i]);
         }
-        await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
-        const res2 = await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
-        if (res2.status === 201) {
-          dispatch(fetchDataDresses());
-          navigate('/sellerProfile/dresses');
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
+        await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
       }
-    } else {
-      alert(t("fillTheGaps"))
+      console.log(res);
+      if (res.status === 200) {
+        dispatch(fetchDataDresses());
+        navigate('/sellerProfile/dresses');
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
       setLoading(false);
+      console.log(error);
     }
+    console.log(data);
   }
   const handleColor = (color, index) => {
     setColorIndex(index);
@@ -165,11 +194,11 @@ function DressesAdd() {
               </FormControl>
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('price')}</label>
+              <label className="label font-semibold block mb-2.5" htmlFor='price'>{t('price')}</label>
               <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('category')}</label>
+              <label className="label font-semibold block mb-2.5" htmlFor='category'>{t('category')}</label>
               <FormControl fullWidth>
                 <Select
                   labelId="multi-select-label"
@@ -191,7 +220,7 @@ function DressesAdd() {
               <div className="colors flex flex-wrap items-center">
                 {
                   dataColor?.length > 0 && dataColor?.map((color, index) => (
-                    <button onClick={() => handleColor(color, index)} key={index} className={'rounded-full mr-3 border-blue-600 ' + (colorIndex === index ? 'border-2 p-0.5' : '')}>
+                    <button onClick={() => handleColor(color, index)} key={index} className={'rounded-full mr-3 border-blue-600 ' + ((colorIndex === index || color.id === data.colorId) ? 'border-2 p-0.5' : '')}>
                       <div className='w-5 h-5 rounded-full' style={{ background: color.hex }}></div>
                     </button>
                   ))
@@ -243,18 +272,21 @@ function DressesAdd() {
           <div className="dress-add_content_right w-full overflow-auto rounded-lg border bg-white">
             <div className="name px-5 py-4 font-bold border-b">{t('uploadImage')}</div>
             <div className="inputs p-5">
-              <div className="flex items-center justify-center w-full mt-3">
-                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full  border-2 border-lybas-blue border-dashed rounded-lg cursor-pointer bg-gray-50">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg className='mb-3' width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z" fill="#0E1217" />
-                    </svg>
-                    <p className="mb-2 text-sm text-lybas-blue">{t('clickToUpload')}</p>
-                    <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px) {file.length}/8</p>
-                  </div>
-                  <input id="dropzone-file" multiple onChange={handleUploadImage} type="file" className="hidden" />
-                </label>
-              </div>
+              {
+                file.length < 8 &&
+                <div className="flex items-center justify-center w-full mt-3">
+                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full  border-2 border-lybas-blue border-dashed rounded-lg cursor-pointer bg-gray-50">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className='mb-3' width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z" fill="#0E1217" />
+                      </svg>
+                      <p className="mb-2 text-sm text-lybas-blue">{t('clickToUpload')}</p>
+                      <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px) {file.length}/8</p>
+                    </div>
+                    <input id="dropzone-file" multiple onChange={handleUploadImage} type="file" className="hidden" />
+                  </label>
+                </div>
+              }
               {/* Images */}
               {
                 file?.length > 0 && file.map((image, index) => (
@@ -269,7 +301,7 @@ function DressesAdd() {
                           <div className="size text-lybas-gray">{image.size}</div>
                         </div>
                       </div>
-                      <button onClick={() => deleteImage(index)}>
+                      <button onClick={() => deleteImage(index, image)}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M5.33317 15.8337L4.1665 14.667L8.83317 10.0003L4.1665 5.33366L5.33317 4.16699L9.99984 8.83366L14.6665 4.16699L15.8332 5.33366L11.1665 10.0003L15.8332 14.667L14.6665 15.8337L9.99984 11.167L5.33317 15.8337Z" fill="#0B1527" />
                         </svg>

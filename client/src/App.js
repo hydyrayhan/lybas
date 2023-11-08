@@ -1,5 +1,5 @@
 import "./assets/styles/App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { createContext, useState, useEffect } from 'react';
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +19,7 @@ import Comments from "./pages/comments";
 import SellerComments from './pages/sellerProfile/Comments'
 import SellerProfileDresses from './pages/sellerProfile/Dresses';
 import SellerProfileAddDress from './pages/sellerProfile/DressesAdd';
+import SellerProfileEditDress from './pages/sellerProfile/DressesEdit';
 import Blog from "./pages/blog";
 import OneBlog from "./pages/oneBlog";
 import Dressmakers from "./pages/dressmakers";
@@ -39,6 +40,8 @@ export const AppContext = createContext();
 function App() {
   const [lang, setLang] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'tm');
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const changeLanguage = lng => {
     localStorage.setItem('lang', lng);
     i18n.changeLanguage(lng);
@@ -55,6 +58,15 @@ function App() {
     }
   }, [lang])
 
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'sellerProfile') {
+      const token = localStorage.getItem('lybas-seller-token');
+      if (!token) {
+        navigate('/');
+      }
+    }
+  }, [location])
+
   return (<AppContext.Provider value={{
     t: t,
     changeLanguage: changeLanguage,
@@ -67,9 +79,10 @@ function App() {
           <Route path="/sellerProfile/orders" element={<Orders />} />
           <Route path="/sellerProfile/orders/:id" element={<OneOrder />} />
           <Route path="/sellerProfile/dresses" element={<SellerProfileDresses />} />
+          <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
+          <Route path="/sellerProfile/dresses/:id" element={<SellerProfileEditDress />} />
           <Route path="/sellerProfile/comments" element={<SellerComments />} />
           <Route path="/sellerProfile/comments/:id" element={<CommentOne />} />
-          <Route path="/sellerProfile/dresses/add" element={<SellerProfileAddDress />} />
           <Route path="/sellerProfile/emails" element={<Emails />} />
           <Route path="/sellerProfile/emails/:id" element={<EmailOne />} />
           <Route path="/sellerProfile/profile" element={<Profile />} />

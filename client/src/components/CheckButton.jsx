@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-function CheckButton({ text = '', data, setData, name, value, checked, color = null }) {
-  // const [checked, setChecked] = useState(false);
+function CheckButton({ text = '', setData, name, value, checked, color = null }) {
 
   const check = () => {
-    console.log(name, value)
     setData(name, value)
   }
 

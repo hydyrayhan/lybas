@@ -2,7 +2,7 @@ import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 
-export default function UserPopup({ open, setOpen, dressmaker }) {
+export default function UserPopup({ open, setOpen, dressmaker, user }) {
 
   const cancelButtonRef = useRef(null)
 
@@ -50,6 +50,7 @@ export default function UserPopup({ open, setOpen, dressmaker }) {
                   <button
                     type="button"
                     className=" rounded-md  py-2 text-sm text-lybas-blue hover:bg-gray-100 shadow-lybas-1"
+                    onClick={()=>(setOpen(false), user(true))}
                   >
                     {t('customer')}
                   </button>

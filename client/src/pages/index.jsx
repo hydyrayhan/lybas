@@ -14,7 +14,7 @@ import Blog from '../components/Blog';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataBanners } from '../redux/features/banners';
 import ip from '../common/Config';
-import { AxiosCustom } from '../common/AxiosInstance';
+import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 
 const swiper_container = {
   position: 'relative',
@@ -53,12 +53,21 @@ function Index() {
     }
     const getData = async () => {
       try {
-        const res = await AxiosCustom("/products?sort=3&limit=3")
-        const res2 = await AxiosCustom("/products?sort=2&limit=5")
-        const res3 = await AxiosCustom("/products?sort=4&limit=5")
-        setRecom(res.data)
-        setPopular(res2.data)
-        setSale(res3.data)
+        if(localStorage.getItem('lybas-user-token')){
+          const res = await AxiosUser("/products?sort=3&limit=3")
+          const res2 = await AxiosUser("/products?sort=2&limit=5")
+          const res3 = await AxiosUser("/products?sort=4&limit=5")
+          setRecom(res.data)
+          setPopular(res2.data)
+          setSale(res3.data)
+        }else{
+          const res = await AxiosCustom("/products?sort=3&limit=3")
+          const res2 = await AxiosCustom("/products?sort=2&limit=5")
+          const res3 = await AxiosCustom("/products?sort=4&limit=5")
+          setRecom(res.data)
+          setPopular(res2.data)
+          setSale(res3.data)
+        }
         const resDressmakers = await AxiosCustom("/seller?limit=5")
         setDressmakers(resDressmakers.data.sellers);
         const resBlogs = await AxiosCustom('/blogs?limit=2');

@@ -1,12 +1,47 @@
 import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import axios from 'axios';
+import ip from '../../common/Config';
 
-export default function CustomerPopup({ open, setOpen }) {
+export default function CustomerPopup({ open, setOpen, veri }) {
 
   const cancelButtonRef = useRef(null)
+  const [errorText, setErrorText] = useState('');
   const [isSignIn, setIsSignIn] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+  const [data, setData] = useState({
+    user_phone: '',
+    password: '',
+    passwordConfirm: '',
+    user_checked_phone: '',
+    code: '',
+  })
+
+  const handleData = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData({ ...data, [name]: value });
+  }
+
+  const sendDataUp = async () => {
+    if (data.user_phone && data.password && data.passwordConfirm) {
+      try {
+        const res = await axios.post(ip + '/users/signup', { user_phone: data.user_phone });
+        if(res.status === 200){
+          localStorage.setItem('verification-data',JSON.stringify(data));
+          setOpen(false);
+          veri(true);
+        }
+      } catch (error) {
+        console.log(error)
+        setErrorText(error.response.data.message);
+        // setErrorText(response.data.message);
+      }
+    } else {
+      setErrorText(t('fillTheGaps'))
+    }
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -49,11 +84,11 @@ export default function CustomerPopup({ open, setOpen }) {
                         <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
                       </div>
                       <div className="inputs py-3">
-                        <input type="text" className='input w-full mb-3' placeholder='+993' />
-                        <input type="password" className='input w-full mb-3' placeholder={t('password') + "*"} />
+                        <input type="text" name='user_phone' onChange={handleData} className='input w-full mb-3' placeholder='+993' />
+                        <input type="password" name='password' onChange={handleData} className='input w-full mb-3' placeholder={t('password') + "*"} />
                         {
                           !isSignIn &&
-                          <input type="password" className='input w-full mb-3' placeholder={t('confirmPassword') + '*'} />
+                          <input type="password" name='passwordConfirm' onChange={handleData} className='input w-full mb-3' placeholder={t('confirmPassword') + '*'} />
                         }
                         <div className='flex justify-between'>
                           <button className='flex items-center' onClick={() => { setCheckbox(!checkbox) }}>
@@ -61,7 +96,7 @@ export default function CustomerPopup({ open, setOpen }) {
                               !checkbox ?
                                 <svg className='cursor-pointer' width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.25" fill="white" />
-                                  <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.25" stroke="#F7F7F7" stroke-width="1.5" />
+                                  <rect x="0.75" y="0.75" width="28.5" height="28.5" rx="7.25" stroke="#F7F7F7" strokeWidth="1.5" />
                                 </svg> :
                                 <svg className='cursor-pointer' width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <rect x="0.5" y="0.5" width="29" height="29" rx="7.5" fill="#1A54EB" />
@@ -77,10 +112,12 @@ export default function CustomerPopup({ open, setOpen }) {
                     </div>
                   </div>
                 </div>
+                <div className='px-10 text-red-600'>{errorText}</div>
                 <div className="px-10 pt-3 pb-7 grid grid-cols-2 gap-5">
                   <button
                     type="button"
                     className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
+                    onClick={() => (isSignIn ? '' : sendDataUp())}
                   >
                     {t('confirm')}
                   </button>

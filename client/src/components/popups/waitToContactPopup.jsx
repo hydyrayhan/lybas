@@ -45,7 +45,7 @@ export default function WaitToContact({ open, setOpen }) {
                         </svg>
                       </Dialog.Title>
                       <div className="inputs py-3">
-                        <span className='text-left text-lybas-gray block w-full'>{t("verificationHelpWord") + " +99364813309"}</span>
+                        <span className='text-left text-lybas-gray block w-full'>{t("waitToContactDefinition")}</span>
                       </div>
                     </div>
                   </div>

@@ -26,9 +26,9 @@ function Dressmaker({className, data}) {
             </div>
             <div className="mt-4">
               <h3 className="text-base text-gray-700 text-center w-full font-bold mb-[8px]">
-                Nike Just do It Nike Just do It Nike Just do It
+                {data?.name}
               </h3>
-              <p className="text-sm text-gray-500 text-center">Ashgabat</p>
+              <p className="text-sm text-gray-500 text-center">{t(data?.welayat)}</p>
             </div>
             <button onClick={()=>navigate('/dressmakers/'+data.id)} className='dressmaker-more-button w-full flex md:hidden justify-center items-center py-[6px] px-[16px] mt-2 bg-lybas-blue text-white rounded'>
               <svg className='mr-[16px]' width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">

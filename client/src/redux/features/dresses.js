@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosCustom } from '../../common/AxiosInstance.js'
+import { AxiosSeller } from '../../common/AxiosInstance.js'
 
 const initialState = {
   data: [],
@@ -18,16 +18,13 @@ const initialState = {
 export const fetchDataDresses = createAsyncThunk('data/fetchDataDresses', async (_, { getState }) => {
   try {
     const { limit, offset, search, filter, category,size,material,welayat } = getState().Dresses;
-    console.log("Hello")
-    const data = await AxiosCustom(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}&categoryId=${category}&sizeId=${size}&materialId=${material}&welayat=${welayat}`);
+    const data = await AxiosSeller(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}&categoryId=${category}&sizeId=${size}&materialId=${material}&welayat=${welayat}`);
     console.log(data);
     return data;
   } catch (error) {
+    console.log(error);
     console.log(error.response.data.message)
     const err = error.response.data.message;
-    if (err === 'jwt expired') {
-      localStorage.clear('lybas-token')
-    }
     throw error;
   }
 });
@@ -77,8 +74,8 @@ const Dresses = createSlice({
       })
       .addCase(fetchDataDresses.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data.data];
-        state.count = action?.payload.data.count;
+        state.data = [...action?.payload?.data?.data];
+        state.count = action?.payload?.data?.count;
       })
       .addCase(fetchDataDresses.rejected, (state, action) => {
         state.loading = false;

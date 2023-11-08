@@ -2,12 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../App'
 import { Link } from 'react-router-dom';
 import ip from '../common/Config';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AxiosUser } from '../common/AxiosInstance';
 
 function Dress({ hover, className, data = {rating:0} }) {
   const { t, lang } = useContext(AppContext);
   const [stars, setStars] = useState(Array.from({ length: data.rating }));
   const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - data.rating }));
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(data.isLiked);
   const [showSizes, setShowSizes] = useState(false);
 
   useEffect(() => {
@@ -40,8 +43,21 @@ function Dress({ hover, className, data = {rating:0} }) {
     },
   }
 
-  const handleLike = async () => {
-    setLike(!like)
+  const handleLike = async (id) => {
+    if(localStorage.getItem('lybas-user-token')){
+      try {
+        if(like){
+          await AxiosUser("/dislike?id="+id, {method:"POST"})
+        }else{
+          await AxiosUser("/like?id="+id, {method:"POST"})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLike(!like)
+    }else{
+      toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000});
+    }
   }
   const addToCart = async () => {
     console.log("Lets add")
@@ -138,7 +154,7 @@ function Dress({ hover, className, data = {rating:0} }) {
           }
         </div>
       }
-      <button onClick={() => handleLike()} className='dress_like absolute z-3 top-[5px] bg-black right-[5px] p-[5px] rounded'>
+      <button onClick={() => handleLike(data?.id)} className='dress_like absolute z-3 top-[5px] bg-black right-[5px] p-[5px] rounded'>
         {
           like ?
             <svg width="23" height="23" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -153,6 +169,7 @@ function Dress({ hover, className, data = {rating:0} }) {
         data.discount &&
         <div className='absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm'>{data.discount} %</div>
       }
+      <ToastContainer />
     </div>
   )
 }

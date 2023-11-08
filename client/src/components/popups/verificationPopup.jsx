@@ -1,12 +1,32 @@
 import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import axios from 'axios';
+import ip from '../../common/Config';
 
 export default function VerificationPopup({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
-  const [isSignIn, setIsSignIn] = useState(false);
-  const [checkbox, setCheckbox] = useState(false);
+  const [veri, setVeri] = useState('');
+  const [errorText, setErrorText] = useState('');
+
+  const sendData = async () => {
+    const data = JSON.parse(localStorage.getItem('verification-data'))
+    const newData = { ...data, code: veri }
+    newData.user_checked_phone = newData.user_phone;
+    try {
+      const res = await axios.post(ip + '/users/signup', newData);
+      if(res.status === 201){
+        localStorage.setItem('lybas-user-token',res.data.token)
+        localStorage.setItem('lybas-user',JSON.stringify(res.data.data.user))
+        localStorage.setItem('verification-data','{}');
+        window.location.reload();
+      }
+    } catch (error) {
+      setErrorText(error.response.data.message)
+      console.log(error.response.data.message);
+    }
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -45,16 +65,18 @@ export default function VerificationPopup({ open, setOpen }) {
                         </svg>
                       </Dialog.Title>
                       <div className="inputs py-3">
-                        <span className='text-left text-lybas-gray block w-full mb-3'>{t("verificationHelpWord")+" +99364813309"}</span>
-                        <input type="text" className='input w-full' placeholder={t('enterTheCode')+"*"} />
+                        <span className='text-left text-lybas-gray block w-full mb-3'>{t("verificationHelpWord") + " +99364813309"}</span>
+                        <input type="text" onChange={(e) => setVeri(e.target.value)} className='input w-full' placeholder={t('enterTheCode') + "*"} />
                       </div>
                     </div>
                   </div>
                 </div>
+                <div className='px-10 text-red-600'>{errorText}</div>
                 <div className="px-10 pt-3 pb-7 grid grid-cols-2 gap-5">
                   <button
                     type="button"
                     className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
+                    onClick={sendData}
                   >
                     {t('confirm')}
                   </button>

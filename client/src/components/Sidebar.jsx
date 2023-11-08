@@ -39,7 +39,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 
 
-const Sidebar = ({ dressmakers = false, dressmakersData, sizes, categories, materials, colors, sort, setSort }) => {
+const Sidebar = ({ dressmakers = false, sizes, categories, materials, colors, sort, setSort }) => {
   const [sidebar, setSidebar] = useState(false);
   const [expanded, setExpanded] = useState(dressmakers ? 'panel5' : 'panel1');
 
@@ -49,7 +49,6 @@ const Sidebar = ({ dressmakers = false, dressmakersData, sizes, categories, mate
   }, [sidebar])
 
   const getSortedData = (name, value) => {
-    console.log(value, 'value');
     if (name === 'price') {
       setSort({ ...sort, price: value.min_price === sort.price.min_price ? {} : value })
     } else {

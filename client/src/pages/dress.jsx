@@ -6,31 +6,38 @@ import { Link, useParams } from 'react-router-dom';
 import DressComp from '../components/Dress';
 import Popup from '../components/Popup';
 import Comment from '../components/Comment';
-import { AxiosCustom } from '../common/AxiosInstance';
+import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import ip from '../common/Config';
-
-const image1 = require('../assets/images/leftSmallImage.png');
-const image2 = require('../assets/images/leftBig.png');
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Dress() {
   const { t, lang } = useContext(AppContext);
   const refImage = useRef(null);
   const refImageOpenButton = useRef(null);
   const [data, setData] = useState(null);
-  const [stars, setStars] = useState(Array.from({ length: data?data.rating:0 }));
-  const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - (data?data.rating:0) }));
+  const [similarData, setSimilarData] = useState(null);
+  const [stars, setStars] = useState(Array.from({ length: data ? data.rating : 0 }));
+  const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - (data ? data.rating : 0) }));
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
-  const [inStock, setInStock] = useState(false);
+  const [inStock, setInStock] = useState(!data?.stock > 0);
   const [popupOpen, setPopupOpen] = useState(false);
   const { id } = useParams();
+  const [like, setLike] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await AxiosCustom(`/products/${id}`)
-        console.log(res.data.data.oneProduct);
+        var res;
+        if (localStorage.getItem('lybas-user-token')) {
+          res = await AxiosUser(`/products/${id}`)
+        } else {
+          res = await AxiosCustom(`/products/${id}`)
+        }
         setData(res?.data?.data?.oneProduct)
+        setLike(res?.data?.data?.oneProduct?.isLiked)
+        setSimilarData(res?.data?.data?.recommendations);
       } catch (error) {
         console.log(error);
       }
@@ -47,6 +54,25 @@ function Dress() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  const handleLike = async (id) => {
+    console.log(data);
+    if(localStorage.getItem('lybas-user-token')){
+      try {
+        console.log(like);
+        if(like){
+          await AxiosUser("/dislike?id="+id, {method:"POST"})
+        }else{
+          await AxiosUser("/like?id="+id, {method:"POST"})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setLike(!like)
+    }else{
+      toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000});
+    }
+  }
+
   return (
     <div className="dress-page container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: data && data['name_' + lang] }} />
@@ -57,25 +83,28 @@ function Dress() {
               <div className="dress-page_left_image_small-images w-1/5 flex flex-col">
                 {
                   data?.images.length > 0 && data.images.map((image, index) => (
-                    <img onClick={() => setActiveImage(index)} src={ip + '/' + image.image} alt="" className="rounded mt-[10px] cursor-pointer" />
+                    <img key={index} onClick={() => setActiveImage(index)} src={ip + '/' + image.image} alt="" className="rounded mt-[10px] cursor-pointer" />
                   ))
                 }
               </div>
               <div className="dress-page_left_big-image relative w-4/5 ml-[10px] mt-[10px]">
-                <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full h-full object-cover rounded" />
+                <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full object-cover rounded" />
                 {
                   data?.discount &&
                   <div className="dress-page_left_big-image_discount absolute top-[5px] left-[5px] bg-lybas-red rounded py-[5px] px-[10px] text-sm text-white">
                     {data?.discount}%
                   </div>
                 }
-                <div className="dress-page_left_big-image_like absolute top-[5px] right-[5px] bg-black rounded py-[5px] px-[10px] cursor-pointer">
-                  <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M11.5001 20.125L10.1105 18.8791C8.4973 17.4257 7.16362 16.1718 6.10946 15.1177C5.05529 14.0635 4.21675 13.1172 3.59383 12.2786C2.97091 11.4401 2.53567 10.6694 2.2881 9.96663C2.04053 9.26386 1.91675 8.54511 1.91675 7.81038C1.91675 6.309 2.41987 5.05518 3.42612 4.04893C4.43237 3.04268 5.68619 2.53955 7.18758 2.53955C8.01814 2.53955 8.80876 2.71525 9.55946 3.06663C10.3102 3.41802 10.957 3.91316 11.5001 4.55205C12.0431 3.91316 12.69 3.41802 13.4407 3.06663C14.1914 2.71525 14.982 2.53955 15.8126 2.53955C17.314 2.53955 18.5678 3.04268 19.574 4.04893C20.5803 5.05518 21.0834 6.309 21.0834 7.81038C21.0834 8.54511 20.9596 9.26386 20.7121 9.96663C20.4645 10.6694 20.0292 11.4401 19.4063 12.2786C18.7834 13.1172 17.9449 14.0635 16.8907 15.1177C15.8365 16.1718 14.5029 17.4257 12.8897 18.8791L11.5001 20.125ZM11.5001 17.5375C13.0334 16.1639 14.2952 14.9859 15.2855 14.0036C16.2758 13.0213 17.0584 12.1668 17.6334 11.4401C18.2084 10.7133 18.6077 10.0665 18.8313 9.49945C19.0549 8.93243 19.1667 8.36941 19.1667 7.81038C19.1667 6.85205 18.8473 6.05344 18.2084 5.41455C17.5695 4.77566 16.7709 4.45622 15.8126 4.45622C15.0619 4.45622 14.3671 4.66785 13.7282 5.09111C13.0893 5.51438 12.6501 6.05344 12.4105 6.7083H10.5897C10.3501 6.05344 9.91085 5.51438 9.27196 5.09111C8.63307 4.66785 7.93828 4.45622 7.18758 4.45622C6.22925 4.45622 5.43064 4.77566 4.79175 5.41455C4.15286 6.05344 3.83341 6.85205 3.83341 7.81038C3.83341 8.36941 3.94522 8.93243 4.16883 9.49945C4.39244 10.0665 4.79175 10.7133 5.36675 11.4401C5.94175 12.1668 6.72439 13.0213 7.71466 14.0036C8.70494 14.9859 9.96675 16.1639 11.5001 17.5375Z"
-                      fill="white"
-                    />
-                  </svg>
+                <div onClick={() => handleLike(data?.id)} className="dress-page_left_big-image_like absolute top-[5px] right-[5px] bg-black rounded py-[5px] px-[10px] cursor-pointer">
+                  {
+                    like ?
+                      <svg width="23" height="23" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M8 1.314C12.4384 -3.24799 23.5343 4.7355 8 15C-7.53427 4.7355 3.56164 -3.24799 8 1.314Z" fill="white" />
+                      </svg> :
+                      <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.5 20.125L10.1104 18.8791C8.49718 17.4257 7.1635 16.1718 6.10933 15.1177C5.05517 14.0635 4.21663 13.1172 3.59371 12.2786C2.97079 11.4401 2.53555 10.6694 2.28798 9.96663C2.04041 9.26386 1.91663 8.54511 1.91663 7.81038C1.91663 6.309 2.41975 5.05518 3.426 4.04893C4.43225 3.04268 5.68607 2.53955 7.18746 2.53955C8.01802 2.53955 8.80864 2.71525 9.55933 3.06663C10.31 3.41802 10.9569 3.91316 11.5 4.55205C12.043 3.91316 12.6899 3.41802 13.4406 3.06663C14.1913 2.71525 14.9819 2.53955 15.8125 2.53955C17.3138 2.53955 18.5677 3.04268 19.5739 4.04893C20.5802 5.05518 21.0833 6.309 21.0833 7.81038C21.0833 8.54511 20.9595 9.26386 20.7119 9.96663C20.4644 10.6694 20.0291 11.4401 19.4062 12.2786C18.7833 13.1172 17.9448 14.0635 16.8906 15.1177C15.8364 16.1718 14.5027 17.4257 12.8895 18.8791L11.5 20.125ZM11.5 17.5375C13.0333 16.1639 14.2951 14.9859 15.2854 14.0036C16.2757 13.0213 17.0583 12.1668 17.6333 11.4401C18.2083 10.7133 18.6076 10.0665 18.8312 9.49945C19.0548 8.93243 19.1666 8.36941 19.1666 7.81038C19.1666 6.85205 18.8472 6.05344 18.2083 5.41455C17.5694 4.77566 16.7708 4.45622 15.8125 4.45622C15.0618 4.45622 14.367 4.66785 13.7281 5.09111C13.0892 5.51438 12.65 6.05344 12.4104 6.7083H10.5895C10.35 6.05344 9.91072 5.51438 9.27183 5.09111C8.63295 4.66785 7.93815 4.45622 7.18746 4.45622C6.22913 4.45622 5.43052 4.77566 4.79163 5.41455C4.15274 6.05344 3.83329 6.85205 3.83329 7.81038C3.83329 8.36941 3.9451 8.93243 4.16871 9.49945C4.39232 10.0665 4.79163 10.7133 5.36663 11.4401C5.94163 12.1668 6.72427 13.0213 7.71454 14.0036C8.70482 14.9859 9.96663 16.1639 11.5 17.5375Z" fill="white" />
+                      </svg>
+                  }
                 </div>
               </div>
             </div>
@@ -126,38 +155,47 @@ function Dress() {
                   ))}
                 </div>
                 <div className="stock ml-[20px] flex items-center">
-                  <svg className="mr-[10px]" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clipPath="url(#clip0_418_21362)">
-                      <path
-                        d="M10.8975 19.625C5.37152 19.625 0.918213 15.3125 0.918213 10C0.918213 4.6875 5.37152 0.40625 10.8975 0.40625C16.4235 0.40625 20.9093 4.6875 20.9093 10C20.9093 15.3125 16.4235 19.625 10.8975 19.625ZM10.8975 1.5C6.02164 1.5 2.05592 5.3125 2.05592 10C2.05592 14.6875 6.02164 18.5313 10.8975 18.5313C15.7734 18.5313 19.7716 14.6875 19.7716 10C19.7716 5.3125 15.7734 1.5 10.8975 1.5Z"
-                        fill="#1A54EB"
-                      />
-                      <path
-                        d="M9.7923 12.1875C9.56476 12.1875 9.36972 12.125 9.17469 11.9687L7.0293 9.96875C6.80176 9.75 6.80176 9.40625 7.0293 9.1875C7.25684 8.96875 7.6144 8.96875 7.84195 9.1875L9.7923 11.0312L13.953 7.15625C14.1806 6.9375 14.5382 6.9375 14.7657 7.15625C14.9932 7.375 14.9932 7.71875 14.7657 7.9375L10.4424 12C10.2149 12.125 9.98733 12.1875 9.7923 12.1875Z"
-                        fill="#1A54EB"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_418_21362">
-                        <rect width="20.7595" height="20" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
                   {
-                    
+                    inStock ? <>
+                      <svg className="mr-[10px]" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clipPath="url(#clip0_418_21362)">
+                          <path
+                            d="M10.8975 19.625C5.37152 19.625 0.918213 15.3125 0.918213 10C0.918213 4.6875 5.37152 0.40625 10.8975 0.40625C16.4235 0.40625 20.9093 4.6875 20.9093 10C20.9093 15.3125 16.4235 19.625 10.8975 19.625ZM10.8975 1.5C6.02164 1.5 2.05592 5.3125 2.05592 10C2.05592 14.6875 6.02164 18.5313 10.8975 18.5313C15.7734 18.5313 19.7716 14.6875 19.7716 10C19.7716 5.3125 15.7734 1.5 10.8975 1.5Z"
+                            fill="#1A54EB"
+                          />
+                          <path
+                            d="M9.7923 12.1875C9.56476 12.1875 9.36972 12.125 9.17469 11.9687L7.0293 9.96875C6.80176 9.75 6.80176 9.40625 7.0293 9.1875C7.25684 8.96875 7.6144 8.96875 7.84195 9.1875L9.7923 11.0312L13.953 7.15625C14.1806 6.9375 14.5382 6.9375 14.7657 7.15625C14.9932 7.375 14.9932 7.71875 14.7657 7.9375L10.4424 12C10.2149 12.125 9.98733 12.1875 9.7923 12.1875Z"
+                            fill="#1A54EB"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_418_21362">
+                            <rect width="20.7595" height="20" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <span className="font-semibold">{t('inStock')}</span>
+                    </> : <>
+                      <svg className="mr-[10px]" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.9793 19.625C4.45331 19.625 0 15.3125 0 10C0 4.6875 4.45331 0.40625 9.9793 0.40625C15.5053 0.40625 19.9911 4.6875 19.9911 10C19.9911 15.3125 15.5053 19.625 9.9793 19.625ZM9.9793 1.5C5.10342 1.5 1.13771 5.3125 1.13771 10C1.13771 14.6875 5.10342 18.5313 9.9793 18.5313C14.8552 18.5313 18.8534 14.6875 18.8534 10C18.8534 5.3125 14.8552 1.5 9.9793 1.5Z" fill="#FF3521" />
+                        <path d="M6.6199 14.313C6.42463 14.5083 6.10805 14.5083 5.91279 14.313L5.68656 14.0868C5.4913 13.8915 5.4913 13.575 5.68656 13.3797L8.71279 10.3535C8.90805 10.1582 8.90805 9.84163 8.71279 9.64637L5.68656 6.62014C5.4913 6.42488 5.4913 6.10829 5.68656 5.91303L5.91279 5.68681C6.10805 5.49154 6.42463 5.49154 6.61989 5.68681L9.64612 8.71303C9.84138 8.90829 10.158 8.90829 10.3532 8.71303L13.3795 5.68681C13.5747 5.49154 13.8913 5.49154 14.0866 5.68681L14.3128 5.91303C14.508 6.10829 14.508 6.42488 14.3128 6.62014L11.2866 9.64636C11.0913 9.84163 11.0913 10.1582 11.2866 10.3535L14.3128 13.3797C14.508 13.575 14.508 13.8915 14.3128 14.0868L14.0866 14.313C13.8913 14.5083 13.5747 14.5083 13.3795 14.313L10.3532 11.2868C10.158 11.0915 9.84138 11.0915 9.64612 11.2868L6.6199 14.313Z" fill="#FF3521" />
+                      </svg>
+
+
+                      <span className="font-semibold">{t('outStock')}</span>
+                    </>
                   }
-                  <span className="font-semibold">{t('inStock')}</span>
                 </div>
               </div>
               <div className="dress-page_left_content_velayat">
-                <span>{t('ashgabat')} </span>
+                <span>{t(data?.welayat)} </span>
                 <span className="text-lybas-red">( {t('_2_5days')} )</span>
               </div>
               <div className="dress-page_left_content_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
               <div className="dress-page_left_content_fabric-name text-sm text-lybas-gray mb-[10px]">{t('fabricName')}:</div>
               <div className="dress-page_left_content_fabrics flex flex-wrap mb-[15px]">
                 <button className="dress-page_left_content_fabrics_fabric mb-1 mr-[12px] py-[6px] px-[12px] rounded-lg border border-lybas-blue text-lybas-blue">
-                  Pombarh
+                  {data?.material?.name_tm && data.material['name_' + lang]}
                 </button>
                 <button ref={refImageOpenButton} onClick={() => setSizeChartOpen(true)} className="dress-page_left_content_size-chart flex items-center ml-5 text-">
                   <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -183,22 +221,19 @@ function Dress() {
               </div>
               <div className="dress-page_left_content_size-name text-sm text-lybas-gray mb-[10px]">{t('size')}:</div>
               <div className="dress-page_left_content_sizes flex flex-wrap items-center mb-[15px]">
-                <button className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray">
-                  M(38)
-                  <div className='absolute -top-3 -right-3 bg-gray-200 w-6 h-6 p-1 rounded-full'>
-                    <svg className='fill-[#0E1217] w-full h-full' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
-                    </svg>
-                  </div>
-                </button>
-                <button className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray">
-                  M(38)
-                  <div className='absolute -top-3 -right-3 bg-gray-200 w-6 h-6 p-1 rounded-full'>
-                    <svg className='fill-[#0E1217] w-full h-full' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
-                    </svg>
-                  </div>
-                </button>
+                {
+                  data?.product_sizes?.length && data?.product_sizes?.map((size, index) => (
+                    <button key={index} className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray"> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
+                      {size?.size?.size}
+                      <div className='absolute -top-3 -right-3 bg-gray-200 w-6 h-6 p-1 rounded-full'>
+                        <svg className='fill-[#0E1217] w-full h-full' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
+                        </svg>
+                      </div>
+                    </button>
+
+                  ))
+                }
                 <button className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-blue text-lybas-blue">
                   M(38)
                   <div className='absolute -top-3 -right-3 bg-lybas-blue w-6 h-6 p-1 rounded-full'>
@@ -217,13 +252,12 @@ function Dress() {
               <div className="dress-page_left_content_color-name text-sm text-lybas-gray mb-[10px]">{t('color')}:</div>
               <div className="dress-page_left_content_colors flex items-center">
                 <button className="dress-page_left_content_colors_color flex items-center justify-center rounded-full h-[30px] w-[30px] mr-[6px] border border-lybas-blue">
-                  <span className="w-[22px] h-[22px] rounded-full" style={{ background: 'red' }}></span>
+                  <span className="w-[22px] h-[22px] rounded-full" style={{ background: data?.color?.hex }}></span>
                 </button>
               </div>
               <div className="dress-page_left_content_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
               <div className="dress-page_left_content _definition">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta maiores nulla pariatur ducimus eaque et culpa! Quam veniam
-                esse reprehenderit, accusantium corrupti fugiat magnam doloremque facilis cupiditate. Optio, architecto accusantium?
+                {data?.body_tm && data['body_' + lang]}
               </div>
             </div>
           </div>
@@ -243,23 +277,25 @@ function Dress() {
               <Comment />
               <Comment />
             </div>
-            <div className="dress-page_left_similar-dresses">
-              <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
-                <span className="text-xl font-semibold">{t('similarDresses')}</span>
-                <Link to={'/'} className="flex items-center text-lybas-blue">
-                  <span className="hidden md:inline">{t('viewAll')}</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
-                  </svg>
-                </Link>
+            {
+              similarData?.length > 0 &&
+              <div className="dress-page_left_similar-dresses">
+                <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
+                  <span className="text-xl font-semibold">{t('similarDresses')}</span>
+                  <Link to={'/'} className="flex items-center text-lybas-blue">
+                    <span className="hidden md:inline">{t('viewAll')}</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+                    </svg>
+                  </Link>
+                </div>
+                <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {similarData.map((sim, index) => (
+                    <DressComp key={index} hover="small" data={sim} />
+                  ))}
+                </div>
               </div>
-              <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* <DressComp hover="small" />
-                <DressComp hover="small" />
-                <DressComp hover="small" />
-                <DressComp hover="small" /> */}
-              </div>
-            </div>
+            }
           </div>
         </div>
         <div className="dress-page_right md:w-3/10 lg:w-1/5 hidden md:block">
@@ -361,6 +397,7 @@ function Dress() {
           <span className='ml-2 text-white'>{t('remindMe')}</span>
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 }

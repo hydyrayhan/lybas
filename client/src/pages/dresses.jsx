@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Breadcrumb from '../components/Breadcrumb';
 import Dress from '../components/Dress';
-import { AxiosCustom } from '../common/AxiosInstance';
+import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 
 function Dresses() {
   const [data, setData] = useState([]);
@@ -28,7 +28,11 @@ function Dresses() {
 
   const getData = async () => {
     try {
-      const res = await AxiosCustom(`/products?limit=${limit}&sort=${JSON.stringify(sort)}`);
+      if(localStorage.getItem('lybas-user-token')){
+        var res = await AxiosUser(`/products?limit=${limit}&sort=${JSON.stringify(sort)}`);
+      }else{
+        var res = await AxiosCustom(`/products?limit=${limit}&sort=${JSON.stringify(sort)}`);
+      }
       setData(res.data)
     } catch (error) {
       console.log(error);

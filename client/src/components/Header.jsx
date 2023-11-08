@@ -3,9 +3,11 @@ import { Dialog, Popover, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSelector, useDispatch } from "react-redux";
 import { setCartDropdown } from "../redux/features/dropdowns";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { AppContext } from '../App';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import Cart from './Cart';
 import UserPopup from './popups/userPopup';
@@ -14,6 +16,7 @@ import CustomerPopup from './popups/customerPopup';
 import VerificationPopup from './popups/verificationPopup';
 import WaitToContact from './popups/waitToContactPopup';
 import NotificationPopup from './popups/notificationPopup';
+import Logo from '../assets/images/lybas_black_1.svg'
 
 const navigation = {
   pages: [
@@ -21,7 +24,7 @@ const navigation = {
     { name: 'dresses', to: '/dresses' },
     { name: 'dressmakers', to: '/dressmakers' },
     { name: 'blog', to: '/blog' },
-    { name: 'favorites', to: '/favorites' }
+    // { name: 'favorites', to: '/favorites' }
   ]
 };
 
@@ -39,7 +42,9 @@ export default function Header() {
   const [waitToContact, setWaitToContact] = useState(false)
   const [notification, setNotification] = useState(false);
 
+
   const { t, changeLanguage, lang } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const styleHeader = {
     background: '#F6F6F6'
@@ -128,12 +133,7 @@ export default function Header() {
                 <div className="ml-0 lg:ml-4 mr-2 lg:mr-0 flex lg:ml-0">
                   <Link to="/">
                     <span className="sr-only">Your Company</span>
-                    <svg width="87" height="21" viewBox="0 0 87 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M5.524 16.304H11.796V20H0.736V0.343999H5.524V16.304ZM30.9358 0.343999L24.1318 13.504V20H19.3438V13.504L12.5398 0.343999H17.9718L21.7798 8.576L25.5598 0.343999H30.9358ZM44.7649 9.92C45.9036 10.1627 46.8182 10.732 47.5089 11.628C48.1996 12.5053 48.5449 13.5133 48.5449 14.652C48.5449 16.2947 47.9662 17.6013 46.8089 18.572C45.6702 19.524 44.0742 20 42.0209 20H32.8649V0.343999H41.7129C43.7102 0.343999 45.2689 0.801332 46.3889 1.716C47.5276 2.63067 48.0969 3.872 48.0969 5.44C48.0969 6.59733 47.7889 7.55867 47.1729 8.324C46.5756 9.08933 45.7729 9.62133 44.7649 9.92ZM37.6529 8.296H40.7889C41.5729 8.296 42.1702 8.128 42.5809 7.792C43.0102 7.43733 43.2249 6.924 43.2249 6.252C43.2249 5.58 43.0102 5.06667 42.5809 4.712C42.1702 4.35733 41.5729 4.18 40.7889 4.18H37.6529V8.296ZM41.1809 16.136C41.9836 16.136 42.5996 15.9587 43.0289 15.604C43.4769 15.2307 43.7009 14.6987 43.7009 14.008C43.7009 13.3173 43.4676 12.776 43.0009 12.384C42.5529 11.992 41.9276 11.796 41.1249 11.796H37.6529V16.136H41.1809ZM63.5579 16.528H56.2219L55.0459 20H50.0339L57.1459 0.343999H62.6899L69.8019 20H64.7339L63.5579 16.528ZM62.3259 12.832L59.8899 5.636L57.4819 12.832H62.3259ZM79.0785 20.196C77.6411 20.196 76.3531 19.9627 75.2145 19.496C74.0758 19.0293 73.1611 18.3387 72.4705 17.424C71.7985 16.5093 71.4438 15.408 71.4065 14.12H76.5025C76.5771 14.848 76.8291 15.408 77.2585 15.8C77.6878 16.1733 78.2478 16.36 78.9385 16.36C79.6478 16.36 80.2078 16.2013 80.6185 15.884C81.0291 15.548 81.2345 15.0907 81.2345 14.512C81.2345 14.0267 81.0665 13.6253 80.7305 13.308C80.4131 12.9907 80.0118 12.7293 79.5265 12.524C79.0598 12.3187 78.3878 12.0853 77.5105 11.824C76.2411 11.432 75.2051 11.04 74.4025 10.648C73.5998 10.256 72.9091 9.67733 72.3305 8.912C71.7518 8.14667 71.4625 7.148 71.4625 5.916C71.4625 4.08667 72.1251 2.65867 73.4505 1.632C74.7758 0.586666 76.5025 0.0639997 78.6305 0.0639997C80.7958 0.0639997 82.5411 0.586666 83.8665 1.632C85.1918 2.65867 85.9011 4.096 85.9945 5.944H80.8145C80.7771 5.30933 80.5438 4.81467 80.1145 4.46C79.6851 4.08667 79.1345 3.9 78.4625 3.9C77.8838 3.9 77.4171 4.05867 77.0625 4.376C76.7078 4.67467 76.5305 5.11333 76.5305 5.692C76.5305 6.32667 76.8291 6.82133 77.4265 7.176C78.0238 7.53067 78.9571 7.91333 80.2265 8.324C81.4958 8.75333 82.5225 9.164 83.3065 9.556C84.1091 9.948 84.7998 10.5173 85.3785 11.264C85.9571 12.0107 86.2465 12.972 86.2465 14.148C86.2465 15.268 85.9571 16.2853 85.3785 17.2C84.8185 18.1147 83.9971 18.8427 82.9145 19.384C81.8318 19.9253 80.5531 20.196 79.0785 20.196Z"
-                        fill="#0E1217"
-                      />
-                    </svg>
+                    <img className='h-10 min-w-[100px]' src={Logo} alt="" />
                   </Link>
                 </div>
               </div>
@@ -202,14 +202,14 @@ export default function Header() {
                     }
                   </div>
 
-                  <NavLink to="/favorites" className="favorite hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <button onClick={()=>(localStorage.getItem('lybas-user-token') ? navigate("/favorites") : toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000}))} className="favorite hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M10 18.9999L8.55 17.6999C6.86667 16.1832 5.475 14.8749 4.375 13.7749C3.275 12.6749 2.4 11.6874 1.75 10.8124C1.1 9.9374 0.645833 9.13324 0.3875 8.3999C0.129167 7.66657 0 6.91657 0 6.1499C0 4.58324 0.525 3.2749 1.575 2.2249C2.625 1.1749 3.93333 0.649902 5.5 0.649902C6.36667 0.649902 7.19167 0.833236 7.975 1.1999C8.75833 1.56657 9.43333 2.08324 10 2.7499C10.5667 2.08324 11.2417 1.56657 12.025 1.1999C12.8083 0.833236 13.6333 0.649902 14.5 0.649902C16.0667 0.649902 17.375 1.1749 18.425 2.2249C19.475 3.2749 20 4.58324 20 6.1499C20 6.91657 19.8708 7.66657 19.6125 8.3999C19.3542 9.13324 18.9 9.9374 18.25 10.8124C17.6 11.6874 16.725 12.6749 15.625 13.7749C14.525 14.8749 13.1333 16.1832 11.45 17.6999L10 18.9999Z"
                         fill="#64748B"
                       />
                     </svg>
-                  </NavLink>
+                  </button>
                   <Menu as="div" className="language hidden lg:inline-block relative inline-block text-left">
                     <div>
                       <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 py-2 text-sm font-semibold text-gray-900">
@@ -302,11 +302,12 @@ export default function Header() {
       </header>
 
       {/* popups */}
-      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} />
-      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} />
-      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} />
+      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup}/>
+      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} />
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} />
       <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup} />
       <WaitToContact open={waitToContact} setOpen={setWaitToContact} />
+      <ToastContainer />
     </div>
   );
 }
