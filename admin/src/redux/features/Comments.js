@@ -19,6 +19,7 @@ export const fetchDataComments = createAsyncThunk('data/fetchDataComments', asyn
     console.log(error.response.data.message)
     const err = error.response.data.message;
     if (err === 'jwt expired') {
+      window.location.reload('/admin/login')
       localStorage.clear('lybas-token')
     }
     throw error;

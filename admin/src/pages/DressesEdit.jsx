@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { Valid } from '../common/Valid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchDataDresses } from '../redux/features/Dresses';
 import { api } from '../common/Config';
+import {AppContext} from '../App'
 
 function DressesAdd() {
   const [data, setData] = useState({
@@ -28,7 +29,8 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    stock: 999999,
+    stock: '',
+    discount: '',
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -39,11 +41,13 @@ function DressesAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const {lang} = useContext(AppContext);
 
   const [sizes, setSizes] = useState([]);
   const [file, setFile] = useState([]);
   const [loading, setLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(null);
+  const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
     dispatch(setLimitDressmaker(1000))
@@ -58,7 +62,17 @@ function DressesAdd() {
         console.log(res);
         if (res.status === 200) {
           setData({ ...data, ...res.data })
-          setSizes(res.data.sizeIds)
+          const helpData = []
+          for (let i = 0; i < res.data.product_sizes.length; i++) {
+            helpData.push({
+              name: res.data.product_sizes[i].size.size,
+              discount: res.data.product_sizes[i].discount,
+              price: res.data.product_sizes[i].price,
+              stock: res.data.product_sizes[i].stock,
+              sizeId: res.data.product_sizes[i].sizeId
+            })
+          }
+          setSizes([...helpData])
           const images = []
           for (let i = 0; i < res.data.images.length; i++) {
             images.push({
@@ -76,7 +90,26 @@ function DressesAdd() {
   }, [])
 
   const handleSize = (e) => {
-    setSizes(e.target.value)
+    setSizes([...sizes, {
+      sizeId: e.target.value.id,
+      price: '',
+      discount: '',
+      stock: '',
+      name: e.target.value.name
+    }])
+  }
+  const handleSizeSub = (e) => {
+    const index = Number(e.target.id);
+    const value = e.target.value;
+    const name = e.target.name;
+    const helpData = [...sizes];
+    helpData[index][name] = value;
+    setSizes([...helpData]);
+  }
+  const sizeDelete = (index) => {
+    const helpData = [...sizes];
+    helpData.splice(index, 1);
+    setSizes(helpData);
   }
   function convertBytesToKBorMB(bytes) {
     const KB = 1024;
@@ -94,7 +127,7 @@ function DressesAdd() {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
-    for (let i = 0; i < (files.length+file.length < 8 ? files.length : 8-file.length); i++) {
+    for (let i = 0; i < (files.length + file.length < 8 ? files.length : 8 - file.length); i++) {
       arr1.push(files[i]);
       arr2.push({
         url: URL.createObjectURL(files[i]),
@@ -144,7 +177,6 @@ function DressesAdd() {
         }
         await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
       }
-      console.log(res);
       if (res.status === 200) {
         dispatch(fetchDataDresses());
         navigate('/dresses');
@@ -163,7 +195,7 @@ function DressesAdd() {
   }
   return (
     <div className='dress-add'>
-      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={'Taze geler kurte'} />
+      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={data['name_'+lang]} />
 
       <div className="dress-add_content flex justify-between mt-5">
         <div className="dress-add_content_left w-3/5 h-[70vh] overflow-auto rounded-lg border bg-white mr-5">
@@ -222,6 +254,14 @@ function DressesAdd() {
               <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
+              <label className="label font-semibold block mb-2.5" htmlFor='discount'>{t('discount')}</label>
+              <input name='discount' value={data.discount} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
+            </div>
+            <div className="dress-input">
+              <label className="label font-semibold block mb-2.5" htmlFor='quantity'>{t('quantity')}</label>
+              <input name='stock' value={data.stock} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} id='quantity' />
+            </div>
+            <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='category'>{t('category')}</label>
               <FormControl fullWidth>
                 <Select
@@ -258,19 +298,12 @@ function DressesAdd() {
                   <Select
                     labelId="multi-select-label"
                     id="multi-select"
-                    multiple
-                    value={sizes}
+                    value={selectedSize}
+                    name='Size'
                     onChange={handleSize}
-                    renderValue={(selected) => (
-                      <Box display="flex" flexWrap="wrap">
-                        {selected.map((value) => (
-                          <Chip key={value} label={getLabelForValue(value)} style={{ margin: 2 }} />
-                        ))}
-                      </Box>
-                    )}
                   >
                     {dataSize.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
+                      <MenuItem key={option.id} value={{ id: option.id, name: option.size }}>
                         {option.size}
                       </MenuItem>
                     ))}
@@ -278,6 +311,27 @@ function DressesAdd() {
                 </FormControl>
               </div>
             </div>
+            {
+              sizes.length > 0 && sizes.map((size, index) => (
+                <div key={index} className='col-span-2'>
+                  <div className="dress-input sizes flex justify-between">
+                    <div className="dress-input mr-3">
+                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('price')}</label>
+                      <input name='price' id={index} value={size.price} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} />
+                    </div>
+                    <div className="dress-input mr-3">
+                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('discount')}</label>
+                      <input name='discount' id={index} value={size.discount} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} />
+                    </div>
+                    <div className="dress-input">
+                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('quantity')}</label>
+                      <input name='stock' id={index} value={size.stock} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
+                    </div>
+                  </div>
+                  <button className='bg-red-400 rounded text-white py-1 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
+                </div>
+              ))
+            }
             <div className="dress-input sizes col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='body-tm'>{t('writeContentTm')}</label>
               <textarea name='body_tm' value={data.body_tm} onChange={handleInput} className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5 resize-none' placeholder={t('writeContentTm')} id="body-tm" cols="30" rows="5"></textarea>
