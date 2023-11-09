@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const dropdownsSlice = createSlice({
-  name:"dropdowns",
+  name:"Dropdowns",
   initialState:{
     setCart:false,
   },
