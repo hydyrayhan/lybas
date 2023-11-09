@@ -12,7 +12,7 @@ import Blog from '../components/Blog';
 
 // reduxes
 import { useSelector, useDispatch } from "react-redux";
-import { fetchDataBanners } from '../redux/features/banners';
+import { fetchDataBanners } from '../redux/features/Banners';
 import ip from '../common/Config';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 
