@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import dropdowns from '../features/dropdowns';
-import banners from '../features/banners';
-import blogs from '../features/blogs';
+import dropdowns from '../features/Dropdowns';
+import banners from '../features/Banners';
+import blogs from '../features/Blogs';
 import Dresses from '../features/Dresses';
 import Colors from '../features/Colors';
 import Sizes from '../features/Sizes';
