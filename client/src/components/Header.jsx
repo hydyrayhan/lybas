@@ -2,7 +2,7 @@ import { Fragment, useState, useContext, useEffect } from 'react';
 import { Dialog, Popover, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSelector, useDispatch } from "react-redux";
-import { setCartDropdown } from "../redux/features/dropdowns";
+import { setCartDropdown } from "../redux/features/Dropdowns";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
