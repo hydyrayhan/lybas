@@ -1,15 +1,17 @@
 import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogoutPopup({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
-
+  const navigate = useNavigate();
   const logout = ()=>{
+    localStorage.setItem('lybas-user-token','');
+    localStorage.setItem('lybas-user','');
+    navigate('/')
     setOpen(false);
-    // localStorage.setItem('lybas-seller-token','');
-    // localStorage.setItem('lybas-seller','');
   }
 
   return (

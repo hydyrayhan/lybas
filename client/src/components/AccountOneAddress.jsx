@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Popup from './popups/addAddressPopup';
 import DeleteAddressPopup from './popups/deleteAddressPopup';
+import { t } from 'i18next';
 
-function AccountOneAddress({ address, action, className, data, setData }) {
+function AccountOneAddress({ address, action, className, data, setData, setAddresses,addresses }) {
   // const setData
   const [open,setOpen] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
@@ -23,7 +24,7 @@ function AccountOneAddress({ address, action, className, data, setData }) {
       </div>
       {/* content */}
       <div className="content">
-        <div className="address_name text-lybas-gray mb-2">{address.province}</div>
+        <div className="address_name text-lybas-gray mb-2">{t(address.welayat)}</div>
         <div className="name text-lybas-gray mb-2">{address.address}</div>
       </div>
       {/* Buttons */}
@@ -47,8 +48,8 @@ function AccountOneAddress({ address, action, className, data, setData }) {
           </button>
         </>
       }
-      <Popup open={open} setOpen={setOpen} edit={true} editData={data}/>
-      <DeleteAddressPopup open={deletePopup} setOpen={setDeletePopup}/>
+      <Popup open={open} setOpen={setOpen} edit={true} editData={address} setAddresses={setAddresses} addresses={addresses}/>
+      <DeleteAddressPopup open={deletePopup} setOpen={setDeletePopup} address={address} setAddresses={setAddresses} addresses={addresses}/>
     </div>
   );
 }

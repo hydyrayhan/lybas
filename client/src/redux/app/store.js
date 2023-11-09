@@ -8,12 +8,14 @@ import Colors from '../features/Colors';
 import Sizes from '../features/Sizes';
 import Categories from '../features/Categories';
 import Materials from '../features/Materials';
+import Cart from '../features/Cart'
 
 export const store = configureStore({
   reducer: {
     dropdowns,
     banners,
     blogs,
+    Cart,
 
     // Seller
     Dresses,

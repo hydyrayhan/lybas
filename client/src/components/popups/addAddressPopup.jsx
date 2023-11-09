@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import { AxiosUser } from '../../common/AxiosInstance';
 
-export default function Popup({ open, setOpen, edit = false, editData = null }) {
+export default function Popup({ open, setOpen, edit = false, editData = null, addresses, setAddresses }) {
   const [provinceOpen, setProvinceOpen] = useState(false)
   const [dataFull, setDataFull] = useState(false);
+  const [addres,setAddres] = useState(editData?.address)
 
   const data = useRef({
     province: '',
@@ -13,14 +15,49 @@ export default function Popup({ open, setOpen, edit = false, editData = null }) 
 
   const cancelButtonRef = useRef(null)
 
-  const sendData = () => {
+  const sendData = async () => {
+    try {
+      if (edit) {
+        const res = await AxiosUser('/address/'+editData.id, { method: "PATCH", data: { welayat: data.current.province, address: data.current.address } })
+        if (res.status === 200) {
+          const help = []
+          for(let i = 0; i<addresses.length; i++){
+            if(addresses[i].id === editData.id){
+              const hel = {...editData};
+              hel.address = data.current.address
+              hel.welayat = data.current.province
+              help.push(hel)
+            }else{
+              help.push(addresses[i])
+            }
+            setAddresses([...help])
+          }
+          setOpen(false);
+        }
+      } else {
+        const res = await AxiosUser('/address', { method: "POST", data: { welayat: data.current.province, address: data.current.address } })
+        if (res.status === 201) {
+          setAddresses([...addresses, res.data])
+          setOpen(false);
+        }
+      }
+    } catch (error) {
+
+    }
     setOpen(false);
   }
 
   useEffect(() => {
-    data.current = {
-      province: '',
-      address: '',
+    if (edit) {
+      data.current = {
+        province: editData.welayat,
+        address: editData.address,
+      }
+    } else {
+      data.current = {
+        province: '',
+        address: '',
+      }
     }
   }, [open])
 
@@ -35,6 +72,7 @@ export default function Popup({ open, setOpen, edit = false, editData = null }) 
   }
 
   const handleChange = ({ name, value }) => {
+    setAddres(value);
     data.current.address = value;
     checkDataFull();
   }
@@ -83,7 +121,7 @@ export default function Popup({ open, setOpen, edit = false, editData = null }) 
                       <div className="mt-2">
                         <div onClick={() => setProvinceOpen(!provinceOpen)} className='w-full rounded-lg border-2 border-lybas-light-gray p-2 mb-3 outline-none text-lybas-gray text-sm flex justify-between'>
                           <span>{data?.current?.province ? t(data.current.province) : t('province')}</span>
-                          <svg className={'transition-all '+(provinceOpen ? 'rotate-180' : 'rotate-0')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <svg className={'transition-all ' + (provinceOpen ? 'rotate-180' : 'rotate-0')} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 17L4 9.7027L5.86667 8L12 13.5946L18.1333 8L20 9.7027L12 17Z" fill="#0E1217" />
                           </svg>
                         </div>
@@ -95,12 +133,12 @@ export default function Popup({ open, setOpen, edit = false, editData = null }) 
                           <div onClick={() => (selectProvince('lebap'), setProvinceOpen(false))} className={'w-full p-2 hover:bg-blue-100 hover:text-lybas-blue text-gray-500 text-[14px] text-left cursor-pointer tracking-tight ' + (data.current.province === 'lebap' && 'bg-blue-100 text-lybas-blue')}>{t('lebap')}</div>
                           <div onClick={() => (selectProvince('dashoguz'), setProvinceOpen(false))} className={'w-full p-2 hover:bg-blue-100 hover:text-lybas-blue text-gray-500 text-[14px] text-left cursor-pointer tracking-tight ' + (data.current.province === 'dashoguz' && 'bg-blue-100 text-lybas-blue')}>{t('dashoguz')}</div>
                         </div>
-                        <input onChange={(e) => handleChange(e.target)} name='address' type="text" className='w-full rounded-lg border-2 border-lybas-light-gray p-2 outline-none text-lybas-gray text-sm' placeholder={t('yourAddress')} />
+                        <input onChange={(e) => handleChange(e.target)} name='address' value={addres} type="text" id='address' className='w-full rounded-lg border-2 border-lybas-light-gray p-2 outline-none text-lybas-gray text-sm' placeholder={t('yourAddress')} />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="px-10 py-3">
+                <div className="px-10 pt-3 pb-5">
                   <button
                     type="button"
                     className={"w-full rounded-md px-20 py-2 text-sm text-white shadow-sm " + (dataFull ? 'bg-lybas-blue' : 'bg-lybas-gray')}

@@ -1,13 +1,31 @@
 import { Fragment, useEffect, useState, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import { AxiosUser } from '../../common/AxiosInstance';
 
-export default function DeleteAddressPopup({ open, setOpen }) {
+export default function DeleteAddressPopup({ open, setOpen, address, setAddresses,addresses }) {
 
   const cancelButtonRef = useRef(null)
   const [loading, setLoading] = useState(false);
 
-  const sendData = () => {
+  const sendData = async () => {
+    setLoading(true);
+    const help = []
+    for(let i = 0; i<addresses.length; i++){
+      if(addresses[i].id !== address.id){
+        help.push(addresses[i])
+      }
+    }
+    try {
+      const res = await AxiosUser("/address/delete/"+address.id,{method:'POST'})
+      if(res.status === 200){
+        setAddresses([...help]);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
     setOpen(false);
   }
 

@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { AppContext } from '../App';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDataCart } from '../redux/features/Cart';
 
 import DressComp from '../components/Dress';
 import Popup from '../components/Popup';
@@ -16,6 +18,7 @@ function Dress() {
   const refImage = useRef(null);
   const refImageOpenButton = useRef(null);
   const [data, setData] = useState(null);
+  const [count, setCount] = useState(0);
   const [similarData, setSimilarData] = useState(null);
   const [stars, setStars] = useState(Array.from({ length: data ? data.rating : 0 }));
   const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - (data ? data.rating : 0) }));
@@ -23,9 +26,23 @@ function Dress() {
   const [inStock, setInStock] = useState(!data?.stock > 0);
   const [popupOpen, setPopupOpen] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state?.Cart.data)
   const [like, setLike] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState();
+  const [quantity, setQuantity] = useState(0);
 
+
+  const isOrdered = async ()=>{
+    try {
+      const res = await AxiosUser("/is-ordered?productsizeId="+id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   useEffect(() => {
     const getData = async () => {
       try {
@@ -36,13 +53,17 @@ function Dress() {
           res = await AxiosCustom(`/products/${id}`)
         }
         setData(res?.data?.data?.oneProduct)
+        setCount(res?.data?.data.count)
+        console.log(res?.data?.data?.oneProduct)
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
+        setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
       } catch (error) {
         console.log(error);
       }
     }
     getData();
+    isOrdered();
 
     const handleClickOutside = (event) => {
       if (refImage.current && !refImage.current.contains(event.target) && !refImageOpenButton.current.contains(event.target)) {
@@ -55,21 +76,39 @@ function Dress() {
   }, []);
 
   const handleLike = async (id) => {
-    console.log(data);
-    if(localStorage.getItem('lybas-user-token')){
+    if (localStorage.getItem('lybas-user-token')) {
       try {
-        console.log(like);
-        if(like){
-          await AxiosUser("/dislike?id="+id, {method:"POST"})
-        }else{
-          await AxiosUser("/like?id="+id, {method:"POST"})
+        if (like) {
+          await AxiosUser("/dislike?id=" + id, { method: "POST" })
+        } else {
+          await AxiosUser("/like?id=" + id, { method: "POST" })
         }
       } catch (error) {
         console.log(error);
       }
       setLike(!like)
-    }else{
-      toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000});
+    } else {
+      toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
+    }
+  }
+
+  const handleSize = (size, index) => {
+    setInStock(size.stock ? true : false)
+    setSelectedSize({ size, index });
+  }
+
+  const addToCart = async()=>{
+    const data = {
+      id:id,
+      productsizeId:selectedSize.size.id,
+      quantity
+    }
+    try {
+      await AxiosUser('/to-my-cart',{method:'POST',data})
+      dispatch(fetchDataCart())
+      toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -223,31 +262,20 @@ function Dress() {
               <div className="dress-page_left_content_sizes flex flex-wrap items-center mb-[15px]">
                 {
                   data?.product_sizes?.length && data?.product_sizes?.map((size, index) => (
-                    <button key={index} className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray"> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
+                    <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : 'border-lybas-light-gray')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
                       {size?.size?.size}
-                      <div className='absolute -top-3 -right-3 bg-gray-200 w-6 h-6 p-1 rounded-full'>
-                        <svg className='fill-[#0E1217] w-full h-full' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
-                        </svg>
-                      </div>
+                      {
+                        !size?.stock &&
+                        <div className={'absolute -top-3 -right-3 w-6 h-6 p-1 rounded-full ' + (selectedSize.index === index ? 'bg-lybas-blue' : 'bg-gray-200')}>
+                          <svg className={'w-full h-full ' + (selectedSize.index === index ? 'fill-white' : 'fill-[#0E1217]')} width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
+                          </svg>
+                        </div>
+                      }
                     </button>
 
                   ))
                 }
-                <button className="relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-blue text-lybas-blue">
-                  M(38)
-                  <div className='absolute -top-3 -right-3 bg-lybas-blue w-6 h-6 p-1 rounded-full'>
-                    <svg className='w-full h-full fill-white' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2.5 11.875V10.625H3.75V6.25C3.75 5.38542 4.01042 4.61719 4.53125 3.94531C5.05208 3.27344 5.72917 2.83333 6.5625 2.625V2.1875C6.5625 1.92708 6.65365 1.70573 6.83594 1.52344C7.01823 1.34115 7.23958 1.25 7.5 1.25C7.76042 1.25 7.98177 1.34115 8.16406 1.52344C8.34635 1.70573 8.4375 1.92708 8.4375 2.1875V2.625C9.27083 2.83333 9.94792 3.27344 10.4688 3.94531C10.9896 4.61719 11.25 5.38542 11.25 6.25V10.625H12.5V11.875H2.5ZM7.5 13.75C7.15625 13.75 6.86198 13.6276 6.61719 13.3828C6.3724 13.138 6.25 12.8438 6.25 12.5H8.75C8.75 12.8438 8.6276 13.138 8.38281 13.3828C8.13802 13.6276 7.84375 13.75 7.5 13.75ZM5 10.625H10V6.25C10 5.5625 9.75521 4.97396 9.26562 4.48438C8.77604 3.99479 8.1875 3.75 7.5 3.75C6.8125 3.75 6.22396 3.99479 5.73438 4.48438C5.24479 4.97396 5 5.5625 5 6.25V10.625Z" />
-                    </svg>
-                  </div>
-                </button>
-                <button className="dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray">
-                  M(38)
-                </button>
-                <button className="dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border border-lybas-light-gray">
-                  M(38)
-                </button>
               </div>
               <div className="dress-page_left_content_color-name text-sm text-lybas-gray mb-[10px]">{t('color')}:</div>
               <div className="dress-page_left_content_colors flex items-center">
@@ -305,7 +333,7 @@ function Dress() {
             <div className="dress-page_right_add-card_number my-[15px] flex flex-wrap justify-between items-center">
               <span className="text-lybas-gray">{t('numbers')}:</span>
               <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
-                <button className="h-full px-[8px] group border-r border-r-lybas-light-gray">
+                <button onClick={() => setQuantity(quantity > 0 ? quantity - 1 : 0)} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="16"
@@ -317,8 +345,8 @@ function Dress() {
                     <path d="M0.666748 1.66659V0.333252H15.3334V1.66659H0.666748Z" />
                   </svg>
                 </button>
-                <span className="px-[20px] text-semibold">0</span>
-                <button className="h-full px-[8px] group border-l border-l-lybas-light-gray">
+                <span className="w-10 text-center text-semibold">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="12"
@@ -338,6 +366,7 @@ function Dress() {
               <span className="font-semibold">0{t('tmt')}</span>
             </div>
             <button
+              disabled={!inStock}
               className={
                 'dress-page_right_add-card_order-button w-full py-[10px] mb-[15px] rounded-lg ' +
                 (inStock ? 'bg-lybas-blue text-white' : 'bg-lybas-light-gray text-lybas-gray cursor-not-allowed')
@@ -345,8 +374,8 @@ function Dress() {
             >
               {t('order')}
             </button>
-            <button className="dress-page_right_add-checkout-button w-full py-[10px] shadow-lybas-1 text-lybas-blue rounded-lg">
-              {t('checkout')}
+            <button disabled={!inStock} onClick={addToCart} className={"dress-page_right_add-checkout-button w-full py-[10px] shadow-lybas-1 rounded-lg " + (inStock ? 'text-lybas-blue' : 'text-gray-400 cursor-not-allowed')}>
+              {t('addToCard')}
             </button>
           </div>
 
@@ -354,16 +383,21 @@ function Dress() {
           <div className="dress-page_right_seller-card p-[20px] mb-[20px] rounded-lg shadow-lybas-1">
             <div className="text-lg font-semibold pb-3">{t('seller')}</div>
             <div className="dress-page_right_seller-card_location flex">
-              <svg className="mr-4 h-full" width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="70" height="70" rx="8" fill="#64748B" />
-                <path
-                  d="M19.6667 23.5001V19.6667H50.3333V23.5001H19.6667ZM19.6667 50.3334V38.8334H17.75V35.0001L19.6667 25.4167H50.3333L52.25 35.0001V38.8334H50.3333V50.3334H46.5V38.8334H38.8333V50.3334H19.6667ZM23.5 46.5001H35V38.8334H23.5V46.5001Z"
-                  fill="white"
-                />
-              </svg>
+              {
+                data?.seller?.image ?
+                  <img className='mr-4 h-full w-[70px] rounded-lg' src={ip + '/' + data?.seller?.image} />
+                  :
+                  <svg className="mr-4 h-full" width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="70" rx="8" fill="#64748B" />
+                    <path
+                      d="M19.6667 23.5001V19.6667H50.3333V23.5001H19.6667ZM19.6667 50.3334V38.8334H17.75V35.0001L19.6667 25.4167H50.3333L52.25 35.0001V38.8334H50.3333V50.3334H46.5V38.8334H38.8333V50.3334H19.6667ZM23.5 46.5001H35V38.8334H23.5V46.5001Z"
+                      fill="white"
+                    />
+                  </svg>
+              }
               <div className="flex flex-col">
-                <span className="font-semibold">Kümuş.G</span>
-                <span className="text-lybas-gray">105 Types of dresses</span>
+                <span className="font-semibold">{data?.seller?.name}</span>
+                <span className="text-lybas-gray">{count} {t('typesOfProducts')}</span>
               </div>
             </div>
             <div className="dress-page_right_seller-card_velayat flex items-center font-semibold my-[20px]">
@@ -375,9 +409,10 @@ function Dress() {
               </svg>
               <span>{t('ashgabat')}</span>
             </div>
-            <button className="dress-page_right_seller-card_more-button lybas-blue-button mb-[15px]">{t('more')}</button>
+            <button onClick={() => navigate('/dressmakers/' + data?.seller.id)} className="dress-page_right_seller-card_more-button lybas-blue-button mb-[15px]">{t('more')}</button>
             <button
               onClick={() => setPopupOpen(true)}
+              disabled={inStock}
               className={
                 'dress-page_right_seller-card_remind-button lybas-button ' +
                 (inStock ? 'bg-lybas-light-gray text-lybas-gray cursor-not-allowed' : 'bg-lybas-blue text-white')

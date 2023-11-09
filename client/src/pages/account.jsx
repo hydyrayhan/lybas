@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
+import { AxiosUser } from '../common/AxiosInstance';
 import { t } from 'i18next';
 
 // component
@@ -14,8 +15,8 @@ import FeedbackPopup from '../components/popups/feedbackPopup';
 import Comment from '../components/Comment';
 import AccountOneAddress from '../components/AccountOneAddress';
 import MobileSlide from '../components/MobileSlide';
-
-const image1 = require('../assets/images/dressImage.png');
+import { useNavigate } from 'react-router-dom';
+import ip from '../common/Config';
 
 function Account() {
   // Accordion style
@@ -33,33 +34,55 @@ function Account() {
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
   const [mobileSlideOpen, setMobileSlideOpen] = useState(true);
+  const [imageUpload, setImageUpload] = useState();
   const [accountData, setAccountData] = useState({
-    name: 'Merdan',
-    surname: 'Kadyrow',
-    password: 'geO123!',
-    phone_number: '+99364813309'
+    name: '',
+    surname: '',
+    password: '',
+    user_phone: '',
+    image: '',
   });
   const [addresses, setAddresses] = useState([
-    {
-      province: 'Ahal',
-      address: 'Ahal welayaty'
-    },
-    {
-      province: 'Ahal',
-      address: 'Ahal welayaty Tejen shaheri Vsoky rayony Dowran kochesi 107-nji jayy'
-    },
-    {
-      province: 'Ahal',
-      address: 'Ahal welayaty Tejen shaheri Vsoky rayony Dowran kochesi 107-nji jayy'
-    }
+    // {
+    //   province: 'Ahal',
+    //   address: 'Ahal welayaty'
+    // },
   ]);
   const [addAddressOpen, setAddAddressOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(false);
 
-  const saveProfile = () => {
-    setEditAccount(false);
+  const saveProfile = async () => {
+    const data = {
+      username: accountData.name + ' ' + accountData.surname,
+      user_phone: accountData.user_phone,
+      password: accountData.password,
+    }
+    try {
+      const res = await AxiosUser('/update-me', { method: "PATCH", data })
+      if (res.status = 200) {
+        if (accountData.image) {
+          const formData = new FormData();
+          formData.append("image", accountData.image);
+          await AxiosUser('/upload-image', { method: "POST", data: formData }, true)
+        }
+        const getUserBack = await AxiosUser('/get-me');
+        localStorage.setItem('lybas-user', JSON.stringify(getUserBack.data))
+        setEditAccount(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
   };
+
+  const handleImageAccount = (e) => {
+    const files = e.target.files;
+    setImageUpload(
+      URL.createObjectURL(files[0]),
+    )
+    setAccountData({ ...accountData, image: files[0] })
+  }
 
   const renderContent = (content) => {
     if (content === 'myAccount') {
@@ -70,7 +93,21 @@ function Account() {
             {/* my account card form */}
             <div className="account_card_content_form-account grid grid-cols-2 gap-5 md:pr-20">
               <div className="account_card_content_form-account_image flex">
-                <img className="h-[55px] w-[55px] rounded-full object-cover mr-5" src={image1} alt="" />
+                {
+                  imageUpload &&
+                  <img className="h-[55px] w-[55px] rounded-full object-cover mr-5" src={imageUpload} alt="1" />
+
+                }
+                {
+                  !imageUpload && accountData.image &&
+                  <img className="h-[55px] w-[55px] rounded-full object-cover mr-5" src={accountData.image} alt="2" />
+                }
+                {
+                  !accountData.image && !imageUpload &&
+                  <svg className="h-[55px] w-[55px] rounded-full object-cover mr-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C10.625 12 9.44792 11.5104 8.46875 10.5312C7.48958 9.55208 7 8.375 7 7C7 5.625 7.48958 4.44792 8.46875 3.46875C9.44792 2.48958 10.625 2 12 2C13.375 2 14.5521 2.48958 15.5312 3.46875C16.5104 4.44792 17 5.625 17 7C17 8.375 16.5104 9.55208 15.5312 10.5312C14.5521 11.5104 13.375 12 12 12ZM2 22V18.5C2 17.7917 2.18229 17.1406 2.54688 16.5469C2.91146 15.9531 3.39583 15.5 4 15.1875C5.29167 14.5417 6.60417 14.0573 7.9375 13.7344C9.27083 13.4115 10.625 13.25 12 13.25C13.375 13.25 14.7292 13.4115 16.0625 13.7344C17.3958 14.0573 18.7083 14.5417 20 15.1875C20.6042 15.5 21.0885 15.9531 21.4531 16.5469C21.8177 17.1406 22 17.7917 22 18.5V22H2Z" fill="#64748B" />
+                  </svg>
+                }
                 <div className="image_actions flex flex-col justify-center">
                   <div className="image_actions_title font-semibold">{t('editPhoto')}</div>
                   <div className="image_actoins_buttons flex">
@@ -80,7 +117,7 @@ function Account() {
                     >
                       {t('upload')}
                     </label>
-                    <input className="hidden" type="file" id="upload-image" />
+                    <input onChange={handleImageAccount} className="hidden" type="file" id="upload-image" />
                     <button disabled={!editAccount} className="text-sm text-semibold">
                       {t('delete')}
                     </button>
@@ -88,11 +125,11 @@ function Account() {
                 </div>
               </div>
               <div className="free"></div>
-              <input type="text" className="input" value={accountData.name} disabled={!editAccount} />
-              <input type="text" className="input" value={accountData.surname} disabled={!editAccount} />
-              <input type="text" className="input" value={accountData.phone_number} disabled={!editAccount} />
+              <input type="text" className="input" onChange={(e) => setAccountData({ ...accountData, name: e.target.value })} placeholder={t('nameSimple')} value={accountData.name} disabled={!editAccount} />
+              <input type="text" className="input" onChange={(e) => setAccountData({ ...accountData, surname: e.target.value })} placeholder={t('surname')} value={accountData.surname} disabled={!editAccount} />
+              <input type="text" className="input" value={accountData.user_phone} disabled={true} />
               <label className="input cursor-pointer flex" htmlFor="password">
-                <input type={passType} id="password" className="w-full outline-none" value={accountData.password} disabled={!editAccount} />
+                <input type={passType} placeholder={t('password')} onChange={(e) => setAccountData({ ...accountData, password: e.target.value })} id="password" className="w-full outline-none" value={accountData.password} disabled={!editAccount} />
                 {editAccount && (
                   <button onClick={() => setPassType(passType === 'text' ? 'password' : 'text')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +182,7 @@ function Account() {
             {/* my account card form */}
             <div className="account_card_content_cards grid grid-cols-2 gap-5 md:pr-20">
               {addresses.map((address, index) => (
-                <AccountOneAddress key={index} address={address} action={true} />
+                <AccountOneAddress key={index} address={address} action={true} setAddresses={setAddresses} addresses={addresses}/>
               ))}
             </div>
           </div>
@@ -153,12 +190,13 @@ function Account() {
           <span>
             <button
               onClick={() => setAddAddressOpen(true)}
-              className="account_card_content_button px-20 py-2 text-white bg-lybas-blue rounded-lg mt-5 hover:opacity-75"
+              disabled={addresses.length>3}
+              className={"account_card_content_button px-20 py-2 text-white rounded-lg mt-5 hover:opacity-75 "+(addresses.length>3 ? 'bg-lybas-gray' : 'bg-lybas-blue')}
             >
               {t('add')}
             </button>
           </span>
-          <AddAddressPopup open={addAddressOpen} setOpen={setAddAddressOpen} />
+          
         </div>
       );
     } else if (content === 'orders') {
@@ -192,7 +230,7 @@ function Account() {
               </div>
               <div className="account_card_order_list_bottom h-auto overflow-hidden">
                 <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" />
+                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
                   <div className="name-price-quantity col-span-6 md:col-span-4">
                     <div className="name font-semibold">Hollo</div>
                     <div className="price-quantity flex text-[12px] text-lybas-gray">
@@ -210,7 +248,7 @@ function Account() {
                   </div>
                 </div>
                 <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" />
+                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
                   <div className="name-price-quantity col-span-6 md:col-span-4">
                     <div className="name font-semibold">Hollo</div>
                     <div className="price-quantity flex text-[12px] text-lybas-gray">
@@ -228,7 +266,7 @@ function Account() {
                   </div>
                 </div>
                 <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" />
+                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
                   <div className="name-price-quantity col-span-6 md:col-span-4">
                     <div className="name font-semibold">Hollo</div>
                     <div className="price-quantity flex text-[12px] text-lybas-gray">
@@ -264,9 +302,44 @@ function Account() {
     }
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('lybas-user-token')
+    if (token) {
+      const user = JSON.parse(localStorage.getItem('lybas-user'));
+      setAccountData({
+        name: user.username ? user.username.split(' ')[0] : '',
+        surname: user.username ? user.username.split(' ')[1] : '',
+        user_phone: user.user_phone,
+        image: user.image ? ip + '/' + user.image : '',
+        password: '',
+      })
+
+
+
+    } else {
+      navigate('/')
+    }
+  }, [])
+
+  useEffect(() => {
+    const getData = async () => {
+      if (contentTitle === 'myAddresses' && !addresses.length) {
+        try {
+          const res = await AxiosUser("/address");
+          setAddresses(res.data.address);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    getData();
+  }, [contentTitle])
+
   return (
     <div className="account container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-      <Breadcrumb />
+      <Breadcrumb page1={{ text: 'profile', link: '/account' }} />
 
       <div className="account_title text-3xl font-bold mb-5 tracking-tighter">{t('myAccount')}</div>
       {/* my account card */}
@@ -325,6 +398,7 @@ function Account() {
         </MobileSlide>
         <LogoutPopup open={logoutOpen} setOpen={setLogoutOpen} />
         <FeedbackPopup open={feedbackPopupOpen} setOpen={setFeedbackPopupOpen} />
+        <AddAddressPopup open={addAddressOpen} setOpen={setAddAddressOpen} setAddresses={setAddresses} addresses={addresses} />
       </div>
     </div>
   );

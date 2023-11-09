@@ -28,8 +28,8 @@ export default function CustomerPopup({ open, setOpen, veri }) {
     if (data.user_phone && data.password && data.passwordConfirm) {
       try {
         const res = await axios.post(ip + '/users/signup', { user_phone: data.user_phone });
-        if(res.status === 200){
-          localStorage.setItem('verification-data',JSON.stringify(data));
+        if (res.status === 200) {
+          localStorage.setItem('verification-data', JSON.stringify(data));
           setOpen(false);
           veri(true);
         }
@@ -40,6 +40,22 @@ export default function CustomerPopup({ open, setOpen, veri }) {
       }
     } else {
       setErrorText(t('fillTheGaps'))
+    }
+  }
+
+  const sendDataIn = async () => {
+    console.log(data);
+    if (data.user_phone && data.password) {
+      try {
+        const res = await axios.post(ip + '/users/login', { user_phone: data.user_phone, password: data.password });
+        if (res.status === 200) {
+          localStorage.setItem('lybas-user-token', res.data.token)
+          localStorage.setItem('lybas-user', JSON.stringify(res.data.data.user))
+          window.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -117,7 +133,7 @@ export default function CustomerPopup({ open, setOpen, veri }) {
                   <button
                     type="button"
                     className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
-                    onClick={() => (isSignIn ? '' : sendDataUp())}
+                    onClick={() => (isSignIn ? sendDataIn() : sendDataUp())}
                   >
                     {t('confirm')}
                   </button>

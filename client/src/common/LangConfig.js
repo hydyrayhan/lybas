@@ -77,21 +77,21 @@ const resources = {
       addNewAddress: "Add new address",
       doYouWantToLogout: "Do you really want to logout?",
       ok: "Ok",
-      buyAgain: "Buy again", //
-      user: "User", //
+      buyAgain: "Buy again",
+      user: "User",
       whoWillUseWebsiteAs: "Do you want to be our customer or atelier/dressmaker?",
       customer: "Customer",
       dressmaker: "Ateliers and Dressmakers",
       hello: "Hello",
-      welcomeDashboard: "Welcome back to dashboard",//
-      users: 'Users', //
+      welcomeDashboard: "Welcome back to dashboard",
+      users: 'Users',
       comments: "Comments",
       onSale: "On sale",
       sizeChart: "Size chart",
       checkout: "Checkout",
       thereAre: "There are",
       productsInYourCart: "Products in your cart",
-      billingDetails: "Billing Details", //
+      billingDetails: "Billing Details",
       firstName: "First name",
       lastName: "Last name",
       note: "Note",
@@ -112,7 +112,7 @@ const resources = {
       clickToUpload: "Click to Upload",
       addComment: "Add comment",
       myFeedback: "My feedbacks",
-      becomeMember: "Become a member", //Gerek dal
+      becomeMember: "Become a member",
       signUp: "Sign up",
       signIn: "Sign in",
       password: "Password",
@@ -213,6 +213,9 @@ const resources = {
       outStock:"Out stock",
       adminConfirm:"Admin will be give you permission",
       loginWorning:"Login first",
+      surname:"Surname",
+      typesOfProducts:" types of products",
+      addedToCart:"Added to cart",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -435,6 +438,9 @@ const resources = {
       outStock:"Нет в наличии",
       adminConfirm:"Администратор даст вам разрешение",
       loginWorning:"Сначала войдите в систему",
+      surname:"Фамилия",
+      typesOfProducts:" видов товаров",
+      addedToCart:"Добавлено в корзину",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -662,6 +668,9 @@ const resources = {
       outStock:"Elimizde ýok",
       adminConfirm:"Admin rugsat bermeli",
       loginWorning:"Ilki registrasiýa boluň",
+      surname:"Familiýa",
+      typesOfProducts:" sany haryt görnüşi",
+      addedToCart:"Sebede goşuldy",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
