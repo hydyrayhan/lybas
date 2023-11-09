@@ -1,8 +1,12 @@
-import { Fragment, useState, useRef, useEffect } from 'react'
+import { Fragment, useState, useRef, useEffect, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { t } from 'i18next'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDataCart } from '../redux/features/Cart';
+import ip from '../common/Config'
+import { AppContext } from '../App'
 
 const products = [
   {
@@ -31,6 +35,9 @@ const products = [
 
 export default function Cart({ open, setOpen }) {
   const cancelButtonRef = useRef(null)
+  const {lang} = useContext(AppContext);
+  const cartData = useSelector((state) => state?.Cart.data)
+  console.log(cartData)
   
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -80,12 +87,11 @@ export default function Cart({ open, setOpen }) {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {products.map((product) => (
-                              <li key={product.id} className="flex py-6">
+                            {cartData?.length> 0 && cartData.map((product,index) => (
+                              <li key={index} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
+                                    src={ip +'/'+ product.image}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -94,11 +100,11 @@ export default function Cart({ open, setOpen }) {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <Link to={'/'} className='font-semibold' href={product.href}>{product.name}</Link>
+                                        <Link to={'/dresses/'+product.productId} className='font-semibold'>{product['name_'+lang]}fdsf</Link>
                                       </h3>
                                       <p className="ml-4 font-semibold">{product.price}{t('tmt')}</p>
                                     </div>
-                                    <p className="mt-1 text-base text-lybas-gray">{product.color}</p>
+                                    <p className="mt-1 text-base text-lybas-gray">{product.size}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500">{product.price} {t('tmt')} x {product.quantity}</p>
@@ -110,7 +116,7 @@ export default function Cart({ open, setOpen }) {
                                             <path d="M0.666748 1.66659V0.333252H15.3334V1.66659H0.666748Z" />
                                           </svg>
                                         </button>
-                                        <span className='px-[20px] text-semibold'>0</span>
+                                        <span className='px-[20px] text-semibold'>{product.quantity}</span>
                                         <button className='h-full px-[8px] group border-l border-l-lybas-light-gray'>
                                           <svg className='fill-lybas-gray group-hover:fill-lybas-blue' width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5.23793 6.76199H0.666504V5.23818H5.23793V0.666748H6.76174V5.23818H11.3332V6.76199H6.76174V11.3334H5.23793V6.76199Z" />

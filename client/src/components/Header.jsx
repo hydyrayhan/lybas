@@ -43,8 +43,6 @@ export default function Header() {
   const [waitToContact, setWaitToContact] = useState(false)
   const [notification, setNotification] = useState(false);
   const cartData = useSelector((state) => state?.Cart.data)
-  
-
 
   const { t, changeLanguage, lang } = useContext(AppContext);
   const navigate = useNavigate();
@@ -58,7 +56,7 @@ export default function Header() {
   const openCartDropdown = useSelector(state => state?.dropdowns?.setCart);
 
   useEffect(()=>{
-    if(!cartData.length) dispatch(fetchDataCart());
+    if(!cartData.length && localStorage.getItem('lybas-user-token')) dispatch(fetchDataCart());
   },[])
 
   return (

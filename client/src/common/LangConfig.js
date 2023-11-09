@@ -216,6 +216,7 @@ const resources = {
       surname:"Surname",
       typesOfProducts:" types of products",
       addedToCart:"Added to cart",
+      noQuantity:"Firstly add quantity",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -441,6 +442,7 @@ const resources = {
       surname:"Фамилия",
       typesOfProducts:" видов товаров",
       addedToCart:"Добавлено в корзину",
+      noQuantity:"Сначала добавьте количество",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -671,6 +673,7 @@ const resources = {
       surname:"Familiýa",
       typesOfProducts:" sany haryt görnüşi",
       addedToCart:"Sebede goşuldy",
+      noQuantity:"Haryt mukdaryny goşuň",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

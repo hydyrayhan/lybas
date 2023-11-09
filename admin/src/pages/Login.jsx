@@ -29,7 +29,7 @@ function Login() {
   }
   return (
     <div className='login-background bg-gray-100 w-screen h-screen'>
-      <div className='login w-4/5 m-auto translate-y-1/2 flex'>
+      <div className='login w-4/5 m-auto absolute left-[50%] top-[50%] -translate-y-1/2 -translate-x-1/2 flex'>
         <div className="login_form w-1/2 p-20 bg-white">
           <div className="login_form_title font-bold text-3xl mb-5">{t('signIn')}</div>
           <form onSubmit={sendData}>

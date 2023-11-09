@@ -78,6 +78,7 @@ const AxiosUser = async (url, options = { method: 'GET' }, file = false) => {
   });
   return response;
 };
+
 const AxiosCustom = async (url, options = { method: 'GET' }, file = false) => {
   const token = localStorage.getItem('lybas-user-token')
   if (file) {

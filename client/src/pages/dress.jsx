@@ -33,12 +33,23 @@ function Dress() {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
   const [quantity, setQuantity] = useState(0);
+  const [orderedData,setOrderedData] = useState({});
+  const [totalPrice,setTotalPrice] = useState(0);
 
-
-  const isOrdered = async ()=>{
+  console.log(cartData,123)
+  const isOrdered = async (id)=>{
     try {
+      console.log(selectedSize)
       const res = await AxiosUser("/is-ordered?productsizeId="+id);
-      console.log(res);
+      if(res?.data?.status === 1){
+        setOrderedData(res?.data?.order_product);
+        setQuantity(res?.data?.order_product?.quantity)
+        setTotalPrice(res?.data?.order_product?.total_price)
+      }else{
+        setQuantity(0)
+        setTotalPrice(0)
+      }
+      console.log(res,'isordered  ');
     } catch (error) {
       console.log(error);
     }
@@ -58,12 +69,12 @@ function Dress() {
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
+        if(localStorage.getItem('lybas-user-token')) isOrdered(res?.data?.data?.oneProduct?.product_sizes[0].id);
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-    isOrdered();
 
     const handleClickOutside = (event) => {
       if (refImage.current && !refImage.current.contains(event.target) && !refImageOpenButton.current.contains(event.target)) {
@@ -92,23 +103,40 @@ function Dress() {
     }
   }
 
-  const handleSize = (size, index) => {
-    setInStock(size.stock ? true : false)
-    setSelectedSize({ size, index });
+  const handleSize = async(size, index) => {
+    await setInStock(size.stock ? true : false);
+    await setSelectedSize({ size, index });
+    await isOrdered(size.id)
   }
 
   const addToCart = async()=>{
-    const data = {
-      id:id,
-      productsizeId:selectedSize.size.id,
-      quantity
+    if(localStorage.getItem('lybas-user-token')){
+      if(quantity>0){
+        const data = {
+          id:id,
+          productsizeId:selectedSize.size.id,
+          quantity
+        }
+        try {
+          await AxiosUser('/to-my-cart',{method:'POST',data})
+          dispatch(fetchDataCart())
+          toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
+        } catch (error) {
+          console.log(error);
+        }
+      }else{
+        toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 });
+      }
+    }else{
+      toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
-    try {
-      await AxiosUser('/to-my-cart',{method:'POST',data})
-      dispatch(fetchDataCart())
-      toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
-    } catch (error) {
-      console.log(error);
+  }
+
+  const instantOrder = async()=>{
+    if(localStorage.getItem('lybas-user-token')){
+      
+    }else{
+      toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
 
@@ -129,9 +157,9 @@ function Dress() {
               <div className="dress-page_left_big-image relative w-4/5 ml-[10px] mt-[10px]">
                 <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full object-cover rounded" />
                 {
-                  data?.discount &&
+                  selectedSize?.size?.discount > 0 &&
                   <div className="dress-page_left_big-image_discount absolute top-[5px] left-[5px] bg-lybas-red rounded py-[5px] px-[10px] text-sm text-white">
-                    {data?.discount}%
+                    {selectedSize?.size?.discount}%
                   </div>
                 }
                 <div onClick={() => handleLike(data?.id)} className="dress-page_left_big-image_like absolute top-[5px] right-[5px] bg-black rounded py-[5px] px-[10px] cursor-pointer">
@@ -150,10 +178,10 @@ function Dress() {
             <div className="dress-page_left_content w-full lg:w-1/2 mt-[10px]">
               <h1 className="dress-page_left_content_name text-xl md:text-2xl lg:text-3xl font-semibold">{data ? data['name_' + lang] : ''}</h1>
               <div className="dress-page_left_content_prices my-1 md:my-2 lg:my-[10px] flex items-center">
-                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{data?.price} {t('tmt')}</div>
+                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{selectedSize?.size?.price} {t('tmt')}</div>
                 {
                   data?.discount &&
-                  <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{data?.price_old} {t('tmt')}</div>
+                  <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{selectedSize?.size?.price_old} {t('tmt')}</div>
                 }
               </div>
               <div className="dress-page_left_content_rating-stock flex items-center mb-[10px]">
@@ -363,10 +391,11 @@ function Dress() {
             <div className="dress-page_right_add-card_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
             <div className="dress-page_right_add-card_total-price mb-[20px] flex justify-between items-center">
               <span className="text-lybas-gray">{t('total')}:</span>
-              <span className="font-semibold">0{t('tmt')}</span>
+              <span className="font-semibold">{totalPrice}{t('tmt')}</span>
             </div>
             <button
               disabled={!inStock}
+              onClick={instantOrder}
               className={
                 'dress-page_right_add-card_order-button w-full py-[10px] mb-[15px] rounded-lg ' +
                 (inStock ? 'bg-lybas-blue text-white' : 'bg-lybas-light-gray text-lybas-gray cursor-not-allowed')
