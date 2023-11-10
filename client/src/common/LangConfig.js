@@ -217,6 +217,10 @@ const resources = {
       typesOfProducts:" types of products",
       addedToCart:"Added to cart",
       noQuantity:"Firstly add quantity",
+      changeCart:"Change cart",
+      removedFromCart:"Romoved from cart",
+      yourAddressIsEmpty:"You don't have address",
+      thankYouOrder:"Thank you for your shopping!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -443,6 +447,10 @@ const resources = {
       typesOfProducts:" видов товаров",
       addedToCart:"Добавлено в корзину",
       noQuantity:"Сначала добавьте количество",
+      changeCart:"Изменить корзину",
+      removedFromCart:"Удалено из корзины",
+      yourAddressIsEmpty:"У вас нет адреса",
+      thankYouOrder:"Спасибо за покупки!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -674,6 +682,10 @@ const resources = {
       typesOfProducts:" sany haryt görnüşi",
       addedToCart:"Sebede goşuldy",
       noQuantity:"Haryt mukdaryny goşuň",
+      changeCart:"Sebedi üýtget",
+      removedFromCart:"Sebetden pozuldy",
+      yourAddressIsEmpty:"Siziň salgyňyz ýok",
+      thankYouOrder:"Söwdaňyz üçin sagboluň!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

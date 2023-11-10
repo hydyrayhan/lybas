@@ -42,12 +42,7 @@ function Account() {
     user_phone: '',
     image: '',
   });
-  const [addresses, setAddresses] = useState([
-    // {
-    //   province: 'Ahal',
-    //   address: 'Ahal welayaty'
-    // },
-  ]);
+  const [addresses, setAddresses] = useState([]);
   const [addAddressOpen, setAddAddressOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(false);

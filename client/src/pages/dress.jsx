@@ -33,23 +33,21 @@ function Dress() {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
   const [quantity, setQuantity] = useState(0);
-  const [orderedData,setOrderedData] = useState({});
-  const [totalPrice,setTotalPrice] = useState(0);
+  const [orderedData, setOrderedData] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  console.log(cartData,123)
-  const isOrdered = async (id)=>{
+  const isOrdered = async (id) => {
     try {
-      console.log(selectedSize)
-      const res = await AxiosUser("/is-ordered?productsizeId="+id);
-      if(res?.data?.status === 1){
+      const res = await AxiosUser("/is-ordered?productsizeId=" + id);
+      if (res?.data?.status === 1) {
         setOrderedData(res?.data?.order_product);
         setQuantity(res?.data?.order_product?.quantity)
-        setTotalPrice(res?.data?.order_product?.total_price)
-      }else{
+        setTotalPrice(res?.data?.order_product?.total_price.toFixed(2))
+      } else {
         setQuantity(0)
         setTotalPrice(0)
+        setOrderedData(null)
       }
-      console.log(res,'isordered  ');
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +67,7 @@ function Dress() {
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
-        if(localStorage.getItem('lybas-user-token')) isOrdered(res?.data?.data?.oneProduct?.product_sizes[0].id);
+        if (localStorage.getItem('lybas-user-token')) isOrdered(res?.data?.data?.oneProduct?.product_sizes[0].id);
       } catch (error) {
         console.log(error);
       }
@@ -103,39 +101,57 @@ function Dress() {
     }
   }
 
-  const handleSize = async(size, index) => {
+  const handleSize = async (size, index) => {
     await setInStock(size.stock ? true : false);
     await setSelectedSize({ size, index });
     await isOrdered(size.id)
   }
 
-  const addToCart = async()=>{
-    if(localStorage.getItem('lybas-user-token')){
-      if(quantity>0){
+  const addToCart = async () => {
+    if (localStorage.getItem('lybas-user-token')) {
+      if (quantity) {
         const data = {
-          id:id,
-          productsizeId:selectedSize.size.id,
+          id: id,
+          productsizeId: selectedSize.size.id,
           quantity
         }
         try {
-          await AxiosUser('/to-my-cart',{method:'POST',data})
+          const res = await AxiosUser('/to-my-cart', { method: 'POST', data })
           dispatch(fetchDataCart())
+          setOrderedData(res.data)
+
           toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
         } catch (error) {
           console.log(error);
         }
-      }else{
-        toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 });
+      } else {
+        if (orderedData) {
+          try {
+            await AxiosUser('/delete/not-ordered/' + orderedData.id, { method: 'POST' })
+            await dispatch(fetchDataCart());
+            setOrderedData(null);
+            toast.warning(t('removedFromCart'), { position: 'bottom-right', autoClose: 2000 });
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 });
+        }
       }
-    }else{
+    } else {
       toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
 
-  const instantOrder = async()=>{
-    if(localStorage.getItem('lybas-user-token')){
-      
-    }else{
+  const instantOrder = async () => {
+    if (localStorage.getItem('lybas-user-token')) {
+      if (quantity) {
+        await localStorage.setItem('instantProduct',JSON.stringify({id,size:selectedSize.size,quantity,data}))
+        navigate('/checkout?instantOrder=true');
+      } else {
+        toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 });
+      }
+    } else {
       toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
@@ -361,7 +377,7 @@ function Dress() {
             <div className="dress-page_right_add-card_number my-[15px] flex flex-wrap justify-between items-center">
               <span className="text-lybas-gray">{t('numbers')}:</span>
               <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
-                <button onClick={() => setQuantity(quantity > 0 ? quantity - 1 : 0)} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
+                <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity - 1) * selectedSize.size.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="16"
@@ -374,7 +390,7 @@ function Dress() {
                   </svg>
                 </button>
                 <span className="w-10 text-center text-semibold">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
+                <button onClick={() => (setQuantity(quantity + 1), setTotalPrice(((quantity + 1) * selectedSize.size.price).toFixed(2)))} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="12"
@@ -404,7 +420,7 @@ function Dress() {
               {t('order')}
             </button>
             <button disabled={!inStock} onClick={addToCart} className={"dress-page_right_add-checkout-button w-full py-[10px] shadow-lybas-1 rounded-lg " + (inStock ? 'text-lybas-blue' : 'text-gray-400 cursor-not-allowed')}>
-              {t('addToCard')}
+              {orderedData ? t('changeCart') : t('addToCard')}
             </button>
           </div>
 

@@ -99,8 +99,8 @@ function DressmakersAdd() {
               <input name='phone_number' value={data.phone_number} onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('phoneNumber')} id='phoneNumber' />
             </div>
             <div className="dress-input col-span-2">
-              <label className="label font-semibold block mb-2.5" htmlFor='login'>{t('Login')}</label>
-              <input name='email' value={data.email} onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('login')} id='login' />
+              <label className="label font-semibold block mb-2.5" htmlFor='email'>{t('email')}</label>
+              <input name='email' value={data.email} onChange={handleInput} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('email')} id='login' />
             </div>
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='password'>{t('password')}</label>

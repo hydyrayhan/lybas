@@ -2,43 +2,51 @@ import { Fragment, useState, useRef, useEffect, useContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { t } from 'i18next'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataCart } from '../redux/features/Cart';
 import ip from '../common/Config'
 import { AppContext } from '../App'
-
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '/',
-    color: 'Salmon',
-    price: '90.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '/',
-    color: 'Blue',
-    price: '32.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-  // More products...
-]
+import { AxiosUser } from '../common/AxiosInstance'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Cart({ open, setOpen }) {
   const cancelButtonRef = useRef(null)
-  const {lang} = useContext(AppContext);
+  const { lang } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartData = useSelector((state) => state?.Cart.data)
+  const [loading, setLoading] = useState(false);
   console.log(cartData)
-  
+
+  const calculateTotalPrice = (cart) => {
+    return cart.reduce((sum, obj) => sum + obj.total_price, 0).toFixed(2);
+  }
+
+  const updateProductQuantity = async (product, quantity) => {
+    if (quantity > 0) {
+      try {
+        const data = {
+          id: product.productId,
+          productsizeId: product.productsizeId,
+          quantity
+        }
+        await AxiosUser('/to-my-cart', { method: 'POST', data })
+        await dispatch(fetchDataCart());
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await AxiosUser('/delete/not-ordered/' + product.orderproductId, { method: 'POST' })
+        await dispatch(fetchDataCart());
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-[11]" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -75,7 +83,7 @@ export default function Cart({ open, setOpen }) {
                           <button
                             type="button"
                             className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={()=>setOpen(false)}
+                            onClick={() => setOpen(false)}
                           >
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Close panel</span>
@@ -87,11 +95,11 @@ export default function Cart({ open, setOpen }) {
                       <div className="mt-8">
                         <div className="flow-root">
                           <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {cartData?.length> 0 && cartData.map((product,index) => (
+                            {cartData?.length > 0 && cartData.map((product, index) => (
                               <li key={index} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={ip +'/'+ product.image}
+                                    src={ip + '/' + product.image}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -100,9 +108,9 @@ export default function Cart({ open, setOpen }) {
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                       <h3>
-                                        <Link to={'/dresses/'+product.productId} className='font-semibold'>{product['name_'+lang]}fdsf</Link>
+                                        <Link to={'/dresses/' + product.productId} className='font-semibold'>{product['name_' + lang]}</Link>
                                       </h3>
-                                      <p className="ml-4 font-semibold">{product.price}{t('tmt')}</p>
+                                      <p className="ml-4 font-semibold">{product.total_price.toFixed(2)}{t('tmt')}</p>
                                     </div>
                                     <p className="mt-1 text-base text-lybas-gray">{product.size}</p>
                                   </div>
@@ -111,19 +119,20 @@ export default function Cart({ open, setOpen }) {
 
                                     <div className="flex flex-col justify-right">
                                       <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
-                                        <button className='h-full px-[8px] group border-r border-r-lybas-light-gray'>
+                                        <button onClick={() => updateProductQuantity(product, product.quantity - 1)} className='h-full px-[8px] group border-r border-r-lybas-light-gray'>
                                           <svg className='fill-lybas-gray group-hover:fill-lybas-blue' width="16" height="2" viewBox="0 0 16 2" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M0.666748 1.66659V0.333252H15.3334V1.66659H0.666748Z" />
                                           </svg>
                                         </button>
                                         <span className='px-[20px] text-semibold'>{product.quantity}</span>
-                                        <button className='h-full px-[8px] group border-l border-l-lybas-light-gray'>
+                                        <button onClick={() => updateProductQuantity(product, product.quantity + 1)} className='h-full px-[8px] group border-l border-l-lybas-light-gray'>
                                           <svg className='fill-lybas-gray group-hover:fill-lybas-blue' width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5.23793 6.76199H0.666504V5.23818H5.23793V0.666748H6.76174V5.23818H11.3332V6.76199H6.76174V11.3334H5.23793V6.76199Z" />
                                           </svg>
                                         </button>
                                       </div>
                                       <button
+                                        onClick={() => updateProductQuantity(product, 0)}
                                         type="button"
                                         className="font-medium text-indigo-600 text-right hover:text-indigo-500 mt-1"
                                       >
@@ -138,27 +147,27 @@ export default function Cart({ open, setOpen }) {
                         </div>
                       </div>
                     </div>
-
+                    <ToastContainer />
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p className='font-semibold'>{t('totalPrice')}</p>
-                        <p className='font-semibold'>262 {t('tmt')}</p>
+                        <p className='font-semibold'>{calculateTotalPrice(cartData)} {t('tmt')}</p>
                       </div>
-                      <div className="mt-6" onClick={()=>setOpen(false)}>
-                        <Link
-                          to="/checkout"
-                          className="flex items-center justify-center rounded-md border border-transparent bg-lybas-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                      <div className="mt-6" onClick={() => setOpen(false)}>
+                        <button
+                          onClick={() => (cartData?.length > 0 ? navigate("/checkout") : toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 }))}
+                          className="w-full flex items-center justify-center rounded-md border border-transparent bg-lybas-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           {t('checkout')}
-                        </Link>
+                        </button>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          {t('or')}
+                          {t('or')}{' '}
                           <button
                             type="button"
                             className="font-medium text-lybas-blue hover:text-indigo-500"
-                            onClick={()=>setOpen(false)}
+                            onClick={() => setOpen(false)}
                           >
                             {t('continueShopping')}
                             <span aria-hidden="true"> &rarr;</span>

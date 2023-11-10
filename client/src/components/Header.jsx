@@ -25,7 +25,7 @@ const navigation = {
     { name: 'dresses', to: '/dresses' },
     { name: 'dressmakers', to: '/dressmakers' },
     { name: 'blog', to: '/blog' },
-    // { name: 'favorites', to: '/favorites' }
+    { name: 'favorites', to: '/favorites', mobile:true}
   ]
 };
 
@@ -55,9 +55,9 @@ export default function Header() {
 
   const openCartDropdown = useSelector(state => state?.dropdowns?.setCart);
 
-  useEffect(()=>{
-    if(!cartData.length && localStorage.getItem('lybas-user-token')) dispatch(fetchDataCart());
-  },[])
+  useEffect(() => {
+    if (!cartData.length && localStorage.getItem('lybas-user-token')) dispatch(fetchDataCart());
+  }, [])
 
   return (
     <div className="bg-white">
@@ -110,13 +110,13 @@ export default function Header() {
                   ))}
                 </div>
                 <div className="mobile-menu_languages flex justify-end pr-5">
-                  <button onClick={() => changeLanguage('tm')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'tm' && 'bg-lybas-blue text-white')}>
+                  <button onClick={() => changeLanguage('tm')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg " + (lang === 'tm' && 'bg-lybas-blue text-white')}>
                     TM
                   </button>
-                  <button onClick={() => changeLanguage('ru')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'ru' && 'bg-lybas-blue text-white')}>
+                  <button onClick={() => changeLanguage('ru')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg " + (lang === 'ru' && 'bg-lybas-blue text-white')}>
                     RU
                   </button>
-                  <button onClick={() => changeLanguage('en')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg "+(lang === 'en' && 'bg-lybas-blue text-white')}>
+                  <button onClick={() => changeLanguage('en')} className={"mobile-menu_languages_language px-4 py-2 h-fit rounded-lg " + (lang === 'en' && 'bg-lybas-blue text-white')}>
                     EN
                   </button>
                 </div>
@@ -147,7 +147,7 @@ export default function Header() {
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.pages.map((page) => (
-                    <NavLink key={page.name} to={page.to} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                    <NavLink key={page.name} to={page.to} className={"flex items-center text-sm font-medium text-gray-700 hover:text-gray-800 "+(page.mobile ? 'hidden' : '')}>
                       {t(page.name)}
                     </NavLink>
                   ))}
@@ -182,13 +182,17 @@ export default function Header() {
               </div>
               <div className="ml-auto flex items-center">
                 <div className="flex items-center lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <button onClick={() => dispatch(setCartDropdown(true))} className="cart mr-5 lg:mr-0 text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <button onClick={() => dispatch(setCartDropdown(true))} className="relative cart mr-5 lg:mr-0 text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M2 21C1.45 21 0.979167 20.8042 0.5875 20.4125C0.195833 20.0208 0 19.55 0 19V7C0 6.45 0.195833 5.97917 0.5875 5.5875C0.979167 5.19583 1.45 5 2 5H4C4 3.61667 4.4875 2.4375 5.4625 1.4625C6.4375 0.4875 7.61667 0 9 0C10.3833 0 11.5625 0.4875 12.5375 1.4625C13.5125 2.4375 14 3.61667 14 5H16C16.55 5 17.0208 5.19583 17.4125 5.5875C17.8042 5.97917 18 6.45 18 7V19C18 19.55 17.8042 20.0208 17.4125 20.4125C17.0208 20.8042 16.55 21 16 21H2ZM9 13C10.3833 13 11.5625 12.5125 12.5375 11.5375C13.5125 10.5625 14 9.38333 14 8H12C12 8.83333 11.7083 9.54167 11.125 10.125C10.5417 10.7083 9.83333 11 9 11C8.16667 11 7.45833 10.7083 6.875 10.125C6.29167 9.54167 6 8.83333 6 8H4C4 9.38333 4.4875 10.5625 5.4625 11.5375C6.4375 12.5125 7.61667 13 9 13ZM6 5H12C12 4.16667 11.7083 3.45833 11.125 2.875C10.5417 2.29167 9.83333 2 9 2C8.16667 2 7.45833 2.29167 6.875 2.875C6.29167 3.45833 6 4.16667 6 5Z"
                         fill="#64748B"
                       />
                     </svg>
+                    {
+                      cartData?.length > 0 &&
+                      <span className='absolute -top-[10px] -right-[10px] w-[20px] h-[20px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'>{cartData?.length}</span>
+                    }
                   </button>
 
                   <div className='relative flex mr-5'>
@@ -207,7 +211,7 @@ export default function Header() {
                     }
                   </div>
 
-                  <button onClick={()=>(localStorage.getItem('lybas-user-token') ? navigate("/favorites") : toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000}))} className="favorite hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <button onClick={() => (localStorage.getItem('lybas-user-token') ? navigate("/favorites") : toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 }))} className="favorite hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M10 18.9999L8.55 17.6999C6.86667 16.1832 5.475 14.8749 4.375 13.7749C3.275 12.6749 2.4 11.6874 1.75 10.8124C1.1 9.9374 0.645833 9.13324 0.3875 8.3999C0.129167 7.66657 0 6.91657 0 6.1499C0 4.58324 0.525 3.2749 1.575 2.2249C2.625 1.1749 3.93333 0.649902 5.5 0.649902C6.36667 0.649902 7.19167 0.833236 7.975 1.1999C8.75833 1.56657 9.43333 2.08324 10 2.7499C10.5667 2.08324 11.2417 1.56657 12.025 1.1999C12.8083 0.833236 13.6333 0.649902 14.5 0.649902C16.0667 0.649902 17.375 1.1749 18.425 2.2249C19.475 3.2749 20 4.58324 20 6.1499C20 6.91657 19.8708 7.66657 19.6125 8.3999C19.3542 9.13324 18.9 9.9374 18.25 10.8124C17.6 11.6874 16.725 12.6749 15.625 13.7749C14.525 14.8749 13.1333 16.1832 11.45 17.6999L10 18.9999Z"
@@ -286,7 +290,7 @@ export default function Header() {
                   </Menu>
 
                   <span className="hidden lg:block h-8 w-px" style={{ background: '#64748B' }} aria-hidden="true" />
-                  <button onClick={() => (localStorage.getItem('lybas-user-token') ? navigate('/account') : setOpenUserPopup(true))} className="hidden lg:block text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <button onClick={() => (localStorage.getItem('lybas-user-token') ? navigate('/account') : setOpenUserPopup(true))} className="mr-5 lg:mr-0 text-sm font-medium text-gray-700 hover:text-gray-800">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M10 10C8.625 10 7.44792 9.51042 6.46875 8.53125C5.48958 7.55208 5 6.375 5 5C5 3.625 5.48958 2.44792 6.46875 1.46875C7.44792 0.489583 8.625 0 10 0C11.375 0 12.5521 0.489583 13.5312 1.46875C14.5104 2.44792 15 3.625 15 5C15 6.375 14.5104 7.55208 13.5312 8.53125C12.5521 9.51042 11.375 10 10 10ZM0 20V16.5C0 15.7917 0.182292 15.1406 0.546875 14.5469C0.911458 13.9531 1.39583 13.5 2 13.1875C3.29167 12.5417 4.60417 12.0573 5.9375 11.7344C7.27083 11.4115 8.625 11.25 10 11.25C11.375 11.25 12.7292 11.4115 14.0625 11.7344C15.3958 12.0573 16.7083 12.5417 18 13.1875C18.6042 13.5 19.0885 13.9531 19.4531 14.5469C19.8177 15.1406 20 15.7917 20 16.5V20H0Z"
@@ -307,7 +311,7 @@ export default function Header() {
       </header>
 
       {/* popups */}
-      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup}/>
+      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup} />
       <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} />
       <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} />
       <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup} />
