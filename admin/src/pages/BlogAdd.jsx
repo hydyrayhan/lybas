@@ -48,12 +48,13 @@ function BlogAdd() {
     })
     axios.post(api + 'admin/blogs/upload-image', formData, {
       onUploadProgress: (progressEvent) => {
-        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 99);
         setProgress(progress);
       },
     })
       .then((response) => {
         setData({ ...data, image: response.data })
+        setProgress(100);
       })
       .catch((error) => {
         alert('Error uploading file:', error);

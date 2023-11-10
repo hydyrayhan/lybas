@@ -3,10 +3,10 @@ import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 import { AxiosUser } from '../../common/AxiosInstance';
 
-export default function Popup({setAddedAddress=null, open, setOpen, edit = false, editData = null, addresses, setAddresses }) {
+export default function Popup({setAddedAddress=()=>{}, open, setOpen =()=>{}, edit = false, editData = null, addresses = [], setAddresses = ()=>{} }) {
   const [provinceOpen, setProvinceOpen] = useState(false)
   const [dataFull, setDataFull] = useState(false);
-  const [addres,setAddres] = useState(editData?.address)
+  const [addres,setAddres] = useState(editData?.address?editData.address:'')
 
   const data = useRef({
     province: '',

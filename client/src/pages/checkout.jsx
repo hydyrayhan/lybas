@@ -20,7 +20,7 @@ function Checkout() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [instantOrder, setInstantOrder] = useState(searchParams.get('instantOrder'))
-  const [instantOrderData, setInstantOrderData] = useState(JSON.parse(localStorage.getItem('instantProduct')))
+  const [instantOrderData, setInstantOrderData] = useState(instantOrder ? JSON.parse(localStorage.getItem('instantProduct')) : '')
   const cartData = useSelector((state) => state?.Cart.data)
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
@@ -51,8 +51,6 @@ function Checkout() {
       address: '',
     });
     getAddress();
-    const instantProduct = JSON.parse(localStorage.getItem('instantProduct'));
-    console.log(instantProduct)
   }, [])
 
   const handleData = (e) => {
@@ -104,7 +102,7 @@ function Checkout() {
   }
 
   const sendData = async () => {
-    if (data.user_phone && data.address) {
+    if (data.user_phone && data.address && data.name && data.surname) {
       if (instantOrder) {
         const newData = {
           id: instantOrderData.id,
@@ -112,6 +110,8 @@ function Checkout() {
           quantity: instantOrderData.quantity,
           address: data.address,
           user_phone: data.user_phone,
+          name:data.name,
+          surname:data.surname
         }
         try {
           const res = await AxiosUser("/my-orders/instant-order", { method: 'POST', data: newData });
@@ -159,8 +159,8 @@ function Checkout() {
               {/* <textarea name="" id="" rows="5" disabled placeholder={t('yourAddress')+'*'} className="resize-none text-lybas-gray rounded-lg tracking-tighter outline-none p-3 border focus:border-lybas-blue"></textarea> */}
               {
                 addresses?.length > 0 ? addresses.map((address, index) => (
-                  <button key={index} onClick={() => handleAddress(address, index)} className='text-left mr-3 mb-3'>
-                    <AccountOneAddress active={index === selectedAddress} key={index} className={'w-[250px] h-full cursor-pointer'} data={data} setData={setData} address={address} action={false} />
+                  <button key={index} onClick={() => handleAddress(address, index)} className='text-left mr-3 mb-3 flex h-fit'>
+                    <AccountOneAddress active={index === selectedAddress} key={index} className={'w-[250px] cursor-pointer'} data={data} setData={setData} address={address} action={false} />
                   </button>
                 )) :
                   <span></span>
@@ -255,7 +255,7 @@ function Checkout() {
               </div> */}
               <div className="p-5 flex justify-between items-center">
                 <h3 className="">{t('totalPrice')}</h3>
-                <p className="font-semibold">{(instantOrderData.quantity * instantOrderData?.size?.price).toFixed(2)} TMT</p>
+                <p className="font-semibold">{instantOrder ? (instantOrderData.quantity * instantOrderData?.size?.price).toFixed(2) : calculateTotalPrice(cartData)} TMT</p>
               </div>
             </div>
             {/* <div className="checkout_cards_payment-card rounded-lg shadow-lybas-1 my-7">

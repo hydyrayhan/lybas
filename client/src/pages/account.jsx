@@ -29,7 +29,7 @@ function Account() {
     }
   }));
 
-  const [contentTitle, setContentTitle] = useState('myAccount');
+  const [contentTitle, setContentTitle] = useState('orders'); //myAccount
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
@@ -43,9 +43,10 @@ function Account() {
     image: '',
   });
   const [addresses, setAddresses] = useState([]);
+  const [myOrders, setMyOrders] = useState([]);
   const [addAddressOpen, setAddAddressOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
-  const [openAccordion, setOpenAccordion] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState(0);
 
   const saveProfile = async () => {
     const data = {
@@ -77,6 +78,26 @@ function Account() {
       URL.createObjectURL(files[0]),
     )
     setAccountData({ ...accountData, image: files[0] })
+  }
+
+  const handleAccardion = (index) => {
+    if (index === openAccordion) {
+      setOpenAccordion(-1);
+    } else {
+      setOpenAccordion(index);
+    }
+  }
+
+  const deleteOrderedProduct = async (id) => {
+    try {
+      const res = await AxiosUser('/my-orders/delete-product?id=' + id, { method: "POST" });
+      if (res.status === 200) {
+        const res2 = await AxiosUser("/my-orders");
+        setMyOrders(res2?.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const renderContent = (content) => {
@@ -177,7 +198,7 @@ function Account() {
             {/* my account card form */}
             <div className="account_card_content_cards grid grid-cols-2 gap-5 md:pr-20">
               {addresses.map((address, index) => (
-                <AccountOneAddress key={index} address={address} action={true} setAddresses={setAddresses} addresses={addresses}/>
+                <AccountOneAddress key={index} address={address} action={true} setAddresses={setAddresses} addresses={addresses} />
               ))}
             </div>
           </div>
@@ -185,13 +206,13 @@ function Account() {
           <span>
             <button
               onClick={() => setAddAddressOpen(true)}
-              disabled={addresses.length>3}
-              className={"account_card_content_button px-20 py-2 text-white rounded-lg mt-5 hover:opacity-75 "+(addresses.length>3 ? 'bg-lybas-gray' : 'bg-lybas-blue')}
+              disabled={addresses.length > 3}
+              className={"account_card_content_button px-20 py-2 text-white rounded-lg mt-5 hover:opacity-75 " + (addresses.length > 3 ? 'bg-lybas-gray' : 'bg-lybas-blue')}
             >
               {t('add')}
             </button>
           </span>
-          
+
         </div>
       );
     } else if (content === 'orders') {
@@ -206,79 +227,58 @@ function Account() {
           </div>
           <div className="account_card_order_orders p-5">
             <div className="w-full account_card_order_list rounded-lg border mb-5">
-              <div className="account_card_order_list_top grid grid-cols-3 md:grid-cols-5 gap-4 px-5 py-2 flex items-center border-b">
-                <div className="account_card_order_list_top_col text-left text-green-600">Accepted</div>
-                <div className="account_card_order_list_top_col text-left text-lybas-gray">2ufid283</div>
-                <div className="account_card_order_list_top_col text-right text-lybas-gray">10.02.30/21:33</div>
-                <div className="account_card_order_list_top_col text-center text-lybas-gray">1158TMT</div>
-                <div className="account_card_order_list_top_col col-span-2 md:col-span-1 flex justify-end items-center">
-                  <svg
-                    className="w-8 h-8 text-gray-400 mx-1 rotate-90 cursor-pointer p-2 box-size"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 6 10"
-                  >
-                    <path stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"></path>
-                  </svg>
-                </div>
-              </div>
-              <div className="account_card_order_list_bottom h-auto overflow-hidden">
-                <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
-                  <div className="name-price-quantity col-span-6 md:col-span-4">
-                    <div className="name font-semibold">Hollo</div>
-                    <div className="price-quantity flex text-[12px] text-lybas-gray">
-                      <div className="material mr-2">Pombarh</div>
-                      <div className="size mr-2">3XL</div>
-                      <div className="price">815{t('tmt')} X 3</div>
+              {
+                myOrders?.length > 0 && myOrders.map((order, index) => (
+                  <div key={index}>
+                    <div className="account_card_order_list_top grid grid-cols-3 md:grid-cols-5 gap-4 px-5 py-2 flex items-center border-b">
+                      <div className="account_card_order_list_top_col text-left text-green-600">{t(order.status)}</div>
+                      <div className="account_card_order_list_top_col text-left text-lybas-gray">{order.id.slice(0, 8)}</div>
+                      <div className="account_card_order_list_top_col text-right text-lybas-gray">{order.createdAt.split('T')[0]} / {order.createdAt.split('T')[1].split('.')[0]}</div>
+                      <div className="account_card_order_list_top_col text-center text-lybas-gray">{order.total_price}TMT</div>
+                      <button onClick={() => handleAccardion(index)} className="account_card_order_list_top_col col-span-2 md:col-span-1 flex justify-end items-center">
+                        <svg
+                          className={"w-8 h-8 text-gray-400 mx-1 cursor-pointer p-2 box-size " + (openAccordion === index ? '-rotate-90' : 'rotate-90')}
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 6 10"
+                        >
+                          <path stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"></path>
+                        </svg>
+                      </button>
+                    </div>
+                    <div className={"account_card_order_list_bottom overflow-hidden " + (openAccordion === index ? 'h-auto' : 'h-0')}>
+                      {
+                        order?.order_products.length > 0 && order?.order_products.map((product, index2) => (
+                          <div key={index2} className="account_card_order_list_bottom_order grid grid-cols-12 md:grid-cols-5 gap-4 flex items-center px-5 py-3 border-b">
+                            {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
+                            <div className="name-price-quantity col-span-6 md:col-span-2">
+                              <div className="name font-semibold">hello</div>
+                              <div className="price-quantity flex text-[12px] text-lybas-gray">
+                                <div className="material mr-2">material</div>
+                                <div className="size mr-2">{product.size}</div>
+                                <div className="price">{product.price.toFixed(2)}{t('tmt')} X {product.quantity}</div>
+                              </div>
+                            </div>
+                            <div className="quantity col-span-4 md:col-span-1 text-right font-semibold">{product.quantity} pcs</div>
+                            <div className="price font-bold col-span-5 md:col-span-1 text-center">{product.total_price.toFixed(2)} {t('tmt')}</div>
+                            <div className="space flex items-center justify-between col-span-7 md:col-span-1 text-right">
+                              <button className="text-white px-3 py-2 rounded-lg bg-lybas-blue" onClick={() => setFeedbackPopupOpen(true)}>
+                                {t('feedback')}
+                              </button>
+                              <button onClick={() => deleteOrderedProduct(product.id)}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#FF3521" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      }
                     </div>
                   </div>
-                  <div className="quantity col-span-4 md:col-span-2 text-right font-semibold">1 pcs</div>
-                  <div className="price font-bold col-span-5 md:col-span-2 text-end">815 {t('tmt')}</div>
-                  <div className="space col-span-7 md:col-span-3 text-right">
-                    <button className="text-white px-3 py-2 rounded-lg bg-lybas-blue" onClick={() => setFeedbackPopupOpen(true)}>
-                      {t('feedback')}
-                    </button>
-                  </div>
-                </div>
-                <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
-                  <div className="name-price-quantity col-span-6 md:col-span-4">
-                    <div className="name font-semibold">Hollo</div>
-                    <div className="price-quantity flex text-[12px] text-lybas-gray">
-                      <div className="material mr-2">Pombarh</div>
-                      <div className="size mr-2">3XL</div>
-                      <div className="price">815{t('tmt')} X 3</div>
-                    </div>
-                  </div>
-                  <div className="quantity col-span-4 md:col-span-2 text-right font-semibold">1 pcs</div>
-                  <div className="price font-bold col-span-5 md:col-span-2 text-end">815 {t('tmt')}</div>
-                  <div className="space col-span-7 md:col-span-3 text-right">
-                    <button className="text-white px-3 py-2 rounded-lg bg-lybas-blue" onClick={() => setFeedbackPopupOpen(true)}>
-                      {t('feedback')}
-                    </button>
-                  </div>
-                </div>
-                <div className="account_card_order_list_bottom_order grid grid-cols-12 gap-4 flex items-center px-5 py-3 border-b">
-                  {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
-                  <div className="name-price-quantity col-span-6 md:col-span-4">
-                    <div className="name font-semibold">Hollo</div>
-                    <div className="price-quantity flex text-[12px] text-lybas-gray">
-                      <div className="material mr-2">Pombarh</div>
-                      <div className="size mr-2">3XL</div>
-                      <div className="price">815{t('tmt')} X 3</div>
-                    </div>
-                  </div>
-                  <div className="quantity col-span-4 md:col-span-2 text-right font-semibold">1 pcs</div>
-                  <div className="price font-bold col-span-5 md:col-span-2 text-end">815 {t('tmt')}</div>
-                  <div className="space col-span-7 md:col-span-3 text-right">
-                    <button className="text-white px-3 py-2 rounded-lg bg-lybas-blue" onClick={() => setFeedbackPopupOpen(true)}>
-                      {t('feedback')}
-                    </button>
-                  </div>
-                </div>
-              </div>
+                ))
+              }
             </div>
           </div>
         </div>
@@ -310,9 +310,6 @@ function Account() {
         image: user.image ? ip + '/' + user.image : '',
         password: '',
       })
-
-
-
     } else {
       navigate('/')
     }
@@ -324,6 +321,14 @@ function Account() {
         try {
           const res = await AxiosUser("/address");
           setAddresses(res.data.address);
+        } catch (error) {
+          console.log(error);
+        }
+      } else if (contentTitle === 'orders' && !myOrders.length) {
+        try {
+          const res = await AxiosUser("/my-orders");
+          setMyOrders(res?.data)
+          console.log(res);
         } catch (error) {
           console.log(error);
         }

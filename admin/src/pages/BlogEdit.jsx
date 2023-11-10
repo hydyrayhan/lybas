@@ -63,11 +63,12 @@ function BlogEdit() {
     })
     axios.post(api + 'admin/blogs/upload-image', formData, {
       onUploadProgress: (progressEvent) => {
-        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 99);
         setProgress(progress);
       },
     })
       .then((response) => {
+        setProgress(100)
         setData({ ...data, image: response.data })
       })
       .catch((error) => {
