@@ -10,6 +10,8 @@ import Materials from '../features/Materials';
 import Banners from '../features/Banners';
 import Comments from '../features/Comments';
 import Blogs from '../features/Blogs';
+import Notification from '../features/Notification';
+import Emails from '../features/Emails';
 
 export const store = configureStore({
   reducer:{
@@ -23,6 +25,8 @@ export const store = configureStore({
     Banners,
     Comments,
     Blogs,
+    Notification,
+    Emails
   },
   middleware:(getDefaultMiddleware)=>
     getDefaultMiddleware({

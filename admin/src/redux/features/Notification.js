@@ -9,13 +9,12 @@ const initialState = {
   offset: 0,
   count: 0,
   search: '',
-  status: '',
   filter: '',
 };
-export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_, { getState }) => {
+export const fetchDataNotification = createAsyncThunk('data/fetchDataNotification', async (_, { getState }) => {
   try {
-    const { limit, offset, filter, search,status } = getState().Orders;
-    const data = await AxiosCustom(`/orders?limit=${limit}&status=${status}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
+    const { limit, offset, filter, search } = getState().Notification;
+    const data = await AxiosCustom(`/notifications?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -29,8 +28,8 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
 });
 
 // Create a slice using Redux Toolkit
-const Orders = createSlice({
-  name: 'Orders',
+const Notification = createSlice({
+  name: 'Notification',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -47,23 +46,19 @@ const Orders = createSlice({
       state.filter = action.payload;
       state.offset = 0
     },
-    setStatus: (state, action) => {
-      state.status = action.payload;
-      state.offset = 0
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataOrders.pending, (state) => {
+      .addCase(fetchDataNotification.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataOrders.fulfilled, (state, action) => {
+      .addCase(fetchDataNotification.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
       })
-      .addCase(fetchDataOrders.rejected, (state, action) => {
+      .addCase(fetchDataNotification.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -71,5 +66,5 @@ const Orders = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter, setStatus } = Orders.actions;
-export default Orders.reducer;
+export const { setLimit, setOffset, setSearch, setFilter } = Notification.actions;
+export default Notification.reducer;

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { AxiosUser } from '../common/AxiosInstance';
 import { t } from 'i18next';
+import {AppContext} from '../App'
 
 // component
 import AddAddressPopup from '../components/popups/addAddressPopup';
@@ -28,7 +29,7 @@ function Account() {
       display: 'none'
     }
   }));
-
+  const {lang} = useContext(AppContext)
   const [contentTitle, setContentTitle] = useState('orders'); //myAccount
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
@@ -253,9 +254,9 @@ function Account() {
                           <div key={index2} className="account_card_order_list_bottom_order grid grid-cols-12 md:grid-cols-5 gap-4 flex items-center px-5 py-3 border-b">
                             {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
                             <div className="name-price-quantity col-span-6 md:col-span-2">
-                              <div className="name font-semibold">hello</div>
+                              <div className="name font-semibold">{product.product['name_'+lang]}</div>
                               <div className="price-quantity flex text-[12px] text-lybas-gray">
-                                <div className="material mr-2">material</div>
+                                <div className="material mr-2">{product.material['name_'+lang]}</div>
                                 <div className="size mr-2">{product.size}</div>
                                 <div className="price">{product.price.toFixed(2)}{t('tmt')} X {product.quantity}</div>
                               </div>

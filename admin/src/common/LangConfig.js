@@ -152,7 +152,7 @@ const resources = {
       filter: "Filter",
       waiting: "Waiting",
       accepted: "Accepted",
-      onTheWay: "On the way",
+      onTheWay: "Delivered",
       cancelled: "Cancelled",
       clientPhoneNumber: "Client, phone number",
       product: "Product",
@@ -210,6 +210,9 @@ const resources = {
       type: "Type",
       new:"New",
       new:"New",
+      newsletter:"Newsletter",
+      outStock:"Out stock",
+      newDressmaker:"New Dressmaker",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -370,10 +373,10 @@ const resources = {
       addDress: "Add dress", //
       searchHere: "Search here...", //
       filter: "Филтер",
-      waiting: "Waiting",
-      accepted: "Accepted",
-      onTheWay: "On the way",
-      cancelled: "Cancelled",
+      waiting: "Ожидается",
+      accepted: "Принято",
+      onTheWay: "Доставленный",
+      cancelled: "Отменено",
       clientPhoneNumber: "Client, phone number",
       product: "Product",
       number: "Number",
@@ -429,6 +432,9 @@ const resources = {
       fillTheGaps: "Fill free gaps!",
       type: "Type",
       new:"New",
+      newsletter:"Новостная рассылка",
+      outStock:"Нет в наличии",
+      newDressmaker:"Новая портниха",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -596,14 +602,14 @@ const resources = {
       filter: "Filter",
       waiting: "Garaşylýar",
       accepted: "Kabul edildi",
-      onTheWay: "Ýolda",
-      cancelled: "Ýatyryldy",
+      onTheWay: "Gowşuruldy",
+      cancelled: "Goýbolsun edildi",
       clientPhoneNumber: "Müşderi, telefon belgi",
       product: "Haryt",
       number: "Nomer",
       dateTime: "Sene, wagt",
       status: "Ýagdaýy",
-      result: "Netine",
+      result: "Netije",
       fullName: "Doly ady",
       nameOfDressAndDressmaker: "Köýnegiň we Dikimçiň/Otelýaň ady",
       fabric: "Materialy",
@@ -653,6 +659,9 @@ const resources = {
       fillTheGaps: "Boşluklary dolduryň!",
       type: "Görnüşi",
       new:"Täze",
+      newsletter:"Täzelikler",
+      outStock:"Elimizde ýok",
+      newDressmaker:"Täze tikinçi",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

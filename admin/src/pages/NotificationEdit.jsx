@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Valid } from '../common/Valid';
 import { AxiosCustom } from '../common/AxiosInstance';
 import { useDispatch } from 'react-redux';
 import { fetchDataNotification } from '../redux/features/Notification';
 
-function NotificationAdd() {
+function NotificationEdit() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {id} = useParams();
   const [data,setData] = useState({
     name:'',
     text:''
@@ -17,8 +18,8 @@ function NotificationAdd() {
   const sendData = async()=>{
     if(Valid(data)){
       try {
-        const res = await AxiosCustom("/notifications/add",{method:"POST",data})
-        if(res.status === 201){
+        const res = await AxiosCustom("/notifications/"+id,{method:"PATCH",data})
+        if(res.status === 200){
           dispatch(fetchDataNotification());
           navigate('/notification');
         }
@@ -29,6 +30,19 @@ function NotificationAdd() {
       alert(t('fillTheGaps'))
     }
   }
+
+  useEffect(()=>{
+    const getData = async()=>{
+      try {
+        const res = await AxiosCustom('/notifications/'+id);
+        console.log(res);
+        setData({name:res.data.name,text:res.data.text});
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData()
+  },[])
 
   return (
     <div className='dress-add'>
@@ -57,4 +71,4 @@ function NotificationAdd() {
   );
 }
 
-export default NotificationAdd;
+export default NotificationEdit;

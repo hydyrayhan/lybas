@@ -221,6 +221,7 @@ const resources = {
       removedFromCart:"Romoved from cart",
       yourAddressIsEmpty:"You don't have address",
       thankYouOrder:"Thank you for your shopping!",
+      mailSended:"Email sended",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -451,6 +452,7 @@ const resources = {
       removedFromCart:"Удалено из корзины",
       yourAddressIsEmpty:"У вас нет адреса",
       thankYouOrder:"Спасибо за покупки!",
+      mailSended:"Электронная почта отправлено",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -686,6 +688,7 @@ const resources = {
       removedFromCart:"Sebetden pozuldy",
       yourAddressIsEmpty:"Siziň salgyňyz ýok",
       thankYouOrder:"Söwdaňyz üçin sagboluň!",
+      mailSended:"Email ugradyldy",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

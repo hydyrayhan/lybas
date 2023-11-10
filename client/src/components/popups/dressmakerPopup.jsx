@@ -44,7 +44,7 @@ export default function DressmakerPopup({ open, setOpen, waitFunc }) {
         if (isSignIn) {
           res = await axios.post(ip + '/seller/login', data);
         } else {
-          res = await axios.post(ip + '/seller/account/new-account', { dataUp: { name: dataUp.name, phone_number: dataUp.phone_number, dataUp: { name: dataUp.name1, surname: dataUp.surname } } });
+          res = await axios.post(ip + '/seller/account/new-account', { dataUp: { name: dataUp.name, mail: dataUp.phone_number, dataUp: { name: dataUp.name1, surname: dataUp.surname } } });
         }
         if (res.status === 200 && isSignIn) {
           localStorage.setItem('lybas-seller-token', res.data.token);

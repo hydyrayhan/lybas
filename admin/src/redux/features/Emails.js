@@ -9,13 +9,14 @@ const initialState = {
   offset: 0,
   count: 0,
   search: '',
-  status: '',
-  filter: '',
+  filter: {},
+  type: '',
 };
-export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_, { getState }) => {
+export const fetchDataEmails = createAsyncThunk('data/fetchDataEmails', async (_, { getState }) => {
   try {
-    const { limit, offset, filter, search,status } = getState().Orders;
-    const data = await AxiosCustom(`/orders?limit=${limit}&status=${status}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
+    const { limit, offset, search, filter, type } = getState().Emails;
+    const data = await AxiosCustom(`/mails?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&type=${type}`);
+    console.log(data,'mails')
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -29,8 +30,8 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
 });
 
 // Create a slice using Redux Toolkit
-const Orders = createSlice({
-  name: 'Orders',
+const Emails = createSlice({
+  name: 'Emails',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -42,28 +43,29 @@ const Orders = createSlice({
     },
     setSearch: (state, action) => {
       state.search = action.payload;
+      state.offset = 0
     },
     setFilter: (state, action) => {
       state.filter = action.payload;
       state.offset = 0
     },
-    setStatus: (state, action) => {
-      state.status = action.payload;
+    setType: (state, action) => {
+      state.type = action.payload;
       state.offset = 0
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataOrders.pending, (state) => {
+      .addCase(fetchDataEmails.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataOrders.fulfilled, (state, action) => {
+      .addCase(fetchDataEmails.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
       })
-      .addCase(fetchDataOrders.rejected, (state, action) => {
+      .addCase(fetchDataEmails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -71,5 +73,5 @@ const Orders = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter, setStatus } = Orders.actions;
-export default Orders.reducer;
+export const { setLimit, setOffset, setSearch, setFilter, setType } = Emails.actions;
+export default Emails.reducer;

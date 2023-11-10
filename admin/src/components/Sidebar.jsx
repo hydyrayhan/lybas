@@ -1,16 +1,45 @@
 import { t, changeLanguage } from 'i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import PopupLogout from './PopupLogout';
 import Logo from '../assets/images/lybas.svg'
+import { AxiosCustom } from '../common/AxiosInstance';
+import { api } from '../common/Config';
+import image from '../assets/images/person-fill.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataNotification } from '../redux/features/Notification';
+import { fetchDataEmails } from '../redux/features/Emails';
 
 
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [active, setActive] = useState(location.pathname.split('/')[1] ? location.pathname.split('/')[1] : '/');
   const [open, setOpen] = useState(false);
+  const [data,setData] = useState({})
+  const notifications = useSelector((state) => state?.Notification?.data);
+  const emails = useSelector((state) => state?.Emails?.data);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await AxiosCustom("/get-me");
+        setData(res.data);
+      } catch (error) {
+        console.log(error.response.data.message);
+        if(error.response.status === 401){
+          localStorage.setItem('lybas-token','');
+          navigate('/login')
+        }
+      }
+    }
+    getData();
+    if(!notifications?.length) dispatch(fetchDataNotification())
+    if(!emails?.length) dispatch(fetchDataEmails())
+    console.log(emails);
+  }, [])
 
   return (
     <div className='sellerProfile_sidebar'>
@@ -18,23 +47,23 @@ function Sidebar() {
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
-              <Link to="/" className="flex ml-2 md:mr-24 w-[10rem]">
+              <Link to="/" className="flex ml-2 md:mr-24 w-[10rem] h-[50px]">
                 <img src={Logo} alt="" />
               </Link>
             </div>
             <div className='w-full flex justify-between'>
               <div className="flex items-start flex-col">
-                <h3 className='text-xl font-semibold mb-1'>{t('hello')} Admin</h3>
+                <h3 className='text-xl font-semibold mb-1'>{t('hello')} {data?.login}</h3>
                 <p className='text-sm text-lybas-gray'>{t('welcomeDashboard')}</p>
               </div>
               <div className='flex items-center'>
                 <div className="buttons_alert_message">
-                  <button onClick={()=>(navigate('/notification'), setActive('notification'))} className={"alert border rounded-lg p-2 relative "+ (active === 'notification' && 'bg-lybas-light-blue')}>
+                  <button onClick={() => (navigate('/notification'), setActive('notification'))} className={"alert border rounded-lg p-2 relative " + (active === 'notification' && 'bg-lybas-light-blue')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" clipRule="evenodd" d="M7.05033 3.05025C8.36309 1.7375 10.1436 1 12.0001 1C13.8566 1 15.6371 1.7375 16.9498 3.05025C18.2626 4.36301 19.0001 6.14349 19.0001 8C19.0001 11.3527 19.7171 13.4346 20.378 14.6461C20.7098 15.2544 21.0329 15.6535 21.2573 15.8904C21.3698 16.0091 21.4581 16.0878 21.5114 16.1322C21.538 16.1544 21.5558 16.168 21.5635 16.1737C21.5647 16.1746 21.5657 16.1753 21.5664 16.1758C21.9249 16.4221 22.0835 16.8725 21.9572 17.2898C21.8295 17.7115 21.4407 18 21.0001 18H3.00008C2.55941 18 2.17068 17.7115 2.04299 17.2898C1.91664 16.8725 2.07528 16.4221 2.43377 16.1758C2.43447 16.1753 2.43542 16.1746 2.43663 16.1737C2.44432 16.168 2.46218 16.1544 2.4888 16.1322C2.54202 16.0878 2.6304 16.0091 2.74288 15.8904C2.9673 15.6535 3.29039 15.2544 3.62218 14.6461C4.28301 13.4346 5.00008 11.3527 5.00008 8C5.00008 6.14348 5.73758 4.36301 7.05033 3.05025ZM2.44388 16.169C2.44395 16.1689 2.44403 16.1688 2.44411 16.1688C2.44411 16.1688 2.4441 16.1688 2.4441 16.1688L2.44388 16.169ZM5.1494 16H18.8508C18.7747 15.8753 18.6983 15.7434 18.6222 15.6039C17.783 14.0654 17.0001 11.6473 17.0001 8C17.0001 6.67392 16.4733 5.40215 15.5356 4.46447C14.5979 3.52678 13.3262 3 12.0001 3C10.674 3 9.40223 3.52678 8.46454 4.46447C7.52686 5.40215 7.00008 6.67392 7.00008 8C7.00008 11.6473 6.21715 14.0654 5.37797 15.6039C5.30188 15.7434 5.22549 15.8753 5.1494 16Z" fill="#64748B" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M9.76841 20.135C10.2461 19.8579 10.8581 20.0205 11.1352 20.4982C11.2231 20.6498 11.3493 20.7756 11.5011 20.863C11.6529 20.9504 11.825 20.9965 12.0002 20.9965C12.1754 20.9965 12.3475 20.9504 12.4993 20.863C12.6511 20.7756 12.7773 20.6498 12.8652 20.4982C13.1423 20.0205 13.7542 19.8579 14.232 20.135C14.7097 20.4121 14.8723 21.024 14.5952 21.5018C14.3315 21.9564 13.9529 22.3337 13.4975 22.5961C13.0421 22.8584 12.5258 22.9965 12.0002 22.9965C11.4746 22.9965 10.9583 22.8584 10.5028 22.5961C10.0474 22.3337 9.6689 21.9564 9.40518 21.5018C9.12806 21.024 9.29069 20.4121 9.76841 20.135Z" fill="#64748B" />
                     </svg>
-                    <span className='alert_red absolute w-3 h-3 bg-red-500 top-1 right-2 rounded-full border-2 border-white'></span>
+                    {/* <span className='alert_red absolute w-3 h-3 bg-red-500 top-1 right-2 rounded-full border-2 border-white'></span> */}
                   </button>
                   <button onClick={() => (navigate('/emails'), setActive('emails'))} className={"message border rounded-lg p-2 relative mx-4 hover:bg-gray-100 " + (active === 'emails' && 'bg-lybas-light-blue')}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +79,9 @@ function Sidebar() {
                 <div className="flex items-center">
                   <div className="flex items-center ml-3">
                     <div>
-                      <button onClick={() => (navigate('/profile'), setActive('profile'))} type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 light:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                      <button onClick={() => (navigate('/profile'), setActive('profile'))} type="button" className="flex text-sm border border-gray-500 rounded-full focus:ring-4 focus:ring-gray-300 light:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                         <span className="sr-only">Open user menu</span>
-                        <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
+                        <img className="w-8 h-8 rounded-full" src={data?.image ? (api + data?.image) : image} alt="user photo" />
                       </button>
                     </div>
                   </div>

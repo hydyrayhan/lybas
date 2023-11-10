@@ -27,6 +27,7 @@ import Blog from "./../pages/Blog";
 import BlogAdd from "./../pages/BlogAdd";
 import Notification from "./../pages/Notification";
 import NotificationAdd from "./../pages/NotificationAdd";
+import NotificationEdit from '../pages/NotificationEdit';
 import BlogEdit from '../pages/BlogEdit';
 
 const RoutesAdmin = () => {
@@ -91,7 +92,7 @@ const RoutesAdmin = () => {
         <Route path="/blog/:id" element={<BlogEdit />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/notification/add" element={<NotificationAdd />} />
-        {/* <Route path="/notification/:id" element={<NotificationEdit />} /> */}
+        <Route path="/notification/:id" element={<NotificationEdit />} />
       </Route>
     </Routes>
   );
