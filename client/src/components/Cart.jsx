@@ -18,7 +18,6 @@ export default function Cart({ open, setOpen }) {
   const navigate = useNavigate();
   const cartData = useSelector((state) => state?.Cart.data)
   const [loading, setLoading] = useState(false);
-  console.log(cartData)
 
   const calculateTotalPrice = (cart) => {
     return cart.reduce((sum, obj) => sum + obj.total_price, 0).toFixed(2);

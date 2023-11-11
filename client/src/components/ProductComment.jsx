@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import ip from '../common/Config';
-const image1 = require('../assets/images/leftSmallImage.png');
 
-function Comment({ data }) {
+function ProductComment({ data }) {
   const [stars, setStars] = useState(Array.from({ length: data?.rate }));
   const [freeStars, setFreeStars] = useState(Array.from({ length: 5 - data?.rate }));
   const [lineClampOpen, setLineClampOpen] = useState(false);
@@ -13,7 +12,7 @@ function Comment({ data }) {
   const [activeImage,setActiveImage] = useState(0)
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('lybas-user')));
+    setUser(data?.user);
 
     const handleClickOutside = (event) => {
       if (galleryRef.current && !galleryRef.current.contains(event.target) && !littleImagesRef.current.contains(event.target)) {
@@ -87,7 +86,7 @@ function Comment({ data }) {
             {
               data?.images?.length > 3 &&
               <div className="more h-[48px] w-[48px] mr-[8px] rounded flex items-center justify-center bg-lybas-gray text-white">
-                <span>+5</span>
+                <span>+{data?.images?.length-3}</span>
               </div>
             }
           </div>
@@ -119,4 +118,4 @@ function Comment({ data }) {
   );
 }
 
-export default Comment;
+export default ProductComment;

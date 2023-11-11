@@ -80,7 +80,7 @@ const RoutesAdmin = () => {
         <Route path="/comments" element={<SellerComments />} />
         <Route path="/comments/:id" element={<CommentOne />} />
         <Route path="/emails" element={<Emails />} />
-        <Route path="/emails/:id" element={<EmailOne />} />
+        <Route path="/emails/:id/:type" element={<EmailOne />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/filter" element={<Filter />} />
         <Route path="/filter/:type" element={<FilterEdit />} />

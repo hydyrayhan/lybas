@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { AxiosUser } from '../common/AxiosInstance';
 import { t } from 'i18next';
-import {AppContext} from '../App'
+import { AppContext } from '../App'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // component
 import AddAddressPopup from '../components/popups/addAddressPopup';
@@ -29,8 +31,8 @@ function Account() {
       display: 'none'
     }
   }));
-  const {lang} = useContext(AppContext)
-  const [contentTitle, setContentTitle] = useState('orders'); //myAccount
+  const { lang } = useContext(AppContext)
+  const [contentTitle, setContentTitle] = useState('myFeedback'); //myAccount
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
@@ -48,6 +50,9 @@ function Account() {
   const [addAddressOpen, setAddAddressOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(0);
+  const [productId, setProductId] = useState('');
+  const [orderproductId, setOrderProductId] = useState('')
+  const [myFeedback, setMyFeedback] = useState([]);
 
   const saveProfile = async () => {
     const data = {
@@ -232,7 +237,22 @@ function Account() {
                 myOrders?.length > 0 && myOrders.map((order, index) => (
                   <div key={index}>
                     <div className="account_card_order_list_top grid grid-cols-3 md:grid-cols-5 gap-4 px-5 py-2 flex items-center border-b">
-                      <div className="account_card_order_list_top_col text-left text-green-600">{t(order.status)}</div>
+                      {
+                        order.status === 'waiting' &&
+                        <div className="account_card_order_list_top_col text-left text-orange-600">{t(order.status)}</div>
+                      }
+                      {
+                        order.status === 'accepted' &&
+                        <div className="account_card_order_list_top_col text-left text-blue-600">{t(order.status)}</div>
+                      }
+                      {
+                        order.status === 'onTheWay' &&
+                        <div className="account_card_order_list_top_col text-left text-green-600">{t(order.status)}</div>
+                      }
+                      {
+                        order.status === 'cancelled' &&
+                        <div className="account_card_order_list_top_col text-left text-red-600">{t(order.status)}</div>
+                      }
                       <div className="account_card_order_list_top_col text-left text-lybas-gray">{order.id.slice(0, 8)}</div>
                       <div className="account_card_order_list_top_col text-right text-lybas-gray">{order.createdAt.split('T')[0]} / {order.createdAt.split('T')[1].split('.')[0]}</div>
                       <div className="account_card_order_list_top_col text-center text-lybas-gray">{order.total_price}TMT</div>
@@ -252,11 +272,10 @@ function Account() {
                       {
                         order?.order_products.length > 0 && order?.order_products.map((product, index2) => (
                           <div key={index2} className="account_card_order_list_bottom_order grid grid-cols-12 md:grid-cols-5 gap-4 flex items-center px-5 py-3 border-b">
-                            {/* <img className="col-span-2 md:col-span-1 rounded-lg" src={image1} alt="" /> */}
                             <div className="name-price-quantity col-span-6 md:col-span-2">
-                              <div className="name font-semibold">{product.product['name_'+lang]}</div>
+                              <div className="name font-semibold">{product?.product?.name_tm ? product.product['name_' + lang] : ''}</div>
                               <div className="price-quantity flex text-[12px] text-lybas-gray">
-                                <div className="material mr-2">{product.material['name_'+lang]}</div>
+                                <div className="material mr-2">{product?.material?.name_tm ? product.material['name_' + lang] : ''}</div>
                                 <div className="size mr-2">{product.size}</div>
                                 <div className="price">{product.price.toFixed(2)}{t('tmt')} X {product.quantity}</div>
                               </div>
@@ -264,7 +283,7 @@ function Account() {
                             <div className="quantity col-span-4 md:col-span-1 text-right font-semibold">{product.quantity} pcs</div>
                             <div className="price font-bold col-span-5 md:col-span-1 text-center">{product.total_price.toFixed(2)} {t('tmt')}</div>
                             <div className="space flex items-center justify-between col-span-7 md:col-span-1 text-right">
-                              <button className="text-white px-3 py-2 rounded-lg bg-lybas-blue" onClick={() => setFeedbackPopupOpen(true)}>
+                              <button disabled={!(product.status === 'onTheWay' && !product.isCommented)} className={"text-white px-3 py-2 rounded-lg " + ((product.status === 'onTheWay' && !product.isCommented) ? 'bg-lybas-blue' : 'bg-gray-500')} onClick={() => (setProductId(product.productId), setOrderProductId(product.id), setFeedbackPopupOpen(true))}>
                                 {t('feedback')}
                               </button>
                               <button onClick={() => deleteOrderedProduct(product.id)}>
@@ -289,9 +308,11 @@ function Account() {
         <div className="account_card_feedback col-span-2 p-7 flex flex-col max-h-full">
           <div className="account_card_feedback_header text-xl font-bold mb-10">{t('myFeedback')}</div>
           <div className="account_card_feedback_feedbacks max-h-[60vh] md:max-h-[38vh] overflow-auto pr-3">
-            <Comment />
-            <Comment />
-            <Comment />
+            {
+              myFeedback?.length > 0 && myFeedback.map((feed,index)=>(
+                <Comment data={feed} key={index}/>
+              ))
+            }
           </div>
         </div>
       );
@@ -316,6 +337,24 @@ function Account() {
     }
   }, [])
 
+  const getOrderData = async () => {
+    try {
+      const res = await AxiosUser("/my-orders");
+      setMyOrders(res?.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getMyFeedbackData = async () => {
+    try {
+      const res = await AxiosUser("/comments");
+      console.log(res);
+      setMyFeedback(res?.data?.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const getData = async () => {
       if (contentTitle === 'myAddresses' && !addresses.length) {
@@ -326,13 +365,9 @@ function Account() {
           console.log(error);
         }
       } else if (contentTitle === 'orders' && !myOrders.length) {
-        try {
-          const res = await AxiosUser("/my-orders");
-          setMyOrders(res?.data)
-          console.log(res);
-        } catch (error) {
-          console.log(error);
-        }
+        await getOrderData();
+      } else if (contentTitle === 'myFeedback' && !myFeedback.length) {
+        await getMyFeedbackData();
       }
     }
     getData();
@@ -398,8 +433,9 @@ function Account() {
           {renderContent(contentTitle)}
         </MobileSlide>
         <LogoutPopup open={logoutOpen} setOpen={setLogoutOpen} />
-        <FeedbackPopup open={feedbackPopupOpen} setOpen={setFeedbackPopupOpen} />
+        <FeedbackPopup open={feedbackPopupOpen} setOpen={setFeedbackPopupOpen} productId={productId} orderproductId={orderproductId} getOrderData={getOrderData} />
         <AddAddressPopup open={addAddressOpen} setOpen={setAddAddressOpen} setAddresses={setAddresses} addresses={addresses} />
+        <ToastContainer />
       </div>
     </div>
   );

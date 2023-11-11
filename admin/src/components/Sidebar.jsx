@@ -18,9 +18,10 @@ function Sidebar() {
   const dispatch = useDispatch();
   const [active, setActive] = useState(location.pathname.split('/')[1] ? location.pathname.split('/')[1] : '/');
   const [open, setOpen] = useState(false);
-  const [data,setData] = useState({})
+  const [data, setData] = useState({})
   const notifications = useSelector((state) => state?.Notification?.data);
   const emails = useSelector((state) => state?.Emails?.data);
+  const notReadCount = useSelector((state) => state?.Emails?.notRead);
 
   useEffect(() => {
     const getData = async () => {
@@ -29,15 +30,15 @@ function Sidebar() {
         setData(res.data);
       } catch (error) {
         console.log(error.response.data.message);
-        if(error.response.status === 401){
-          localStorage.setItem('lybas-token','');
+        if (error.response.status === 401) {
+          localStorage.setItem('lybas-token', '');
           navigate('/login')
         }
       }
     }
     getData();
-    if(!notifications?.length) dispatch(fetchDataNotification())
-    if(!emails?.length) dispatch(fetchDataEmails())
+    if (!notifications?.length) dispatch(fetchDataNotification())
+    if (!emails?.length) dispatch(fetchDataEmails())
     console.log(emails);
   }, [])
 
@@ -70,7 +71,10 @@ function Sidebar() {
                       <path fillRule="evenodd" clipRule="evenodd" d="M4 5C3.45228 5 3 5.45228 3 6V18C3 18.5477 3.45228 19 4 19H20C20.5477 19 21 18.5477 21 18V6C21 5.45228 20.5477 5 20 5H4ZM1 6C1 4.34772 2.34772 3 4 3H20C21.6523 3 23 4.34772 23 6V18C23 19.6523 21.6523 21 20 21H4C2.34772 21 1 19.6523 1 18V6Z" fill="#64748B" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M1.18085 5.42654C1.49757 4.97409 2.1211 4.86406 2.57355 5.18077L12.0001 11.7793L21.4266 5.18077C21.8791 4.86406 22.5026 4.97409 22.8193 5.42654C23.136 5.87899 23.026 6.50252 22.5735 6.81923L12.5735 13.8192C12.2292 14.0603 11.7709 14.0603 11.4266 13.8192L1.42662 6.81923C0.974174 6.50252 0.864139 5.87899 1.18085 5.42654Z" fill="#64748B" />
                     </svg>
-                    <span className='message_number h-6 w-6 flex items-center justify-center absolute top-[-10px] right-[-10px] text-white bg-lybas-blue rounded-full text-[12px]'>4</span>
+                    {
+                      notReadCount>0 &&
+                      <span className='message_number h-6 w-6 flex items-center justify-center absolute top-[-10px] right-[-10px] text-white bg-lybas-blue rounded-full text-[12px]'>{notReadCount}</span>
+                    }
                   </button>
                 </div>
                 <div className="language">

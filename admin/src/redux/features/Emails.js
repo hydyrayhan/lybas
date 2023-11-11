@@ -8,6 +8,7 @@ const initialState = {
   limit: 5,
   offset: 0,
   count: 0,
+  notRead:0,
   search: '',
   filter: {},
   type: '',
@@ -16,7 +17,6 @@ export const fetchDataEmails = createAsyncThunk('data/fetchDataEmails', async (_
   try {
     const { limit, offset, search, filter, type } = getState().Emails;
     const data = await AxiosCustom(`/mails?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&type=${type}`);
-    console.log(data,'mails')
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -64,6 +64,7 @@ const Emails = createSlice({
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
+        state.notRead = action?.payload.data.notRead;
       })
       .addCase(fetchDataEmails.rejected, (state, action) => {
         state.loading = false;

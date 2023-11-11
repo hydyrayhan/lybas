@@ -7,7 +7,7 @@ import { fetchDataCart } from '../redux/features/Cart';
 
 import DressComp from '../components/Dress';
 import Popup from '../components/Popup';
-import Comment from '../components/Comment';
+import Comment from '../components/ProductComment';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import ip from '../common/Config';
 import { toast, ToastContainer } from 'react-toastify';
@@ -63,7 +63,7 @@ function Dress() {
         }
         setData(res?.data?.data?.oneProduct)
         setCount(res?.data?.data.count)
-        console.log(res?.data?.data?.oneProduct)
+        console.log(res?.data?.data?.oneProduct,123132)
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
@@ -146,7 +146,7 @@ function Dress() {
   const instantOrder = async () => {
     if (localStorage.getItem('lybas-user-token')) {
       if (quantity) {
-        await localStorage.setItem('instantProduct',JSON.stringify({id,size:selectedSize.size,quantity,data}))
+        await localStorage.setItem('instantProduct', JSON.stringify({ id, size: selectedSize.size, quantity, data }))
         navigate('/checkout?instantOrder=true');
       } else {
         toast.warning(t('noQuantity'), { position: 'bottom-right', autoClose: 2000 });
@@ -334,41 +334,46 @@ function Dress() {
             </div>
           </div>
           <div className="dress-page_left_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
-          <div className="comment-similars flex flex-col-reverse md:block">
-            <div className="dress-page_left_comments w-full mt-5 md:mt-0">
-              <div className="dress-page_left_comments_header flex items-center justify-between mb-[20px]">
-                <span className="text-xl font-semibold">{t('comments')}</span>
-                <Link to={'/comments/1'} className="flex items-center text-lybas-blue">
-                  <span className="hidden md:inline">{t('viewAll')}</span>
-                  <svg className="ml-[8px]" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
-                  </svg>
-                </Link>
-              </div>
-              <Comment />
-              <Comment />
-              <Comment />
-            </div>
-            {
-              similarData?.length > 0 &&
-              <div className="dress-page_left_similar-dresses">
-                <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
-                  <span className="text-xl font-semibold">{t('similarDresses')}</span>
-                  <Link to={'/'} className="flex items-center text-lybas-blue">
+          {
+            data?.comments?.length > 0 &&
+            <div className="comment-similars flex flex-col-reverse md:block">
+              <div className="dress-page_left_comments w-full mt-5 md:mt-0">
+                <div className="dress-page_left_comments_header flex items-center justify-between mb-[20px]">
+                  <span className="text-xl font-semibold">{t('comments')}</span>
+                  <Link to={'/comments/'+id} className="flex items-center text-lybas-blue">
                     <span className="hidden md:inline">{t('viewAll')}</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="ml-[8px]" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
                     </svg>
                   </Link>
                 </div>
-                <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
-                  {similarData.map((sim, index) => (
-                    <DressComp key={index} hover="small" data={sim} />
-                  ))}
-                </div>
+                {
+                  data.comments.map((comment, index) => (
+                    <Comment key={index} data={comment} />
+                  ))
+                }
               </div>
-            }
-          </div>
+              {
+                similarData?.length > 0 &&
+                <div className="dress-page_left_similar-dresses">
+                  <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
+                    <span className="text-xl font-semibold">{t('similarDresses')}</span>
+                    <Link to={'/'} className="flex items-center text-lybas-blue">
+                      <span className="hidden md:inline">{t('viewAll')}</span>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+                      </svg>
+                    </Link>
+                  </div>
+                  <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {similarData.map((sim, index) => (
+                      <DressComp key={index} hover="small" data={sim} />
+                    ))}
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
         <div className="dress-page_right md:w-3/10 lg:w-1/5 hidden md:block">
           {/* Add card */}

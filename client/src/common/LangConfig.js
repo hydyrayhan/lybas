@@ -152,7 +152,7 @@ const resources = {
       filter: "Filter",
       waiting: "Waiting",
       accepted: "Accepted",
-      onTheWay: "On the way",
+      onTheWay: "Delivered",
       cancelled: "Cancelled",
       clientPhoneNumber: "Client, phone number",
       product: "Product",
@@ -222,6 +222,8 @@ const resources = {
       yourAddressIsEmpty:"You don't have address",
       thankYouOrder:"Thank you for your shopping!",
       mailSended:"Email sended",
+      thankYouForRate:"We value your feedback",
+      goToTheirShop:"Go to their shop",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -384,7 +386,7 @@ const resources = {
       filter: "Филтер",
       waiting: "Ожидающий",
       accepted: "Принял",
-      onTheWay: "В пути",
+      onTheWay: "Доставлено",
       cancelled: "Отменено",
       clientPhoneNumber: "Клиент, номер телефона",
       product: "Продукт",
@@ -453,6 +455,8 @@ const resources = {
       yourAddressIsEmpty:"У вас нет адреса",
       thankYouOrder:"Спасибо за покупки!",
       mailSended:"Электронная почта отправлено",
+      thankYouForRate:"Мы ценим ваши отзывы",
+      goToTheirShop:"Перейти в магазин",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -620,7 +624,7 @@ const resources = {
       filter: "Filter",
       waiting: "Garaşylýar",
       accepted: "Kabul edildi",
-      onTheWay: "Ýolda",
+      onTheWay: "Gowşuryldy",
       cancelled: "Ýatyryldy",
       clientPhoneNumber: "Müşderi, telefon belgi",
       product: "Haryt",
@@ -689,6 +693,8 @@ const resources = {
       yourAddressIsEmpty:"Siziň salgyňyz ýok",
       thankYouOrder:"Söwdaňyz üçin sagboluň!",
       mailSended:"Email ugradyldy",
+      thankYouForRate:"Siziň synyňyz biziň üçin wajypdyr.",
+      goToTheirShop:"Dükanyna geçmek",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

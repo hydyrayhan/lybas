@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import Comment from '../components/Comment';
+import { useParams } from 'react-router-dom';
 
 function Comments() {
+  const [data,setData] = useState({});
+  const {id} = useParams();
   return (
     <div className='comments container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <Breadcrumb />
+      <Breadcrumb page1={{ text: 'comment', link: '/' }} />
 
       <div className="revivers-container mb-10 bg-gray-100 rounded-[8px] flex flex-col sm:flex-row justify-between items-center px-10 py-10">
 

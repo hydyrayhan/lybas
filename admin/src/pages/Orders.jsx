@@ -108,7 +108,7 @@ function Orders() {
                 <TableBody>
                   {
                     data?.length > 0 && data.map((order, index) => (
-                      <TableRow key={index} hover role="checkbox" sx={{ cursor: 'pointer' }} onClick={() => navigate('/orders/' + order.id)} tabIndex={-1}>
+                      <TableRow key={index} hover role="checkbox" sx={{ cursor: 'pointer' }} onClick={() => navigate('/orders/' + order?.id)} tabIndex={-1}>
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data"}>
                             <div className="name font-semibold">{order?.user_name?.split(' ')[0]}</div>
@@ -117,39 +117,39 @@ function Orders() {
                         </TableCell>
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data text-gray-600"}>
-                            <div className="name font-semibold">{order?.order_products[0]?.product['name_' + lang]}</div>
-                            <div className="phone-number text-gray-600">{order?.order_products[0]?.material['name_' + lang]},{order?.order_products[0]?.size}</div>
+                            <div className="name font-semibold">{order?.order_products[0]?.product?.name_tm ? order?.order_products[0]?.product['name_' + lang] : ''}</div>
+                            <div className="phone-number text-gray-600">{order?.order_products[0]?.material?.name_tm ? order?.order_products[0]?.material['name_' + lang] : ''},{order?.order_products[0]?.size}</div>
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>
-                          #{order.id.slice(0, 8)}
+                          #{order?.id.slice(0, 8)}
                         </TableCell>
                         <TableCell align={'right'}>
-                          {order.createdAt.split('T')[0]} / {order.createdAt.split('T')[1].split('.')[0]}
+                          {order?.createdAt.split('T')[0]} / {order?.createdAt.split('T')[1].split('.')[0]}
                         </TableCell>
                         <TableCell align={'right'}>
                           {
-                            order.status === 'waiting' &&
+                            order?.status === 'waiting' &&
                             <div className={'bg-orange-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
-                              <div className='w-2 h-2 mr-3 rounded-full bg-orange-400'></div>{t(order.status)}
+                              <div className='w-2 h-2 mr-3 rounded-full bg-orange-400'></div>{t(order?.status)}
                             </div>
                           }
                           {
-                            order.status === 'accepted' &&
+                            order?.status === 'accepted' &&
                             <div className={'bg-green-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
-                              <div className='w-2 h-2 mr-3 rounded-full bg-green-400'></div>{t(order.status)}
+                              <div className='w-2 h-2 mr-3 rounded-full bg-green-400'></div>{t(order?.status)}
                             </div>
                           }
                           {
-                            order.status === 'onTheWay' &&
+                            order?.status === 'onTheWay' &&
                             <div className={'bg-blue-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
-                              <div className='w-2 h-2 mr-3 rounded-full bg-blue-400'></div>{t(order.status)}
+                              <div className='w-2 h-2 mr-3 rounded-full bg-blue-400'></div>{t(order?.status)}
                             </div>
                           }
                           {
-                            order.status === 'cancelled' &&
+                            order?.status === 'cancelled' &&
                             <div className={'bg-red-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
-                              <div className='w-2 h-2 mr-3 rounded-full bg-red-400'></div>{t(order.status)}
+                              <div className='w-2 h-2 mr-3 rounded-full bg-red-400'></div>{t(order?.status)}
                             </div>
                           }
                         </TableCell>

@@ -1,28 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosCustom } from '../../common/AxiosInstance.js'
+import { AxiosUser } from '../../common/AxiosInstance.js'
 
 const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 5,
+  limit: 1000,
   offset: 0,
   count: 0,
-  search: '',
-  status: '',
-  filter: '',
+  search: ''
 };
-export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_, { getState }) => {
+export const fetchDataNotifications = createAsyncThunk('data/fetchDataNotifications', async (_, { getState }) => {
   try {
-    const { limit, offset, filter, search,status } = getState().Orders;
-    const data = await AxiosCustom(`/orders?limit=${limit}&status=${status}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
+    const { limit, offset } = getState().Notifications;
+    const data = await AxiosUser(`/notifications?limit=${limit}&offset=${offset}`);
     console.log(data);
     return data;
   } catch (error) {
     console.log(error.response.data.message)
     const err = error.response.data.message;
     if (err === 'jwt expired') {
-      window.location.reload('/admin/login')
       localStorage.clear('lybas-token')
     }
     throw error;
@@ -30,8 +27,8 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
 });
 
 // Create a slice using Redux Toolkit
-const Orders = createSlice({
-  name: 'Orders',
+const Notifications = createSlice({
+  name: 'Notifications',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -44,27 +41,19 @@ const Orders = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
-    setFilter: (state, action) => {
-      state.filter = action.payload;
-      state.offset = 0
-    },
-    setStatus: (state, action) => {
-      state.status = action.payload;
-      state.offset = 0
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataOrders.pending, (state) => {
+      .addCase(fetchDataNotifications.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataOrders.fulfilled, (state, action) => {
+      .addCase(fetchDataNotifications.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
       })
-      .addCase(fetchDataOrders.rejected, (state, action) => {
+      .addCase(fetchDataNotifications.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -72,5 +61,5 @@ const Orders = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter, setStatus } = Orders.actions;
-export default Orders.reducer;
+export const { setLimit, setOffset, setSearch } = Notifications.actions;
+export default Notifications.reducer;

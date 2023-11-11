@@ -5,6 +5,8 @@ import ip from '../common/Config';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AxiosUser } from '../common/AxiosInstance';
+import { useDispatch } from 'react-redux';
+import { fetchDataCart } from '../redux/features/Cart';
 
 function Dress({ hover, className, data = {rating:0} }) {
   const { t, lang } = useContext(AppContext);
@@ -12,7 +14,8 @@ function Dress({ hover, className, data = {rating:0} }) {
   const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - data.rating }));
   const [like, setLike] = useState(data.isLiked);
   const [showSizes, setShowSizes] = useState(false);
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     const handleScroll = () => {
       setShowSizes(false);
@@ -59,8 +62,25 @@ function Dress({ hover, className, data = {rating:0} }) {
       toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000});
     }
   }
-  const addToCart = async () => {
-    console.log("Lets add")
+  const addToCart = async (size) => {
+    if(localStorage.getItem('lybas-user-token')){
+      console.log(size);
+      const sendData = {
+        id:data.id,
+        productsizeId:size.id,
+        quantity:1
+      }
+      try {
+        await AxiosUser('/to-my-cart', { method: 'POST', data:sendData })
+        dispatch(fetchDataCart())
+  
+        toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
+      } catch (error) {
+        console.log(error);
+      }
+    }else{
+      toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
+    }
   }
   const closeShowSizes = () => {
     setShowSizes(false);
@@ -103,8 +123,8 @@ function Dress({ hover, className, data = {rating:0} }) {
           <div className='flex items-end justify-between'>
             <div>
               {
-                data.discount &&
-                <div className='mt-2 text-lybas-red line-through'>550{t('tmt')}</div>
+                data.discount>0 &&
+                <div className='mt-2 text-lybas-red line-through'>{data?.discount}{t('tmt')}</div>
               }
               <span className={size_style[hover].price}>{data.price} {t('tmt')}</span>
             </div>
@@ -119,12 +139,12 @@ function Dress({ hover, className, data = {rating:0} }) {
             }
           </div>
           <div className="dress-card_custom-buttons flex flex-col md:flex-row md:items-center justify-between">
-            <Link to="/" className='dress-card_custom-buttons_link mb-3 text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]'>
+            <Link to={"/dressmakers/"+data?.sellerId} className='dress-card_custom-buttons_link mb-3 text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]'>
               <svg className='mr-2' width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.66667 2.99996V0.666626H20.3333V2.99996H1.66667ZM1.66667 19.3333V12.3333H0.5V9.99996L1.66667 4.16663H20.3333L21.5 9.99996V12.3333H20.3333V19.3333H18V12.3333H13.3333V19.3333H1.66667ZM4 17H11V12.3333H4V17Z" fill="#64748B" />
               </svg>
               <span className='underline underline-offset-1'>
-                {t('goto')} Kumush{t('s')} {t('shop')}
+                {t('goToTheirShop')}
               </span>
             </Link>
             <button onClick={openShowSizes} className={dynamic_add_button_hover[hover] + ' ' + (hover === 'small' ? 'flex items-center md:hidden justify-center' : '')}>
@@ -143,11 +163,11 @@ function Dress({ hover, className, data = {rating:0} }) {
             data?.product_sizes?.map((size, index) => {
               if ((index + 1) % 2 === 1 && index + 1 === data.product_sizes.length) {
                 return (
-                  <button onClick={addToCart} key={index} className='border col-span-2 text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
+                  <button onClick={()=>addToCart(size)} key={index} className='border col-span-2 text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
                 )
               } else {
                 return (
-                  <button onClick={addToCart} key={index} className='border text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
+                  <button onClick={()=>addToCart(size)} key={index} className='border text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
                 )
               }
             })
@@ -169,7 +189,7 @@ function Dress({ hover, className, data = {rating:0} }) {
         data.discount &&
         <div className='absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm'>{data.discount} %</div>
       }
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   )
 }

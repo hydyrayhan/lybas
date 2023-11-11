@@ -9,10 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataEmails, setOffset, setLimit, setFilter, setSearch, setType } from '../redux/features/Emails';
 import { useNavigate } from 'react-router-dom';
@@ -33,10 +29,22 @@ const columns = [
     align: 'left',
   },
   {
+    id: 'dressmakers',
+    label: 'dressmakers',
+    minWidth: 170,
+    align: 'left',
+  },
+  {
     id: 'dateTime',
     label: 'dateTime',
     minWidth: 170,
     align: 'left',
+  },
+  {
+    id: 'result',
+    label: 'result',
+    minWidth: 170,
+    align: 'right',
   },
 ];
 
@@ -61,6 +69,17 @@ function Emails() {
 
   useEffect(() => {
     if (!data.length) dispatch(fetchDataEmails());
+    const isReadOff = async () => {
+      try {
+        const res = await AxiosCustom('/mails/isRead')
+        if(res.status === 200){
+          dispatch(fetchDataEmails());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    isReadOff();
   }, []);
 
   const setFilterData = async (filter) => {
@@ -72,8 +91,8 @@ function Emails() {
     await dispatch(setSearch(search));
     await dispatch(fetchDataEmails());
   }
-  
-  const setTypeData = async (type)=>{
+
+  const setTypeData = async (type) => {
     await dispatch(setType(type));
     await dispatch(fetchDataEmails());
   }
@@ -102,14 +121,23 @@ function Emails() {
                 <TableBody>
                   {
                     data?.length > 0 && data.map((mail, index) => (
-                      <TableRow onClick={()=>navigate('/emails/'+mail.id)} key={index} hover role="checkbox" tabIndex={-1}>
+                      <TableRow className='cursor-pointer' onClick={() => navigate(`/emails/${mail.id}/${mail.type}`)} key={index} hover role="checkbox" tabIndex={-1}>
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data col-span-3 flex items-center"}>
                             {
                               mail.image ?
                                 <img className='w-12 h-12 rounded-lg object-cover mr-3' src={api + mail.image} alt="" />
                                 :
-                                <svg className="w-12 h-12 mr-3" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="Person2Icon"><path d="M18.39 14.56C16.71 13.7 14.53 13 12 13s-4.71.7-6.39 1.56C4.61 15.07 4 16.1 4 17.22V20h16v-2.78c0-1.12-.61-2.15-1.61-2.66zM9.78 12h4.44c1.21 0 2.14-1.06 1.98-2.26l-.32-2.45C15.57 5.39 13.92 4 12 4S8.43 5.39 8.12 7.29L7.8 9.74c-.16 1.2.77 2.26 1.98 2.26z"></path></svg>
+                                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <g clipPath="url(#clip0_1088_18441)">
+                                    <path d="M30.7579 33.647C27.5195 36.371 23.4385 38 18.9996 38C14.5607 38 10.4802 36.371 7.24124 33.647C5.66421 32.3209 4.28533 30.7376 3.16602 28.951C4.70658 27.5023 7.72245 26.401 9.27644 25.6592C10.2446 25.1966 11.34 24.9173 11.9195 24.4476L14.5621 21.7194L13.2408 17.7802C11.6297 17.2879 10.8813 13.2347 11.9195 13.1335C11.5861 11.1868 11.2627 8.57723 11.6379 6.69258C12.0337 3.82018 15.1734 1.58334 18.9895 1.58334C22.6416 1.58334 25.6733 3.63228 26.274 6.32551C26.7772 8.2271 26.4337 11.0569 26.0777 13.133C27.116 13.2342 26.3949 17.2766 24.7828 17.7694L23.4351 21.7184L26.0787 24.4466C26.6573 24.9163 27.7526 25.1961 28.7213 25.6582C30.2762 26.4 33.2921 27.5017 34.8327 28.9505C33.7134 30.7381 32.3345 32.3214 30.7579 33.647Z" fill="#64748B" />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_1088_18441">
+                                      <rect width="38" height="38" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
                             }
                             <div className="data">
                               <div className="name font-bold">{mail.name}</div>
@@ -118,10 +146,27 @@ function Emails() {
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>
-                          {mail.email}
+                          {mail.mail}
+                        </TableCell>
+                        <TableCell align={'left'}>
+                          {/* {mail.mail} */}
                         </TableCell>
                         <TableCell align={'left'}>
                           {mail.createdAt.split('T')[0]} / {mail.createdAt.split('T')[1].split('.')[0]}
+                        </TableCell>
+                        <TableCell align={'right'}>
+                          {
+                            (mail.type === 'newsletter' || mail.type === 'deliveryAbroad' || mail.type === 'newDressmaker') &&
+                            <div className={'bg-blue-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
+                              <div className='w-2 h-2 mr-3 rounded-full bg-blue-400'></div>{t(mail.type)}
+                            </div>
+                          }
+                          {
+                            mail.type === 'outStock' &&
+                            <div className={'bg-orange-100 w-fit float-right rounded-full flex items-center justify-between py-2 px-5'}>
+                              <div className='w-2 h-2 mr-3 rounded-full bg-orange-400'></div>{t(mail.type)}
+                            </div>
+                          }
                         </TableCell>
                       </TableRow>
                     ))

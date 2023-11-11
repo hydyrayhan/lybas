@@ -203,7 +203,8 @@ export default function Header() {
                           fill="#64748B"
                         />
                       </svg>
-                      <span className='absolute -top-[10px] -right-[10px] w-[20px] h-[20px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'>2</span>
+                      {/* notification number */}
+                      {/* <span className='absolute -top-[10px] -right-[10px] w-[20px] h-[20px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'>2</span> */}
                     </button>
                     {
                       notification &&

@@ -71,7 +71,7 @@
   background-position: center;
 }
 
-.order_addresses {
+.order_addresses, .notification {
   &::-webkit-scrollbar {
     width: 5px;
   }

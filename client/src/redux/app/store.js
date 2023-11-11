@@ -9,6 +9,7 @@ import Sizes from '../features/Sizes';
 import Categories from '../features/Categories';
 import Materials from '../features/Materials';
 import Cart from '../features/Cart'
+import Notifications from '../features/Notifications';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     banners,
     blogs,
     Cart,
+    Notifications,
 
     // Seller
     Dresses,

@@ -109,14 +109,14 @@ function BannerAdd() {
   }
   const handleSellerId = (e) => {
     const value = e.target.value;
-    setData({...data,sellerId:value});
+    setData({ ...data, sellerId: value });
   }
   return (
     <div className='dress-add'>
       <Breadcrumb page={'banner'} pageLink={'/banner'} name={t('addBanner')} />
 
       <div className="dress-add_content flex justify-between mt-5">
-        <div className="dress-add_content_left w-3/5 h-[70vh] overflow-auto rounded-lg border bg-white mr-5">
+        <div className="dress-add_content_left w-3/5 rounded-lg border bg-white mr-5">
           <div className="name px-5 py-4 font-bold border-b">{t('aboutTheBanner')}</div>
           <div className="inputs grid grid-cols-2 gap-5 p-5">
             <div className="dress-input">
@@ -126,12 +126,6 @@ function BannerAdd() {
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='price'>{t('price')}</label>
               <input value={data.price} name='price' onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='price' />
-            </div>
-            <div className="dress-input col-span-2">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('startAndEndDate')}</label>
-              <div className='bannerDatepicker-background rounded w-full bg-gray-100'>
-                <Datepicker value={data} onChange={handleValueChange} showShortcuts={true} primaryColor={"blue"} />
-              </div>
             </div>
             <div className="dress-input col-span-2">
               <label className="w-full label font-semibold block mb-2.5" htmlFor='name-tm'>{t('dressmaker')}</label>
@@ -155,6 +149,12 @@ function BannerAdd() {
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('link')}</label>
               <textarea value={data.link} name='link' onChange={handleInput} className='w-full resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('link')} id='name-tm' />
+            </div>
+            <div className="dress-input col-span-2">
+              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('startAndEndDate')}</label>
+              <div className='bannerDatepicker-background rounded w-full bg-gray-100'>
+                <Datepicker value={data} onChange={handleValueChange} showShortcuts={true} primaryColor={"blue"} />
+              </div>
             </div>
           </div>
         </div>

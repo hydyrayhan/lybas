@@ -213,6 +213,8 @@ const resources = {
       newsletter:"Newsletter",
       outStock:"Out stock",
       newDressmaker:"New Dressmaker",
+      information:"Informations",
+      surname:"Surname",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -227,7 +229,7 @@ const resources = {
 
   ru: {
     translation: {
-      home: "Главная",
+      home: "Главная страница",
       dresses: 'Платья',
       dressmakers: 'Портнихи',
       blog: 'Блоги',
@@ -305,8 +307,8 @@ const resources = {
       whoWillUseWebsiteAs: "Хотите стать нашим клиентом или ателье/портнихой?",
       customer: "Клиентом",
       dressmaker: "Ателье и Портнихи",
-      hello: "Hello", //
-      welcomeDashboard: "Welcome back to dashboard",
+      hello: "Привет", //
+      welcomeDashboard: "Добро пожаловать обратно на панель управления",
       users: 'Users',
       comments: "Отзывы",
       onSale: "Скидки",
@@ -372,7 +374,7 @@ const resources = {
       reacentOrders: "Reacent Orders", //
       addDress: "Add dress", //
       searchHere: "Search here...", //
-      filter: "Филтер",
+      filter: "фильтры",
       waiting: "Ожидается",
       accepted: "Принято",
       onTheWay: "Доставленный",
@@ -416,7 +418,7 @@ const resources = {
       addNewOne: "Add new one",
       image: "Image",
       bannerName: "Banner name",
-      banner: "Banner",
+      banner: "Баннер",
       addBanner: 'Add Banner',
       aboutTheBanner: "About the banner",
       startAndEndDate: "Start and End Date",
@@ -435,6 +437,8 @@ const resources = {
       newsletter:"Новостная рассылка",
       outStock:"Нет в наличии",
       newDressmaker:"Новая портниха",
+      information:"Информация",
+      surname:"Фамилия",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -533,7 +537,7 @@ const resources = {
       customer: "Müşderi",
       dressmaker: "Atelýeler we Tikinçiler",
       hello: "Salam",
-      welcomeDashboard: "Welcome back to dashboard",
+      welcomeDashboard: "Hoş geldiňiz",
       users: 'Users',
       comments: "Synlar",
       onSale: "Arzanladyşdakylar",
@@ -662,6 +666,8 @@ const resources = {
       newsletter:"Täzelikler",
       outStock:"Elimizde ýok",
       newDressmaker:"Täze tikinçi",
+      information:"Maglumatlar",
+      surname:"Familiýa",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

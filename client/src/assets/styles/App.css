@@ -295,22 +295,22 @@ a {
   background-position: center;
 }
 
-.order_addresses {
+.order_addresses, .notification {
   /* Track */
   /* Handle */
   /* Handle on hover */
 }
-.order_addresses::-webkit-scrollbar {
+.order_addresses::-webkit-scrollbar, .notification::-webkit-scrollbar {
   width: 5px;
 }
-.order_addresses::-webkit-scrollbar-track {
+.order_addresses::-webkit-scrollbar-track, .notification::-webkit-scrollbar-track {
   background: none;
 }
-.order_addresses::-webkit-scrollbar-thumb {
+.order_addresses::-webkit-scrollbar-thumb, .notification::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 9px;
 }
-.order_addresses::-webkit-scrollbar-thumb:hover {
+.order_addresses::-webkit-scrollbar-thumb:hover, .notification::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 

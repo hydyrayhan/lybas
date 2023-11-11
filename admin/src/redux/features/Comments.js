@@ -5,15 +5,17 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  limit: 10,
+  limit: 5,
   offset: 0,
   count: 0,
-  search: ''
+  search: '',
+  filter:''
 };
 export const fetchDataComments = createAsyncThunk('data/fetchDataComments', async (_, { getState }) => {
   try {
-    const { limit, offset } = getState().Comments;
-    const data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}`);
+    const { limit, offset, filter, search } = getState().Comments;
+    const data = await AxiosCustom(`/comments?limit=${limit}&offset=${offset}&keyword=${search}&filter=${filter}`);
+    console.log(data,'comments');
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -41,6 +43,10 @@ const Comments = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
     },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -50,8 +56,8 @@ const Comments = createSlice({
       })
       .addCase(fetchDataComments.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = [...action?.payload?.data];
-        state.count = action?.payload.count;
+        state.data = [...action?.payload?.data.data];
+        state.count = action?.payload.data.count;
       })
       .addCase(fetchDataComments.rejected, (state, action) => {
         state.loading = false;
@@ -61,5 +67,5 @@ const Comments = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Comments.actions;
+export const { setLimit, setOffset, setSearch, setFilter } = Comments.actions;
 export default Comments.reducer;
