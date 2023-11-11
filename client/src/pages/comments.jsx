@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
-import Comment from '../components/Comment';
+import Comment from '../components/ProductComment';
 import { useParams } from 'react-router-dom';
 
 function Comments() {

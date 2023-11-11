@@ -28,7 +28,6 @@ function Dress() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cartData = useSelector((state) => state?.Cart.data)
   const [like, setLike] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
@@ -194,10 +193,10 @@ function Dress() {
             <div className="dress-page_left_content w-full lg:w-1/2 mt-[10px]">
               <h1 className="dress-page_left_content_name text-xl md:text-2xl lg:text-3xl font-semibold">{data ? data['name_' + lang] : ''}</h1>
               <div className="dress-page_left_content_prices my-1 md:my-2 lg:my-[10px] flex items-center">
-                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{selectedSize?.size?.price} {t('tmt')}</div>
+                <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{data?.price} {t('tmt')}</div>
                 {
                   data?.discount &&
-                  <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{selectedSize?.size?.price_old} {t('tmt')}</div>
+                  <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{data?.price_old} {t('tmt')}</div>
                 }
               </div>
               <div className="dress-page_left_content_rating-stock flex items-center mb-[10px]">
@@ -382,7 +381,7 @@ function Dress() {
             <div className="dress-page_right_add-card_number my-[15px] flex flex-wrap justify-between items-center">
               <span className="text-lybas-gray">{t('numbers')}:</span>
               <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
-                <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity - 1) * selectedSize.size.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
+                <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity - 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="16"
@@ -395,7 +394,7 @@ function Dress() {
                   </svg>
                 </button>
                 <span className="w-10 text-center text-semibold">{quantity}</span>
-                <button onClick={() => (setQuantity(quantity + 1), setTotalPrice(((quantity + 1) * selectedSize.size.price).toFixed(2)))} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
+                <button onClick={() => (setQuantity(quantity + 1), setTotalPrice(((quantity + 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="12"

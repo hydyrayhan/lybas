@@ -221,7 +221,7 @@ function Checkout() {
                       </div>
                       <div className="">
                         <h4 className="font-semibold mb-1">{instantOrderData?.data['name_' + lang]}</h4>
-                        <p className="text-sm text-lybas-gray">{instantOrderData?.data?.material['name_' + lang]} {instantOrderData?.size?.size?.size} {instantOrderData?.size?.price.toFixed(2)} TMT X {instantOrder.quantity}</p>
+                        <p className="text-sm text-lybas-gray">{instantOrderData?.data?.material['name_' + lang]} {instantOrderData?.size?.size?.size} {instantOrderData?.data?.price.toFixed(2)} TMT X {instantOrder.quantity}</p>
                       </div>
                     </div>
                     <div className="flex flex-col items-end">
@@ -240,7 +240,7 @@ function Checkout() {
                       </div>
                       <button onClick={() => updateProductQuantity(instantOrderData, 0)} className='flex text-lybas-blue font-semibold tracking-tighter'>{t('delete')}</button>
                     </div>
-                    <p className="text-end font-semibold">{(instantOrderData.quantity * instantOrderData?.size?.price).toFixed(2)} {t('tmt')}</p>
+                    <p className="text-end font-semibold">{(instantOrderData.quantity * instantOrderData?.data?.price).toFixed(2)} {t('tmt')}</p>
                   </div>
                 }
               </div>
@@ -255,7 +255,7 @@ function Checkout() {
               </div> */}
               <div className="p-5 flex justify-between items-center">
                 <h3 className="">{t('totalPrice')}</h3>
-                <p className="font-semibold">{instantOrder ? (instantOrderData.quantity * instantOrderData?.size?.price).toFixed(2) : calculateTotalPrice(cartData)} TMT</p>
+                <p className="font-semibold">{instantOrder ? (instantOrderData.quantity * instantOrderData?.data?.price).toFixed(2) : calculateTotalPrice(cartData)} TMT</p>
               </div>
             </div>
             {/* <div className="checkout_cards_payment-card rounded-lg shadow-lybas-1 my-7">

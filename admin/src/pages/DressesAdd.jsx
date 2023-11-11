@@ -27,7 +27,6 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    stock: '',
     discount: '',
   });
 
@@ -58,8 +57,6 @@ function DressesAdd() {
   const handleSize = (e) => {
     setSizes([...sizes, {
       sizeId: e.target.value.id,
-      price: '',
-      discount: '',
       stock: '',
       name: e.target.value.name
     }])
@@ -126,6 +123,7 @@ function DressesAdd() {
 
   const sendData = async () => {
     setLoading(true);
+    console.log(data);
     if (Valid(data)) {
       try {
         const res = await AxiosCustom("/products/add", { method: "POST", data })
@@ -193,34 +191,12 @@ function DressesAdd() {
               </FormControl>
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('dressmaker')}</label>
-              <FormControl fullWidth>
-                <Select
-                  labelId="multi-select-label"
-                  id="multi-select"
-                  value={data.sellerId}
-                  name='sellerId'
-                  onChange={handleInput}
-                >
-                  {dataDressmakers.map((option) => (
-                    <MenuItem key={option.id} value={option.id}>
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('price')}</label>
               <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='discount'>{t('discount')}</label>
               <input name='discount' value={data.discount} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
-            </div>
-            <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='quantity'>{t('quantity')}</label>
-              <input name='stock' value={data.stock} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} id='quantity' />
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('category')}</label>
@@ -240,6 +216,30 @@ function DressesAdd() {
                 </Select>
               </FormControl>
             </div>
+            <div className="dress-input">
+              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('dressmaker')}</label>
+              <FormControl fullWidth>
+                <Select
+                  labelId="multi-select-label"
+                  id="multi-select"
+                  value={data.sellerId}
+                  name='sellerId'
+                  onChange={handleInput}
+                >
+                  {dataDressmakers.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+
+            {/* <div className="dress-input">
+              <label className="label font-semibold block mb-2.5" htmlFor='quantity'>{t('quantity')}</label>
+              <input name='stock' value={data.stock} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} id='quantity' />
+            </div> */}
+
             <div className="dress-input">
               <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
@@ -275,21 +275,13 @@ function DressesAdd() {
             {
               sizes.length > 0 && sizes.map((size, index) => (
                 <div key={index} className='col-span-2'>
-                  <div className="dress-input sizes flex justify-between">
-                    <div className="dress-input mr-3">
-                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('price')}</label>
-                      <input name='price' id={index} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} />
-                    </div>
-                    <div className="dress-input mr-3">
-                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('discount')}</label>
-                      <input name='discount' id={index} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} />
-                    </div>
+                  <div className="dress-input sizes flex justify-between items-center">
                     <div className="dress-input">
                       <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('quantity')}</label>
                       <input name='stock' id={index} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
                     </div>
+                    <button className='bg-red-400 rounded text-white h-10 py-1 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
                   </div>
-                  <button className='bg-red-400 rounded text-white py-1 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
                 </div>
               ))
             }
