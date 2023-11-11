@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import ip from '../common/Config';
-const image1 = require('../assets/images/leftSmallImage.png');
 
 function Comment({ data }) {
   const [stars, setStars] = useState(Array.from({ length: data?.rate }));

@@ -133,7 +133,7 @@ function Index() {
         <div className="recommended-products">
           <div className="section-header">
             <div className="section-header_name text-lg">{t('recommendedDress')}</div>
-            <Link to="/dresses" className="section-header_link flex items-center">
+            <Link to="/dresses?type=3" className="section-header_link flex items-center">
               <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
@@ -163,7 +163,7 @@ function Index() {
         <div className="most-popular-products pt-5">
           <div className="section-header">
             <div className="section-header_name">{t('mostPopularDresses')}</div>
-            <Link to="/" className="section-header_link flex items-center">
+            <Link to="/dresses?type=2" className="section-header_link flex items-center">
               <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
@@ -201,7 +201,7 @@ function Index() {
         <div className="on-sale-products pt-5">
           <div className="section-header">
             <div className="section-header_name">{t('onSale')}</div>
-            <Link to="/" className="section-header_link flex items-center">
+            <Link to="/dresses?type=4" className="section-header_link flex items-center">
               <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />

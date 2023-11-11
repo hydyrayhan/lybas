@@ -146,7 +146,7 @@ function Comments() {
                         <TableCell align={'left'} >
                           <div className='banner_name w-full'>
                             <Rating value={comment?.rate} readonly/>
-                            <div className='line-clamp-2'>{comment?.text}  fs fds fds fsd fsf s fsd fsdf dsf fljdslkf jdslkjf lksdjflksd jlfkjs fs fds fds fsd fsf s fsd fsdf dsf fljdslkf jdslkjf lksdjflksd jlfkjs fs fds fds fsd fsf s fsd fsdf dsf fljdslkf jdslkjf lksdjflksd jlfkjs fs fds fds fsd fsf s fsd fsdf dsf fljdslkf jdslkjf lksdjflksd jlfkjsdlk fjl fjldksjf lkjdsjfls djflksdj lkfjslkf jlskd</div>
+                            <div className='line-clamp-2'>{comment?.text}</div>
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>

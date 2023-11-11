@@ -16,7 +16,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataDresses, setOffset, setLimit, setFilter, setSearch, setCategory, setMaterial, setSize, setWelayat } from '../../redux/features/Dresses';
 import { useNavigate } from 'react-router-dom';
-import { AxiosCustom, AxiosSeller } from '../../common/AxiosInstance';
+import { AxiosSeller } from '../../common/AxiosInstance';
 import ip from '../../common/Config';
 import { AppContext } from '../../App';
 
@@ -106,7 +106,7 @@ function Dresses() {
   const changeIsActive = async (active, id, market) => {
     if(market.edited){
       try {
-        await AxiosCustom('/products/isActive', { method: "POST", data: { isActive: active, id } })
+        await AxiosSeller('/products/isActive', { method: "POST", data: { isActive: active, id } })
         await dispatch(fetchDataDresses());
       } catch (error) {
         alert(error)

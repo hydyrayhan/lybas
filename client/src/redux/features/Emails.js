@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosCustom } from '../../common/AxiosInstance.js'
+import { AxiosCustom, AxiosSeller } from '../../common/AxiosInstance.js'
 
 const initialState = {
   data: [],
@@ -8,14 +8,16 @@ const initialState = {
   limit: 5,
   offset: 0,
   count: 0,
+  notRead:0,
   search: '',
-  filter:''
+  filter: {},
+  type: '',
 };
-export const fetchDataComments = createAsyncThunk('data/fetchDataComments', async (_, { getState }) => {
+export const fetchDataEmails = createAsyncThunk('data/fetchDataEmails', async (_, { getState }) => {
   try {
-    const { limit, offset, filter, search } = getState().Comments;
-    const data = await AxiosCustom(`/comments?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}`);
-    console.log(data,'comments');
+    const { limit, offset, search, filter, type } = getState().Emails;
+    const data = await AxiosSeller(`/mails?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&type=${type}`);
+    console.log(data,'seller mail');
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -29,8 +31,8 @@ export const fetchDataComments = createAsyncThunk('data/fetchDataComments', asyn
 });
 
 // Create a slice using Redux Toolkit
-const Comments = createSlice({
-  name: 'Comments',
+const Emails = createSlice({
+  name: 'Emails',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -42,24 +44,30 @@ const Comments = createSlice({
     },
     setSearch: (state, action) => {
       state.search = action.payload;
+      state.offset = 0
     },
     setFilter: (state, action) => {
       state.filter = action.payload;
+      state.offset = 0
     },
-    
+    setType: (state, action) => {
+      state.type = action.payload;
+      state.offset = 0
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataComments.pending, (state) => {
+      .addCase(fetchDataEmails.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataComments.fulfilled, (state, action) => {
+      .addCase(fetchDataEmails.fulfilled, (state, action) => {
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
+        state.notRead = action?.payload.data.notRead;
       })
-      .addCase(fetchDataComments.rejected, (state, action) => {
+      .addCase(fetchDataEmails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -67,5 +75,5 @@ const Comments = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter } = Comments.actions;
-export default Comments.reducer;
+export const { setLimit, setOffset, setSearch, setFilter, setType } = Emails.actions;
+export default Emails.reducer;

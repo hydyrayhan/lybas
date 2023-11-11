@@ -12,35 +12,35 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Valid } from '../common/Valid';
 import { api } from '../common/Config';
 
-const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
 
 function DressmakersAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const category = useSelector((state) => state?.Categories?.data);
   const [file, setFile] = useState(null);
-  const [sendImage,setSendImage] = useState('');
+  const [sendImage, setSendImage] = useState('');
   const [data, setData] = useState({
     categoryIds: [],
     phone_number: '',
     name: '',
     email: '',
-    welayat:'ashgabat',
+    welayat: 'ashgabat',
   });
 
   useEffect(() => {
     if (!category.length) dispatch(fetchDataCategories());
 
-    const getData = async ()=>{
+    const getData = async () => {
       try {
-        const res = await AxiosCustom('/seller/'+id)
-        if(res.status === 200){
+        const res = await AxiosCustom('/seller/' + id)
+        if (res.status === 200) {
           const ids = res.data.category.map(obj => obj.id);
-          await setData({...res.data,categoryIds:ids});
-          if(res.data.image){
-            await setFile({url: api + res.data.image});
+          await setData({ ...res.data, categoryIds: ids });
+          if (res.data.image) {
+            await setFile({ url: api + res.data.image });
           }
         }
       } catch (error) {
@@ -53,40 +53,35 @@ function DressmakersAdd() {
   const handleCategory = (e) => {
     setData({ ...data, categoryIds: e.target.value })
   }
-  const handleVelayat = (e)=>{
-    setData({...data,welayat:e.target.value})
+  const handleVelayat = (e) => {
+    setData({ ...data, welayat: e.target.value })
   }
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
   }
   const handleUploadImage = (event) => {
     const file = event.target.files[0];
-    setFile({url:URL.createObjectURL(file),})
+    setFile({ url: URL.createObjectURL(file), })
     setSendImage(file);
   }
 
   const sendData = async () => {
     setLoading(true);
-    if(Valid(data)){
-      try {
-        if(sendImage){
-           const formData = new FormData();
-          formData.append("image",sendImage);
-          const resImage = await AxiosCustom(`/seller/upload-image`,{method:"POST",data:formData},true);
-          await AxiosCustom("/seller/"+id,{method:'PATCH',data:{...data,image:resImage.data}})
-        }else{
-          await AxiosCustom("/seller/"+id,{method:'PATCH',data:{...data}})
-        }
-        setLoading(false);
-        await dispatch(fetchDataDressmakers());
-        navigate("/dressmakers")
-      } catch (error) {
-        alert(error);
-        setLoading(false);
+    try {
+      if (sendImage) {
+        const formData = new FormData();
+        formData.append("image", sendImage);
+        const resImage = await AxiosCustom(`/seller/upload-image`, { method: "POST", data: formData }, true);
+        await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data, image: resImage.data } })
+      } else {
+        await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data } })
       }
-    }else{
       setLoading(false);
-      alert(t('fillTheGaps'))
+      await dispatch(fetchDataDressmakers());
+      navigate("/dressmakers")
+    } catch (error) {
+      alert(error);
+      setLoading(false);
     }
   }
 
@@ -153,7 +148,7 @@ function DressmakersAdd() {
                     onChange={handleVelayat}
                     value={data.welayat}
                   >
-                    {velayats.map((option,index) => (
+                    {velayats.map((option, index) => (
                       <MenuItem key={index} value={option}>
                         {t(option)}
                       </MenuItem>
@@ -169,10 +164,10 @@ function DressmakersAdd() {
             <div className="name px-5 py-4 font-bold border-b">{t('profileImage')}</div>
             <div className="inputs p-5">
               <div className="flex items-center">
-                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-fit mr-3 overflow-hidden">
+                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-cover mr-3 overflow-hidden">
                   {
                     file ?
-                      <img src={file.url} alt="" />
+                      <img className='h-[100%] object-cover' src={file.url} alt="" />
                       :
                       <Person2Icon sx={{ width: '90%', height: '90%' }} />
                   }
@@ -182,14 +177,14 @@ function DressmakersAdd() {
                   <div className="actions flex items-center">
                     <label htmlFor='upload-image' className='text-lybas-blue mr-2 cursor-pointer'>{t('upload')}</label>
                     <input id='upload-image' onChange={handleUploadImage} type="file" className='hidden' />
-                    <button className='text-lybas-gray' onClick={()=>(setSendImage(''),setFile(''))}>{t('delete')}</button>
+                    <button className='text-lybas-gray' onClick={() => (setSendImage(''), setFile(''))}>{t('delete')}</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={()=>navigate('/dressmakers')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

@@ -3,6 +3,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 import axios from 'axios';
 import ip from '../../common/Config';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function VerificationPopup({ open, setOpen }) {
 
@@ -20,6 +22,7 @@ export default function VerificationPopup({ open, setOpen }) {
         localStorage.setItem('lybas-user-token',res.data.token)
         localStorage.setItem('lybas-user',JSON.stringify(res.data.data.user))
         localStorage.setItem('verification-data','{}');
+        toast.success(t('successRegister'), { position: 'bottom-right', autoClose: 2000 })
         window.location.reload();
       }
     } catch (error) {

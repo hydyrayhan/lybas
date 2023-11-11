@@ -164,10 +164,10 @@ function DressmakersAdd() {
             <div className="name px-5 py-4 font-bold border-b">{t('profileImage')}</div>
             <div className="inputs p-5">
               <div className="flex items-center">
-                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-fit mr-3 overflow-hidden">
+                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-cover mr-3 overflow-hidden">
                   {
                     file ?
-                      <img src={file.url} alt="" />
+                      <img className='h-[100%] object-cover' src={file.url} alt="" />
                       :
                       <Person2Icon sx={{ width: '90%', height: '90%' }} />
                   }
@@ -184,7 +184,7 @@ function DressmakersAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={()=>navigate('/dressmakers')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

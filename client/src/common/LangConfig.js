@@ -224,6 +224,8 @@ const resources = {
       mailSended:"Email sended",
       thankYouForRate:"We value your feedback",
       goToTheirShop:"Go to their shop",
+      successRegister:"You are logged in successfully",
+      successSended:"Successfully sended",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -249,7 +251,7 @@ const resources = {
       contactUs: 'Связаться с нами',
       subcribeNewsLetter: 'Подписаться на рассылку',
       enterEmail: "Введите адрес электронной почты",
-      recommendedDress: "Recommended Dresses ru",
+      recommendedDress: "Рекомендуемые платья",
       viewAll: "Посмотреть все",
       goto: "Перейти в магазин",
       shop: "shop ru",
@@ -317,7 +319,7 @@ const resources = {
       customer: "Клиентом",
       dressmaker: "Ателье и Портнихи",
       hello: "Привет",
-      welcomeDashboard: "Welcome back to dashboard",
+      welcomeDashboard: "Добро пожаловать обратно на панель управления",
       users: 'Users',
       comments: "Отзывы",
       onSale: "Скидки",
@@ -457,6 +459,8 @@ const resources = {
       mailSended:"Электронная почта отправлено",
       thankYouForRate:"Мы ценим ваши отзывы",
       goToTheirShop:"Перейти в магазин",
+      successRegister:"Вы успешно вошли в систему",
+      successSended:"Успешно отправлено",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -555,7 +559,7 @@ const resources = {
       customer: "Müşderi",
       dressmaker: "Atelýeler we Tikinçiler",
       hello: "Salam",
-      welcomeDashboard: "Welcome back to dashboard",
+      welcomeDashboard: "Hoş geldiňiz",
       users: 'Users',
       comments: "Synlar",
       onSale: "Arzanladyşdakylar",
@@ -631,7 +635,7 @@ const resources = {
       number: "Nomer",
       dateTime: "Sene, wagt",
       status: "Ýagdaýy",
-      result: "Netine",
+      result: "Netije",
       fullName: "Doly ady",
       nameOfDressAndDressmaker: "Köýnegiň we Dikimçiň/Otelýaň ady",
       fabric: "Materialy",
@@ -695,6 +699,8 @@ const resources = {
       mailSended:"Email ugradyldy",
       thankYouForRate:"Siziň synyňyz biziň üçin wajypdyr.",
       goToTheirShop:"Dükanyna geçmek",
+      successRegister:"Siz üstünlikli girdiňiz",
+      successSended:"Üstünlikli ugradyldy",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

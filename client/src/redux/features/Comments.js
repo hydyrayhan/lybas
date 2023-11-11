@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosCustom } from '../../common/AxiosInstance.js'
+import { AxiosCustom, AxiosSeller } from '../../common/AxiosInstance.js'
 
 const initialState = {
   data: [],
@@ -14,8 +14,8 @@ const initialState = {
 export const fetchDataComments = createAsyncThunk('data/fetchDataComments', async (_, { getState }) => {
   try {
     const { limit, offset, filter, search } = getState().Comments;
-    const data = await AxiosCustom(`/comments?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}`);
-    console.log(data,'comments');
+    const data = await AxiosSeller(`/comments?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}`);
+    console.log(data,'comments seller');
     return data;
   } catch (error) {
     console.log(error.response.data.message)

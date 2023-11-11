@@ -4,8 +4,13 @@ import Sidebar from '../components/Sidebar';
 import Breadcrumb from '../components/Breadcrumb';
 import Dress from '../components/Dress';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
+import { useLocation } from 'react-router-dom';
+
 
 function Dresses() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const type = queryParams.get('type');
   const [data, setData] = useState([]);
   const [categories,setCategories] = useState([]);
   const [dressmakers,setDressmakers] = useState([]);
@@ -29,9 +34,9 @@ function Dresses() {
   const getData = async () => {
     try {
       if(localStorage.getItem('lybas-user-token')){
-        var res = await AxiosUser(`/products?limit=${limit}&sort=${JSON.stringify(sort)}`);
+        var res = await AxiosUser(`/products?limit=${limit}&filter=${JSON.stringify(sort)}&sort=${type}`);
       }else{
-        var res = await AxiosCustom(`/products?limit=${limit}&sort=${JSON.stringify(sort)}`);
+        var res = await AxiosCustom(`/products?limit=${limit}&filter=${JSON.stringify(sort)}&sort=${type}`);
       }
       setData(res.data)
     } catch (error) {

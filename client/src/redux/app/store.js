@@ -10,6 +10,9 @@ import Categories from '../features/Categories';
 import Materials from '../features/Materials';
 import Cart from '../features/Cart'
 import Notifications from '../features/Notifications';
+import Emails from '../features/Emails';
+import Orders from '../features/Orders';
+import Comments from '../features/Comments';
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +28,9 @@ export const store = configureStore({
     Sizes,
     Categories,
     Materials,
+    Emails,
+    Orders,
+    Comments,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -71,15 +71,15 @@ function OneOrder() {
                         <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center">
                           <img className='w-[48px] h-[48px] mr-2 rounded-lg' src={api + product?.image} alt="" />
                           <div className='flex flex-col justify-center'>
-                            <div className='font-bold mb-1'>{product?.product?.name_tm ? product.product['name_' + lang]:''}</div>
-                            <div className='text-sm text-gray-500'>{product?.material?.name_tm ? product.material['name_' + lang] : ''} <span className='mr-2'></span> {product.size} <span className='mr-2'></span> {product.price.toFixed(2)}</div>
+                            <div className='font-bold mb-1'>{product?.product?.name_tm ? product?.product['name_' + lang]:''}</div>
+                            <div className='text-sm text-gray-500'>{product?.material?.name_tm ? product?.material['name_' + lang] : ''} <span className='mr-2'></span> {product?.size} <span className='mr-2'></span> {product?.price?.toFixed(2)}</div>
                           </div>
                         </td>
                         <td className="px-6 py-4">
                           {product.quantity}
                         </td>
                         <td className="px-6 py-4">
-                          {product.total_price.toFixed(2)}
+                          {product?.total_price?.toFixed(2)}
                         </td>
                       </tr>
                     ))

@@ -18,6 +18,7 @@ import WaitToContact from './popups/waitToContactPopup';
 import NotificationPopup from './popups/notificationPopup';
 import Logo from '../assets/images/lybas_black_1.svg'
 import { fetchDataCart } from '../redux/features/Cart';
+import ScrollToTop from './ScrollToTop';
 
 const navigation = {
   pages: [
@@ -61,6 +62,7 @@ export default function Header() {
 
   return (
     <div className="bg-white">
+      <ScrollToTop />
       <Cart open={openCartDropdown} setOpen={(bool) => dispatch(setCartDropdown(bool))} />
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>

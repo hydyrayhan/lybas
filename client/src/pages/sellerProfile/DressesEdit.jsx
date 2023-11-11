@@ -26,7 +26,7 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    stock: 999999,
+    discount: ''
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -41,6 +41,7 @@ function DressesAdd() {
   const [file, setFile] = useState([]);
   const [loading, setLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(null);
+  const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
     dispatch(fetchDataCategories())
@@ -53,11 +54,19 @@ function DressesAdd() {
         console.log(res);
         if (res.status === 200) {
           setData({ ...data, ...res.data })
-          setSizes(res.data.sizeIds)
+          const helpData = []
+          for (let i = 0; i < res.data.product_sizes.length; i++) {
+            helpData.push({
+              name: res.data.product_sizes[i]?.size?.size,
+              stock: res.data.product_sizes[i]?.stock,
+              sizeId: res.data.product_sizes[i]?.sizeId
+            })
+          }
+          setSizes([...helpData])
           const images = []
           for (let i = 0; i < res.data.images.length; i++) {
             images.push({
-              url: ip +'/'+ res.data.images[i].image,
+              url: ip + '/' + res.data.images[i].image,
               id: res.data.images[i].id
             })
           }
@@ -71,7 +80,24 @@ function DressesAdd() {
   }, [])
 
   const handleSize = (e) => {
-    setSizes(e.target.value)
+    setSizes([...sizes, {
+      sizeId: e.target.value.id,
+      stock: '',
+      name: e.target.value.name
+    }])
+  }
+  const handleSizeSub = (e) => {
+    const index = Number(e.target.id);
+    const value = e.target.value;
+    const name = e.target.name;
+    const helpData = [...sizes];
+    helpData[index][name] = value;
+    setSizes([...helpData]);
+  }
+  const sizeDelete = (index) => {
+    const helpData = [...sizes];
+    helpData.splice(index, 1);
+    setSizes(helpData);
   }
   function convertBytesToKBorMB(bytes) {
     const KB = 1024;
@@ -89,7 +115,7 @@ function DressesAdd() {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
-    for (let i = 0; i < (files.length+file.length < 8 ? files.length : 8-file.length); i++) {
+    for (let i = 0; i < (files.length + file.length < 8 ? files.length : 8 - file.length); i++) {
       arr1.push(files[i]);
       arr2.push({
         url: URL.createObjectURL(files[i]),
@@ -121,10 +147,6 @@ function DressesAdd() {
     const value = e.target.value;
     setData({ ...data, [name]: value });
   }
-  const getLabelForValue = (id) => {
-    const selectedOption = dataSize.find((option) => option.id === id);
-    return selectedOption ? selectedOption.size : '';
-  };
 
   const sendData = async () => {
     setLoading(true);
@@ -198,6 +220,10 @@ function DressesAdd() {
               <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
+              <label className="label font-semibold block mb-2.5" htmlFor='discount'>{t('discount')}</label>
+              <input name='discount' value={data.discount} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
+            </div>
+            <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='category'>{t('category')}</label>
               <FormControl fullWidth>
                 <Select
@@ -234,19 +260,12 @@ function DressesAdd() {
                   <Select
                     labelId="multi-select-label"
                     id="multi-select"
-                    multiple
-                    value={sizes}
+                    value={selectedSize}
+                    name='Size'
                     onChange={handleSize}
-                    renderValue={(selected) => (
-                      <Box display="flex" flexWrap="wrap">
-                        {selected.map((value) => (
-                          <Chip key={value} label={getLabelForValue(value)} style={{ margin: 2 }} />
-                        ))}
-                      </Box>
-                    )}
                   >
                     {dataSize.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
+                      <MenuItem key={option.id} value={{ id: option.id, name: option.size }}>
                         {option.size}
                       </MenuItem>
                     ))}
@@ -254,6 +273,19 @@ function DressesAdd() {
                 </FormControl>
               </div>
             </div>
+            {
+              sizes.length > 0 && sizes.map((size, index) => (
+                <div key={index} className='col-span-2'>
+                  <div className="dress-input sizes flex justify-between items-center">
+                    <div className="dress-input">
+                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('quantity')}</label>
+                      <input name='stock' id={index} value={size.stock} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
+                    </div>
+                    <button className='bg-red-400 rounded text-white py-1 h-10 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
+                  </div>
+                </div>
+              ))
+            }
             <div className="dress-input sizes col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='body-tm'>{t('writeContentTm')}</label>
               <textarea name='body_tm' value={data.body_tm} onChange={handleInput} className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5 resize-none' placeholder={t('writeContentTm')} id="body-tm" cols="30" rows="5"></textarea>
@@ -313,7 +345,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={()=>navigate('/sellerProfile/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

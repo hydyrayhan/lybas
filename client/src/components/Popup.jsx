@@ -1,8 +1,11 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
+import { AxiosUser } from '../common/AxiosInstance';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function Popup({ open, setOpen }) {
+export default function Popup({ open, setOpen,size,data }) {
   // const [open, setOpen] = useState(true)
   const [email, setEmail] = useState('');
   const [full, setFull] = useState(false);
@@ -10,9 +13,21 @@ export default function Popup({ open, setOpen }) {
 
   const cancelButtonRef = useRef(null)
 
-  const sendEmail = () => {
-    console.log("Lets send some email")
-    console.log(email)
+  useEffect(()=>{
+    console.log(data)
+  },[])
+
+  const sendEmail = async() => {
+    if(full){
+      try {
+        await AxiosUser('/products/reminder',{method:"POST",data:{productsizeId:size.size.id,mail:email,sellerId:data.sellerId,size:size.size.size.size}})
+        toast.success(t('successSended'), { position: 'bottom-right', autoClose: 2000 });
+        setOpen(false);
+        setFull(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   const checkEmail = (e) => {
@@ -66,7 +81,7 @@ export default function Popup({ open, setOpen }) {
                           {t('remindMeText')}
                         </p>
                         <input onChange={(e) => setEmail(e.target.value)} onKeyDown={checkEmail} type="email" className='w-full rounded-lg border-2 border-lybas-light-gray p-2 mb-2 outline-none text-lybas-gray' placeholder={t('remindMePlaceholder')} />
-                        <input disabled className='w-full rounded-lg border-2 border-lybas-light-gray p-2 outline-none text-lybas-gray' placeholder={t('remindMePlaceholder')} value={'M (38)'} />
+                        <input disabled className='w-full rounded-lg border-2 border-lybas-light-gray p-2 outline-none text-lybas-gray' placeholder={t('size')} value={size?.size?.size?.size} />
                       </div>
                     </div>
                   </div>

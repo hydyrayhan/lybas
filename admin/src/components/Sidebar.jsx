@@ -48,7 +48,7 @@ function Sidebar() {
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start">
-              <Link to="/" className="flex ml-2 md:mr-24 w-[10rem] h-[50px]">
+              <Link to="/" className="flex ml-2 md:mr-24 w-[10rem] h-[35px]">
                 <img src={Logo} alt="" />
               </Link>
             </div>

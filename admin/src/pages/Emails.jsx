@@ -69,6 +69,7 @@ function Emails() {
 
   useEffect(() => {
     if (!data.length) dispatch(fetchDataEmails());
+    console.log(data);
     const isReadOff = async () => {
       try {
         const res = await AxiosCustom('/mails/isRead')

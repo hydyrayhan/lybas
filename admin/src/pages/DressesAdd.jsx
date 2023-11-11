@@ -116,14 +116,9 @@ function DressesAdd() {
     const value = e.target.value;
     setData({ ...data, [name]: value });
   }
-  const getLabelForValue = (id) => {
-    const selectedOption = dataSize.find((option) => option.id === id);
-    return selectedOption ? selectedOption.size : '';
-  };
 
   const sendData = async () => {
     setLoading(true);
-    console.log(data);
     if (Valid(data)) {
       try {
         const res = await AxiosCustom("/products/add", { method: "POST", data })
@@ -341,7 +336,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={()=>navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

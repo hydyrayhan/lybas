@@ -20,8 +20,6 @@ function Dress() {
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
   const [similarData, setSimilarData] = useState(null);
-  const [stars, setStars] = useState(Array.from({ length: data ? data.rating : 0 }));
-  const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - (data ? data.rating : 0) }));
   const [sizeChartOpen, setSizeChartOpen] = useState(false);
   const [inStock, setInStock] = useState(!data?.stock > 0);
   const [popupOpen, setPopupOpen] = useState(false);
@@ -62,10 +60,11 @@ function Dress() {
         }
         setData(res?.data?.data?.oneProduct)
         setCount(res?.data?.data.count)
-        console.log(res?.data?.data?.oneProduct,123132)
+        console.log(res?.data?.data?.oneProduct, 123132)
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
+        setInStock(res?.data?.data?.oneProduct?.product_sizes[0].stock)
         if (localStorage.getItem('lybas-user-token')) isOrdered(res?.data?.data?.oneProduct?.product_sizes[0].id);
       } catch (error) {
         console.log(error);
@@ -155,6 +154,7 @@ function Dress() {
     }
   }
 
+
   return (
     <div className="dress-page container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: data && data['name_' + lang] }} />
@@ -201,40 +201,44 @@ function Dress() {
               </div>
               <div className="dress-page_left_content_rating-stock flex items-center mb-[10px]">
                 <span>{t('rating')}: </span>
-                <span className="font-semibold mx-[8px]"> {data?.rating}.0</span>
+                <span className="font-semibold mx-[8px]"> {data?.rating?.toFixed(1)}</span>
                 <div className="stars flex items-center">
-                  {stars.map((e, key) => (
-                    <svg
-                      className="mr-[2px]"
-                      key={key + 100}
-                      width="15"
-                      height="16"
-                      viewBox="0 0 15 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.9923 6.10156L9.75008 5.44531L7.82821 1.41406C7.68758 1.13281 7.31258 1.13281 7.17196 1.41406L5.25008 5.46875L1.03133 6.10156C0.726647 6.14844 0.60946 6.54688 0.843835 6.75781L3.91415 9.92188L3.18758 14.3516C3.14071 14.6562 3.4454 14.9141 3.72665 14.7266L7.54696 12.6406L11.3438 14.7266C11.6016 14.8672 11.9298 14.6328 11.8595 14.3516L11.1329 9.92188L14.2032 6.75781C14.3907 6.54688 14.297 6.14844 13.9923 6.10156Z"
-                        fill="#FFA645"
-                      />
-                    </svg>
-                  ))}
-                  {starsFree.map((e, key) => (
-                    <svg
-                      className="mr-[2px]"
-                      key={key}
-                      width="15"
-                      height="16"
-                      viewBox="0 0 15 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M3.63289 15.1953C3.44539 15.1953 3.25789 15.1484 3.09383 15.0313C2.78914 14.8203 2.62508 14.4453 2.69539 14.0703L3.3282 10.0859L0.586015 7.25C0.328203 6.99219 0.234453 6.59375 0.35164 6.24219C0.468828 5.89063 0.750078 5.65625 1.10164 5.58594L4.92195 4.97656L6.63289 1.34375C6.79695 1.01563 7.12508 0.804688 7.47664 0.804688C7.85164 0.804688 8.15633 1.01563 8.32039 1.34375L10.0782 4.95313L13.8985 5.5625C14.2501 5.60938 14.5313 5.86719 14.6485 6.21875C14.7657 6.57031 14.672 6.96875 14.4141 7.22656L11.6485 10.0625L12.3048 14.0703C12.3751 14.4453 12.211 14.8203 11.9063 15.0313C11.6251 15.2422 11.2501 15.2656 10.922 15.1016L7.50008 13.2266L4.0782 15.1016C3.93758 15.1719 3.79695 15.1953 3.63289 15.1953ZM1.17195 6.6875L4.00789 9.59375C4.14851 9.73438 4.21883 9.94531 4.17195 10.1563L3.5157 14.2109C3.49226 14.3047 3.56258 14.3516 3.58601 14.375C3.63289 14.4219 3.67976 14.3984 3.7032 14.375L7.21883 12.4531C7.40633 12.3594 7.61726 12.3594 7.80476 12.4531L11.3204 14.3516C11.3438 14.3516 11.3673 14.375 11.4376 14.3516C11.461 14.3281 11.5079 14.2813 11.5079 14.1875L10.8516 10.1094C10.8282 9.89844 10.8751 9.71094 11.0157 9.54688L13.8282 6.64063C13.8985 6.57031 13.8751 6.5 13.8751 6.45313C13.8751 6.42969 13.8282 6.35938 13.7813 6.35938L9.84383 5.75C9.63289 5.72656 9.46883 5.58594 9.37508 5.39844L7.61726 1.69531C7.59383 1.625 7.54695 1.625 7.50008 1.625C7.47664 1.625 7.42976 1.64844 7.38289 1.69531L5.62508 5.42188C5.53133 5.60938 5.36726 5.75 5.15633 5.77344L1.24227 6.40625C1.17195 6.40625 1.14852 6.47656 1.14852 6.5C1.12508 6.52344 1.10164 6.61719 1.17195 6.6875Z"
-                        fill="#FFA645"
-                      />
-                    </svg>
-                  ))}
+                  {
+                    Array.from({ length: Math.round(data?.rating) }).map((star, index) => (
+                      <svg
+                        className="mr-[2px]"
+                        key={index}
+                        width="15"
+                        height="16"
+                        viewBox="0 0 15 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M13.9923 6.10156L9.75008 5.44531L7.82821 1.41406C7.68758 1.13281 7.31258 1.13281 7.17196 1.41406L5.25008 5.46875L1.03133 6.10156C0.726647 6.14844 0.60946 6.54688 0.843835 6.75781L3.91415 9.92188L3.18758 14.3516C3.14071 14.6562 3.4454 14.9141 3.72665 14.7266L7.54696 12.6406L11.3438 14.7266C11.6016 14.8672 11.9298 14.6328 11.8595 14.3516L11.1329 9.92188L14.2032 6.75781C14.3907 6.54688 14.297 6.14844 13.9923 6.10156Z"
+                          fill="#FFA645"
+                        />
+                      </svg>
+                    ))
+                  }
+                  {
+                    Array.from({ length: 5 - Math.round(data?.rating) }).map((star, index) => (
+                      <svg
+                        className="mr-[2px]"
+                        key={index}
+                        width="15"
+                        height="16"
+                        viewBox="0 0 15 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.63289 15.1953C3.44539 15.1953 3.25789 15.1484 3.09383 15.0313C2.78914 14.8203 2.62508 14.4453 2.69539 14.0703L3.3282 10.0859L0.586015 7.25C0.328203 6.99219 0.234453 6.59375 0.35164 6.24219C0.468828 5.89063 0.750078 5.65625 1.10164 5.58594L4.92195 4.97656L6.63289 1.34375C6.79695 1.01563 7.12508 0.804688 7.47664 0.804688C7.85164 0.804688 8.15633 1.01563 8.32039 1.34375L10.0782 4.95313L13.8985 5.5625C14.2501 5.60938 14.5313 5.86719 14.6485 6.21875C14.7657 6.57031 14.672 6.96875 14.4141 7.22656L11.6485 10.0625L12.3048 14.0703C12.3751 14.4453 12.211 14.8203 11.9063 15.0313C11.6251 15.2422 11.2501 15.2656 10.922 15.1016L7.50008 13.2266L4.0782 15.1016C3.93758 15.1719 3.79695 15.1953 3.63289 15.1953ZM1.17195 6.6875L4.00789 9.59375C4.14851 9.73438 4.21883 9.94531 4.17195 10.1563L3.5157 14.2109C3.49226 14.3047 3.56258 14.3516 3.58601 14.375C3.63289 14.4219 3.67976 14.3984 3.7032 14.375L7.21883 12.4531C7.40633 12.3594 7.61726 12.3594 7.80476 12.4531L11.3204 14.3516C11.3438 14.3516 11.3673 14.375 11.4376 14.3516C11.461 14.3281 11.5079 14.2813 11.5079 14.1875L10.8516 10.1094C10.8282 9.89844 10.8751 9.71094 11.0157 9.54688L13.8282 6.64063C13.8985 6.57031 13.8751 6.5 13.8751 6.45313C13.8751 6.42969 13.8282 6.35938 13.7813 6.35938L9.84383 5.75C9.63289 5.72656 9.46883 5.58594 9.37508 5.39844L7.61726 1.69531C7.59383 1.625 7.54695 1.625 7.50008 1.625C7.47664 1.625 7.42976 1.64844 7.38289 1.69531L5.62508 5.42188C5.53133 5.60938 5.36726 5.75 5.15633 5.77344L1.24227 6.40625C1.17195 6.40625 1.14852 6.47656 1.14852 6.5C1.12508 6.52344 1.10164 6.61719 1.17195 6.6875Z"
+                          fill="#FFA645"
+                        />
+                      </svg>
+                    ))
+                  }
                 </div>
                 <div className="stock ml-[20px] flex items-center">
                   {
@@ -339,7 +343,7 @@ function Dress() {
               <div className="dress-page_left_comments w-full mt-5 md:mt-0">
                 <div className="dress-page_left_comments_header flex items-center justify-between mb-[20px]">
                   <span className="text-xl font-semibold">{t('comments')}</span>
-                  <Link to={'/comments/'+id} className="flex items-center text-lybas-blue">
+                  <Link to={'/comments/' + id} className="flex items-center text-lybas-blue">
                     <span className="hidden md:inline">{t('viewAll')}</span>
                     <svg className="ml-[8px]" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
@@ -460,7 +464,7 @@ function Dress() {
             </div>
             <button onClick={() => navigate('/dressmakers/' + data?.seller.id)} className="dress-page_right_seller-card_more-button lybas-blue-button mb-[15px]">{t('more')}</button>
             <button
-              onClick={() => setPopupOpen(true)}
+              onClick={() => { localStorage.getItem('lybas-user-token') ? setPopupOpen(true) : toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 }); }}
               disabled={inStock}
               className={
                 'dress-page_right_seller-card_remind-button lybas-button ' +
@@ -472,7 +476,7 @@ function Dress() {
           </div>
         </div>
       </div>
-      <Popup open={popupOpen} setOpen={setPopupOpen} />
+      <Popup open={popupOpen} setOpen={setPopupOpen} size={selectedSize} data={data} />
       <div className='w-full fixed z-[11] md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
         <button className='w-full rounded-lg py-2 bg-lybas-blue flex items-center justify-center' onClick={() => setPopupOpen(true)}>
           <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
