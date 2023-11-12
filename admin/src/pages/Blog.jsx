@@ -149,7 +149,9 @@ function Blog() {
                           {blog.createdAt.split('T')[0]} / {blog.createdAt.split('T')[1].split('.')[0]}
                         </TableCell>
                         <TableCell align={'left'}>
-                          {blog['body_'+lang]}
+                          <div className='line-clamp-2'>
+                            {blog['body_'+lang]}
+                          </div>
                         </TableCell>
                         <TableCell align={'right'}>
                           <button onClick={()=>navigate('/blog/'+blog.id)}>

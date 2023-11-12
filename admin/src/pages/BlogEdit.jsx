@@ -180,7 +180,7 @@ function BlogEdit() {
                           <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z" fill="#0E1217" />
                         </svg>
                         <p className="mb-2 text-sm text-lybas-blue">{t('clickToUpload')}</p>
-                        <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px) 0/8</p>
+                        <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                       </div>
                       <input id="dropzone-file" onChange={handleUploadImage} type="file" className="hidden" />
                     </label>

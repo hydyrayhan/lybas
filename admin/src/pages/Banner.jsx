@@ -87,6 +87,7 @@ function Banner() {
 
   useEffect(() => {
     if (!data?.length) dispatch(fetchDataBanners());
+    console.log(data);
   }, [])
 
   const deleteData = async () => {
@@ -144,7 +145,7 @@ function Banner() {
                         <TableCell align={'left'}>
                           <div className='banner_name'>
                             <div className="name font-semibold mb-1">{banner.name}</div>
-                            <div className='info text-lybas-gray text-sm'><span>Merjen</span> | <span>Otelya</span></div>
+                            <div className='info text-lybas-gray text-sm'><span>{banner?.seller?.name}</span> | <span>Otelya</span></div>
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>

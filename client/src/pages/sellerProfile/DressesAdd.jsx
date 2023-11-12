@@ -25,7 +25,7 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    discount:''
+    discount:0
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -85,7 +85,7 @@ function DressesAdd() {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
-    for (let i = 0; i < (files.length + file.length < 8 ? files.length : 8 - file.length); i++) {
+    for (let i = 0; i < (files.length + file.length < 5 ? files.length : 5 - file.length); i++) {
       arr1.push(files[i]);
       arr2.push({
         url: URL.createObjectURL(files[i]),
@@ -110,11 +110,6 @@ function DressesAdd() {
     const value = e.target.value;
     setData({ ...data, [name]: value });
   }
-  const getLabelForValue = (id) => {
-    const selectedOption = dataSize.find((option) => option.id === id);
-    return selectedOption ? selectedOption.size : '';
-  };
-
   const sendData = async () => {
     setLoading(true);
     if (Valid(data)) {
@@ -280,7 +275,7 @@ function DressesAdd() {
                       <path d="M11 16V7.85L8.4 10.45L7 9L12 4L17 9L15.6 10.45L13 7.85V16H11ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z" fill="#0E1217" />
                     </svg>
                     <p className="mb-2 text-sm text-lybas-blue">{t('clickToUpload')}</p>
-                    <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px) {file.length}/8</p>
+                    <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px) {file.length}/5</p>
                   </div>
                   <input id="dropzone-file" multiple onChange={handleUploadImage} type="file" className="hidden" />
                 </label>

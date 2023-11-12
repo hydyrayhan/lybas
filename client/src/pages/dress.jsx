@@ -162,15 +162,15 @@ function Dress() {
         <div className="dress-page_left w-full md:w-7/10 lg:w-4/5 mr-0 md:mr-[30px]">
           <div className="flex flex-col lg:flex-row">
             <div className="dress-page_left_image w-full lg:w-1/2 flex mr-0 md:mr-[30px]">
-              <div className="dress-page_left_image_small-images w-1/5 flex flex-col">
+              <div className="dress-page_left_image_small-images w-1/5 flex flex-col h-[490px] mt-2.5">
                 {
                   data?.images.length > 0 && data.images.map((image, index) => (
-                    <img key={index} onClick={() => setActiveImage(index)} src={ip + '/' + image.image} alt="" className="rounded mt-[10px] cursor-pointer" />
+                    <img key={index} onClick={() => setActiveImage(index)} src={ip + '/' + image.image} alt="" className="rounded h-[90px] object-cover mb-[10px] cursor-pointer" />
                   ))
                 }
               </div>
               <div className="dress-page_left_big-image relative w-4/5 ml-[10px] mt-[10px]">
-                <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full object-cover rounded" />
+                <img src={ip + '/' + data?.images[activeImage].image} alt="" className="w-full object-cover rounded h-[490px]" />
                 {
                   selectedSize?.size?.discount > 0 &&
                   <div className="dress-page_left_big-image_discount absolute top-[5px] left-[5px] bg-lybas-red rounded py-[5px] px-[10px] text-sm text-white">
