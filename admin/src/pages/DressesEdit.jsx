@@ -150,15 +150,16 @@ function DressesAdd() {
   }
 
   const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const {name,value} = e.target;
     setData({ ...data, [name]: value });
   }
 
   const sendData = async () => {
     setLoading(true);
+    const dataNew = {...data};
+    dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
     try {
-      const res = await AxiosCustom("/products/" + id, { method: "PATCH", data })
+      const res = await AxiosCustom("/products/" + id, { method: "PATCH", data:dataNew })
       await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
       if (data.image.length) {
         const formData = new FormData();

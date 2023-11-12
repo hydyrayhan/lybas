@@ -64,7 +64,6 @@ function Dress({ hover, className, data = {rating:0} }) {
   }
   const addToCart = async (size) => {
     if(localStorage.getItem('lybas-user-token')){
-      console.log(size);
       const sendData = {
         id:data.id,
         productsizeId:size.id,
@@ -82,16 +81,15 @@ function Dress({ hover, className, data = {rating:0} }) {
       toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
-  const closeShowSizes = () => {
-    setShowSizes(false);
-  }
   const openShowSizes = () => {
     setShowSizes(true)
   }
   return (
     <div className={'dress-card group relative ' + className}>
       <Link to={'/dresses/' + data.id}>
-        <div className="dress-card_image"><img className='w-full object-cover' src={ip + '/' + data.images[0].image} alt="" /></div>
+        <div className="dress-card_image">
+          <img className='w-full object-cover' src={ip + '/' + data.images[0].image} alt="" />
+          </div>
         {
           !showSizes ? <>
             <div className={size_style[hover].name}>{data['name_' + lang]}</div>
@@ -186,7 +184,7 @@ function Dress({ hover, className, data = {rating:0} }) {
         }
       </button>
       {
-        data.discount &&
+        data.discount>0 &&
         <div className='absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm'>{data.discount} %</div>
       }
       {/* <ToastContainer /> */}

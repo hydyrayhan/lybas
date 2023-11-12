@@ -32,7 +32,7 @@ function Account() {
     }
   }));
   const { lang } = useContext(AppContext)
-  const [contentTitle, setContentTitle] = useState('myFeedback'); //myAccount
+  const [contentTitle, setContentTitle] = useState('myAccount'); //myAccount
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);

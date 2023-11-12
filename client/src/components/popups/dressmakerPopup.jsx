@@ -14,12 +14,12 @@ export default function DressmakerPopup({ open, setOpen, waitFunc }) {
   const [errorText, setErrorText] = useState('');
 
   const [data, setData] = useState({
-    phone_number: '',
+    phone_number: '+9936',
     password: ''
   })
 
   const [dataUp, setDataUp] = useState({
-    phone_number: '',
+    phone_number: '+9936',
     name: '',
     name1: '',
     surname: '',
@@ -36,8 +36,8 @@ export default function DressmakerPopup({ open, setOpen, waitFunc }) {
     setDataUp({ ...dataUp, [name]: value });
   }
 
-
-  const sendData = async () => {
+  const sendData = async (e) => {
+    e.preventDefault();
     if (Valid((isSignIn ? data : dataUp))) {
       try {
         var res;
@@ -61,6 +61,22 @@ export default function DressmakerPopup({ open, setOpen, waitFunc }) {
     } else {
       setErrorText(t('fillTheGaps'))
     }
+  }
+
+  const handleSignIn = ()=>{
+    setIsSignIn(!isSignIn);
+    setErrorText('')
+    setData({
+      phone_number: '+9936',
+      password: ''
+    })
+  
+    setDataUp({
+      phone_number: '+9936',
+      name: '',
+      name1: '',
+      surname: '',
+    })
   }
 
   return (
@@ -90,45 +106,50 @@ export default function DressmakerPopup({ open, setOpen, waitFunc }) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-10 pt-7">
-                  <div className="">
-                    <div className="mt-3 text-center">
-                      <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 mb-8 flex justify-between items-center">
-                        {t('dressmaker')}
-                        <svg onClick={() => { setOpen(false) }} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#0E1217" />
-                        </svg>
-                      </Dialog.Title>
-                      <div className="buttons flex">
-                        <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
-                        <button onClick={() => setIsSignIn(!isSignIn)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
-                      </div>
-                      {
-                        !isSignIn ?
-                          <div className="inputs py-3">
-                            <input type="text" name='name1' onChange={handleDataUp} className='input w-full mb-3' placeholder={t('firstName')} />
-                            <input type="text" name='surname' onChange={handleDataUp} className='input w-full mb-3' placeholder={t('lastName')} />
-                            <input type="text" name='name' onChange={handleDataUp} className='input w-full mb-3' placeholder={t('bussinessName')} />
-                            <input type="text" name='phone_number' onChange={handleDataUp} className='input w-full' placeholder={t('phoneNumber')} />
-                          </div> :
-                          <div className="inputs py-3">
-                            <input type="text" name='phone_number' onChange={handleData} className='input w-full mb-3' placeholder={'+9936'} />
-                            <input type='password' name='password' onChange={handleData} className='input w-full mb-3' placeholder={t('password')} />
+                  <div className="bg-white px-10 pt-7">
+                    <div className="">
+                      <div className="mt-3 text-center">
+                        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-gray-900 mb-8 flex justify-between items-center">
+                          {t('dressmaker')}
+                          <svg onClick={() => { setOpen(false) }} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z" fill="#0E1217" />
+                          </svg>
+                        </Dialog.Title>
+                        <div className="buttons flex">
+                          <button onClick={handleSignIn} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
+                          <button onClick={handleSignIn} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
+                        </div>
+                        <form onSubmit={sendData}>
+                          {
+                            !isSignIn ?
+                              <div className="inputs py-3">
+                                <input type="text" name='name1' value={dataUp.name1} onChange={handleDataUp} required className='input w-full mb-3' placeholder={t('firstName')} />
+                                <input type="text" name='surname' value={dataUp.surname} onChange={handleDataUp} required className='input w-full mb-3' placeholder={t('lastName')} />
+                                <input type="text" name='name' value={dataUp.name} onChange={handleDataUp} required className='input w-full mb-3' placeholder={t('bussinessName')} />
+                                <input type="text" name='phone_number' value={dataUp.phone_number} pattern="\+9936\d{7}" required onChange={handleDataUp} className='input w-full' placeholder={t('phoneNumber')} />
+                              </div> :
+                              <div className="inputs py-3">
+                                <input type="tel" name='phone_number' value={data.phone_number} onChange={handleData} pattern="\+9936\d{7}" required className='input w-full mb-3' placeholder={'+9936'} />
+                                <input type='password' name='password' value={data.password} onChange={handleData} required className='input w-full mb-3' placeholder={t('password')} />
+                              </div>
+                          }
+                          <div className='text-red-600'>{errorText}</div>
+                          <div className="pt-3 pb-7 grid grid-cols-2 gap-5">
+                            <button
+                              // onClick={sendData}
+                              type="submit"
+                              className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
+                            >
+                              {t('confirm')}
+                            </button>
                           </div>
-                      }
+                        </form>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className='px-10 text-red-600'>{errorText}</div>
-                <div className="px-10 pt-3 pb-7 grid grid-cols-2 gap-5">
-                  <button
-                    onClick={sendData}
-                    type="button"
-                    className="rounded-md bg-lybas-blue col-span-2 py-2 text-sm text-white hover:bg-blue-800"
-                  >
-                    {t('confirm')}
-                  </button>
-                </div>
+                  
+
+                
               </Dialog.Panel>
             </Transition.Child>
           </div>

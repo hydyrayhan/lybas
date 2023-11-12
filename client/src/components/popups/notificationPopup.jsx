@@ -40,42 +40,6 @@ function NotificationPopup({ open, setOpen }) {
             </div>
           ))
         }
-        {
-          data?.length > 0 && data.map((noti, index) => (
-            <div key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
-              {/* <img className='notification_list_image rounded-full min-w-8 max-w-8 min-h-8 max-h-8 mr-3' src={require('./../../assets/images/dressImage.png')} alt="" /> */}
-              <div className="notification_list_content text-sm">
-                <div className='font-semibold'>{noti.name}</div>
-                <div className='text-lybas-gray line-clamp-2'>{noti.text}</div>
-              </div>
-              <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
-            </div>
-          ))
-        }
-        {
-          data?.length > 0 && data.map((noti, index) => (
-            <div key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
-              {/* <img className='notification_list_image rounded-full min-w-8 max-w-8 min-h-8 max-h-8 mr-3' src={require('./../../assets/images/dressImage.png')} alt="" /> */}
-              <div className="notification_list_content text-sm">
-                <div className='font-semibold'>{noti.name}</div>
-                <div className='text-lybas-gray line-clamp-2'>{noti.text}</div>
-              </div>
-              <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
-            </div>
-          ))
-        }
-        {
-          data?.length > 0 && data.map((noti, index) => (
-            <div key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
-              {/* <img className='notification_list_image rounded-full min-w-8 max-w-8 min-h-8 max-h-8 mr-3' src={require('./../../assets/images/dressImage.png')} alt="" /> */}
-              <div className="notification_list_content text-sm">
-                <div className='font-semibold'>{noti.name}</div>
-                <div className='text-lybas-gray line-clamp-2'>{noti.text}</div>
-              </div>
-              <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
-            </div>
-          ))
-        }
       </div>
       <div>
         <MobileSlide open={open} setOpen={setOpen} title={'notification'}>

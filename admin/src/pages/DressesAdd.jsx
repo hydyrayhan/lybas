@@ -112,19 +112,20 @@ function DressesAdd() {
   }
 
   const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const {name,value} = e.target;
     setData({ ...data, [name]: value });
   }
 
   const sendData = async () => {
     setLoading(true);
-    if (Valid(data)) {
+    const dataNew = {...data};
+    dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
+    if (Valid(dataNew)) {
       try {
-        const res = await AxiosCustom("/products/add", { method: "POST", data })
+        const res = await AxiosCustom("/products/add", { method: "POST", data:dataNew })
         const formData = new FormData();
-        for (let i = 0; i < data.image.length; i++) {
-          formData.append("Image", data.image[i]);
+        for (let i = 0; i < dataNew.image.length; i++) {
+          formData.append("Image", dataNew.image[i]);
         }
         const res1 = await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         const res2 = await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
@@ -187,11 +188,11 @@ function DressesAdd() {
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('price')}</label>
-              <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
+              <input name='price' value={data.price} onChange={handleInput} type="number" min="0" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='discount'>{t('discount')}</label>
-              <input name='discount' value={data.discount} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
+              <input name='discount' value={data.discount} onChange={handleInput} type="number" min="0" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
             </div>
             <div className="dress-input">
               <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('category')}</label>

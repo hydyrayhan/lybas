@@ -112,9 +112,11 @@ function DressesAdd() {
   }
   const sendData = async () => {
     setLoading(true);
-    if (Valid(data)) {
+    const dataNew = {...data};
+    dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
+    if (Valid(dataNew)) {
       try {
-        const res = await AxiosSeller("/products/add", { method: "POST", data })
+        const res = await AxiosSeller("/products/add", { method: "POST", data:dataNew })
         const formData = new FormData();
         for (let i = 0; i < data.image.length; i++) {
           formData.append("Image", data.image[i]);

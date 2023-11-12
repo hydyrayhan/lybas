@@ -491,7 +491,7 @@ const resources = {
       contactUs: 'Biz bilen habarlaşmak',
       subcribeNewsLetter: 'Täzeliklere ýazylyň',
       enterEmail: "Email giriziň",
-      recommendedDress: "Teklip edilýän köýnekler",
+      recommendedDress: "Hödürlenýän köýnekler",
       viewAll: "Hemmesini görmek",
       goto: "Görmek",
       shop: "dükanyny",

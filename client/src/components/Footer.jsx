@@ -24,6 +24,7 @@ function Footer() {
         const res = await AxiosUser("/newsletter",{method:"POST",data:{email:newsletter}})
         if(res.status === 200){
           toast.success(t('mailSended'), { position: 'bottom-right', autoClose: 2000 });
+          setNewsletter('');
         }
       } catch (error) {
        console.log(error); 

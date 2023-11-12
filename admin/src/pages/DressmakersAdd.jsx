@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { VisibilityOff } from '@mui/icons-material';
 import Person2Icon from '@mui/icons-material/Person2';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataCategories } from '../redux/features/Categories';
@@ -107,7 +108,11 @@ function DressmakersAdd() {
               <div className='text-lybas-gray flex items-center pr-5 bg-gray-100 rounded-lg'>
                 <input type={openPassword ? 'text' : 'password'} name='password' onChange={handleInput} className='w-full bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('password')} id='password' />
                 <button onClick={() => setOpenPassword(!openPassword)}>
-                  <VisibilityIcon />
+                  {
+                    openPassword ? 
+                    <VisibilityIcon />: <VisibilityOff/>
+                  }
+
                 </button>
               </div>
             </div>

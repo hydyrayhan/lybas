@@ -150,8 +150,10 @@ function DressesAdd() {
 
   const sendData = async () => {
     setLoading(true);
+    const dataNew = {...data};
+    dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
     try {
-      const res = await AxiosSeller("/products/" + id, { method: "PATCH", data })
+      const res = await AxiosSeller("/products/" + id, { method: "PATCH", data:dataNew })
       await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
       if (data.image.length) {
         const formData = new FormData();
