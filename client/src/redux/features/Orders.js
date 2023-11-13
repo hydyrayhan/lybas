@@ -22,8 +22,9 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
     console.log(error.response.data.message)
     const err = error.response.data.message;
     if (err === 'jwt expired') {
-      window.location.reload('/admin/login')
-      localStorage.clear('lybas-token')
+      localStorage.clear('lybas-seller-token')
+      localStorage.clear('lybas-seller')
+      window.location.reload('/')
     }
     throw error;
   }

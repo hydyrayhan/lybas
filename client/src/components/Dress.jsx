@@ -8,14 +8,14 @@ import { AxiosUser } from '../common/AxiosInstance';
 import { useDispatch } from 'react-redux';
 import { fetchDataCart } from '../redux/features/Cart';
 
-function Dress({ hover, className, data = {rating:0} }) {
+function Dress({ hover, className, data = { rating: 0 } }) {
   const { t, lang } = useContext(AppContext);
   const [stars, setStars] = useState(Array.from({ length: data.rating }));
   const [starsFree, setStarsFree] = useState(Array.from({ length: 5 - data.rating }));
   const [like, setLike] = useState(data.isLiked);
   const [showSizes, setShowSizes] = useState(false);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setShowSizes(false);
@@ -47,37 +47,37 @@ function Dress({ hover, className, data = {rating:0} }) {
   }
 
   const handleLike = async (id) => {
-    if(localStorage.getItem('lybas-user-token')){
+    if (localStorage.getItem('lybas-user-token')) {
       try {
-        if(like){
-          await AxiosUser("/dislike?id="+id, {method:"POST"})
-        }else{
-          await AxiosUser("/like?id="+id, {method:"POST"})
+        if (like) {
+          await AxiosUser("/dislike?id=" + id, { method: "POST" })
+        } else {
+          await AxiosUser("/like?id=" + id, { method: "POST" })
         }
       } catch (error) {
         console.log(error);
       }
       setLike(!like)
-    }else{
-      toast.warning(t('loginWorning'),{position: 'bottom-right',autoClose: 2000});
+    } else {
+      toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
   const addToCart = async (size) => {
-    if(localStorage.getItem('lybas-user-token')){
+    if (localStorage.getItem('lybas-user-token')) {
       const sendData = {
-        id:data.id,
-        productsizeId:size.id,
-        quantity:1
+        id: data.id,
+        productsizeId: size.id,
+        quantity: 1
       }
       try {
-        await AxiosUser('/to-my-cart', { method: 'POST', data:sendData })
+        await AxiosUser('/to-my-cart', { method: 'POST', data: sendData })
         dispatch(fetchDataCart())
-  
+
         toast.success(t('addedToCart'), { position: 'bottom-right', autoClose: 2000 });
       } catch (error) {
         console.log(error);
       }
-    }else{
+    } else {
       toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
@@ -89,21 +89,21 @@ function Dress({ hover, className, data = {rating:0} }) {
       <Link to={'/dresses/' + data.id}>
         <div className="dress-card_image">
           <img className='w-full object-cover' src={ip + '/' + data.images[0].image} alt="" />
-          </div>
+        </div>
         {
           !showSizes ? <>
             <div className={size_style[hover].name}>{data['name_' + lang]}</div>
             <div className="dress-card_rate flex flex-col xl:flex-row xl:items-center">
               <div className='flex items-center'>
                 {
-                  stars.map((e, index) => (
+                  Array.from({ length: Math.round(data?.rating) }).map((e, index) => (
                     <svg className='mr-1' key={index} width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M14.925 5.475L10.4 4.775L8.34996 0.475C8.19996 0.175 7.79996 0.175 7.64996 0.475L5.59996 4.8L1.09996 5.475C0.77496 5.525 0.64996 5.95 0.89996 6.175L4.17496 9.55L3.39996 14.275C3.34996 14.6 3.67496 14.875 3.97496 14.675L8.04996 12.45L12.1 14.675C12.375 14.825 12.725 14.575 12.65 14.275L11.875 9.55L15.15 6.175C15.35 5.95 15.25 5.525 14.925 5.475Z" fill="#FFA645" />
                     </svg>
                   ))
                 }
                 {
-                  starsFree.map((e, index) => (
+                  Array.from({ length: 5 - Math.round(data?.rating) }).map((e, index) => (
                     <svg className='mr-1' key={index + 100} width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M3.87499 16.175C3.67499 16.175 3.47499 16.125 3.29999 16C2.97499 15.775 2.79999 15.375 2.87499 14.975L3.54999 10.725L0.624985 7.69995C0.349985 7.42495 0.249985 6.99995 0.374985 6.62495C0.499985 6.24995 0.799985 5.99995 1.17499 5.92495L5.24999 5.27495L7.07499 1.39995C7.24999 1.04995 7.59999 0.824951 7.97499 0.824951C8.37498 0.824951 8.69999 1.04995 8.87498 1.39995L10.75 5.24995L14.825 5.89995C15.2 5.94995 15.5 6.22495 15.625 6.59995C15.75 6.97495 15.65 7.39995 15.375 7.67495L12.425 10.7L13.125 14.975C13.2 15.375 13.025 15.775 12.7 16C12.4 16.225 12 16.25 11.65 16.075L7.99999 14.075L4.34999 16.075C4.19999 16.15 4.04999 16.175 3.87499 16.175ZM1.24999 7.09995L4.27499 10.2C4.42499 10.35 4.49998 10.575 4.44999 10.8L3.74999 15.125C3.72499 15.225 3.79999 15.275 3.82499 15.3C3.87499 15.35 3.92499 15.325 3.94999 15.3L7.69999 13.25C7.89999 13.15 8.12499 13.15 8.32499 13.25L12.075 15.275C12.1 15.275 12.125 15.3 12.2 15.275C12.225 15.25 12.275 15.2 12.275 15.1L11.575 10.75C11.55 10.525 11.6 10.325 11.75 10.15L14.75 7.04995C14.825 6.97495 14.8 6.89995 14.8 6.84995C14.8 6.82495 14.75 6.74995 14.7 6.74995L10.5 6.09995C10.275 6.07495 10.1 5.92495 9.99999 5.72495L8.12499 1.77495C8.09999 1.69995 8.04998 1.69995 7.99999 1.69995C7.97499 1.69995 7.92498 1.72495 7.87499 1.77495L5.99999 5.74995C5.89998 5.94995 5.72499 6.09995 5.49999 6.12495L1.32499 6.79995C1.24999 6.79995 1.22499 6.87495 1.22499 6.89995C1.19999 6.92495 1.17499 7.02495 1.24999 7.09995Z" fill="#FFA645" />
                     </svg>
@@ -111,7 +111,7 @@ function Dress({ hover, className, data = {rating:0} }) {
                 }
                 <span className={size_style[hover].count}>({data.rating_count})</span>
               </div>
-              <span className='dress-card_rate_city flex items-center text-lybas-gray text-sm'><span className='dress-card_rate_city_dot hidden md:block w-[5px] h-[5px] bg-lybas-gray block rounded mr-1'></span>{data.welayat}</span>
+              <span className='dress-card_rate_city flex items-center text-lybas-gray text-sm'><span className='dress-card_rate_city_dot hidden md:block w-[5px] h-[5px] bg-lybas-gray block rounded mr-1'></span>{t(data.welayat)}</span>
             </div>
           </> : ''
         }
@@ -121,8 +121,10 @@ function Dress({ hover, className, data = {rating:0} }) {
           <div className='flex items-end justify-between'>
             <div>
               {
-                data.discount>0 &&
-                <div className='mt-2 text-lybas-red line-through'>{data?.discount}{t('tmt')}</div>
+                data.discount > 0 ?
+                  <div className='mt-2 text-lybas-red line-through'>{data?.discount}{t('tmt')}</div>
+                  :
+                  <div className='mt-2 text-lybas-red line-through opacity-0'>{data?.discount}{t('tmt')}</div>
               }
               <span className={size_style[hover].price}>{data.price} {t('tmt')}</span>
             </div>
@@ -137,7 +139,7 @@ function Dress({ hover, className, data = {rating:0} }) {
             }
           </div>
           <div className="dress-card_custom-buttons flex flex-col md:flex-row md:items-center justify-between">
-            <Link to={"/dressmakers/"+data?.sellerId} className='dress-card_custom-buttons_link mb-3 text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]'>
+            <Link to={"/dressmakers/" + data?.sellerId} className='dress-card_custom-buttons_link mb-3 text-sm md:text-base flex items-center transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]'>
               <svg className='mr-2' width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.66667 2.99996V0.666626H20.3333V2.99996H1.66667ZM1.66667 19.3333V12.3333H0.5V9.99996L1.66667 4.16663H20.3333L21.5 9.99996V12.3333H20.3333V19.3333H18V12.3333H13.3333V19.3333H1.66667ZM4 17H11V12.3333H4V17Z" fill="#64748B" />
               </svg>
@@ -161,11 +163,11 @@ function Dress({ hover, className, data = {rating:0} }) {
             data?.product_sizes?.map((size, index) => {
               if ((index + 1) % 2 === 1 && index + 1 === data.product_sizes.length) {
                 return (
-                  <button onClick={()=>addToCart(size)} key={index} className='border col-span-2 text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
+                  <button onClick={() => addToCart(size)} key={index} className='border col-span-2 text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
                 )
               } else {
                 return (
-                  <button onClick={()=>addToCart(size)} key={index} className='border text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
+                  <button onClick={() => addToCart(size)} key={index} className='border text-center py-4 hover:bg-gray-100'>{size.size.size}</button>
                 )
               }
             })
@@ -184,7 +186,7 @@ function Dress({ hover, className, data = {rating:0} }) {
         }
       </button>
       {
-        data.discount>0 &&
+        data.discount > 0 &&
         <div className='absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm'>{data.discount} %</div>
       }
       {/* <ToastContainer /> */}

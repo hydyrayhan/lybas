@@ -19,6 +19,9 @@ import NotificationPopup from './popups/notificationPopup';
 import Logo from '../assets/images/lybas_black_1.svg'
 import { fetchDataCart } from '../redux/features/Cart';
 import ScrollToTop from './ScrollToTop';
+import WritePhonePopup from './popups/writePhonePopup';
+import ForgotUserVerificationPopup from './popups/forgotUserVerificationPopup';
+import ChangePasswordPopup from './popups/changePasswordPopup';
 
 const navigation = {
   pages: [
@@ -26,7 +29,7 @@ const navigation = {
     { name: 'dresses', to: '/dresses' },
     { name: 'dressmakers', to: '/dressmakers' },
     { name: 'blog', to: '/blog' },
-    { name: 'favorites', to: '/favorites', mobile:true}
+    { name: 'favorites', to: '/favorites', mobile: true }
   ]
 };
 
@@ -41,8 +44,14 @@ export default function Header() {
   const [openDressmakerPopup, setOpenDressmakerPopup] = useState(false);
   const [openCustomerPopup, setOpenCustomerPopup] = useState(false);
   const [openVerificationPopup, setOpenVerificationPopup] = useState(false);
+  const [openVerificationPopupForgotUser, setOpenVerificationPopupForgotUser] = useState(false);
   const [waitToContact, setWaitToContact] = useState(false)
   const [notification, setNotification] = useState(false);
+  const [writePhone, setWritePhone] = useState(false);
+  const [changePasswordOpen,setChangePasswordOpen] = useState(false);
+  const [phone_number, setPhone_number] = useState('');
+  const [isSeller,setIsSeller] = useState('');
+  
   const cartData = useSelector((state) => state?.Cart.data)
 
   const { t, changeLanguage, lang } = useContext(AppContext);
@@ -61,7 +70,7 @@ export default function Header() {
   }, [])
 
   return (
-    <div className="bg-white">
+    <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[3]">
       <ScrollToTop />
       <Cart open={openCartDropdown} setOpen={(bool) => dispatch(setCartDropdown(bool))} />
       {/* Mobile menu */}
@@ -131,7 +140,7 @@ export default function Header() {
       <header className="relative bg-white" style={{ boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.2)' }}>
         <p className="flex sm:h-5 lg:h-10 items-center justify-center px-4 text-sm font-medium text-white hidden sm:flex sm:px-6 lg:px-8" style={styleHeader}></p>
 
-        <nav aria-label="Top" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav aria-label="Top" className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
           <div>
             <div className="flex h-16 items-center">
               <div className='flex items-center flex-row-reverse'>
@@ -149,7 +158,7 @@ export default function Header() {
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.pages.map((page) => (
-                    <NavLink key={page.name} to={page.to} className={"flex items-center text-sm font-medium text-gray-700 hover:text-gray-800 "+(page.mobile ? 'hidden' : '')}>
+                    <NavLink key={page.name} to={page.to} className={"flex items-center text-sm font-medium text-gray-700 hover:text-gray-800 " + (page.mobile ? 'hidden' : '')}>
                       {t(page.name)}
                     </NavLink>
                   ))}
@@ -314,11 +323,14 @@ export default function Header() {
       </header>
 
       {/* popups */}
-      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup} />
-      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} />
-      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} />
+      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup}/>
+      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} setWritePhone={setWritePhone} setIsSeller={setIsSeller}/>
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} setWritePhone={setWritePhone} setIsSeller={setIsSeller}/>
       <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup} />
       <WaitToContact open={waitToContact} setOpen={setWaitToContact} />
+      <WritePhonePopup open={writePhone} setOpen={setWritePhone} setOpenVeri={setOpenVerificationPopupForgotUser} setData2={setPhone_number} isSeller={isSeller}/>
+      <ForgotUserVerificationPopup open={openVerificationPopupForgotUser} setOpen={setOpenVerificationPopupForgotUser} setOpenChangePassword={setChangePasswordOpen} data={phone_number} isSeller={isSeller}/>
+      <ChangePasswordPopup open={changePasswordOpen} setOpen={setChangePasswordOpen} phone_number={phone_number} isSeller={isSeller}/>
       <ToastContainer />
     </div>
   );

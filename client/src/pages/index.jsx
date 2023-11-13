@@ -140,7 +140,7 @@ function Index() {
               </svg>
             </Link>
           </div>
-          <div className="recommended-products_container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="recommended-products_container grid grid-cols-2 md:grid-cols-3 gap-4">
             {
               recom[0] &&
               <Dress hover={'big'} data={recom[0]} />
@@ -151,7 +151,7 @@ function Index() {
             }
             {
               recom[2] &&
-              <Dress hover={'big'} className={'sm:hidden md:block'} data={recom[2]} />
+              <Dress hover={'big'} className={'hidden md:block'} data={recom[2]} />
             }
           </div>
         </div>
@@ -239,7 +239,7 @@ function Index() {
         <div className="dress-makers-products pt-5">
           <div className="section-header">
             <div className="section-header_name">{t('dressmakers')}</div>
-            <Link to="/" className="section-header_link flex items-center">
+            <Link to="/dressmakers" className="section-header_link flex items-center">
               <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
@@ -277,7 +277,7 @@ function Index() {
         <div className="blogs -products pt-5">
           <div className="section-header">
             <div className="section-header_name">{t('blog')}</div>
-            <Link to="/" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
+            <Link to="/blog" className="section-header_link flex items-center"><span className='mr-2 text-lybas-blue'>{t('viewAll')}</span>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
               </svg>

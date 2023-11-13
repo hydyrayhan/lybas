@@ -226,6 +226,9 @@ const resources = {
       goToTheirShop:"Go to their shop",
       successRegister:"You are logged in successfully",
       successSended:"Successfully sended",
+      minimum6Letter:"Password must be at least 6 characters long",
+      writePhoneNumber:"Write phone number",
+      changePassword:"Change password",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -461,6 +464,9 @@ const resources = {
       goToTheirShop:"Перейти в магазин",
       successRegister:"Вы успешно вошли в систему",
       successSended:"Успешно отправлено",
+      minimum6Letter:"Пароль должен содержать как минимум 6 символов",
+      writePhoneNumber:"Напишите номер телефона",
+      changePassword:"Изменить пароль",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -701,6 +707,9 @@ const resources = {
       goToTheirShop:"Dükanyna geçmek",
       successRegister:"Siz üstünlikli girdiňiz",
       successSended:"Üstünlikli ugradyldy",
+      minimum6Letter:"Parol azyndan 6 simwoldan ybarat bolmaly",
+      writePhoneNumber:"Telefon belgiňizi giriziň",
+      changePassword:"Paroly üýtget",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

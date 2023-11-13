@@ -13,6 +13,8 @@ import { Valid } from '../common/Valid';
 import { useNavigate } from 'react-router-dom';
 import { fetchDataDresses } from '../redux/features/Dresses';
 
+const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+
 function DressesAdd() {
   const [data, setData] = useState({
     name_tm: '',
@@ -28,6 +30,7 @@ function DressesAdd() {
     colorId: '',
     image: [],
     discount: 0,
+    welayat: 'ashgabat',
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -112,17 +115,20 @@ function DressesAdd() {
   }
 
   const handleInput = (e) => {
-    const {name,value} = e.target;
+    const { name, value } = e.target;
     setData({ ...data, [name]: value });
+  }
+  const handleVelayat = (e) => {
+    setData({ ...data, welayat: e.target.value })
   }
 
   const sendData = async () => {
     setLoading(true);
-    const dataNew = {...data};
+    const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
     if (Valid(dataNew)) {
       try {
-        const res = await AxiosCustom("/products/add", { method: "POST", data:dataNew })
+        const res = await AxiosCustom("/products/add", { method: "POST", data: dataNew })
         const formData = new FormData();
         for (let i = 0; i < dataNew.image.length; i++) {
           formData.append("Image", dataNew.image[i]);
@@ -235,13 +241,31 @@ function DressesAdd() {
               <label className="label font-semibold block mb-2.5" htmlFor='quantity'>{t('quantity')}</label>
               <input name='stock' value={data.stock} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} id='quantity' />
             </div> */}
-
+            <div className="dress-input sizes">
+              <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
+              <div className="size flex flex-wrap items-center">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="multi-select-label"
+                    id="multi-select"
+                    onChange={handleVelayat}
+                    value={data.welayat}
+                  >
+                    {velayats.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {t(option)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
             <div className="dress-input">
               <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
                 {
                   dataColor?.length > 0 && dataColor?.map((color, index) => (
-                    <button onClick={() => handleColor(color, index)} key={index} className={'rounded-full mr-3 border-blue-600 ' + (colorIndex === index ? 'border-2 p-0.5' : '')}>
+                    <button onClick={() => handleColor(color, index)} key={index} className={'rounded-full mr-3 mb-3 border-blue-600 ' + (colorIndex === index ? 'border-2 p-0.5' : '')}>
                       <div className='w-5 h-5 rounded-full' style={{ background: color.hex }}></div>
                     </button>
                   ))
@@ -337,7 +361,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button onClick={()=>navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={() => navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

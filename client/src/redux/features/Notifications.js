@@ -20,7 +20,9 @@ export const fetchDataNotifications = createAsyncThunk('data/fetchDataNotificati
     console.log(error.response.data.message)
     const err = error.response.data.message;
     if (err === 'jwt expired') {
-      localStorage.clear('lybas-token')
+      localStorage.clear('lybas-seller-token')
+      localStorage.clear('lybas-seller')
+      window.location.reload('/')
     }
     throw error;
   }

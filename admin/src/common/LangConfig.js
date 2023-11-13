@@ -215,6 +215,8 @@ const resources = {
       newDressmaker:"New Dressmaker",
       information:"Informations",
       surname:"Surname",
+      writePhoneNumber:"Write phone number",
+      changePassword:"Change password",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -439,6 +441,8 @@ const resources = {
       newDressmaker:"Новая портниха",
       information:"Информация",
       surname:"Фамилия",
+      writePhoneNumber:"Напишите номер телефона",
+      changePassword:"Изменить пароль",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -668,6 +672,8 @@ const resources = {
       newDressmaker:"Täze tikinçi",
       information:"Maglumatlar",
       surname:"Familiýa",
+      writePhoneNumber:"Telefon belgiňizi giriziň",
+      changePassword:"Paroly üýtget",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

@@ -10,7 +10,7 @@ function Blog({data}) {
   return (
     <div className='blog relative group'>
       <div className="blog-image md:group-hover:opacity-75 relative">
-        <img className='rounded-t-lg w-full max-h-[200px] lg:max-h-[300px] object-cover' src={ip +'/'+data.image} alt="" />
+        <img className='rounded-t-lg w-full h-[200px] lg:h-[300px] object-cover' src={ip +'/'+data.image} alt="" />
         <Link to={'/blog/'+data.id} className="blog-more-button md:hidden bg-lybas-blue py-[6px] px-[16px] flex justify-between items-center absolute bottom-2 right-2 text-white rounded">
           <svg className='mr-[10px]' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.13335 13.25L0.791687 11.9083L9.99169 2.70832H1.75002V0.791656H13.25V12.2917H11.3334V4.04999L2.13335 13.25Z" fill="white" />

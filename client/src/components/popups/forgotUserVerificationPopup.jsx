@@ -6,36 +6,29 @@ import ip from '../../common/Config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function VerificationPopup({ open, setOpen }) {
+export default function ForgotUserVerificationPopup({ open, setOpen, data,setOpenChangePassword,isSeller }) {
   const cancelButtonRef = useRef(null);
   const [veri, setVeri] = useState('');
   const [errorText, setErrorText] = useState('');
-  const [verification,setVerification] = useState({})
+  const [verification,setVerification] = useState()
 
   const sendData = async () => {
-    const data = JSON.parse(localStorage.getItem('verification-data'));
-    const newData = { ...data, code: veri };
-    newData.user_checked_phone = newData.user_phone;
     try {
-      const res = await axios.post(ip + '/users/signup', newData);
-      if (res.status === 201) {
-        localStorage.setItem('lybas-user-token', res.data.token);
-        localStorage.setItem('lybas-user', JSON.stringify(res.data.data.user));
-        localStorage.setItem('verification-data', '{}');
-        toast.success(t('successRegister'), { position: 'bottom-right', autoClose: 2000 });
-        window.location.reload();
+      if(isSeller === 'user'){
+        var res = await axios.post(ip + '/users/check-code', {user_phone:data?.user_phone,code:verification});
+      }else if(isSeller === 'seller'){
+        var res = await axios.post(ip + '/seller/account/check-code', {user_phone:data?.user_phone,code:verification});
+      }
+      if (res.status === 200) {
+        setOpen(false);
+        setErrorText('')
+        setOpenChangePassword(true);
       }
     } catch (error) {
       setErrorText(error.response.data.message);
       console.log(error.response.data.message);
     }
   };
-
-  useEffect(()=>{
-    let veriData = localStorage.getItem('verification-data');
-    if(veriData) veriData = JSON.parse(localStorage.getItem('verification-data'));
-    setVerification(veriData);
-  },[])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -90,10 +83,10 @@ export default function VerificationPopup({ open, setOpen }) {
                         </svg>
                       </Dialog.Title>
                       <div className="inputs py-3">
-                        <span className="text-left text-lybas-gray block w-full mb-3">{t('verificationHelpWord') + ' '+(verification?.user_phone ? verification?.user_phone : '')}</span>
+                        <span className="text-left text-lybas-gray block w-full mb-3">{t('verificationHelpWord') + ' '+(data?.user_phone ? data?.user_phone : '')}</span>
                         <input
                           type="text"
-                          onChange={(e) => setVeri(e.target.value)}
+                          onChange={(e) => setVerification(e.target.value)}
                           className="input w-full"
                           placeholder={t('enterTheCode') + '*'}
                         />

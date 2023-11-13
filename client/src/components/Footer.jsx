@@ -18,7 +18,8 @@ function Footer() {
   const [open, setOpen] = useState(false);
   const [newsletter,setNewsletter] = useState('');
 
-  const sendNewsletter = async()=>{
+  const sendNewsletter = async(e)=>{
+    e.preventDefault();
     if(newsletter){
       try {
         const res = await AxiosUser("/newsletter",{method:"POST",data:{email:newsletter}})
@@ -153,8 +154,10 @@ function Footer() {
                   </p>
                 </div>
                 <div className="footer-input-focus relative mt-2 rounded-md shadow-sm">
+                  <form onSubmit={sendNewsletter}>
                   <input
-                    type="text"
+                    type="email"
+                    required
                     name="message"
                     id="message"
                     value={newsletter}
@@ -167,12 +170,13 @@ function Footer() {
                   />
                   <div className="footer-input-button-container absolute inset-y-0 right-0 flex items-center">
                     <span className="footer-input-devider h-full w-px" style={{ background: '#d1d5db' }} aria-hidden="true" />
-                    <button onClick={sendNewsletter} className='mr-[15px] ml-[15px]'>
+                    <button type='submit' className='mr-[15px] ml-[15px]'>
                       <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H2ZM10 9L18 4V2L10 7L2 2V4L10 9Z" fill="#1A54EB" />
                       </svg>
                     </button>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>

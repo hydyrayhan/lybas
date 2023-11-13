@@ -23,8 +23,9 @@ export const fetchDataEmails = createAsyncThunk('data/fetchDataEmails', async (_
     console.log(error.response.data.message)
     const err = error.response.data.message;
     if (err === 'jwt expired') {
-      window.location.reload('/admin/login')
-      localStorage.clear('lybas-token')
+      window.location.reload('/')
+      localStorage.clear('lybas-seller-token')
+      localStorage.clear('lybas-seller')
     }
     throw error;
   }

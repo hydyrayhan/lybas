@@ -15,6 +15,8 @@ import { fetchDataDresses } from '../redux/features/Dresses';
 import { api } from '../common/Config';
 import { AppContext } from '../App'
 
+const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+
 function DressesAdd() {
   const [data, setData] = useState({
     name_tm: '',
@@ -30,6 +32,7 @@ function DressesAdd() {
     colorId: '',
     image: [],
     discount: 0,
+    welayat: 'ashgabat',
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -92,6 +95,9 @@ function DressesAdd() {
       name: e.target.value.name
     }])
   }
+  const handleVelayat = (e) => {
+    setData({ ...data, welayat: e.target.value })
+  }
   const handleSizeSub = (e) => {
     const index = Number(e.target.id);
     const value = e.target.value;
@@ -150,16 +156,16 @@ function DressesAdd() {
   }
 
   const handleInput = (e) => {
-    const {name,value} = e.target;
+    const { name, value } = e.target;
     setData({ ...data, [name]: value });
   }
 
   const sendData = async () => {
     setLoading(true);
-    const dataNew = {...data};
+    const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
     try {
-      const res = await AxiosCustom("/products/" + id, { method: "PATCH", data:dataNew })
+      const res = await AxiosCustom("/products/" + id, { method: "PATCH", data: dataNew })
       await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
       if (data.image.length) {
         const formData = new FormData();
@@ -266,6 +272,25 @@ function DressesAdd() {
                 </Select>
               </FormControl>
             </div>
+            <div className="dress-input sizes">
+              <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
+              <div className="size flex flex-wrap items-center">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="multi-select-label"
+                    id="multi-select"
+                    onChange={handleVelayat}
+                    value={data.welayat}
+                  >
+                    {velayats.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {t(option)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
             <div className="dress-input">
               <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
@@ -370,7 +395,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button onClick={()=>navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={() => navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

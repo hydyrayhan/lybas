@@ -57,7 +57,7 @@ function Profile() {
 
   const sendData = async ()=>{
     try {
-      const res = await AxiosSeller('/edit',{method:'POST',data})
+      const res = await AxiosSeller('/account/edit',{method:'PATCH',data})
       const formData = new FormData();
       if(data.image){
         formData.append('image',data.image);
