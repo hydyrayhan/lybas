@@ -3,19 +3,25 @@ import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import { Rating } from '@material-tailwind/react';
 import { AxiosCustom } from '../common/AxiosInstance';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { api } from '../common/Config';
 
 
 function CommentOne() {
   const { id } = useParams();
-  const [data, setData] = useState({});
+  const [data, setData] = useState();
+  const location = useLocation();
+
+  // Parse query parameters from the location.search string
+  const queryParams = new URLSearchParams(location.search);
+  
+  // Get the value of a specific query parameter
+  const rate = queryParams.get('rate');
   const getData = async () => {
     try {
       const res = await AxiosCustom('/comments/' + id)
-      console.log(res, 'comment');
       if (res.status === 200) {
-        setData(res.data)
+        setData(res?.data)
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +53,7 @@ function CommentOne() {
             </div>
             <div className="data col-span-2">
               <div className="data_title font-semibold mb-2 col-span-4">{t('rating')}</div>
-              <div className="data_title text-lybas-gray"><Rating value={data?.rate} readonly /></div>
+              <div className="data_title text-lybas-gray"><Rating value={Number(rate)} readonly /></div>
             </div>
             <div className="data col-span-2">
               <div className="data_title font-semibold mb-2 col-span-4">{t('comment')}</div>
@@ -71,7 +77,7 @@ function CommentOne() {
             <div className="image w-[55px] h-[55px] flex items-center justify-center overflow-hidden rounded-full bg-gray-200 mr-3">
               {
                 data?.user?.image ?
-                  <img src={api + data?.user?.image} alt="" />
+                  <img className='h-full object-cover' src={api + data?.user?.image} alt="" />
                   :
                   <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_1196_22316)">

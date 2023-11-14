@@ -70,7 +70,7 @@ export default function Header() {
   }, [])
 
   return (
-    <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[3]">
+    <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[10]">
       <ScrollToTop />
       <Cart open={openCartDropdown} setOpen={(bool) => dispatch(setCartDropdown(bool))} />
       {/* Mobile menu */}

@@ -7,6 +7,7 @@ import Logo from '../assets/images/lybas_black_1.svg'
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ThanksNewsletterPopup from './popups/thanksNewsletterPopup';
 
 const footer_rights_styles = {
   background: 'white',
@@ -17,6 +18,7 @@ function Footer() {
   const { t } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [newsletter,setNewsletter] = useState('');
+  const [openNewsletter,setOpenNewsletter] = useState(false);
 
   const sendNewsletter = async(e)=>{
     e.preventDefault();
@@ -24,7 +26,8 @@ function Footer() {
       try {
         const res = await AxiosUser("/newsletter",{method:"POST",data:{email:newsletter}})
         if(res.status === 200){
-          toast.success(t('mailSended'), { position: 'bottom-right', autoClose: 2000 });
+          // toast.success(t('mailSended'), { position: 'bottom-right', autoClose: 2000 });
+          setOpenNewsletter(true)
           setNewsletter('');
         }
       } catch (error) {
@@ -210,6 +213,7 @@ function Footer() {
         © 2023-2024, All Rights Reserved
       </div>
       <DeliveryAbroadPopup open={open} setOpen={setOpen}/>
+      <ThanksNewsletterPopup open={openNewsletter} setOpen={setOpenNewsletter}/>
     </>
   );
 }

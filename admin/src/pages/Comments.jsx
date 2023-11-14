@@ -154,7 +154,7 @@ function Comments() {
                         </TableCell>
                         <TableCell align={'right'}>
                           <div className='flex justify-end items-end'>
-                            <Link to={'/comments/'+comment.id} className='mr-3'>
+                            <Link to={`/comments/${comment.id}?rate=${comment.rate}`} className='mr-3'>
                               <OpenInNewIcon sx={{ color: 'green' }} />
                             </Link>
                             <button onClick={() => (setOpen(true), setDeleteId(comment.id))} className='mr-3'>

@@ -229,6 +229,7 @@ const resources = {
       minimum6Letter:"Password must be at least 6 characters long",
       writePhoneNumber:"Write phone number",
       changePassword:"Change password",
+      thanksNewsletter:"Thank you for subscribing, we will send updates to your email!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -467,6 +468,7 @@ const resources = {
       minimum6Letter:"Пароль должен содержать как минимум 6 символов",
       writePhoneNumber:"Напишите номер телефона",
       changePassword:"Изменить пароль",
+      thanksNewsletter:"Спасибо за подписку, мы будем присылать обновления на вашу электронную почту!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -497,7 +499,7 @@ const resources = {
       contactUs: 'Biz bilen habarlaşmak',
       subcribeNewsLetter: 'Täzeliklere ýazylyň',
       enterEmail: "Email giriziň",
-      recommendedDress: "Hödürlenýän köýnekler",
+      recommendedDress: "Hödürlenýänler",
       viewAll: "Hemmesini görmek",
       goto: "Görmek",
       shop: "dükanyny",
@@ -710,6 +712,7 @@ const resources = {
       minimum6Letter:"Parol azyndan 6 simwoldan ybarat bolmaly",
       writePhoneNumber:"Telefon belgiňizi giriziň",
       changePassword:"Paroly üýtget",
+      thanksNewsletter:"Sagboluň, ýazylanyňyz üçin, Siziň emailiňize täzelikleri ibereris!",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

@@ -67,21 +67,27 @@ function DressmakersAdd() {
 
   const sendData = async () => {
     setLoading(true);
-    try {
-      if (sendImage) {
-        const formData = new FormData();
-        formData.append("image", sendImage);
-        const resImage = await AxiosCustom(`/seller/upload-image`, { method: "POST", data: formData }, true);
-        await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data, image: resImage.data } })
-      } else {
-        await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data } })
+    const pattern = /^\+9936\d{7}$/;
+    if (pattern.test(data.phone_number)) {
+      try {
+        if (sendImage) {
+          const formData = new FormData();
+          formData.append("image", sendImage);
+          const resImage = await AxiosCustom(`/seller/upload-image`, { method: "POST", data: formData }, true);
+          await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data, image: resImage.data } })
+        } else {
+          await AxiosCustom("/seller/" + id, { method: 'PATCH', data: { ...data } })
+        }
+        setLoading(false);
+        await dispatch(fetchDataDressmakers());
+        navigate("/dressmakers")
+      } catch (error) {
+        alert(error);
+        setLoading(false);
       }
+    } else {
       setLoading(false);
-      await dispatch(fetchDataDressmakers());
-      navigate("/dressmakers")
-    } catch (error) {
-      alert(error);
-      setLoading(false);
+      alert(t('phoneNumberError'))
     }
   }
 
@@ -184,7 +190,7 @@ function DressmakersAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button onClick={()=>navigate('/dressmakers')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={() => navigate('/dressmakers')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

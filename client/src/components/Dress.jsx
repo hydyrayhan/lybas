@@ -37,12 +37,12 @@ function Dress({ hover, className, data = { rating: 0 } }) {
     big: {
       name: 'dress-card_name text-sm md:text-lg my-2 font-semibold',
       count: 'dress-card_rate_count mx-2 text-lg flex items-center',
-      price: 'dress-card_price font-bold text-3xl my-1',
+      price: 'dress-card_price font-bold text-2xl my-1',
     },
     small: {
       name: 'dress-card_name text-sm md:text-base my-2 font-semibold',
       count: 'dress-card_rate_count mx-2 text-sm',
-      price: 'dress-card_price font-bold text-xl my-1 flex justify-between items-center w-full',
+      price: 'dress-card_price font-bold text-lg my-1 flex justify-between items-center w-full',
     },
   }
 
@@ -122,11 +122,11 @@ function Dress({ hover, className, data = { rating: 0 } }) {
             <div>
               {
                 data.discount > 0 ?
-                  <div className='mt-2 text-lybas-red line-through'>{data?.discount}{t('tmt')}</div>
+                  <div className='mt-2 text-lybas-red line-through'>{data?.price_old.toFixed(0)}{t('tmt')}</div>
                   :
-                  <div className='mt-2 text-lybas-red line-through opacity-0'>{data?.discount}{t('tmt')}</div>
+                  <div className='mt-2 text-lybas-red line-through opacity-0'>{data?.price_old.toFixed(0)}{t('tmt')}</div>
               }
-              <span className={size_style[hover].price}>{data.price} {t('tmt')}</span>
+              <span className={size_style[hover].price}>{data?.price.toFixed(0)} {t('tmt')}</span>
             </div>
             {
               hover === 'small' ?

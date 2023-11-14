@@ -331,7 +331,7 @@ function Dress() {
                 </button>
               </div>
               <div className="dress-page_left_content_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
-              <div className="dress-page_left_content _definition">
+              <div className="dress-page_left_content _definition break-words">
                 {data?.body_tm && data['body_' + lang]}
               </div>
             </div>
