@@ -10,7 +10,7 @@ import Popup from '../components/Popup';
 import Comment from '../components/ProductComment';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import ip from '../common/Config';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Dress() {
@@ -330,6 +330,48 @@ function Dress() {
                   <span className="w-[22px] h-[22px] rounded-full" style={{ background: data?.color?.hex }}></span>
                 </button>
               </div>
+              <div className='mobile-but-actions block md:hidden mt-5 flex items-center sticky bottom-[100px] bg-white'>
+                <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
+                  <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity - 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
+                    <svg
+                      className="fill-lybas-gray group-hover:fill-lybas-blue"
+                      width="16"
+                      height="2"
+                      viewBox="0 0 16 2"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M0.666748 1.66659V0.333252H15.3334V1.66659H0.666748Z" />
+                    </svg>
+                  </button>
+                  <span className="w-10 text-center text-semibold">{quantity}</span>
+                  <button onClick={() => (setQuantity(quantity + 1), setTotalPrice(((quantity + 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
+                    <svg
+                      className="fill-lybas-gray group-hover:fill-lybas-blue"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M5.23793 6.76199H0.666504V5.23818H5.23793V0.666748H6.76174V5.23818H11.3332V6.76199H6.76174V11.3334H5.23793V6.76199Z" />
+                    </svg>
+                  </button>
+                </div>
+                <button
+                  disabled={!inStock}
+                  onClick={instantOrder}
+                  className={
+                    'dress-page_right_add-card_order-button w-full py-[4px] mx-3 rounded-lg ' +
+                    (inStock ? 'bg-lybas-blue text-white' : 'bg-lybas-light-gray text-lybas-gray cursor-not-allowed')
+                  }
+                >
+                  {t('order')}
+                </button>
+                <button disabled={!inStock} onClick={addToCart} className={"dress-page_right_add-checkout-button w-full py-[4px] shadow-lybas-1 rounded-lg " + (inStock ? 'text-lybas-blue' : 'text-gray-400 cursor-not-allowed')}>
+                  {orderedData ? t('changeCart') : t('addToCard')}
+                </button>
+              </div>
               <div className="dress-page_left_content_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
               <div className="dress-page_left_content _definition break-words">
                 {data?.body_tm && data['body_' + lang]}
@@ -477,15 +519,14 @@ function Dress() {
         </div>
       </div>
       <Popup open={popupOpen} setOpen={setPopupOpen} size={selectedSize} data={data} />
-      <div className='w-full fixed z-[11] md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
-        <button className='w-full rounded-lg py-2 bg-lybas-blue flex items-center justify-center' onClick={() => setPopupOpen(true)}>
+      <div className='mobile-button w-full fixed z-[11] md:hidden bg-white shadow-t shadow-lybas-1 px-6 py-5 bottom-0 left-0 right-0'>
+        <button disabled={inStock} className={'w-full rounded-lg py-2 flex items-center justify-center ' + (!inStock ? 'bg-lybas-blue' : 'bg-gray-500')} onClick={() => setPopupOpen(true)}>
           <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.66667 18.3333C1.20833 18.3333 0.815972 18.1701 0.489583 17.8437C0.163194 17.5173 0 17.1249 0 16.6666V6.66659C0 6.20825 0.163194 5.81589 0.489583 5.4895C0.815972 5.16311 1.20833 4.99992 1.66667 4.99992H3.33333C3.33333 3.84714 3.73958 2.8645 4.55208 2.052C5.36458 1.2395 6.34722 0.833252 7.5 0.833252C8.65278 0.833252 9.63542 1.2395 10.4479 2.052C11.2604 2.8645 11.6667 3.84714 11.6667 4.99992H13.3333C13.7917 4.99992 14.184 5.16311 14.5104 5.4895C14.8368 5.81589 15 6.20825 15 6.66659V16.6666C15 17.1249 14.8368 17.5173 14.5104 17.8437C14.184 18.1701 13.7917 18.3333 13.3333 18.3333H1.66667ZM7.5 11.6666C8.65278 11.6666 9.63542 11.2603 10.4479 10.4478C11.2604 9.63534 11.6667 8.6527 11.6667 7.49992H10C10 8.19436 9.75694 8.78464 9.27083 9.27075C8.78472 9.75686 8.19444 9.99992 7.5 9.99992C6.80556 9.99992 6.21528 9.75686 5.72917 9.27075C5.24306 8.78464 5 8.19436 5 7.49992H3.33333C3.33333 8.6527 3.73958 9.63534 4.55208 10.4478C5.36458 11.2603 6.34722 11.6666 7.5 11.6666ZM5 4.99992H10C10 4.30547 9.75694 3.7152 9.27083 3.22909C8.78472 2.74297 8.19444 2.49992 7.5 2.49992C6.80556 2.49992 6.21528 2.74297 5.72917 3.22909C5.24306 3.7152 5 4.30547 5 4.99992Z" fill="white" />
           </svg>
           <span className='ml-2 text-white'>{t('remindMe')}</span>
         </button>
       </div>
-      <ToastContainer />
     </div>
   );
 }

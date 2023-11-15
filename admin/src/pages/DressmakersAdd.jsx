@@ -25,7 +25,7 @@ function DressmakersAdd() {
   const [file, setFile] = useState(null);
   const [sendImage, setSendImage] = useState('');
   const [data, setData] = useState({
-    categoryIds: ['jfkdl'],
+    categoryIds: [],
     phone_number: '+9936',
     password: '',
     name: '',
@@ -71,7 +71,8 @@ function DressmakersAdd() {
           }
           setLoading(false);
           await dispatch(fetchDataDressmakers());
-          navigate("/dressmakers")
+          // navigate("/dressmakers")
+          setLoading(false)
         } catch (error) {
           alert(error);
           setLoading(false);

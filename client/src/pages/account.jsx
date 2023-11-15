@@ -380,7 +380,7 @@ function Account() {
       <div className="account_title text-3xl font-bold mb-5 tracking-tighter">{t('myAccount')}</div>
       {/* my account card */}
       <div className="account_card md:min-h-[50vh] md:shadow-lybas-1 rounded-lg grid grid-cols-1 md:grid-cols-3">
-        <div className="account_card_links md:bg-lybas-light-gray md:p-7">
+        <div className="account_card_links md:bg-lybas-light-gray md:min-h-[50vh] md:p-7">
           <button
             onClick={() => (setContentTitle('myAccount'), setMobileSlideOpen(true))}
             className={'w-full text-left px-5 py-3 rounded-lg bg-gray-100 md:bg-none mb-3 text-lybas-gray text-lg flex justify-between items-center ' + (contentTitle === 'myAccount' ? 'active' : '')}

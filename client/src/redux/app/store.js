@@ -13,6 +13,9 @@ import Notifications from '../features/Notifications';
 import Emails from '../features/Emails';
 import Orders from '../features/Orders';
 import Comments from '../features/Comments';
+import DressesUser from '../features/DressesUser';
+import BlogsUser from '../features/BlogsUser';
+import DressmakersUser from '../features/DressmakersUser';
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +24,9 @@ export const store = configureStore({
     blogs,
     Cart,
     Notifications,
+    DressesUser,
+    BlogsUser,
+    DressmakersUser,
 
     // Seller
     Dresses,

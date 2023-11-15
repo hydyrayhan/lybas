@@ -14,8 +14,8 @@ function Dressmaker({className, data}) {
             <div className="overflow-hidden relative">
               {
                 data.image ? 
-                <img src={ip +'/'+ data.image} alt="" className='max-h-[200px] lg:max-h-[300px] w-full object-cover object-center lg:h-full lg:w-full rounded-t-lg md:group-hover:opacity-75 lg:h-80' style={{ border: '1.5px solid rgba(100, 116, 139, 0.1)' }} />
-                :<img className='h-[200px] lg:h-[300px]' src={image} alt='default image'/>
+                <img src={ip +'/'+ data.image} alt="" className='w-full object-cover object-center lg:h-full lg:w-full rounded-t-lg md:group-hover:opacity-75 lg:h-80' style={{ border: '1.5px solid rgba(100, 116, 139, 0.1)' }} />
+                :<img className='w-full object-cover object-center lg:h-full lg:w-full rounded-t-lg md:group-hover:opacity-75 lg:h-80' style={{ border: '1.5px solid rgba(100, 116, 139, 0.1)' }} src={image} alt='default image'/>
               }
               <button onClick={()=>navigate('/dressmakers/'+data.id)} className='dressmaker-more-button hidden md:flex justify-between items-center py-[6px] px-[16px] bg-lybas-blue text-white rounded absolute bottom-[10px] right-[10px] transition-opacity duration-300 md:opacity-0 group-hover:opacity-[1]'>
                 <svg className='mr-[16px]' width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">

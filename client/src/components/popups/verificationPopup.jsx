@@ -10,7 +10,7 @@ export default function VerificationPopup({ open, setOpen }) {
   const cancelButtonRef = useRef(null);
   const [veri, setVeri] = useState('');
   const [errorText, setErrorText] = useState('');
-  const [verification,setVerification] = useState({})
+  const [verification, setVerification] = useState({})
 
   const sendData = async () => {
     const data = JSON.parse(localStorage.getItem('verification-data'));
@@ -22,8 +22,10 @@ export default function VerificationPopup({ open, setOpen }) {
         localStorage.setItem('lybas-user-token', res.data.token);
         localStorage.setItem('lybas-user', JSON.stringify(res.data.data.user));
         localStorage.setItem('verification-data', '{}');
-        toast.success(t('successRegister'), { position: 'bottom-right', autoClose: 2000 });
-        window.location.reload();
+        toast.success(t('successRegister'), { position: 'bottom-right', autoClose: 1000 });
+        setInterval(() => {
+          window.location.reload();
+        }, 1200)
       }
     } catch (error) {
       setErrorText(error.response.data.message);
@@ -31,11 +33,11 @@ export default function VerificationPopup({ open, setOpen }) {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     let veriData = localStorage.getItem('verification-data');
-    if(veriData) veriData = JSON.parse(localStorage.getItem('verification-data'));
+    if (veriData) veriData = JSON.parse(localStorage.getItem('verification-data'));
     setVerification(veriData);
-  },[])
+  }, [])
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -90,7 +92,7 @@ export default function VerificationPopup({ open, setOpen }) {
                         </svg>
                       </Dialog.Title>
                       <div className="inputs py-3">
-                        <span className="text-left text-lybas-gray block w-full mb-3">{t('verificationHelpWord') + ' '+(verification?.user_phone ? verification?.user_phone : '')}</span>
+                        <span className="text-left text-lybas-gray block w-full mb-3">{t('verificationHelpWord') + ' ' + (verification?.user_phone ? verification?.user_phone : '')}</span>
                         <input
                           type="text"
                           onChange={(e) => setVeri(e.target.value)}

@@ -33,6 +33,7 @@ import CommentOne from "./pages/sellerProfile/CommentOne";
 import Emails from "./pages/sellerProfile/Emails";
 import EmailOne from "./pages/sellerProfile/EmailOne";
 import Profile from "./pages/sellerProfile/Profile";
+import Search from "./pages/Search";
 
 
 export const AppContext = createContext();
@@ -184,6 +185,13 @@ function App() {
           <>
             <Header />
             <Favorites />
+            <Footer />
+          </>
+        )} />
+        <Route path='/search/:keyword' element={(
+          <>
+            <Header />
+            <Search />
             <Footer />
           </>
         )} />

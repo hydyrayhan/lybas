@@ -12,6 +12,11 @@ export const fetchDataCart = createAsyncThunk('data/fetchDataCart', async (_, { 
     return data;
   } catch (error) {
     console.log(error.response.data.message)
+    if(error.response.status === 401){
+      localStorage.setItem('lybas-user','');
+      localStorage.setItem('lybas-user-token','');
+      window.location.reload('/')
+    }
     throw error;
   }
 });

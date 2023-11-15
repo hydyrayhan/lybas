@@ -20,7 +20,6 @@ export default function Cart({ open, setOpen }) {
   const [loading, setLoading] = useState(false);
 
   const calculateTotalPrice = (cart) => {
-    console.log(cart);
     return cart.reduce((sum, obj) => sum + obj.total_price, 0).toFixed(2);
   }
 

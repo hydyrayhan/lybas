@@ -112,7 +112,7 @@ function Notification() {
 
   return (
     <div className='notification'>
-      <Search title='notification' className='mt-5' action={{ link: '/notification/add', text: 'addDress' }} setDate={setFilterData} setSearch={setSearchData} />
+      <Search title='notification' className='mt-5' action={{ link: '/notification/add', text: 'addNotification' }} setDate={setFilterData} setSearch={setSearchData} />
       <div className="notification_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>

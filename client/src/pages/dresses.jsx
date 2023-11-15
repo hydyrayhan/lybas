@@ -1,48 +1,32 @@
 import React, { useEffect, useState } from 'react';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Sidebar from '../components/Sidebar';
 import Breadcrumb from '../components/Breadcrumb';
 import Dress from '../components/Dress';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDataDressesUser, setLimit, setOffset, setSort, setType } from '../redux/features/DressesUser';
+import { CircularProgress } from '@mui/material';
 
 
 function Dresses() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const type = queryParams.get('type');
-  const [data, setData] = useState([]);
-  const [categories,setCategories] = useState([]);
-  const [dressmakers,setDressmakers] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [dressmakers, setDressmakers] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [materials, setMaterials] = useState([]);
   const [colors, setColors] = useState([]);
-  const [limit,setLimit] = useState(20);
-  const [sort, setSort] = useState({
-    category: [],
-    price: {},
-    size: [],
-    material: [],
-    welayat: [],
-    color:[],
-  });
+  const data = useSelector((state) => state?.DressesUser?.data);
+  const offset = useSelector((state) => state?.DressesUser?.offset);
+  const limit = useSelector((state) => state?.DressesUser?.limit);
+  const sort = useSelector((state) => state?.DressesUser?.sort);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    getData();
-  },[sort])
 
-  const getData = async () => {
-    try {
-      if(localStorage.getItem('lybas-user-token')){
-        var res = await AxiosUser(`/products?limit=${limit}&filter=${JSON.stringify(sort)}&sort=${type}`);
-      }else{
-        var res = await AxiosCustom(`/products?limit=${limit}&filter=${JSON.stringify(sort)}&sort=${type}`);
-      }
-      setData(res.data)
-    } catch (error) {
-      console.log(error);
-    }
-  }
   const getCategories = async () => {
     try {
       const res = await AxiosCustom(`/categories?limit=10000`);
@@ -84,7 +68,10 @@ function Dresses() {
     }
   }
   useEffect(() => {
-    getData();
+    if (data?.length < 20) {
+      dispatch(setType(type))
+      dispatch(fetchDataDressesUser());
+    }
     getCategories();
     getDressmakers();
     getSizes();
@@ -92,19 +79,45 @@ function Dresses() {
     getColors();
   }, [])
 
+  const setSortLocal = async (sortNew) => {
+    dispatch(setSort(sortNew))
+    dispatch(fetchDataDressesUser())
+  }
+
+  const fetchData = async () => {
+    setLoading(true);
+    await dispatch(setOffset(offset + limit));
+    await dispatch(fetchDataDressesUser());
+    setLoading(false);
+  }
+
+
   return (
     <div className='dresses container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <Breadcrumb page1={{text:'dresses',link:'/dresses'}}/>
+      <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} />
       <div className="dresses_main flex justify-between">
-        <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5">
-          <Sidebar sort={sort} setSort={setSort} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors}/>
+        <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5 h-fit md:sticky top-[100px]">
+          <Sidebar sort={sort} setSort={setSortLocal} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors} />
         </div>
-        <div className="dresses_right w-full md:w-3/5 lg:w-4/5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:ml-5 lg:ml-[30px]">
-          {
-            data?.length>0 && data.map((dress, index) => (
-              <Dress key={index} data={dress} hover='small' />
-            ))
-          }
+        <div className='w-full md:w-3/5 lg:w-4/5'>
+          <InfiniteScroll
+            dataLength={data.length}
+            next={fetchData}
+            hasMore={true} // Replace with a condition based on your data source
+            loader={<div className="loading flex justify-center items-center h-20">
+              {
+                loading &&
+                <CircularProgress size={30} />
+              }
+            </div>}
+            endMessage={<p>No more data to load.</p>}
+          >
+            <div className="dresses_right grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:ml-5 lg:ml-[30px]">
+              {data.map((dress, index) => (
+                <Dress key={index} data={dress} hover='small' />
+              ))}
+            </div>
+          </InfiniteScroll>
         </div>
       </div>
     </div>

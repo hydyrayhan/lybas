@@ -46,7 +46,7 @@ function NotificationEdit() {
 
   return (
     <div className='dress-add'>
-      <Breadcrumb page={'banner'} pageLink={'/banner'} name={t('addBanner')} />
+      <Breadcrumb page={'notification'} pageLink={'/notification'} name={t('addNotification')} />
 
       <div className="dress-add_content flex justify-between mt-5">
         <div className="dress-add_content_left w-full h-[70vh] overflow-auto rounded-lg border bg-white mr-5">

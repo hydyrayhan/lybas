@@ -52,16 +52,14 @@ const Sidebar = ({ dressmakers = false, sizes, categories, materials, colors, so
     if (name === 'price') {
       setSort({ ...sort, price: value.min_price === sort.price.min_price ? {} : value })
     } else {
-      setSort(() => {
-        const updatedArray = sort[name].includes(value)
+      const updatedArray = sort[name].includes(value)
           ? sort[name].filter((item) => item !== value)
           : [...sort[name], value];
-
-        return {
-          ...sort,
-          [name]: updatedArray,
-        };
-      });
+      const sendSort =  {
+        ...sort,
+        [name]: updatedArray,
+      };
+      setSort(sendSort);
     }
   }
 

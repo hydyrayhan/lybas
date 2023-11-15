@@ -122,9 +122,9 @@ function Dress({ hover, className, data = { rating: 0 } }) {
             <div>
               {
                 data.discount > 0 ?
-                  <div className='mt-2 text-lybas-red line-through'>{data?.price_old.toFixed(0)}{t('tmt')}</div>
+                  <div className='mt-2 text-lybas-red line-through'>{data?.price_old?.toFixed(0)}{t('tmt')}</div>
                   :
-                  <div className='mt-2 text-lybas-red line-through opacity-0'>{data?.price_old.toFixed(0)}{t('tmt')}</div>
+                  <div className='mt-2 text-lybas-red line-through opacity-0'>{data?.price_old?.toFixed(0)}{t('tmt')}</div>
               }
               <span className={size_style[hover].price}>{data?.price.toFixed(0)} {t('tmt')}</span>
             </div>
@@ -189,7 +189,6 @@ function Dress({ hover, className, data = { rating: 0 } }) {
         data.discount > 0 &&
         <div className='absolute z-3 top-[5px] left-[5px] bg-lybas-red text-white rounded py-[7px] px-[12px] text-sm'>{data.discount} %</div>
       }
-      {/* <ToastContainer /> */}
     </div>
   )
 }

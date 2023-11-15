@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AppContext } from '../App';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import Cart from './Cart';
 import UserPopup from './popups/userPopup';
@@ -51,8 +51,10 @@ export default function Header() {
   const [changePasswordOpen,setChangePasswordOpen] = useState(false);
   const [phone_number, setPhone_number] = useState('');
   const [isSeller,setIsSeller] = useState('');
+  const [searchText,setSearchText] = useState('');
   
   const cartData = useSelector((state) => state?.Cart.data)
+  const location = useLocation();
 
   const { t, changeLanguage, lang } = useContext(AppContext);
   const navigate = useNavigate();
@@ -69,8 +71,17 @@ export default function Header() {
     if (!cartData.length && localStorage.getItem('lybas-user-token')) dispatch(fetchDataCart());
   }, [])
 
+  const goSearch = (e)=>{
+    e.preventDefault();
+    navigate('/search/'+searchText)
+  }
+
+  useEffect(()=>{
+    if(location?.pathname?.split('/')[1] !== 'search') setSearchText('')
+  },[location])
+
   return (
-    <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[10]">
+    <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[13]">
       <ScrollToTop />
       <Cart open={openCartDropdown} setOpen={(bool) => dispatch(setCartDropdown(bool))} />
       {/* Mobile menu */}
@@ -166,7 +177,7 @@ export default function Header() {
               </Popover.Group>
 
               <div className="search ml-auto w-full max-w-lg flex items-center hidden lg:flex">
-                <form className="w-full px-4">
+                <form onSubmit={goSearch} className="w-full px-4">
                   <div className="relative">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -184,6 +195,9 @@ export default function Header() {
                     </svg>
                     <input
                       type="text"
+                      onChange={(e)=>setSearchText(e.target.value)}
+                      value={searchText}
+                      required
                       placeholder={t('search')}
                       className="w-full py-2 pl-12 pr-4 text-gray-500 rounded-lg outline-none focus:bg-white focus:border-indigo-600 "
                       style={styleHeader}

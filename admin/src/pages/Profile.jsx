@@ -124,10 +124,10 @@ function Profile() {
             <div className="title py-3 px-5 font-semibold border-b">{t('profileImage')}</div>
             <div className="inputs p-5">
               <div className="flex items-center">
-                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-fit mr-3 overflow-hidden">
+                <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-cover mr-3 overflow-hidden">
                   {
                     image.url ?
-                      <img src={image.url} alt="" />
+                      <img className='h-full' src={image.url} alt="" />
                       :
                       <Person2Icon sx={{ width: '90%', height: '90%' }} />
                   }

@@ -138,6 +138,7 @@ function DressesAdd() {
         if (res2.status === 201) {
           dispatch(fetchDataDresses());
           navigate('/dresses');
+          setLoading(false);
         } else {
           setLoading(false);
         }
