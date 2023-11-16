@@ -51,7 +51,7 @@ function Footer() {
                   Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
                   totam rem aperiam.
                 </p>
-                <p className="text-dark hidden md:flex items-center text-sm font-medium">
+                <p className="text-dark mt-5 md:mt-0 flex items-center text-sm font-medium">
                   <Link to='#' target="_blank" className="text-primary mr-[36px]">
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_522_699)">

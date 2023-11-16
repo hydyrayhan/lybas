@@ -39,6 +39,23 @@ function Sidebar() {
     console.log(emails);
   }, [])
 
+  useEffect(() => {
+    // if (localStorage.getItem('lybas-user-token')) {
+    //   socket.connect();
+    //   const user = JSON.parse(localStorage.getItem('lybas-user'));
+    //   socket.emit('login', user.id)
+
+    //   socket.on('user-notification', () => {
+    //     setNewNotification(true)
+    //     dispatch(fetchDataNotifications)
+    //   })
+
+    //   return () => {
+    //     socket.off('user-notification');
+    //   }
+    // }
+  }, [location]);
+
   return (
     <div className='sellerProfile_sidebar'>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 light:bg-gray-800 light:border-gray-700">

@@ -22,6 +22,8 @@ import ScrollToTop from './ScrollToTop';
 import WritePhonePopup from './popups/writePhonePopup';
 import ForgotUserVerificationPopup from './popups/forgotUserVerificationPopup';
 import ChangePasswordPopup from './popups/changePasswordPopup';
+import { socket } from '../socket';
+import { fetchDataNotifications } from '../redux/features/Notifications';
 
 const navigation = {
   pages: [
@@ -48,11 +50,12 @@ export default function Header() {
   const [waitToContact, setWaitToContact] = useState(false)
   const [notification, setNotification] = useState(false);
   const [writePhone, setWritePhone] = useState(false);
-  const [changePasswordOpen,setChangePasswordOpen] = useState(false);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
   const [phone_number, setPhone_number] = useState('');
-  const [isSeller,setIsSeller] = useState('');
-  const [searchText,setSearchText] = useState('');
-  
+  const [isSeller, setIsSeller] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [newNotification, setNewNotification] = useState(false);
+
   const cartData = useSelector((state) => state?.Cart.data)
   const location = useLocation();
 
@@ -71,14 +74,31 @@ export default function Header() {
     if (!cartData.length && localStorage.getItem('lybas-user-token')) dispatch(fetchDataCart());
   }, [])
 
-  const goSearch = (e)=>{
+  const goSearch = (e) => {
     e.preventDefault();
-    navigate('/search/'+searchText)
+    navigate('/search/' + searchText)
   }
 
-  useEffect(()=>{
-    if(location?.pathname?.split('/')[1] !== 'search') setSearchText('')
-  },[location])
+  useEffect(() => {
+    if (location?.pathname?.split('/')[1] !== 'search') setSearchText('')
+  }, [location])
+
+  useEffect(() => {
+    if (localStorage.getItem('lybas-user-token')) {
+      socket.connect();
+      const user = JSON.parse(localStorage.getItem('lybas-user'));
+      socket.emit('login', user.id)
+
+      socket.on('user-notification', () => {
+        setNewNotification(true)
+        dispatch(fetchDataNotifications)
+      })
+
+      return () => {
+        socket.off('user-notification');
+      }
+    }
+  }, [location]);
 
   return (
     <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[13]">
@@ -195,7 +215,7 @@ export default function Header() {
                     </svg>
                     <input
                       type="text"
-                      onChange={(e)=>setSearchText(e.target.value)}
+                      onChange={(e) => setSearchText(e.target.value)}
                       value={searchText}
                       required
                       placeholder={t('search')}
@@ -221,7 +241,7 @@ export default function Header() {
                   </button>
 
                   <div className='relative flex mr-5'>
-                    <button onClick={() => setNotification(!notification)}>
+                    <button onClick={() => (setNotification(!notification),setNewNotification(false))}>
                       <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M0 17V15H2V8C2 6.61667 2.41667 5.3875 3.25 4.3125C4.08333 3.2375 5.16667 2.53333 6.5 2.2V1.5C6.5 1.08333 6.64583 0.729167 6.9375 0.4375C7.22917 0.145833 7.58333 0 8 0C8.41667 0 8.77083 0.145833 9.0625 0.4375C9.35417 0.729167 9.5 1.08333 9.5 1.5V2.2C10.8333 2.53333 11.9167 3.2375 12.75 4.3125C13.5833 5.3875 14 6.61667 14 8V15H16V17H0ZM8 20C7.45 20 6.97917 19.8042 6.5875 19.4125C6.19583 19.0208 6 18.55 6 18H10C10 18.55 9.80417 19.0208 9.4125 19.4125C9.02083 19.8042 8.55 20 8 20Z"
@@ -229,7 +249,10 @@ export default function Header() {
                         />
                       </svg>
                       {/* notification number */}
-                      {/* <span className='absolute -top-[10px] -right-[10px] w-[20px] h-[20px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'>2</span> */}
+                      {
+                        newNotification &&
+                        <span className='absolute -top-[5px] -right-[5px] w-[10px] h-[10px] flex justify-center items-center text-white text-[12px] rounded-full bg-red-500'></span>
+                      }
                     </button>
                     {
                       notification &&
@@ -337,14 +360,14 @@ export default function Header() {
       </header>
 
       {/* popups */}
-      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup}/>
-      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} setWritePhone={setWritePhone} setIsSeller={setIsSeller}/>
-      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} setWritePhone={setWritePhone} setIsSeller={setIsSeller}/>
+      <UserPopup open={openUserPopup} setOpen={setOpenUserPopup} dressmaker={setOpenDressmakerPopup} user={setOpenCustomerPopup} />
+      <DressmakerPopup open={openDressmakerPopup} setOpen={setOpenDressmakerPopup} waitFunc={setWaitToContact} setWritePhone={setWritePhone} setIsSeller={setIsSeller} />
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} veri={setOpenVerificationPopup} setWritePhone={setWritePhone} setIsSeller={setIsSeller} />
       <VerificationPopup open={openVerificationPopup} setOpen={setOpenVerificationPopup} />
       <WaitToContact open={waitToContact} setOpen={setWaitToContact} />
-      <WritePhonePopup open={writePhone} setOpen={setWritePhone} setOpenVeri={setOpenVerificationPopupForgotUser} setData2={setPhone_number} isSeller={isSeller}/>
-      <ForgotUserVerificationPopup open={openVerificationPopupForgotUser} setOpen={setOpenVerificationPopupForgotUser} setOpenChangePassword={setChangePasswordOpen} data={phone_number} isSeller={isSeller}/>
-      <ChangePasswordPopup open={changePasswordOpen} setOpen={setChangePasswordOpen} phone_number={phone_number} isSeller={isSeller}/>
+      <WritePhonePopup open={writePhone} setOpen={setWritePhone} setOpenVeri={setOpenVerificationPopupForgotUser} setData2={setPhone_number} isSeller={isSeller} />
+      <ForgotUserVerificationPopup open={openVerificationPopupForgotUser} setOpen={setOpenVerificationPopupForgotUser} setOpenChangePassword={setChangePasswordOpen} data={phone_number} isSeller={isSeller} />
+      <ChangePasswordPopup open={changePasswordOpen} setOpen={setChangePasswordOpen} phone_number={phone_number} isSeller={isSeller} />
       <ToastContainer />
     </div>
   );

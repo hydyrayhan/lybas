@@ -91,7 +91,7 @@ function DressesAdd() {
   const handleSize = (e) => {
     setSizes([...sizes, {
       sizeId: e.target.value.id,
-      stock: '',
+      stock: 0,
       name: e.target.value.name
     }])
   }
@@ -160,29 +160,65 @@ function DressesAdd() {
     setData({ ...data, [name]: value });
   }
 
+  const localValid = ()=>{
+    if(!data.body_en || 
+      !data.body_ru || 
+      !data.body_tm || 
+      !data.categoryId || 
+      !data.colorId || 
+      !data.name_en || 
+      !data.name_tm ||
+      !data.name_ru ||  
+      !data.materialId ||  
+      !data.price ||  
+      !data?.sellerId ||  
+      !data.welayat ||  
+      !data.welayat || 
+      !file.length 
+    ){
+      return false
+    }
+    if(sizes.length > 0){
+      for(let i = 0; i<sizes.length; i++){
+        if(!sizes[i].stock.toString().length){
+          return false;
+        }
+      }
+    }else {
+      return false
+    }
+    return true
+  }
+
   const sendData = async () => {
     setLoading(true);
     const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
-    try {
-      const res = await AxiosCustom("/products/" + id, { method: "PATCH", data: dataNew })
-      await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
-      if (data.image.length) {
-        const formData = new FormData();
-        for (let i = 0; i < data.image.length; i++) {
-          formData.append("Image", data.image[i]);
+    if(localValid()){
+      try {
+        const res = await AxiosCustom("/products/" + id, { method: "PATCH", data: dataNew })
+        await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
+        if (data.image.length) {
+          const formData = new FormData();
+          for (let i = 0; i < data.image.length; i++) {
+            formData.append("Image", data.image[i]);
+          }
+          await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         }
-        await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
-      }
-      if (res.status === 200) {
-        dispatch(fetchDataDresses());
-        navigate('/dresses');
-      } else {
+        if (res.status === 200) {
+          dispatch(fetchDataDresses());
+          navigate('/dresses');
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
         setLoading(false);
+        console.log(error);
       }
-    } catch (error) {
+    }else{
       setLoading(false);
-      console.log(error);
+      alert(t('fillTheGaps'))
     }
   }
   const handleColor = (color, index) => {

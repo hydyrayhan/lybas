@@ -32,7 +32,7 @@ export default function ForgotUserVerificationPopup({ open, setOpen, data,setOpe
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog as="div" className="relative z-[15]" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

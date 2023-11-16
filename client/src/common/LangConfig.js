@@ -230,6 +230,8 @@ const resources = {
       writePhoneNumber:"Write phone number",
       changePassword:"Change password",
       thanksNewsletter:"Thank you for subscribing, we will send updates to your email!",
+      orderNotification:"Order completed",
+      orderNotificationBody:"You completed order of product please rate it",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -469,6 +471,8 @@ const resources = {
       writePhoneNumber:"Напишите номер телефона",
       changePassword:"Изменить пароль",
       thanksNewsletter:"Спасибо за подписку, мы будем присылать обновления на вашу электронную почту!",
+      orderNotification:"Заказ выполнен",
+      orderNotificationBody:"Вы завершили заказ товара, пожалуйста, оцените его",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -713,6 +717,8 @@ const resources = {
       writePhoneNumber:"Telefon belgiňizi giriziň",
       changePassword:"Paroly üýtget",
       thanksNewsletter:"Sagboluň, ýazylanyňyz üçin, Siziň emailiňize täzelikleri ibereris!",
+      orderNotification:"Sargyt tamamlandy",
+      orderNotificationBody:"Sargyt tamamlandy, bermegiňizi haýyş edýäris",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

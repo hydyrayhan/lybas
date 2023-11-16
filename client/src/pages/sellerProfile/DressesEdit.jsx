@@ -12,6 +12,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
 import ip from '../../common/Config';
 
+const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+
 function DressesAdd() {
   const [data, setData] = useState({
     name_tm: '',
@@ -27,6 +29,7 @@ function DressesAdd() {
     colorId: '',
     image: [],
     discount: 0,
+    welayat: 'ashgabat',
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -82,9 +85,40 @@ function DressesAdd() {
   const handleSize = (e) => {
     setSizes([...sizes, {
       sizeId: e.target.value.id,
-      stock: '',
+      stock: 0,
       name: e.target.value.name
     }])
+  }
+  const handleVelayat = (e) => {
+    setData({ ...data, welayat: e.target.value })
+  }
+  const localValid = ()=>{
+    if(!data.body_en || 
+      !data.body_ru || 
+      !data.body_tm || 
+      !data.categoryId || 
+      !data.colorId || 
+      !data.name_en || 
+      !data.name_tm ||
+      !data.name_ru ||  
+      !data.materialId ||  
+      !data.price ||  
+      !data.welayat ||  
+      !data.welayat || 
+      !file.length 
+    ){
+      return false
+    }
+    if(sizes.length > 0){
+      for(let i = 0; i<sizes.length; i++){
+        if(!sizes[i].stock.toString().length){
+          return false;
+        }
+      }
+    }else {
+      return false
+    }
+    return true
   }
   const handleSizeSub = (e) => {
     const index = Number(e.target.id);
@@ -152,28 +186,32 @@ function DressesAdd() {
     setLoading(true);
     const dataNew = {...data};
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
-    try {
-      const res = await AxiosSeller("/products/" + id, { method: "PATCH", data:dataNew })
-      await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
-      if (data.image.length) {
-        const formData = new FormData();
-        for (let i = 0; i < data.image.length; i++) {
-          formData.append("Image", data.image[i]);
+    if(localValid()){
+      try {
+        const res = await AxiosSeller("/products/" + id, { method: "PATCH", data:dataNew })
+        await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
+        if (data.image.length) {
+          const formData = new FormData();
+          for (let i = 0; i < data.image.length; i++) {
+            formData.append("Image", data.image[i]);
+          }
+          await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         }
-        await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
-      }
-      console.log(res);
-      if (res.status === 200) {
-        dispatch(fetchDataDresses());
-        navigate('/sellerProfile/dresses');
-      } else {
+        console.log(res);
+        if (res.status === 200) {
+          dispatch(fetchDataDresses());
+          navigate('/sellerProfile/dresses');
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
         setLoading(false);
+        console.log(error);
       }
-    } catch (error) {
+    }else{
       setLoading(false);
-      console.log(error);
+      alert(t('fillTheGaps'))
     }
-    console.log(data);
   }
   const handleColor = (color, index) => {
     setColorIndex(index);
@@ -243,7 +281,26 @@ function DressesAdd() {
                 </Select>
               </FormControl>
             </div>
-            <div className="dress-input">
+            <div className="dress-input sizes">
+              <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
+              <div className="size flex flex-wrap items-center">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="multi-select-label"
+                    id="multi-select"
+                    onChange={handleVelayat}
+                    value={data.welayat}
+                  >
+                    {velayats.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {t(option)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <div className="dress-input col-span-2">
               <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
                 {

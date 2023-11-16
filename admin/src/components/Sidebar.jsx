@@ -1,4 +1,4 @@
-import { t, changeLanguage } from 'i18next';
+import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Dropdown from './Dropdown';
@@ -10,6 +10,8 @@ import image from '../assets/images/person-fill.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataNotification } from '../redux/features/Notification';
 import { fetchDataEmails } from '../redux/features/Emails';
+import { socket } from '../socket';
+import { fetchDataOrders } from '../redux/features/Orders';
 
 
 function Sidebar() {
@@ -22,6 +24,34 @@ function Sidebar() {
   const notifications = useSelector((state) => state?.Notification?.data);
   const emails = useSelector((state) => state?.Emails?.data);
   const notReadCount = useSelector((state) => state?.Emails?.notRead);
+
+  useEffect(() => {
+    socket.connect();
+    const path = window.location.pathname.split('/')[1]
+    socket.on('admin-mail', async () => {
+      if (path !== 'emails') {
+        await dispatch(fetchDataEmails())
+      } else {
+        const res = await AxiosCustom('/mails/isRead')
+        if(res.status === 200){
+          await dispatch(fetchDataEmails())
+        }
+      }
+    })
+    socket.on('admin-order', async () => {
+      if (path !== 'orders') {
+        await dispatch(fetchDataOrders())
+      } else {
+        await dispatch(fetchDataOrders())
+      }
+    })
+
+
+    return () => {
+      socket.off('admin-mail');
+      socket.off('admin-order')
+    }
+  }, [location]);
 
   useEffect(() => {
     const getData = async () => {
@@ -39,7 +69,6 @@ function Sidebar() {
     getData();
     if (!notifications?.length) dispatch(fetchDataNotification())
     if (!emails?.length) dispatch(fetchDataEmails())
-    console.log(emails);
   }, [])
 
   return (
@@ -72,7 +101,7 @@ function Sidebar() {
                       <path fillRule="evenodd" clipRule="evenodd" d="M1.18085 5.42654C1.49757 4.97409 2.1211 4.86406 2.57355 5.18077L12.0001 11.7793L21.4266 5.18077C21.8791 4.86406 22.5026 4.97409 22.8193 5.42654C23.136 5.87899 23.026 6.50252 22.5735 6.81923L12.5735 13.8192C12.2292 14.0603 11.7709 14.0603 11.4266 13.8192L1.42662 6.81923C0.974174 6.50252 0.864139 5.87899 1.18085 5.42654Z" fill="#64748B" />
                     </svg>
                     {
-                      notReadCount>0 &&
+                      notReadCount > 0 &&
                       <span className='message_number h-6 w-6 flex items-center justify-center absolute top-[-10px] right-[-10px] text-white bg-lybas-blue rounded-full text-[12px]'>{notReadCount}</span>
                     }
                   </button>

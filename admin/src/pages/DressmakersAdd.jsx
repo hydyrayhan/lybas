@@ -71,7 +71,7 @@ function DressmakersAdd() {
           }
           setLoading(false);
           await dispatch(fetchDataDressmakers());
-          // navigate("/dressmakers")
+          navigate("/dressmakers")
           setLoading(false)
         } catch (error) {
           alert(error);

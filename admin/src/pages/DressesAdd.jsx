@@ -60,7 +60,7 @@ function DressesAdd() {
   const handleSize = (e) => {
     setSizes([...sizes, {
       sizeId: e.target.value.id,
-      stock: '',
+      stock: 0,
       name: e.target.value.name
     }])
   }
@@ -122,11 +122,24 @@ function DressesAdd() {
     setData({ ...data, welayat: e.target.value })
   }
 
+  const localValid = ()=>{
+    if(sizes.length > 0){
+      for(let i = 0; i<sizes.length; i++){
+        if(!sizes[i].stock.toString().length){
+          return false;
+        }
+      }
+    }else {
+      return false
+    }
+    return true
+  }
+
   const sendData = async () => {
     setLoading(true);
     const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
-    if (Valid(dataNew)) {
+    if (Valid(dataNew) && localValid()) {
       try {
         const res = await AxiosCustom("/products/add", { method: "POST", data: dataNew })
         const formData = new FormData();
@@ -299,7 +312,7 @@ function DressesAdd() {
                   <div className="dress-input sizes flex justify-between items-center">
                     <div className="dress-input">
                       <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('quantity')}</label>
-                      <input name='stock' id={index} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
+                      <input name='stock' id={index} value={size.stock} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
                     </div>
                     <button className='bg-red-400 rounded text-white h-10 py-1 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
                   </div>

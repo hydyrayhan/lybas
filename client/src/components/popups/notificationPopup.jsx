@@ -42,8 +42,8 @@ function NotificationPopup({ open, setOpen }) {
             <div onClick={()=>toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
               {/* <img className='notification_list_image rounded-full min-w-8 max-w-8 min-h-8 max-h-8 mr-3' src={require('./../../assets/images/dressImage.png')} alt="" /> */}
               <div className="notification_list_content text-sm">
-                <div className='font-semibold'>{noti.name}</div>
-                <div className={'text-lybas-gray ' + (toggle === index ? '' : 'line-clamp-2')}>{noti.text}</div>
+                <div className='font-semibold'>{noti.name === 'order' ? t('orderNotification') :noti.name}</div>
+                <div className={'text-lybas-gray ' + (toggle === index ? '' : 'line-clamp-2')}>{noti.name === 'order' ? t('orderNotificationBody') :noti.text}</div>
               </div>
               <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
             </div>
@@ -57,8 +57,8 @@ function NotificationPopup({ open, setOpen }) {
               <div onClick={()=>toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
                 {/* <img className='notification_list_image rounded-full min-w-8 max-w-8 min-h-8 max-h-8 mr-3' src={require('./../../assets/images/dressImage.png')} alt="" /> */}
                 <div className="notification_list_content text-sm">
-                  <div className='font-semibold'>{noti.name}</div>
-                  <div className={'text-lybas-gray '+(toggle === index ? '' : 'line-clamp-2')}>{noti.text}</div>
+                  <div className='font-semibold'>{noti.name === 'order' ? t('orderNotification') :noti.name}</div>
+                  <div className={'text-lybas-gray '+(toggle === index ? '' : 'line-clamp-2')}>{noti.name === 'order' ? t('orderNotificationBody') :noti.text}</div>
                 </div>
                 <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
               </div>

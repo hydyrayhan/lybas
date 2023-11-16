@@ -12,6 +12,8 @@ import { Valid } from '../../common/Valid';
 import { useNavigate } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
 
+const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+
 function DressesAdd() {
   const [data, setData] = useState({
     name_tm: '',
@@ -25,7 +27,8 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    discount:0
+    discount:0,
+    welayat: 'ashgabat',
   });
 
   const dataMaterial = useSelector((state) => state?.Materials?.data);
@@ -51,7 +54,7 @@ function DressesAdd() {
   const handleSize = (e) => {
     setSizes([...sizes, {
       sizeId: e.target.value.id,
-      stock: '',
+      stock: 0,
       name: e.target.value.name
     }])
   }
@@ -67,6 +70,10 @@ function DressesAdd() {
     const helpData = [...sizes];
     helpData.splice(index, 1);
     setSizes(helpData);
+  }
+
+  const handleVelayat = (e) => {
+    setData({ ...data, welayat: e.target.value })
   }
 
   function convertBytesToKBorMB(bytes) {
@@ -110,18 +117,31 @@ function DressesAdd() {
     const value = e.target.value;
     setData({ ...data, [name]: value });
   }
+
+  const localValid = ()=>{
+    if(sizes.length > 0){
+      for(let i = 0; i<sizes.length; i++){
+        if(!sizes[i].stock.toString().length){
+          return false;
+        }
+      }
+    }else {
+      return false
+    }
+    return true
+  }
+
   const sendData = async () => {
     setLoading(true);
     const dataNew = {...data};
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
-    if (Valid(dataNew)) {
+    if (Valid(dataNew) && localValid()) {
       try {
         const res = await AxiosSeller("/products/add", { method: "POST", data:dataNew })
         const formData = new FormData();
         for (let i = 0; i < data.image.length; i++) {
           formData.append("Image", data.image[i]);
         }
-        console.log(sizes,'sizes')
         await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         const res2 = await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         if (res2.status === 201) {
@@ -207,7 +227,26 @@ function DressesAdd() {
                 </Select>
               </FormControl>
             </div>
-            <div className="dress-input">
+            <div className="dress-input sizes">
+              <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
+              <div className="size flex flex-wrap items-center">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="multi-select-label"
+                    id="multi-select"
+                    onChange={handleVelayat}
+                    value={data.welayat}
+                  >
+                    {velayats.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {t(option)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <div className="dress-input col-span-2">
               <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
                 {

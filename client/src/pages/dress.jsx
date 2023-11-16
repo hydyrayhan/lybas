@@ -30,12 +30,13 @@ function Dress() {
   const [activeImage, setActiveImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState();
   const [quantity, setQuantity] = useState(0);
-  const [orderedData, setOrderedData] = useState({});
+  const [orderedData, setOrderedData] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const isOrdered = async (id) => {
     try {
       const res = await AxiosUser("/is-ordered?productsizeId=" + id);
+      console.log(res,'ordered');
       if (res?.data?.status === 1) {
         setOrderedData(res?.data?.order_product);
         setQuantity(res?.data?.order_product?.quantity)
@@ -64,7 +65,7 @@ function Dress() {
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
-        setInStock(res?.data?.data?.oneProduct?.product_sizes[0].stock)
+        setInStock(res?.data?.data?.oneProduct?.product_sizes[0]?.stock)
         if (localStorage.getItem('lybas-user-token')) isOrdered(res?.data?.data?.oneProduct?.product_sizes[0].id);
       } catch (error) {
         console.log(error);
@@ -195,7 +196,7 @@ function Dress() {
               <div className="dress-page_left_content_prices my-1 md:my-2 lg:my-[10px] flex items-center">
                 <div className="dress-page_left_content_prices_price font-bold text-xl mr-[10px]">{data?.price} {t('tmt')}</div>
                 {
-                  data?.discount &&
+                  data?.discount>0 &&
                   <div className="dress-page_left_content_prices_discount text-lybas-red line-through">{data?.price_old} {t('tmt')}</div>
                 }
               </div>
@@ -308,7 +309,7 @@ function Dress() {
               <div className="dress-page_left_content_size-name text-sm text-lybas-gray mb-[10px]">{t('size')}:</div>
               <div className="dress-page_left_content_sizes flex flex-wrap items-center mb-[15px]">
                 {
-                  data?.product_sizes?.length && data?.product_sizes?.map((size, index) => (
+                  data?.product_sizes?.length>0 && data?.product_sizes?.map((size, index) => (
                     <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : 'border-lybas-light-gray')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
                       {size?.size?.size}
                       {
