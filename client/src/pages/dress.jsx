@@ -294,7 +294,7 @@ function Dress() {
                 {/* Size chart big image */}
                 {
                   sizeChartOpen &&
-                  <div className='size-chart-container w-full h-full fixed z-[12] top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
+                  <div className='size-chart-container w-full h-full fixed z-[15] top-0 left-0 bg-[#5d5c5c61] flex items-center justify-center'>
                     <div ref={refImage} className="size-chart-container_image-container bg-white flex flex-col items-end rounded-lg overflow-hidden p-5">
                       <button onClick={() => setSizeChartOpen(false)}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -310,7 +310,7 @@ function Dress() {
               <div className="dress-page_left_content_sizes flex flex-wrap items-center mb-[15px]">
                 {
                   data?.product_sizes?.length>0 && data?.product_sizes?.map((size, index) => (
-                    <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : 'border-lybas-light-gray')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
+                    <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : 'border-lybas-light-gray') +(size?.stock ? '' : ' text-gray-500')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
                       {size?.size?.size}
                       {
                         !size?.stock &&

@@ -223,7 +223,7 @@ function Account() {
       return (
         <div className="account_card_order col-span-2 md:w-full">
           <div className="account_card_order_header hidden md:grid grid-cols-5 gap-4 py-4 px-10 bg-gray-200">
-            <div className="font-bold">{t('status')}</div>
+            <div className="font-bold">{t('statusAccount')}</div>
             <div className="font-bold">{t('orderNumber')}</div>
             <div className="font-bold text-right">{t('date')}</div>
             <div className="font-bold text-center">{t('totalPrice')}</div>

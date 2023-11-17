@@ -210,7 +210,7 @@ function Footer() {
         </div>
       </footer>
       <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4' style={footer_rights_styles}>
-        © 2023-2024, All Rights Reserved
+        © {t('allRightsReserved')}
       </div>
       <DeliveryAbroadPopup open={open} setOpen={setOpen}/>
       <ThanksNewsletterPopup open={openNewsletter} setOpen={setOpenNewsletter}/>

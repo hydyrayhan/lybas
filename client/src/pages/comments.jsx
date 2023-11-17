@@ -28,8 +28,8 @@ function Comments() {
 
         <div className="revivers-container__left w-30 mr-10 mb-5 sm:mb-0">
           <p className="rate text-[70px] sm:text-[80px] md:text-[96px] font-bold mb-[12px]">{data?.product?.rating}</p>
-          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500 mb-[10px]">{data?.product?.rating} {t('star')}</p>
-          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500">{data.count + ' ' + t('comments')}</p>
+          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500 mb-[10px]">{data?.product?.rating} {t('stars')}</p>
+          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500">{data.count + ' ' + t('commentOne')}</p>
         </div>
 
         <div className="revivers-container__rigth w-full">
