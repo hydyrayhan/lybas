@@ -27,7 +27,10 @@ function OneBlog() {
       <div className="one-blog_center-container md:px-[10%]">
         <div className="one-blog_center-container_date text-lybas-gray mb-2">{data?.createdAt.split('T')[0]}</div>
         <h1 className="one-blog_center-container_title text-3xl font-bold">{data && data['header_' + lang]}</h1>
-        <img className='my-8 rounded-lg' src={ip + '/' + (data?.image && data.image)} alt="" />
+        {
+          data?.image &&
+          <img className='my-8 rounded-lg' src={ip + '/' + data.image} alt="" />
+        }
         <div className="one-blog_container_body text-xl whitespace-pre-line">{data && data['body_' + lang]}</div>
       </div>
     </div>

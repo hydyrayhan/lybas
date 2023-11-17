@@ -16,7 +16,7 @@ export default function LogoutPopup({ open, setOpen }) {
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-[15px]" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog as="div" className="relative z-[15]" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

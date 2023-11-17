@@ -207,7 +207,7 @@ const Sidebar = ({ dressmakers = false, sizes, categories, materials, colors, so
             <Accordion expanded={expanded === 'panel5'}  onChange={handleChange('panel5')}>
               <AccordionSummary expandIcon={<ExpandMoreIcon style={{ fill: 'black' }} />} style={{ padding: '0', margin: '0' }}>
                 <button className="top">
-                  <p className="top_title">{t('province')}</p>
+                  <p className="top_title">{t('location')}</p>
                 </button>
               </AccordionSummary>
               <hr style={{ marginBottom: '10px' }} />

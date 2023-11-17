@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Blog from '../components/Blog'
 import Breadcrumb from '../components/Breadcrumb'
-import { AxiosCustom } from '../common/AxiosInstance';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataBlogsUser, setLimit, setOffset } from '../redux/features/BlogsUser';
@@ -16,7 +15,6 @@ function Blogs() {
 
   useEffect(() => {
     if (data?.length < 10) {
-      console.log('hello');
       dispatch(fetchDataBlogsUser());
     }
   }, [])

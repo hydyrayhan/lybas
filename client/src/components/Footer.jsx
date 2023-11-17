@@ -4,8 +4,8 @@ import { NavLink, Link } from "react-router-dom";
 import { AppContext } from '../App';
 import DeliveryAbroadPopup from './popups/deliveryAbroadPopup';
 import Logo from '../assets/images/lybas_black_1.svg'
-import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
-import { toast, ToastContainer } from 'react-toastify';
+import { AxiosUser } from '../common/AxiosInstance';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ThanksNewsletterPopup from './popups/thanksNewsletterPopup';
 
@@ -26,7 +26,6 @@ function Footer() {
       try {
         const res = await AxiosUser("/newsletter",{method:"POST",data:{email:newsletter}})
         if(res.status === 200){
-          // toast.success(t('mailSended'), { position: 'bottom-right', autoClose: 2000 });
           setOpenNewsletter(true)
           setNewsletter('');
         }

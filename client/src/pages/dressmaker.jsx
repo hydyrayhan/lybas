@@ -75,7 +75,10 @@ function Dressmaker() {
     <div className='dressmaker container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
       <Breadcrumb page1={{ text: 'dressmakers', link: '/dressmakers' }} />
       <div className="dressmaker_header rounded-lg h-[125px] p-3 mb-5 flex">
-        <img className='dressmaker_header_image rounded-lg h-[100px] w-[100px] mr-5 object-cover' src={ip +'/'+ dressmaker?.image} alt="" />
+        {
+          dressmaker?.image &&
+          <img className='dressmaker_header_image rounded-lg h-[100px] w-[100px] mr-5 object-cover' src={ip + '/' + dressmaker?.image} alt="" />
+        }
         <div className="dressmaker_header_content h-full flex flex-col justify-center">
           <h1 className='text-[30px] font-bold'>{dressmaker?.name}</h1>
           <div className="location flex items-center">
@@ -88,12 +91,12 @@ function Dressmaker() {
         <div className="dressmaker_header_categories text-lybas-blue text-[20px] mt-5 ml-5">
           {
             categories.length > 0 && categories.map((category, index) => {
-              if(index === categories.length-1){
-                return(
+              if (index === categories.length - 1) {
+                return (
                   <span key={index}>{category['name_' + lang]} </span>
                 )
               }
-              return(
+              return (
                 <span key={index}>{category['name_' + lang]}, </span>
               )
             })
@@ -106,7 +109,7 @@ function Dressmaker() {
         </div>
         <div className="dresses_right w-full md:w-3/5 lg:w-4/5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:ml-5 lg:ml-[30px]">
           {
-            data.length>0 && data.map((product,index)=>(
+            data.length > 0 && data.map((product, index) => (
               <Dress data={product} key={index} hover='small' />
             ))
           }

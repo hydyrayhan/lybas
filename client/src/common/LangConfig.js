@@ -1,14 +1,12 @@
 import { initReactI18next } from "react-i18next";
 import i18n from "i18next";
-// shop-17
-// Delivery details - 62
 
 const resources = {
   en: {
     translation: {
       home: "Home",
-      dresses: 'Dresses and Handcrafts',
-      dressmakers: 'Ateliers and Dressmakers',
+      dresses: 'Dresses',
+      dressmakers: 'Dressmakers',
       blog: 'Blogs',
       search:"Search",
       deliveryAndPaymentOptions: 'Delivery and Payment Options',
@@ -239,6 +237,7 @@ const resources = {
       orderNotification:"Order completed",
       orderNotificationBody:"You completed order of product please rate it",
       stars:"Stars",
+      location:"Location",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -254,8 +253,8 @@ const resources = {
   ru: {
     translation: {
       home: "Главная",
-      dresses: 'Платья и изделия',
-      dressmakers: 'Ателье и Портнихи',
+      dresses: 'Платья',
+      dressmakers: 'Портнихи',
       blog: 'Блоги',
       search:"Поиск",
       deliveryAndPaymentOptions: 'Порядок доставки и оплаты',
@@ -299,8 +298,8 @@ const resources = {
       order: "Заказать",
       checkoutNow: "Оформить заказ",
       seller: "Продавец",
-      remindMe: "Напомните мне, когда он появится в наличии",
-      remindMeWhenInStock: 'Напомните мне, когда он появится в наличии',
+      remindMe: "Напомните, когда снова в наличии",
+      remindMeWhenInStock: 'Напомните, когда снова в наличии',
       remindMeText: 'Вы будете уведомлены, когда товар снова появится в наличии.',
       remindMePlaceholder: "Ваш адрес электронной почты*",
       send: 'Отправить',
@@ -485,6 +484,7 @@ const resources = {
       orderNotification:"Заказ выполнен",
       orderNotificationBody:"Вы завершили заказ товара, пожалуйста, оцените его",
       stars:"звезды",
+      location:"Местонахождение",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -505,8 +505,8 @@ const resources = {
   tm: {
     translation: {
       home: "Baş sahypa",
-      dresses: 'Köýnekler we el işleri',
-      dressmakers: 'Atelýeler we Tikinçiler',
+      dresses: 'Köýnekler',
+      dressmakers: 'Tikinçiler',
       blog: 'Bloglar',
       search:"Gözlemek",
       deliveryAndPaymentOptions: 'Eltip bermek we töleg tertibi',
@@ -550,8 +550,8 @@ const resources = {
       order: "Sargamak",
       checkoutNow: "Sargamak",
       seller: "Satyjy",
-      remindMe: "Eliňize gelende maňa ýatladyň",
-      remindMeWhenInStock: 'Eliňize gelende maňa ýatladyň',
+      remindMe: "Gelende ýatladyň",
+      remindMeWhenInStock: 'Gelende ýatladyň',
       remindMeText: 'Haryt elimize gelende size habar bereris.',
       remindMePlaceholder: "E-poçta salgyňyz*",
       send: 'Ibermek',
@@ -736,6 +736,7 @@ const resources = {
       orderNotification:"Sargyt tamamlandy",
       orderNotificationBody:"Sargyt tamamlandy, bermegiňizi haýyş edýäris",
       stars:"ýyldyz",
+      location:"Ýeri",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
