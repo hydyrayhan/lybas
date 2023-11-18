@@ -17,7 +17,6 @@ export const fetchDataEmails = createAsyncThunk('data/fetchDataEmails', async (_
   try {
     const { limit, offset, search, filter, type } = getState().Emails;
     const data = await AxiosSeller(`/mails?limit=${limit}&offset=${offset}&keyword=${search}&filter=${JSON.stringify(filter)}&type=${type}`);
-    console.log(data,'seller mail');
     return data;
   } catch (error) {
     console.log(error.response.data.message)

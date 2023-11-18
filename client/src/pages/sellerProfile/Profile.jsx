@@ -13,7 +13,7 @@ function Profile() {
     username:'',
     newPassword:'',
     welayat:'ashgabat',
-    login:'',
+    email:'',
     user_phone:''
   })
   const [image, setImage] = useState('');
@@ -25,12 +25,13 @@ function Profile() {
     const getData = async () => {
       try {
         const res = await AxiosSeller("/account/get-me");
+        console.log(res);
         setData({
           image:'',
-          username:res.data.username,
+          username:res.data.name,
           welayat:res.data.welayat,
-          login:res.data.login,
-          user_phone:res.data.user_phone,
+          email:res.data.email,
+          user_phone:res.data.phone_number,
         });
         setImage({url: res.data.image ? (ip+'/'+res.data.image) : null})
       } catch (error) {
@@ -56,12 +57,13 @@ function Profile() {
   }
 
   const sendData = async ()=>{
+    console.log(data);
     try {
       const res = await AxiosSeller('/account/edit',{method:'PATCH',data})
       const formData = new FormData();
       if(data.image){
         formData.append('image',data.image);
-        await AxiosSeller('/upload-image',{method:'POST',data:formData},true);
+        await AxiosSeller('/account/upload-image',{method:'POST',data:formData},true);
       }
       alert(t('save'))
     } catch (error) {
@@ -81,15 +83,15 @@ function Profile() {
           <div className="inputs grid grid-cols-4 gap-5 p-5">
             <div className="data col-span-2">
               <div className="data_title font-semibold mb-2">{t('nameSimple')}</div>
-              <input name='login' value={data.login} onChange={handleInput} className="data_title w-full outline-none text-lybas-gray bg-gray-200 rounded-lg py-2.5 px-5" placeholder={t('nameSimple')} />
+              <input name='username' value={data.username} onChange={handleInput} className="data_title w-full outline-none text-lybas-gray bg-gray-200 rounded-lg py-2.5 px-5" placeholder={t('username')} />
             </div>
             <div className="data col-span-2">
               <div className="data_title font-semibold mb-2">{t('phoneNumber')}</div>
               <input name='user_phone' value={data.user_phone} onChange={handleInput} className="data_title w-full outline-none text-lybas-gray bg-gray-200 rounded-lg py-2.5 px-5" placeholder={t('phoneNumber')} />
             </div>
             <div className="data col-span-2">
-              <div className="data_title font-semibold mb-2">{t('login')}</div>
-              <input name='username' value={data.username} onChange={handleInput} className="data_title w-full outline-none text-lybas-gray bg-gray-200 rounded-lg py-2.5 px-5" placeholder={t('login')} />
+              <div className="data_title font-semibold mb-2">{t('email')}</div>
+              <input name='email' value={data.email} onChange={handleInput} className="data_title w-full outline-none text-lybas-gray bg-gray-200 rounded-lg py-2.5 px-5" placeholder={t('email')} />
             </div>
             <div className="data col-span-2">
               <div className="data_title font-semibold mb-2">{t('province')}</div>
@@ -126,7 +128,7 @@ function Profile() {
                 <div className="image w-[55px] h-[55px] rounded-full flex justify-center items-center bg-gray-100 object-fit mr-3 overflow-hidden">
                   {
                     image.url ?
-                      <img src={image.url} alt="" />
+                      <img className='h-full w-full object-cover' src={image.url} alt="" />
                       :
                       <Person2Icon sx={{ width: '90%', height: '90%' }} />
                   }

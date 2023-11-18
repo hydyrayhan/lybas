@@ -9,17 +9,23 @@ import ip from '../../../common/Config';
 import image from '../../../assets/images/person-fill.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataEmails } from '../../../redux/features/Emails';
+import { socket } from '../../../socket';
+import { fetchDataOrders } from '../../../redux/features/Orders';
 
 
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [active, setActive] = useState(location.pathname.split('/')[2] ? location.pathname.split('/')[2] : '/');
+  const [active, setActive] = useState(location.pathname.split('/')[2] ? location.pathname.split('/')[2] : '/sellerProfile');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({})
+  const [newOrder, setNewOrder] = useState(false);
   const emails = useSelector((state) => state?.Emails?.data);
   const notReadCount = useSelector((state) => state?.Emails?.notRead);
+  const orderCount = useSelector((state) => state?.Orders?.count);
+  const notReadOrder = useSelector((state) => state?.Orders?.notRead);
+  const [notReadOrderLocal, setNotReadOrderLocal] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -29,31 +35,42 @@ function Sidebar() {
       } catch (error) {
         console.log(error.response.data.message);
         if (error.response.status === 401) {
-          localStorage.setItem('lybas-token', '');
-          navigate('/login')
+          localStorage.setItem('lybas-seller-token', '');
+          localStorage.setItem('lybas-seller', '');
+          navigate('/')
         }
       }
     }
     getData();
     if (!emails?.length) dispatch(fetchDataEmails())
-    console.log(emails);
   }, [])
 
   useEffect(() => {
-    // if (localStorage.getItem('lybas-user-token')) {
-    //   socket.connect();
-    //   const user = JSON.parse(localStorage.getItem('lybas-user'));
-    //   socket.emit('login', user.id)
+    if (location.pathname.split('/')[1] === 'sellerProfile' && localStorage.getItem('lybas-seller-token')) {
+      socket.connect();
+      const seller = JSON.parse(localStorage.getItem('lybas-seller'));
+      socket.emit('seller-login', seller.id)
 
-    //   socket.on('user-notification', () => {
-    //     setNewNotification(true)
-    //     dispatch(fetchDataNotifications)
-    //   })
+      socket.on('seller-notification', () => {
+        dispatch(fetchDataEmails())
+      })
+      socket.on('seller-order', async (res) => {
+        if (orderCount < 1) {
+          await dispatch(fetchDataOrders())
+        } else {
+          if(active === 'orders'){
+            await dispatch(fetchDataOrders())
+          }else{
+            setNotReadOrderLocal(res);
+          }
+        }
+      })
 
-    //   return () => {
-    //     socket.off('user-notification');
-    //   }
-    // }
+      return () => {
+        socket.off('seller-notification');
+        socket.off('seller-order');
+      }
+    }
   }, [location]);
 
   return (
@@ -106,8 +123,8 @@ function Sidebar() {
       <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen pt-24 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 light:bg-gray-800 light:border-gray-700" aria-label="Sidebar">
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white light:bg-gray-800">
           <ul className="space-y-2 font-medium">
-            <li className='sidebar_link' onClick={() => setActive('sellerProfile')}>
-              <Link to={'/sellerProfile'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === 'sellerProfile' ? 'active' : '')}>
+            <li className='sidebar_link' onClick={() => setActive('/sellerProfile')}>
+              <Link to={'/sellerProfile'} className={"flex items-center p-2 pl-4 text-gray-900 rounded-lg light:text-white hover:bg-gray-100 light:hover:bg-gray-700 group " + (active === '/sellerProfile' ? 'active' : '')}>
                 <svg className='flex-shrink-0 w-5 h-5 fill-gray-500 transition duration-75 light:fill-gray-400 group-hover:fill-gray-900 light:group-hover:fill-white' width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" clipRule="evenodd" d="M8.53955 0.907986C8.81038 0.697338 9.18962 0.697338 9.46045 0.907986L16.2105 6.15799C16.3931 6.30008 16.5 6.51856 16.5 6.75V15C16.5 15.5967 16.2629 16.169 15.841 16.591C15.419 17.0129 14.8467 17.25 14.25 17.25H3.75C3.15326 17.25 2.58097 17.0129 2.15901 16.591C1.73705 16.169 1.5 15.5967 1.5 15V6.75C1.5 6.51856 1.60685 6.30008 1.78954 6.15799L8.53955 0.907986ZM3 7.11681V15C3 15.1989 3.07902 15.3897 3.21967 15.5303C3.36032 15.671 3.55109 15.75 3.75 15.75H14.25C14.4489 15.75 14.6397 15.671 14.7803 15.5303C14.921 15.3897 15 15.1989 15 15V7.11681L9 2.45015L3 7.11681Z" />
                   <path className='group-hover:fill-red' fillRule="evenodd" clipRule="evenodd" d="M6 9C6 8.58579 6.33579 8.25 6.75 8.25H11.25C11.6642 8.25 12 8.58579 12 9V16.5C12 16.9142 11.6642 17.25 11.25 17.25C10.8358 17.25 10.5 16.9142 10.5 16.5V9.75H7.5V16.5C7.5 16.9142 7.16421 17.25 6.75 17.25C6.33579 17.25 6 16.9142 6 16.5V9Z" />
@@ -123,7 +140,15 @@ function Sidebar() {
                   <path d="M6 6.75C6.41421 6.75 6.75 7.08579 6.75 7.5C6.75 8.09674 6.98705 8.66903 7.40901 9.09099C7.83097 9.51295 8.40326 9.75 9 9.75C9.59674 9.75 10.169 9.51295 10.591 9.09099C11.0129 8.66903 11.25 8.09674 11.25 7.5C11.25 7.08579 11.5858 6.75 12 6.75C12.4142 6.75 12.75 7.08579 12.75 7.5C12.75 8.49456 12.3549 9.44839 11.6517 10.1517C10.9484 10.8549 9.99456 11.25 9 11.25C8.00544 11.25 7.05161 10.8549 6.34835 10.1517C5.64509 9.44839 5.25 8.49456 5.25 7.5C5.25 7.08579 5.58579 6.75 6 6.75Z" />
                 </svg>
 
-                <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("orders")}</span>
+                <span className="ml-3 text-lybas-gray group-hover:text-gray-900 min-w-fit">{t("orders")}</span>
+                {
+                  (notReadOrderLocal > 0) &&
+                  <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrderLocal}</span></div>
+                }
+                {
+                  (notReadOrderLocal < 1 && notReadOrder > 0) &&
+                  <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrder}</span></div>
+                }
               </Link>
             </li>
             <li className='sidebar_link' onClick={() => setActive('dresses')}>

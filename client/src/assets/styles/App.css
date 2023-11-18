@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 @font-face {
-  font-family: "Poppi";
-  src: url("../fonts/Poppins/Poppins-Regular.ttf");
+  font-family: "Open";
+  src: url("../fonts/Open_Sans/static/OpenSans_Condensed-Regular.ttf");
+}
+@font-face {
+  font-family: "Raleway";
+  src: url("../fonts/Raleway/static/Raleway-Regular.ttf");
 }
 * {
   margin: 0;
@@ -258,7 +262,7 @@ a {
 }
 
 * {
-  font-family: Poppi;
+  font-family: Raleway;
 }
 
 .footer-input-focus input:focus {

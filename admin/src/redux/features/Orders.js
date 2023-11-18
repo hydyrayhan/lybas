@@ -11,6 +11,7 @@ const initialState = {
   search: '',
   status: '',
   filter: '',
+  notRead:"",
 };
 export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_, { getState }) => {
   try {
@@ -63,6 +64,7 @@ const Orders = createSlice({
         state.loading = false;
         state.data = [...action?.payload?.data.data];
         state.count = action?.payload.data.count;
+        state.notRead = action?.payload.data.notRead;
       })
       .addCase(fetchDataOrders.rejected, (state, action) => {
         state.loading = false;

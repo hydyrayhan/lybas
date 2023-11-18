@@ -69,7 +69,6 @@ function Emails() {
 
   useEffect(() => {
     if (!data?.length) dispatch(fetchDataEmails());
-    console.log(data);
     const isReadOff = async () => {
       try {
         const res = await AxiosSeller('/mails/isRead')
@@ -122,7 +121,7 @@ function Emails() {
                 <TableBody>
                   {
                     data?.length > 0 && data.map((mail, index) => (
-                      <TableRow className='cursor-pointer' onClick={() => navigate(`/emails/${mail.id}/${mail.type}`)} key={index} hover role="checkbox" tabIndex={-1}>
+                      <TableRow className='cursor-pointer' onClick={() => navigate(`/sellerProfile/emails/${mail.id}/${mail.type}`)} key={index} hover role="checkbox" tabIndex={-1}>
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data col-span-3 flex items-center"}>
                             {

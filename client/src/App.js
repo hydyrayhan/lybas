@@ -85,7 +85,7 @@ function App() {
           <Route path="/sellerProfile/comments" element={<SellerComments />} />
           <Route path="/sellerProfile/comments/:id" element={<CommentOne />} />
           <Route path="/sellerProfile/emails" element={<Emails />} />
-          <Route path="/sellerProfile/emails/:id" element={<EmailOne />} />
+          <Route path="/sellerProfile/emails/:id/:type" element={<EmailOne />} />
           <Route path="/sellerProfile/profile" element={<Profile />} />
         </Route>
 

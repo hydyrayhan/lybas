@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataOrders, setOffset, setFilter, setLimit, setSearch, setStatus } from '../../redux/features/Orders';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App';
+import { AxiosSeller } from '../../common/AxiosInstance';
 
 const columns = [
   {
@@ -81,7 +82,17 @@ function Orders() {
   }
 
   useEffect(() => {
-    if (!data.length) dispatch(fetchDataOrders());
+    const getData = async()=>{
+      try {
+        const res = await AxiosSeller('/orders/isRead')
+        if(res.status === 200){
+          dispatch(fetchDataOrders())
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }, []);
   return (
     <div className='orders-page'>

@@ -24,25 +24,36 @@ function Sidebar() {
   const notifications = useSelector((state) => state?.Notification?.data);
   const emails = useSelector((state) => state?.Emails?.data);
   const notReadCount = useSelector((state) => state?.Emails?.notRead);
+  const notReadOrder = useSelector((state) => state?.Orders?.notRead);
+  const orderCount = useSelector((state) => state?.Orders?.count);
+  const [notReadOrderLocal, setNotReadOrderLocal] = useState(0);
 
   useEffect(() => {
     socket.connect();
     const path = window.location.pathname.split('/')[1]
+    console.log(path);
+    if(path === 'orders'){
+      setNotReadOrderLocal(0)
+    }
     socket.on('admin-mail', async () => {
       if (path !== 'emails') {
         await dispatch(fetchDataEmails())
       } else {
         const res = await AxiosCustom('/mails/isRead')
-        if(res.status === 200){
+        if (res.status === 200) {
           await dispatch(fetchDataEmails())
         }
       }
     })
-    socket.on('admin-order', async () => {
-      if (path !== 'orders') {
+    socket.on('admin-order', async (res) => {
+      if (orderCount < 1) {
         await dispatch(fetchDataOrders())
       } else {
-        await dispatch(fetchDataOrders())
+        if(path !== 'orders'){
+          setNotReadOrderLocal(res);
+        } else{
+          await dispatch(fetchDataOrders())
+        }
       }
     })
 
@@ -60,7 +71,7 @@ function Sidebar() {
         setData(res.data);
       } catch (error) {
         console.log(error.response.data.message);
-        if (error.response.status === 401) {
+        if (error.response.data.message === 'jwt expired') {
           localStorage.setItem('lybas-token', '');
           navigate('/login')
         }
@@ -146,6 +157,14 @@ function Sidebar() {
                 </svg>
 
                 <span className="ml-3 text-lybas-gray group-hover:text-gray-900">{t("orders")}</span>
+                {
+                  (notReadOrderLocal > 0) &&
+                  <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrderLocal}</span></div>
+                }
+                {
+                  (notReadOrderLocal < 1 && notReadOrder > 0) &&
+                  <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrder}</span></div>
+                }
               </Link>
             </li>
             <li className='sidebar_link' onClick={() => setActive('dressmakers')}>
