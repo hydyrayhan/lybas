@@ -8,7 +8,7 @@ const resources = {
       dresses: 'Dresses',
       dressmakers: 'Dressmakers',
       blog: 'Blogs',
-      search:"Search",
+      search: "Search",
       deliveryAndPaymentOptions: 'Delivery and Payment Options',
       termsOfUse: 'Terms of Use (separate for dressmakers)',
       aboutUs: 'About Us',
@@ -42,7 +42,7 @@ const resources = {
       size: 'Size',
       color: "Color",
       comments: "Comments",
-      commentOne:"comments",
+      commentOne: "comments",
       similarDresses: "Similar goods",
       addToCard: "Add to card",
       numbers: "Quantity",
@@ -162,7 +162,7 @@ const resources = {
       number: "Number",
       dateTime: "Date, time",
       status: "Status",
-      statusAccount:"Status",
+      statusAccount: "Status",
       result: "Result",
       fullName: "Full name",
       nameOfDressAndDressmaker: "Name of dress and Dressmaker",
@@ -212,42 +212,69 @@ const resources = {
       writeTheDetail: "Write in detail",
       fillTheGaps: "Fill free gaps!",
       type: "Type",
-      new:"New",
-      new:"New",
-      outStock:"Out of stock",
-      adminConfirm:"Admin will be give you permission",
-      loginWorning:"Login first",
-      surname:"Surname",
-      typesOfProducts:" types of products",
-      addedToCart:"Added to cart",
-      noQuantity:"Firstly add quantity",
-      changeCart:"Change cart",
-      removedFromCart:"Romoved from cart",
-      yourAddressIsEmpty:"You don't have address",
-      thankYouOrder:"Thank you for your shopping!",
-      mailSended:"Email sended",
-      thankYouForRate:"We value your feedback",
-      goToTheirShop:"Go to their shop",
-      successRegister:"You are logged in successfully",
-      successSended:"Successfully sended",
-      minimum6Letter:"Password must be at least 6 characters long",
-      writePhoneNumber:"Write phone number",
-      changePassword:"Change password",
-      thanksNewsletter:"Thank you for subscribing, we will send updates to your email!",
-      orderNotification:"Order completed",
-      orderNotificationBody:"You completed order of product please rate it",
-      stars:"Stars",
-      location:"Location",
+      new: "New",
+      new: "New",
+      outStock: "Out of stock",
+      adminConfirm: "Admin will be give you permission",
+      loginWorning: "Login first",
+      surname: "Surname",
+      typesOfProducts: " types of products",
+      addedToCart: "Added to cart",
+      noQuantity: "Firstly add quantity",
+      changeCart: "Change cart",
+      removedFromCart: "Romoved from cart",
+      yourAddressIsEmpty: "You don't have address",
+      thankYouOrder: "Thank you for your shopping!",
+      mailSended: "Email sended",
+      thankYouForRate: "We value your feedback",
+      goToTheirShop: "Go to their shop",
+      successRegister: "You are logged in successfully",
+      successSended: "Successfully sended",
+      minimum6Letter: "Password must be at least 6 characters long",
+      writePhoneNumber: "Write phone number",
+      changePassword: "Change password",
+      thanksNewsletter: "Thank you for subscribing, we will send updates to your email!",
+      orderNotification: "Order completed",
+      orderNotificationBody: "You completed order of product please rate it",
+      stars: "Stars",
+      location: "Location",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
                   <li>Saýtdan sargyt edeniňizden soňra operator size jaň edip sargydy tassyklar (eger hemişelik müşderi bolsaňyz sargytlaryňyz islegiňize görä awtomatik usulda hem tassyklanýar);</li>
                   <li>Sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar.</li>
-                </ul>`
+                </ul>`,
+      aboutUsMain: "Welcome to Lybas, where the rich tapestry of Turkmen craftsmanship comes to life in the form of exquisite dresses and accessories, handcrafted by talented local ateliers and dressmakers. We invite you to embark on a journey through our virtual marketplace, where tradition meets modernity, and every purchase tells a unique story.",
+      aboutUsTitle1: "Our Vision: ",
+      aboutUsBody1: "At Lybas, we envision a world where the artistry of Turkmen women entrepreneurs is celebrated and shared with the global community. Our platform is a testament to the resilience, creativity, and skill of local ateliers and dressmakers who pour their hearts into creating one-of-a-kind pieces that reflect the vibrant cultural heritage of Turkmenistan.",
+      aboutUsTitle2: 'Empowering Women Entrepreneurs: ',
+      aboutUsBody2: "Our marketplace is more than just an online shopping destination; it's a celebration of the entrepreneurial spirit of Turkmen women. By curating a diverse collection of custom-made dresses and accessories, we provide a platform for local businesses to showcase their talents and reach a wider audience. Your purchase not only adds a unique piece to your wardrobe but also contributes to the growth and empowerment of these inspiring women.",
+      aboutUsTItle3: "Unique Custom-Made Creations: ",
+      aboutUsBody3: "Discover the allure of Turkmen fashion through our curated selection of custom-made dresses and accessories. Each piece is a labor of love, blending traditional techniques with contemporary styles to create something truly extraordinary. From vibrant dresses adorned with intricate embroidery to accessories that accentuate your individuality, our marketplace is a treasure trove of handcrafted wonders.",
+      aboutUsTitle4: "Seamless Online Shopping Experience: ",
+      aboutUsBody4: "We understand the importance of convenience in your shopping journey. Navigating our platform is a breeze, allowing you to explore, select, and purchase with ease. Our user-friendly interface ensures that you can browse through a wide array of options, read about the talented artisans behind each creation, and enjoy shopping from the comfort of your home.",
+      aboutUsBody5: "Thank you for being a part of Lybas. As you explore our collection, we hope you find joy in each unique creation and take pride in supporting the flourishing community of Turkmen women entrepreneurs. Welcome to a world where tradition, empowerment, and style converge—welcome to Lybas!",
+      deliveryAndPaymentHead: "Delivery and Payment Options",
+      deliveryAndPaymentBody: `        
+                              <li>We offer delivery to all velayats of our country. The delivery time may vary depending on the location of your product. For products in Ashgabat, deliveries are made within 24 hours.</li>
+                              <div>Ashgabat: 20 manats</div>
+                              <div>Anew: 30-40 manats</div>
+                              <div>Buzmeyin: 50 manats</div>
+                              <div>Choganly: 30-40 manats</div>
+                              <div>Gokdepe: 50 manats</div>
+                              <div>Gurtly: 25 manats</div>
+                              <div>Yalkym: 40 manats</div>
+                              <div>Tejen: 50 manats</div>
+                              <li>For all other velayats, deliveries may take up to 2-5 days to receive your shipment. The delivery price may range between 50-90 manats to velayats depending on your location.</li>
+                              <li>After you complete your order on our website, our operator will call you to confirm the order.</li>
+                              <li>The delivery service is carried out to the address and telephone number you specified. </li>
+                              <li>If the order is not confirmed, then the order is not registered and is not executed. To confirm your order, make sure you can receive a call at the phone number you provided. Also, please check that the address you provided is correct.</li>
+                              <li>Payment is made after you check and accept the order. The courier's payment document indicates the amount of your payment. Delivery amount will be added to your total amount of the product due. Payment is made in cash in national currency. Accepted and paid for goods cannot be returned. </li>,
+                              <li>If the owner of the order cannot be found within 24 hours after confirmation of the order, then the order is cancelled.</li>`,
     },
   },
 
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   ru: {
@@ -256,7 +283,7 @@ const resources = {
       dresses: 'Платья',
       dressmakers: 'Портнихи',
       blog: 'Блоги',
-      search:"Поиск",
+      search: "Поиск",
       deliveryAndPaymentOptions: 'Порядок доставки и оплаты',
       termsOfUse: 'Условия использования и политика конфиденциальности',
       aboutUs: 'О нас',
@@ -290,7 +317,7 @@ const resources = {
       size: 'Размер',
       color: "Цвета",
       comments: "Отзывы",
-      commentOne:"комментариев",
+      commentOne: "комментариев",
       similarDresses: "Похожие товары",
       addToCard: "Добавить в корзину",
       numbers: "Количество",
@@ -410,7 +437,7 @@ const resources = {
       number: "Число",
       dateTime: "Дата, время",
       status: "Положение дел",
-      statusAccount:"Статус заказа",
+      statusAccount: "Статус заказа",
       result: "Результат",
       fullName: "Полное имя",
       nameOfDressAndDressmaker: "Название платья и портниха",
@@ -460,44 +487,71 @@ const resources = {
       writeTheDetail: "Напишите подробно",
       fillTheGaps: "Заполните свободные пробелы!",
       type: "Тип",
-      new:"Новый",
-      outStock:"Нет в наличии",
-      adminConfirm:"Администратор даст вам разрешение",
-      loginWorning:"Сначала войдите в систему",
-      surname:"Фамилия",
-      typesOfProducts:" видов товаров",
-      addedToCart:"Добавлено в корзину",
-      noQuantity:"Сначала добавьте количество",
-      changeCart:"Изменить корзину",
-      removedFromCart:"Удалено из корзины",
-      yourAddressIsEmpty:"У вас нет адреса",
-      thankYouOrder:"Спасибо за покупки!",
-      mailSended:"Электронная почта отправлено",
-      thankYouForRate:"Мы ценим ваши отзывы",
-      goToTheirShop:"Перейти в магазин",
-      successRegister:"Вы успешно вошли в систему",
-      successSended:"Успешно отправлено",
-      minimum6Letter:"Пароль должен содержать как минимум 6 символов",
-      writePhoneNumber:"Напишите номер телефона",
-      changePassword:"Изменить пароль",
-      thanksNewsletter:"Спасибо за подписку, мы будем присылать обновления на вашу электронную почту!",
-      orderNotification:"Заказ выполнен",
-      orderNotificationBody:"Вы завершили заказ товара, пожалуйста, оцените его",
-      stars:"звезды",
-      location:"Местонахождение",
+      new: "Новый",
+      outStock: "Нет в наличии",
+      adminConfirm: "Администратор даст вам разрешение",
+      loginWorning: "Сначала войдите в систему",
+      surname: "Фамилия",
+      typesOfProducts: " видов товаров",
+      addedToCart: "Добавлено в корзину",
+      noQuantity: "Сначала добавьте количество",
+      changeCart: "Изменить корзину",
+      removedFromCart: "Удалено из корзины",
+      yourAddressIsEmpty: "У вас нет адреса",
+      thankYouOrder: "Спасибо за покупки!",
+      mailSended: "Электронная почта отправлено",
+      thankYouForRate: "Мы ценим ваши отзывы",
+      goToTheirShop: "Перейти в магазин",
+      successRegister: "Вы успешно вошли в систему",
+      successSended: "Успешно отправлено",
+      minimum6Letter: "Пароль должен содержать как минимум 6 символов",
+      writePhoneNumber: "Напишите номер телефона",
+      changePassword: "Изменить пароль",
+      thanksNewsletter: "Спасибо за подписку, мы будем присылать обновления на вашу электронную почту!",
+      orderNotification: "Заказ выполнен",
+      orderNotificationBody: "Вы завершили заказ товара, пожалуйста, оцените его",
+      stars: "звезды",
+      location: "Местонахождение",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
                   <li>Saýtdan sargyt edeniňizden soňra operator size jaň edip sargydy tassyklar (eger hemişelik müşderi bolsaňyz sargytlaryňyz islegiňize görä awtomatik usulda hem tassyklanýar);</li>
                   <li>Sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar.</li>
-                </ul>`
-    }
+                </ul>`,
+      aboutUsMain: 'Добро пожаловать на веб-сайт Лыбас, где богатое туркменское мастерство воплощается в жизнь в виде изысканных платьев и аксессуаров, созданных вручную талантливыми местными ателье и портнихами. Мы приглашаем вас отправиться в путешествие по нашему виртуальному рынку, где традиции встречаются с современностью, а каждая покупка рассказывает уникальную историю.',
+      aboutUsTitle1: 'Наше видение:',
+      aboutUsBody1: 'В Лыбас мы создаем мир, в котором искусство туркменских женщин-предпринимателей доступно мировому сообществу. Наша платформа является свидетельством стойкости, креативности и мастерства местных ателье и портных, которые вкладывают всю свою душу в создание уникальных изделий, отражающих яркое культурное наследие Туркменистана.',
+      aboutUsTitle2: 'Расширение бизнеса женщин-предпринимателей:',
+      aboutUsBody2: 'Наша торговая площадка — это больше, чем просто место для покупок в Интернете; это празднование предпринимательского духа туркменских женщин. Собирая разнообразную коллекцию платьев и аксессуаров ручной работы, мы предоставляем местным ателье и портнихам платформу, позволяющую продемонстрировать свои таланты и охватить более широкую аудиторию. Ваша покупка не только добавит уникальный элемент в ваш гардероб, но и будет способствовать росту и расширению бизнеса этих вдохновляющих женщин.',
+      aboutUsTItle3: 'Уникальные изделия:',
+      aboutUsBody3: 'Откройте для себя очарование туркменской моды с помощью тщательно подобранной коллекции платьев и аксессуаров. Каждое изделие — это плод любви, сочетание традиционных техник с современными стилями для создания чего-то поистине экстраординарного. От ярких платьев, украшенных замысловатой вышивкой, до аксессуаров, подчеркивающих вашу индивидуальность, Лыбас — настоящая сокровищница чудес ручной работы.',
+      aboutUsTitle4: 'Приятный опыт покупок в Интернете:',
+      aboutUsBody4: 'Мы понимаем важность удобства в вашем путешествии по магазинам. Навигация по нашей платформе очень проста, что позволяет вам с легкостью искать, выбирать и приобретать товары. Наш удобный интерфейс гарантирует, что вы сможете просматривать широкий спектр вариантов, читать о талантливых мастерах, стоящих за каждым творением, и совершать покупки, не выходя из дома.',
+      aboutUsBody5: 'Благодарим вас за то, что вы являетесь неотъемлемой частью Лыбас. Мы надеемся, что, ознакомясь с нашей коллекцией, вы получите радость от каждого уникального творения и гордиться тем, что поддерживаете процветающее сообщество туркменских женщин предпринимателей. Добро пожаловать в мир, где сливаются традиции, возможности и стиль — добро пожаловать на Лыбас!',
+      deliveryAndPaymentHead: "Порядок доставки и оплаты",
+      deliveryAndPaymentBody: `        
+                              <li>Мы предлагаем доставку во все велаяты нашей страны. Срок доставки может варьироваться в зависимости от местонахождения вашего товара. Доставка продукции по Ашхабаду осуществляется в течение 24 часов в пределах города.</li>
+                              <div>Ашхабад: 20 манатов</div>
+                              <div>Аннау: 30-40 манатов.</div>
+                              <div>Бузмеин: 50 манатов</div>
+                              <div>Чоганлы: 30-40 манатов</div>
+                              <div>Гёкдепе: 50 манатов</div>
+                              <div>Гуртлы: 25 манат</div>
+                              <div>Ялкым: 40 манатов</div>
+                              <div>Теджен: 50 манатов</div>
+                              <li>Во все остальные велаяты доставка может занять до 2-5 дней. Цена доставки в велаяты может составлять 50-90 манатов в зависимости от вашего местоположения. </li>
+                              <li>После того, как вы оформите заказ на нашем сайте, вам позвонит наш оператор для подтверждения заказа.</li>
+                              <li>Доставка осуществляется по указанному вами адресу и телефону.</li>
+                              <li>Если заказ не подтвержден, то заказ не регистрируется и не исполняется. Для подтверждения заказа обязательно ответьте на звонок по указанному вами номеру телефона. Также проверьте правильность указанного вами адреса.</li>
+                              <li>Оплата производится после проверки и принятия заказа. В платежном документе курьера указана сумма вашего платежа. Сумма доставки будет добавлена к общей сумме товара, подлежащего оплате. Оплата производится наличными в национальной валюте. Принятый и оплаченный товар возврату не подлежит.</li>
+                              <li>Если владелец заказа не может быть найден в течение 24 часов после подтверждения заказа, то заказ аннулируется.</li>`
+    },
   },
 
 
 
 
-// /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -508,7 +562,7 @@ const resources = {
       dresses: 'Köýnekler',
       dressmakers: 'Tikinçiler',
       blog: 'Bloglar',
-      search:"Gözlemek",
+      search: "Gözlemek",
       deliveryAndPaymentOptions: 'Eltip bermek we töleg tertibi',
       termsOfUse: 'Ulanyş düzgünleri we gizlinlik şertleri ',
       aboutUs: 'Biz barada',
@@ -542,7 +596,7 @@ const resources = {
       size: 'Ölçegi',
       color: "Reňkler",
       comments: "Synlar",
-      commentOne:"syn",
+      commentOne: "syn",
       similarDresses: "Meňzeş harytlar",
       addToCard: "Sebete goşmak",
       numbers: "Mukdary",
@@ -662,7 +716,7 @@ const resources = {
       number: "Nomer",
       dateTime: "Sene, wagt",
       status: "Ýagdaýy",
-      statusAccount:"Sargyt ýagdaýy",
+      statusAccount: "Sargyt ýagdaýy",
       result: "Netije",
       fullName: "Doly ady",
       nameOfDressAndDressmaker: "Köýnegiň we Dikimçiň/Otelýaň ady",
@@ -712,37 +766,64 @@ const resources = {
       writeTheDetail: "Maglumat ýaz",
       fillTheGaps: "Boşluklary dolduryň!",
       type: "Görnüşi",
-      new:"Täze",
-      outStock:"Elimizde ýok",
-      adminConfirm:"Admin rugsat bermeli",
-      loginWorning:"Ilki registrasiýa boluň",
-      surname:"Familiýa",
-      typesOfProducts:" sany haryt görnüşi",
-      addedToCart:"Sebede goşuldy",
-      noQuantity:"Haryt mukdaryny goşuň",
-      changeCart:"Sebedi üýtget",
-      removedFromCart:"Sebetden pozuldy",
-      yourAddressIsEmpty:"Siziň salgyňyz ýok",
-      thankYouOrder:"Söwdaňyz üçin sagboluň!",
-      mailSended:"Email ugradyldy",
-      thankYouForRate:"Siziň synyňyz biziň üçin wajypdyr.",
-      goToTheirShop:"Dükanyna geçmek",
-      successRegister:"Siz üstünlikli girdiňiz",
-      successSended:"Üstünlikli ugradyldy",
-      minimum6Letter:"Parol azyndan 6 simwoldan ybarat bolmaly",
-      writePhoneNumber:"Telefon belgiňizi giriziň",
-      changePassword:"Paroly üýtget",
-      thanksNewsletter:"Sagboluň, ýazylanyňyz üçin, Siziň emailiňize täzelikleri ibereris!",
-      orderNotification:"Sargyt tamamlandy",
-      orderNotificationBody:"Sargyt tamamlandy, bermegiňizi haýyş edýäris",
-      stars:"ýyldyz",
-      location:"Ýeri",
+      new: "Täze",
+      outStock: "Elimizde ýok",
+      adminConfirm: "Admin rugsat bermeli",
+      loginWorning: "Ilki registrasiýa boluň",
+      surname: "Familiýa",
+      typesOfProducts: " sany haryt görnüşi",
+      addedToCart: "Sebede goşuldy",
+      noQuantity: "Haryt mukdaryny goşuň",
+      changeCart: "Sebedi üýtget",
+      removedFromCart: "Sebetden pozuldy",
+      yourAddressIsEmpty: "Siziň salgyňyz ýok",
+      thankYouOrder: "Söwdaňyz üçin sagboluň!",
+      mailSended: "Email ugradyldy",
+      thankYouForRate: "Siziň synyňyz biziň üçin wajypdyr.",
+      goToTheirShop: "Dükanyna geçmek",
+      successRegister: "Siz üstünlikli girdiňiz",
+      successSended: "Üstünlikli ugradyldy",
+      minimum6Letter: "Parol azyndan 6 simwoldan ybarat bolmaly",
+      writePhoneNumber: "Telefon belgiňizi giriziň",
+      changePassword: "Paroly üýtget",
+      thanksNewsletter: "Sagboluň, ýazylanyňyz üçin, Siziň emailiňize täzelikleri ibereris!",
+      orderNotification: "Sargyt tamamlandy",
+      orderNotificationBody: "Sargyt tamamlandy, bermegiňizi haýyş edýäris",
+      stars: "ýyldyz",
+      location: "Ýeri",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
                   <li>Saýtdan sargyt edeniňizden soňra operator size jaň edip sargydy tassyklar (eger hemişelik müşderi bolsaňyz sargytlaryňyz islegiňize görä awtomatik usulda hem tassyklanýar);</li>
                   <li>Sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar.</li>
-                </ul>`
+                </ul>`,
+      aboutUsMain: 'Lybas web sahypamyza hoş geldiňiz! Bu ýerde zehinli ýerli atelýe we tikinçiler tarapyndan elde ýasalan ajaýyp köýnek we aksesuarlar görnüşinde türkmen gelin-gyzlarymyzyň ussatlygy janlanýar. Sizi däp-dessur bilen döwrebaplyk bir ara gelýän we her el işiň özboluşly bir hekaýasy bolan wirtual bazarymyza syýahat etmäge çagyrýarys.',
+      aboutUsTitle1: 'Biziň görüşimiz:',
+      aboutUsBody1: 'Lybasda türkmen zenan telekeçileriniň kämilligi dünýä jemgyýetçiligi bilen tanyşdyrylýar. Biziň platformamyz, Türkmenistanyň baý medeni mirasyny görkezmek bilen bir hatarda özboluşly el işleri döretmäge yhlas edýän ýerli atelýeleriň we tikinçileriň döredijiliginiň we ussatlygynyň subutnamasydyr.',
+      aboutUsTitle2: 'Zenan telekeçileriň işini giňeltmek:',
+      aboutUsBody2: 'Biziň bazarymyz diňe onlaýn söwda etmek üçin ýer bolman, eýsem türkmen zenanlarynyň telekeçilik ruhunyň aýnasydyr. El bilen ýasalan köýnekleriň we aksesuarlaryň dürli ýygyndysyny düzmek bilen, ýerli atelýe we tikinçilere öz ukybyny görkezmek we has giň auditoriýa ýüzlenmek üçin platforma hödürleýäris. Biz bilen söwdaňyz diňe bir geýimleriňize özboluşly bir element goşman, eýsem yhlasly aýal-gyzlarymyzyň telekeçilik işiniň ösmegine we giňelmegine hem kömek eder.',
+      aboutUsTItle3: 'Taýsyz milli el işleri:',
+      aboutUsBody3: 'Saýlanan köýneklerimiz we aksesuarlarymyz bilen türkmen milli modasynyň özüne çekijiligini öwreniň. Her bir iş, gadymy usullary häzirki zaman stilleri bilen birleşdirýän zenanlarymyzyň söýgisiniň miwesidir. Çylşyrymly nagyşlar bilen bezelen reňkli köýneklerden başlap, özboluşlygyňyzy görkezýän aksesuarlara çenli dükanymyz elde ýasalan täsinlikleriň hazynasydyr.',
+      aboutUsTitle4: 'Ýakymly onlaýn söwda:',
+      aboutUsBody4: 'Söwda syýahatyňyzda oňaýlylygyň möhümdigine düşünýäris. Biziň platformamyz aňsat gözlemäge, saýlamaga we söwda etmäge mümkinçilik berýär. Ulanyjy üçin amatly interfeýs bilen dürli görnüşdäki el işlere göz aýlap, döredijiligiň aňyrsyndaky zehinli zenanlar hakda okap, öýüňizden çykman söwda edip bilersiňiz.',
+      aboutUsBody5: 'Lybasa agza bolanyňyz üçin sag boluň. Kolleksiýalara göz aýlanyňyzda, her bir ajaýyp el işleri görüp begenersiňiz we türkmen zenan telekeçileriniň gülläp ösýän jemgyýetine   goldaw bermäge buýsanarsyňyz diýip umyt edýäris. Däp-dessurlaryň, mümkinçilikleriň we stiliň birleşýän dünýäsine hoş geldiňiz - Lybasa hoş geldiňiz!',
+      deliveryAndPaymentHead: "Eltip bermek we töleg tertibi",
+      deliveryAndPaymentBody: `        
+                              <li>Eltip bermek we töleg tertibi</li>
+                              <div>Aşgabat: 20 manat</div>
+                              <div>Änew: 30-40 manat</div>
+                              <div>Büzmeýin: 50 manat</div>
+                              <div>Çoganly: 30-40 manat</div>
+                              <div>Gökdepe: 50 manat</div>
+                              <div>Gurtly: 25 manat</div>
+                              <div>Ýalkym: 40 manat</div>
+                              <div>Tejen: 50 manat</div>
+                              <li>Welaýatlara eltip bermek üçin 2-5 gün gerek bolup biler. Eltip bermek bahasy, ýaşaýan ýeriňize baglylykda 50-90 manat aralygynda bolup biler.</li>
+                              <li>Web sahypamyzda harydy sarganyňyzdan soň, operatorymyz buýrugy tassyklamak üçin size jaň eder.</li>
+                              <li>Web sahypamyzda görkezen salgy we telefon belgiňize görä eltip beriş amala aşyrylýar.</li>
+                              <li>Sargyt tassyklanmasa, buýruk hasaba alynmaýar we ýerine ýetirilmeýär. Sargydyňyzy tassyklamak üçin beren telefon belgiňize gelýän jaňa jogap bermegiňizi haýyş edýäris. Şeýle hem, beren salgyňyzyň dogrudygyny barlaň.</li>
+                              <li>Sargydy barlanyňyzdan we kabul edeniňizden soň töleg amala aşyrylýar. Kurýeriň töleg resminamasy tölegiň mukdaryny görkezýär. Eltip beriş hyzmadynyň bahasy önümiň umumy mukdaryna goşular. Töleg milli walýutada nagt görnüşinde amala aşyrylýar. Kabul edilen we tölenen haryt yzyna alynmaýar.</li>
+                              <li>Sargyt tassyklanylandan soň 24 sagadyň dowamynda sargyt eýesini tapyp bilmesek, buýruk ýatyrylýar.</li>`
     }
   }
 }
