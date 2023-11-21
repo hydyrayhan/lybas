@@ -5,6 +5,10 @@
   font-family: "Poppi";
   src: url("../fonts/Poppins/Poppins-Regular.ttf");
 }
+@font-face {
+  font-family: "Raleway";
+  src: url("../fonts/Raleway/static/Raleway-Regular.ttf");
+}
 * {
   margin: 0;
   box-sizing: border-box;
@@ -255,6 +259,10 @@ a {
 .sidebar .css-1betqn-MuiAccordionSummary-content {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+* {
+  font-family: Raleway;
 }
 
 .footer-input-focus input:focus {

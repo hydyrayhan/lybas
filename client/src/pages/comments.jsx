@@ -13,7 +13,6 @@ function Comments() {
       try {
         const res = await AxiosCustom('products/comments/' + id)
         setData(res.data)
-        console.log(res.data, 123123132123)
       } catch (error) {
         console.log(error);
       }
@@ -26,10 +25,10 @@ function Comments() {
 
       <div className="revivers-container mb-10 bg-gray-100 rounded-[8px] flex flex-col sm:flex-row justify-between items-center px-10 py-10">
 
-        <div className="revivers-container__left w-30 mr-10 mb-5 sm:mb-0">
+        <div className="revivers-container__left w-[130px] mr-10 mb-5 sm:mb-0">
           <p className="rate text-[70px] sm:text-[80px] md:text-[96px] font-bold mb-[12px]">{data?.product?.rating}</p>
-          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500 mb-[10px]">{data?.product?.rating} {t('stars')}</p>
-          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500">{data.count + ' ' + t('commentOne')}</p>
+          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500 mb-[10px]">{data?.product?.rating} {data?.product?.rating > 1 ? t('stars') : t('star')}</p>
+          <p className="text-[16px] md:text-[18px] font-medium leading-[24px] text-slate-500">{data?.count + ' ' + (data?.count > 1 ? t('commentPageMoreComment') : t('commentPageOneComment'))}</p>
         </div>
 
         <div className="revivers-container__rigth w-full">

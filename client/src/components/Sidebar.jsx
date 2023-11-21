@@ -125,12 +125,12 @@ const Sidebar = ({ setSortBy, sortBy, dressmakers = false, sizes, categories, ma
                   </AccordionSummary>
                   <hr style={{ marginBottom: '10px' }} />
                   <AccordionDetails>
-                    <CheckButton checked={sort.price.min_price == 0} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 0, max_price: 100 }} text={'0 TMT - 100 TMT'} />
-                    <CheckButton checked={sort.price.min_price == 100} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 100, max_price: 400 }} text={'100 TMT - 400 TMT'} />
-                    <CheckButton checked={sort.price.min_price == 400} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 400, max_price: 700 }} text={'400 TMT - 700 TMT'} />
-                    <CheckButton checked={sort.price.min_price == 700} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 700, max_price: 1000 }} text={'700 TMT - 1000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 0} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 0, max_price: 1000 }} text={'0 TMT - 1000 TMT'} />
                     <CheckButton checked={sort.price.min_price == 1000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 1000, max_price: 2000 }} text={'1000 TMT - 2000 TMT'} />
-                    <CheckButton checked={sort.price.min_price == 2000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 2000, max_price: '' }} text={'2000 TMT +'} />
+                    <CheckButton checked={sort.price.min_price == 2000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 2000, max_price: 5000 }} text={'2000 TMT - 5000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 5000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 5000, max_price: 10000 }} text={'5000 TMT - 10000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 10000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 10000, max_price: 20000 }} text={'10000 TMT - 20000 TMT'} />
+                    <CheckButton checked={sort.price.min_price == 20000} data={sort} setData={getSortedData} name={'price'} value={{ min_price: 20000, max_price: '' }} text={'20000 TMT +'} />
                   </AccordionDetails>
                 </Accordion>
               </div>

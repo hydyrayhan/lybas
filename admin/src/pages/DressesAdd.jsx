@@ -116,6 +116,7 @@ function DressesAdd() {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
+    console.log(e.target.type)
     setData({ ...data, [name]: value });
   }
   const handleVelayat = (e) => {
@@ -250,11 +251,6 @@ function DressesAdd() {
                 </Select>
               </FormControl>
             </div>
-
-            {/* <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='quantity'>{t('quantity')}</label>
-              <input name='stock' value={data.stock} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} id='quantity' />
-            </div> */}
             <div className="dress-input sizes">
               <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
               <div className="size flex flex-wrap items-center">

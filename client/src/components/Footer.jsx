@@ -88,13 +88,12 @@ function Footer() {
                 <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('aboutUs')}</h4>
                 <ul>
                   <li>
-                    <button
+                    <Link to='/aboutUs'
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
-                      onClick={()=>setOpen(true)}
                     >
-                      {t('deliveryAbroad')}
-                    </button>
+                      {t('aboutUs')}
+                    </Link>
                   </li>
                   <li>
                     <Link to='/deliveryPayment'
@@ -105,20 +104,21 @@ function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link to='/aboutUs'
-                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
-                      style={{ fontSize: '14px' }}
-                    >
-                      {t('aboutUs')}
-                    </Link>
-                  </li>
-                  <li>
                     <Link to='/termsCondition'
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
                       {t('termAndConditions')}
                     </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
+                      style={{ fontSize: '14px' }}
+                      onClick={()=>setOpen(true)}
+                    >
+                      {t('deliveryAbroad')}
+                    </button>
                   </li>
                 </ul>
               </div>
