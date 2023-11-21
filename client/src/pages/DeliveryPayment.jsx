@@ -5,14 +5,10 @@ function DeliveryPayment() {
 
   return (
     <>
-      <div className="deliveryPayment container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20">
-        <h1 className="deliveryPayment__title">{t('deliveryAndPaymentHead')}</h1>
+      <div className="deliveryPayment container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-5 md:pt-10">
+        <h1 className="deliveryPayment__title text-xl font-bold mb-3">{t('deliveryAndPaymentHead')}</h1>
 
-      <ol dangerouslySetInnerHTML={{ __html: t('deliveryAndPaymentBody') }}>
-
-      </ol>
-
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: t('deliveryAndPaymentBody') }}></div></div>
     </>
   )
 

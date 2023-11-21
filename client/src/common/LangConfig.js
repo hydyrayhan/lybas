@@ -238,6 +238,8 @@ const resources = {
       orderNotificationBody: "You completed order of product please rate it",
       stars: "Stars",
       location: "Location",
+      sortBy:"Sort by",
+      all:"All",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -257,14 +259,14 @@ const resources = {
       deliveryAndPaymentHead: "Delivery and Payment Options",
       deliveryAndPaymentBody: `        
                               <li>We offer delivery to all velayats of our country. The delivery time may vary depending on the location of your product. For products in Ashgabat, deliveries are made within 24 hours.</li>
-                              <div>Ashgabat: 20 manats</div>
-                              <div>Anew: 30-40 manats</div>
-                              <div>Buzmeyin: 50 manats</div>
-                              <div>Choganly: 30-40 manats</div>
-                              <div>Gokdepe: 50 manats</div>
-                              <div>Gurtly: 25 manats</div>
-                              <div>Yalkym: 40 manats</div>
-                              <div>Tejen: 50 manats</div>
+                              <div class="ml-5">Ashgabat: 20 manats</div>
+                              <div class="ml-5">Anew: 30-40 manats</div>
+                              <div class="ml-5">Buzmeyin: 50 manats</div>
+                              <div class="ml-5">Choganly: 30-40 manats</div>
+                              <div class="ml-5">Gokdepe: 50 manats</div>
+                              <div class="ml-5">Gurtly: 25 manats</div>
+                              <div class="ml-5">Yalkym: 40 manats</div>
+                              <div class="ml-5">Tejen: 50 manats</div>
                               <li>For all other velayats, deliveries may take up to 2-5 days to receive your shipment. The delivery price may range between 50-90 manats to velayats depending on your location.</li>
                               <li>After you complete your order on our website, our operator will call you to confirm the order.</li>
                               <li>The delivery service is carried out to the address and telephone number you specified. </li>
@@ -512,6 +514,8 @@ const resources = {
       orderNotificationBody: "Вы завершили заказ товара, пожалуйста, оцените его",
       stars: "звезды",
       location: "Местонахождение",
+      sortBy:"Sort by",
+      all:"Hemmesi",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -531,14 +535,14 @@ const resources = {
       deliveryAndPaymentHead: "Порядок доставки и оплаты",
       deliveryAndPaymentBody: `        
                               <li>Мы предлагаем доставку во все велаяты нашей страны. Срок доставки может варьироваться в зависимости от местонахождения вашего товара. Доставка продукции по Ашхабаду осуществляется в течение 24 часов в пределах города.</li>
-                              <div>Ашхабад: 20 манатов</div>
-                              <div>Аннау: 30-40 манатов.</div>
-                              <div>Бузмеин: 50 манатов</div>
-                              <div>Чоганлы: 30-40 манатов</div>
-                              <div>Гёкдепе: 50 манатов</div>
-                              <div>Гуртлы: 25 манат</div>
-                              <div>Ялкым: 40 манатов</div>
-                              <div>Теджен: 50 манатов</div>
+                              <div class="ml-5">Ашхабад: 20 манатов</div>
+                              <div class="ml-5">Аннау: 30-40 манатов.</div>
+                              <div class="ml-5">Бузмеин: 50 манатов</div>
+                              <div class="ml-5">Чоганлы: 30-40 манатов</div>
+                              <div class="ml-5">Гёкдепе: 50 манатов</div>
+                              <div class="ml-5">Гуртлы: 25 манат</div>
+                              <div class="ml-5">Ялкым: 40 манатов</div>
+                              <div class="ml-5">Теджен: 50 манатов</div>
                               <li>Во все остальные велаяты доставка может занять до 2-5 дней. Цена доставки в велаяты может составлять 50-90 манатов в зависимости от вашего местоположения. </li>
                               <li>После того, как вы оформите заказ на нашем сайте, вам позвонит наш оператор для подтверждения заказа.</li>
                               <li>Доставка осуществляется по указанному вами адресу и телефону.</li>
@@ -791,6 +795,8 @@ const resources = {
       orderNotificationBody: "Sargyt tamamlandy, bermegiňizi haýyş edýäris",
       stars: "ýyldyz",
       location: "Ýeri",
+      sortBy:"Sort by",
+      all:"Hemmesi",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -810,14 +816,14 @@ const resources = {
       deliveryAndPaymentHead: "Eltip bermek we töleg tertibi",
       deliveryAndPaymentBody: `        
                               <li>Eltip bermek we töleg tertibi</li>
-                              <div>Aşgabat: 20 manat</div>
-                              <div>Änew: 30-40 manat</div>
-                              <div>Büzmeýin: 50 manat</div>
-                              <div>Çoganly: 30-40 manat</div>
-                              <div>Gökdepe: 50 manat</div>
-                              <div>Gurtly: 25 manat</div>
-                              <div>Ýalkym: 40 manat</div>
-                              <div>Tejen: 50 manat</div>
+                              <div class="ml-5">Aşgabat: 20 manat</div>
+                              <div class="ml-5">Änew: 30-40 manat</div>
+                              <div class="ml-5">Büzmeýin: 50 manat</div>
+                              <div class="ml-5">Çoganly: 30-40 manat</div>
+                              <div class="ml-5">Gökdepe: 50 manat</div>
+                              <div class="ml-5">Gurtly: 25 manat</div>
+                              <div class="ml-5">Ýalkym: 40 manat</div>
+                              <div class="ml-5">Tejen: 50 manat</div>
                               <li>Welaýatlara eltip bermek üçin 2-5 gün gerek bolup biler. Eltip bermek bahasy, ýaşaýan ýeriňize baglylykda 50-90 manat aralygynda bolup biler.</li>
                               <li>Web sahypamyzda harydy sarganyňyzdan soň, operatorymyz buýrugy tassyklamak üçin size jaň eder.</li>
                               <li>Web sahypamyzda görkezen salgy we telefon belgiňize görä eltip beriş amala aşyrylýar.</li>

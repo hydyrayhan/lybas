@@ -27,6 +27,7 @@ export const fetchDataDressesUser = createAsyncThunk('data/fetchDataDressesUser'
     }else{
       var data = await AxiosCustom(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(sort)}&sort=${type}`);
     }
+    console.log(data,limit,offset,type);
     return data;
   } catch (error) {
     console.log(error);
@@ -58,9 +59,8 @@ const DressesUser = createSlice({
     },
     setType: (state, action) => {
       state.type = action.payload;
-      if(state.type !== action.payload){
-        state.data = []
-      }
+      state.offset = 0;
+      state.data = []
     },
   },
   extraReducers: (builder) => {

@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import Breadcrumb from '../components/Breadcrumb';
 import Dress from '../components/Dress';
 import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataDressesUser, setLimit, setOffset, setSort, setType } from '../redux/features/DressesUser';
 import { CircularProgress } from '@mui/material';
@@ -25,6 +25,7 @@ function Dresses() {
   const sort = useSelector((state) => state?.DressesUser?.sort);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
 
   const getCategories = async () => {
@@ -91,13 +92,19 @@ function Dresses() {
     setLoading(false);
   }
 
+  const setSortBy = async(name,value)=>{
+    navigate('/dresses?type='+value)
+    await dispatch(setType(value))
+    await dispatch(fetchDataDressesUser());
+  }
+
 
   return (
     <div className='dresses container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
       <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} />
       <div className="dresses_main flex justify-between">
         <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5 h-fit md:sticky top-[100px]">
-          <Sidebar sort={sort} setSort={setSortLocal} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors} />
+          <Sidebar setSortBy={setSortBy} sortBy={type} sort={sort} setSort={setSortLocal} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors} />
         </div>
         <div className='w-full md:w-3/5 lg:w-4/5'>
           <InfiniteScroll
