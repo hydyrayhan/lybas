@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from './components/Breadcrumb';
 import { t } from 'i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { AxiosSeller } from '../../common/AxiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
 import ip from '../../common/Config';
+import {AppContext} from '../../App'
 
 const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
 
@@ -38,6 +39,7 @@ function DressesAdd() {
   const dataColor = useSelector((state) => state?.Colors?.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {lang} = useContext(AppContext);
   const { id } = useParams();
 
   const [sizes, setSizes] = useState([]);
@@ -219,7 +221,7 @@ function DressesAdd() {
   }
   return (
     <div className='dress-add'>
-      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={'Taze geler kurte'} />
+      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={data?.name_tm ? t(data['name_'+lang]) : ''} />
 
       <div className="dress-add_content flex justify-between mt-5">
         <div className="dress-add_content_left w-3/5 h-[70vh] overflow-auto rounded-lg border bg-white mr-5">

@@ -90,39 +90,10 @@ function OneOrder() {
           </div>
         </div>
         <div className="one-order_content_address w-2/5">
-          <div className="title">{t('result')}</div>
-
-          {/* <button onClick={() => setOpen(!open)} id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="w-full border mt-2 flex justify-between font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-            {t(status)}
-            <svg className={"w-2.5 h-2.5 ml-2.5 transition-all " + (open ? 'rotate-180' : 'rotate-0')} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-            </svg>
-          </button>
-
-          <div id="dropdown" className={"absolute z-10 w-full bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 origin-top transition-all " + (open ? 'scale-y-1' : 'scale-y-0')}>
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200 w-full" aria-labelledby="dropdownDefaultButton">
-              <li>
-                <button onClick={() => (setOpen(false), handleStatus('waiting'))} className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('waiting')}</button>
-              </li>
-              <li>
-                <button onClick={() => (setOpen(false), handleStatus('accepted'))} className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('accepted')}</button>
-              </li>
-              <li>
-                <button onClick={() => (setOpen(false), handleStatus('onTheWay'))} className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('onTheWay')}</button>
-              </li>
-              <li>
-                <button onClick={() => (setOpen(false), handleStatus('cancelled'))} className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{t('cancelled')}</button>
-              </li>
-            </ul>
-          </div> */}
+          <div className="title font-bold mb-3">{t('result')}</div>
+          <div>{t(data?.status)}</div>
 
           <div className="name my-5"><span className='font-semibold'>{t('fullName')}:</span><span className='text-lybas-gray'> {data?.user_name}</span></div>
-          <div className="name mb-5">
-            <span className='font-semibold block mb-3'>{t('address')}:</span>
-            <span className='text-lybas-gray block mb-1'>{t(data?.address?.split(',/')[0])}</span>
-            <span className='text-lybas-gray block mb-1'>{data?.address?.split(',/')[1]}</span>
-            <span className='text-lybas-gray block mb-1'>{data?.user_phone}</span>
-          </div>
           {/* <div className="name my-5"><span className='font-semibold'>{t('dressmaker')}:</span><span className='text-lybas-gray'> Jeren Otelya</span></div> */}
         </div>
       </div>

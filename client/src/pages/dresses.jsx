@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataDressesUser, setLimit, setOffset, setSort, setType } from '../redux/features/DressesUser';
 import { CircularProgress } from '@mui/material';
+import { t } from 'i18next';
 
 
 function Dresses() {
@@ -92,8 +93,8 @@ function Dresses() {
     setLoading(false);
   }
 
-  const setSortBy = async(name,value)=>{
-    navigate('/dresses?type='+value)
+  const setSortBy = async (name, value) => {
+    navigate('/dresses?type=' + value)
     await dispatch(setType(value))
     await dispatch(fetchDataDressesUser());
   }
@@ -101,7 +102,22 @@ function Dresses() {
 
   return (
     <div className='dresses container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} />
+      {
+        type == 0 &&
+        <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: t('all') }} />
+      }
+      {
+        type == 3 &&
+        <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: t('recommendedDress') }} />
+      }
+      {
+        type == 2 &&
+        <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: t('mostPopularDresses') }} />
+      }
+      {
+        type == 4 &&
+        <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: t('onSale') }} />
+      }
       <div className="dresses_main flex justify-between">
         <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5 h-fit md:sticky top-[100px]">
           <Sidebar setSortBy={setSortBy} sortBy={type} sort={sort} setSort={setSortLocal} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors} />

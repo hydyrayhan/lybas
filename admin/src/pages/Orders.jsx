@@ -43,7 +43,7 @@ const columns = [
   {
     action: 'status',
     label: 'status',
-    minWidth: 100,
+    minWidth: 200,
     align: 'right'
   }
 ];

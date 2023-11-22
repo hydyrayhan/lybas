@@ -150,8 +150,8 @@ function DressesAdd() {
         const res1 = await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         const res2 = await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         if (res2.status === 201) {
-          dispatch(fetchDataDresses());
-          navigate('/dresses');
+          // dispatch(fetchDataDresses());
+          // navigate('/dresses');
           setLoading(false);
         } else {
           setLoading(false);

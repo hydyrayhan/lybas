@@ -8,14 +8,12 @@ export default function WritePhonePopup({ open, setOpen, setOpenVeri,setData2,is
   const cancelButtonRef = useRef(null)
   const [errorText, setErrorText] = useState('');
   const [data, setData] = useState({
-    user_phone: '',
+    user_phone: '+993',
   })
 
   const sendData = async (e) => {
     e.preventDefault();
-    console.log(data);
-    console.log(isSeller);
-    if (data.user_phone) {
+    if (data.user_phone.length > 4) {
       try {
         
         if(isSeller === 'user'){
@@ -28,13 +26,12 @@ export default function WritePhonePopup({ open, setOpen, setOpenVeri,setData2,is
           setErrorText('')
           setData2(data);
           setOpen(false);
-          setData({user_phone:''})
+          setData({user_phone:'+9936'})
           setOpenVeri(true);
         }
       } catch (error) {
         console.log(error)
         setErrorText(error.response.data.message);
-        // setErrorText(response.data.message);
       }
     } else {
       setErrorText(t('fillTheGaps'))

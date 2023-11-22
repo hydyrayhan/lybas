@@ -71,7 +71,7 @@ function Sidebar() {
         setData(res.data);
       } catch (error) {
         console.log(error.response.data.message);
-        if (error.response.data.message === 'jwt expired') {
+        if (error.response.data.message === 'jwt expired' || error.response.status === 401) {
           localStorage.setItem('lybas-token', '');
           navigate('/login')
         }

@@ -91,7 +91,8 @@ export default function Header() {
 
       socket.on('user-notification', () => {
         setNewNotification(true)
-        dispatch(fetchDataNotifications)
+        dispatch(fetchDataNotifications())
+        console.log('hello');
       })
 
       return () => {

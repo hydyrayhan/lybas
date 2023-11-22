@@ -6,21 +6,23 @@ import axios from 'axios';
 import ip from '../../common/Config';
 import { useNavigate } from 'react-router-dom';
 import { Valid } from '../../common/Valid';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-export default function DressmakerPopup({ open, setOpen, waitFunc, setWritePhone,setIsSeller }) {
+export default function DressmakerPopup({ open, setOpen, waitFunc, setWritePhone, setIsSeller }) {
   const cancelButtonRef = useRef(null)
   const navigate = useNavigate();
   const [isSignIn, setIsSignIn] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [checkbox, setCheckbox] = useState(false);
+  const [passType, setPassType] = useState('password');
 
   const [data, setData] = useState({
-    phone_number: '+9936',
+    phone_number: '+993',
     password: ''
   })
 
   const [dataUp, setDataUp] = useState({
-    phone_number: '+9936',
+    phone_number: '+993',
     name: '',
     name1: '',
     surname: '',
@@ -74,12 +76,12 @@ export default function DressmakerPopup({ open, setOpen, waitFunc, setWritePhone
     setIsSignIn(bool);
     setErrorText('')
     setData({
-      phone_number: '+9936',
+      phone_number: '+993',
       password: ''
     })
 
     setDataUp({
-      phone_number: '+9936',
+      phone_number: '+993',
       name: '',
       name1: '',
       surname: '',
@@ -123,8 +125,8 @@ export default function DressmakerPopup({ open, setOpen, waitFunc, setWritePhone
                         </svg>
                       </Dialog.Title>
                       <div className="buttons flex">
-                        <button onClick={()=>handleSignIn(false)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
-                        <button onClick={()=>handleSignIn(true)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
+                        <button onClick={() => handleSignIn(false)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
+                        <button onClick={() => handleSignIn(true)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
                       </div>
                       <form onSubmit={sendData}>
                         {
@@ -137,7 +139,15 @@ export default function DressmakerPopup({ open, setOpen, waitFunc, setWritePhone
                             </div> :
                             <div className="inputs py-3">
                               <input type="tel" name='phone_number' value={data.phone_number} onChange={handleData} pattern="\+9936\d{7}" required className='input w-full mb-3' placeholder={'+9936'} />
-                              <input type='password' name='password' value={data.password} onChange={handleData} required className='input w-full mb-3' placeholder={t('password')} />
+                              <label className="input cursor-pointer flex mb-3" htmlFor="password">
+                                <input type={passType} name='password' value={data.password} pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} onChange={handleData} required className='w-full outline-none' placeholder={t('password')} />
+                                {/* <input type={passConType} name='passwordConfirm' pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} value={data.passwordConfirm} required onChange={handleData} className="w-full outline-none" placeholder={t('confirmPassword') + '*'} /> */}
+                                <div onClick={() => setPassType(passType === 'text' ? 'password' : 'text')}>
+                                  {
+                                    passType === 'text' ? <Visibility /> : <VisibilityOff />
+                                  }
+                                </div>
+                              </label>
                             </div>
                         }
                         {

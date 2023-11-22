@@ -14,7 +14,7 @@ export const fetchDataNotifications = createAsyncThunk('data/fetchDataNotificati
   try {
     const { limit, offset } = getState().Notifications;
     const data = await AxiosUser(`/notifications?limit=${limit}&offset=${offset}`);
-    console.log(data);
+    console.log(data,'notification');
     return data;
   } catch (error) {
     console.log(error.response.data.message)

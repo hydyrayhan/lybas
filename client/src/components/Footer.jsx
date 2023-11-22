@@ -46,10 +46,10 @@ function Footer() {
                 <Link to="#" className="mb-0 md:mb-6 inline-block max-w-[160px]">
                   <img className='h-16 min-w-[150px]' src={Logo} alt="" />
                 </Link>
-                <p className="text-body-color mb-7 text-base hidden md:block">
+                {/* <p className="text-body-color mb-7 text-base hidden md:block">
                   Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
                   totam rem aperiam.
-                </p>
+                </p> */}
                 <p className="text-dark mt-5 md:mt-0 flex items-center text-sm font-medium">
                   <Link to='#' target="_blank" className="text-primary mr-[36px]">
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,10 +150,10 @@ function Footer() {
               <div className="w-full">
                 <h4 className="text-dark mb-2 md:mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('subcribeNewsLetter')}</h4>
                 <div className="mb-6 flex items-center">
-                  <p className="text-body-color mb-2 md:mb-7 text-base">
+                  {/* <p className="text-body-color mb-2 md:mb-7 text-base">
                     Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
                     totam rem aperiam.
-                  </p>
+                  </p> */}
                 </div>
                 <div className="footer-input-focus relative mt-2 rounded-md shadow-sm">
                   <form onSubmit={sendNewsletter}>

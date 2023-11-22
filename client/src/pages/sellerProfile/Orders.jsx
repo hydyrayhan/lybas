@@ -18,7 +18,7 @@ import { AxiosSeller } from '../../common/AxiosInstance';
 const columns = [
   {
     id: 'clientPhoneNumber',
-    label: 'clientPhoneNumber',
+    label: 'nameSimple',
     minWidth: 170,
     align: 'left',
   },
@@ -123,7 +123,7 @@ function Orders() {
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data"}>
                             <div className="name font-semibold">{order?.user_name?.split(' ')[0]}</div>
-                            <div className="phone-number text-gray-600">{order?.user_phone}</div>
+                            {/* <div className="phone-number text-gray-600">{order?.user_phone}</div> */}
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>

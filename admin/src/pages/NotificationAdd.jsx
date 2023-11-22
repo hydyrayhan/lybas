@@ -12,12 +12,14 @@ function NotificationAdd() {
   const dispatch = useDispatch();
   const [data,setData] = useState({
     name:'',
-    text:''
+    text:'',
+    link:"",
   });
   const sendData = async()=>{
     if(Valid(data)){
       try {
         const res = await AxiosCustom("/notifications/add",{method:"POST",data})
+        console.log(res);
         if(res.status === 201){
           dispatch(fetchDataNotification());
           navigate('/notification');
@@ -41,6 +43,10 @@ function NotificationAdd() {
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('nameSimple')}</label>
               <input name='name' value={data.name} onChange={(e)=>setData({...data,name:e.target.value})} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('nameSimple')} id='name' />
+            </div>
+            <div className="dress-input col-span-2">
+              <label className="label font-semibold block mb-2.5" htmlFor='name'>{t('link')}</label>
+              <input name='link' value={data.link} onChange={(e)=>setData({...data,link:e.target.value})} type="text" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('link')} id='name' />
             </div>
             <div className="dress-input col-span-2">
               <label className="label font-semibold block mb-2.5" htmlFor='text-tm'>{t('writeTheDetail')}</label>

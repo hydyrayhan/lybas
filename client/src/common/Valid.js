@@ -1,4 +1,4 @@
-export const Valid =(obj)=>{
+export const Valid = (obj) => {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = obj[key];
@@ -12,3 +12,5 @@ export const Valid =(obj)=>{
   }
   return true;
 }
+
+

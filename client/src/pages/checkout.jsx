@@ -145,7 +145,7 @@ function Checkout() {
       <div className='container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <Breadcrumb page1={{ text: 'checkout', link: '/checkout' }} />
         <h1 className="text-2xl lg:text-3xl font-bold tracking-tighter mb-3">{t('checkout')}</h1>
-        <p className="text-lybas-gray tracking-tighter lg:mb-7">{t('thereAre')} {instantOrder ? 1 : cartData?.length} {t('productsInYourCart')}</p>
+        <p className="text-lybas-gray tracking-tighter lg:mb-7">{(cartData?.length > 1 ? t('thereAre') : t('thereIs'))} {instantOrder ? 1 : cartData?.length} {cartData?.length > 1 ? t('productsInYourCart') : t('productInYourCart')}</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-7">
           <div className="order-2 lg:order-none">
             <h3 className="text-xl lg:text-2xl font-bold mb-5">{t('billingDetails')}</h3>

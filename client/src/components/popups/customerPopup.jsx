@@ -5,6 +5,7 @@ import axios from 'axios';
 import ip from '../../common/Config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function CustomerPopup({ open, setOpen, veri, setWritePhone, setIsSeller }) {
 
@@ -12,8 +13,10 @@ export default function CustomerPopup({ open, setOpen, veri, setWritePhone, setI
   const [errorText, setErrorText] = useState('');
   const [isSignIn, setIsSignIn] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+  const [passType, setPassType] = useState('password');
+  const [passConType, setPassConType] = useState('password');
   const [data, setData] = useState({
-    user_phone: '',
+    user_phone: '+993',
     password: '',
     passwordConfirm: '',
     user_checked_phone: '',
@@ -57,9 +60,9 @@ export default function CustomerPopup({ open, setOpen, veri, setWritePhone, setI
           setErrorText('')
           setOpen(false);
           toast.success(t('successRegister'), { position: 'bottom-right', autoClose: 1000 });
-          setInterval(()=>{
+          setInterval(() => {
             window.location.reload();
-          },1200)
+          }, 1200)
         }
       } catch (error) {
         console.log(error);
@@ -71,7 +74,7 @@ export default function CustomerPopup({ open, setOpen, veri, setWritePhone, setI
     setIsSignIn(bool);
     setErrorText('')
     setData({
-      user_phone: '',
+      user_phone: '+993',
       password: '',
       passwordConfirm: '',
       user_checked_phone: '',
@@ -123,16 +126,31 @@ export default function CustomerPopup({ open, setOpen, veri, setWritePhone, setI
                         </svg>
                       </Dialog.Title>
                       <div className="buttons flex">
-                        <button onClick={()=>handleSignIn(false)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
-                        <button onClick={()=>handleSignIn(true)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
+                        <button onClick={() => handleSignIn(false)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (!isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signUp')}</button>
+                        <button onClick={() => handleSignIn(true)} className={'w-1/2 border-2 py-2 rounded-lg font-bold ' + (isSignIn && 'border-lybas-blue text-lybas-blue')}>{t('signIn')}</button>
                       </div>
                       <div className="inputs py-3">
                         <form onSubmit={isSignIn ? sendDataIn : sendDataUp}>
                           <input type="text" name='user_phone' value={data.user_phone} onChange={handleData} pattern="\+9936\d{7}" required className='input w-full mb-3' placeholder='+993' />
-                          <input type="password" name='password' value={data.password} onChange={handleData} pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} title={t('minimum6Letter')} required className='input w-full mb-3' placeholder={t('password') + "*"} />
+                          {/* <input type="password" name='password' value={data.password} onChange={handleData} pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} title={t('minimum6Letter')} required className='input w-full mb-3' placeholder={t('password') + "*"} /> */}
+                          <label className="input cursor-pointer flex mb-3" htmlFor="password">
+                            <input type={passType} name='password' pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} value={data.password} required onChange={handleData} className="w-full outline-none" placeholder={t('password') + '*'} />
+                            <div onClick={() => setPassType(passType === 'text' ? 'password' : 'text')}>
+                              {
+                                passType === 'text' ? <Visibility /> : <VisibilityOff />
+                              }
+                            </div>
+                          </label>
                           {
                             !isSignIn &&
-                            <input type="password" name='passwordConfirm' pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} value={data.passwordConfirm} required onChange={handleData} className='input w-full mb-3' placeholder={t('confirmPassword') + '*'} />
+                            <label className="input cursor-pointer flex" htmlFor="password">
+                              <input type={passConType} name='passwordConfirm' pattern=".{6,}" onInvalid={(e) => e.target.setCustomValidity(t('minimum6Letter'))} onInput={(e) => e.target.setCustomValidity('')} value={data.passwordConfirm} required onChange={handleData} className="w-full outline-none" placeholder={t('confirmPassword') + '*'} />
+                              <div onClick={() => setPassConType(passConType === 'text' ? 'password' : 'text')}>
+                                {
+                                  passConType === 'text' ? <Visibility /> : <VisibilityOff />
+                                }
+                              </div>
+                            </label>
                           }
                           {
                             isSignIn &&

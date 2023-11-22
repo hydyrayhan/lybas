@@ -36,7 +36,6 @@ function Dress() {
   const isOrdered = async (id) => {
     try {
       const res = await AxiosUser("/is-ordered?productsizeId=" + id);
-      console.log(res, 'ordered');
       if (res?.data?.status === 1) {
         setOrderedData(res?.data?.order_product);
         setQuantity(res?.data?.order_product?.quantity)
@@ -61,7 +60,6 @@ function Dress() {
         }
         setData(res?.data?.data?.oneProduct)
         setCount(res?.data?.data.count)
-        console.log(res?.data?.data?.oneProduct, 123132)
         setLike(res?.data?.data?.oneProduct?.isLiked)
         setSimilarData(res?.data?.data?.recommendations);
         setSelectedSize({ size: res?.data?.data?.oneProduct?.product_sizes[0], index: 0 })
@@ -313,7 +311,7 @@ function Dress() {
               <div className="dress-page_left_content_sizes flex flex-wrap items-center mb-[15px]">
                 {
                   data?.product_sizes?.length > 0 && data?.product_sizes?.map((size, index) => (
-                    <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : 'border-lybas-light-gray') + (size?.stock ? '' : ' text-gray-500')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
+                    <button onClick={() => (handleSize(size, index))} key={index} className={"relative dress-page_left_content_sizes_size mr-4 mb-1 py-[6px] px-[12px] rounded-lg border " + (selectedSize.index === index ? 'border-lybas-blue text-lybas-blue' : (size?.stock ? 'border-gray-600' : 'border-gray-300')) + (size?.stock ? '' : ' text-gray-500')}> {/*border-lybas-blue text-lybas-blue  (active yagdayy)*/}
                       {size?.size?.size}
                       {
                         !size?.stock &&

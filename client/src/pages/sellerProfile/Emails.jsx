@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Search from './components/Search';
 import { t } from 'i18next';
 import Paper from '@mui/material/Paper';
@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDataEmails, setOffset, setLimit, setFilter, setSearch, setType } from '../../redux/features/Emails';
+import { fetchDataEmails, setOffset, setLimit, setSearch } from '../../redux/features/Emails';
 import { useNavigate } from 'react-router-dom';
 import { AxiosSeller } from '../../common/AxiosInstance';
 import ip from '../../common/Config';
@@ -82,24 +82,14 @@ function Emails() {
     isReadOff();
   }, []);
 
-  const setFilterData = async (filter) => {
-    await dispatch(setFilter(filter));
-    await dispatch(fetchDataEmails());
-  }
-
   const setSearchData = async (search) => {
     await dispatch(setSearch(search));
     await dispatch(fetchDataEmails());
   }
 
-  const setTypeData = async (type) => {
-    await dispatch(setType(type));
-    await dispatch(fetchDataEmails());
-  }
-
   return (
     <div className='dresses'>
-      <Search title='email' className='mt-5' setDate={setFilterData} setSearch={setSearchData} setWelayat={setTypeData} filter={[{ text: 'newsletter' }, { text: 'deliveryAbroad' }, { text: 'outStock' }, { text: 'newDressmaker' }]} />
+      <Search title='email' className='mt-5'  setSearch={setSearchData}  />
       <div className="dresses_table mt-5 shadow-lybas-1 rounded-lg overflow-hidden">
         <div className="relative overflow-x-auto">
           <Paper sx={{ width: '100%', overflow: 'hidden' }}>

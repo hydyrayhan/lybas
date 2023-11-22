@@ -165,7 +165,7 @@ function DressesAdd() {
   }
   return (
     <div className='dress-add'>
-      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={'Taze geler kurte'} />
+      <Breadcrumb page={'dresses'} pageLink={'/dresses'} name={t('addDress')} />
 
       <div className="dress-add_content flex justify-between mt-5">
         <div className="dress-add_content_left w-3/5 h-[70vh] overflow-auto rounded-lg border bg-white mr-5">

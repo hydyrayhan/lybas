@@ -3,7 +3,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import { AxiosUser } from '../common/AxiosInstance';
 import { t } from 'i18next';
 import { AppContext } from '../App'
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -19,8 +19,9 @@ import FeedbackPopup from '../components/popups/feedbackPopup';
 import Comment from '../components/Comment';
 import AccountOneAddress from '../components/AccountOneAddress';
 import MobileSlide from '../components/MobileSlide';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ip from '../common/Config';
+
 
 function Account() {
   // Accordion style
@@ -32,8 +33,11 @@ function Account() {
       display: 'none'
     }
   }));
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const type = queryParams.get('type');
   const { lang } = useContext(AppContext)
-  const [contentTitle, setContentTitle] = useState('myAccount'); //myAccount
+  const [contentTitle, setContentTitle] = useState(type ? type : 'myAccount'); //myAccount
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
@@ -112,7 +116,7 @@ function Account() {
       return (
         <div className="account_card_content col-span-2 p-7 flex flex-col justify-between">
           <div>
-            <div className="account_card_content_title text-xl font-semibold mb-10">{t(contentTitle)}</div>
+            <div className="account_card_content_title text-xl font-semibold mb-10">{t('profile')}</div>
             {/* my account card form */}
             <div className="account_card_content_form-account grid grid-cols-2 gap-5 md:pr-20">
               <div className="account_card_content_form-account_image flex">
@@ -133,18 +137,21 @@ function Account() {
                 }
                 <div className="image_actions flex flex-col justify-center">
                   <div className="image_actions_title font-semibold">{t('editPhoto')}</div>
-                  <div className="image_actoins_buttons flex">
-                    <label
-                      htmlFor={editAccount ? 'upload-image' : ''}
-                      className={'text-sm text-semibold text-lybas-blue mr-3 ' + (editAccount && 'cursor-pointer')}
-                    >
-                      {t('upload')}
-                    </label>
-                    <input onChange={handleImageAccount} className="hidden" type="file" id="upload-image" />
-                    <button disabled={!editAccount} className="text-sm text-semibold">
-                      {t('delete')}
-                    </button>
-                  </div>
+                  {
+                    editAccount &&
+                    <div className="image_actoins_buttons flex">
+                      <label
+                        htmlFor={editAccount ? 'upload-image' : ''}
+                        className={'text-sm text-semibold text-lybas-blue mr-3 ' + (editAccount && 'cursor-pointer')}
+                      >
+                        {t('upload')}
+                      </label>
+                      <input onChange={handleImageAccount} className="hidden" type="file" id="upload-image" />
+                      <button disabled={!editAccount} className="text-sm text-semibold">
+                        {t('delete')}
+                      </button>
+                    </div>
+                  }
                 </div>
               </div>
               <div className="free"></div>
@@ -307,8 +314,8 @@ function Account() {
           <div className="account_card_feedback_header text-xl font-bold mb-10">{t('myFeedback')}</div>
           <div className="account_card_feedback_feedbacks max-h-[60vh] md:max-h-[38vh] overflow-auto pr-3">
             {
-              myFeedback?.length > 0 && myFeedback.map((feed,index)=>(
-                <Comment data={feed} key={index}/>
+              myFeedback?.length > 0 && myFeedback.map((feed, index) => (
+                <Comment data={feed} key={index} />
               ))
             }
           </div>
@@ -321,6 +328,7 @@ function Account() {
 
   useEffect(() => {
     const token = localStorage.getItem('lybas-user-token')
+    
     if (token) {
       const user = JSON.parse(localStorage.getItem('lybas-user'));
       setAccountData({
