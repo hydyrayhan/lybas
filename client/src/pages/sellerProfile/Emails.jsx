@@ -17,20 +17,8 @@ import ip from '../../common/Config';
 
 const columns = [
   {
-    id: 'nameLocation',
-    label: 'nameLocation',
-    minWidth: 170,
-    align: 'left',
-  },
-  {
-    id: 'email',
-    label: 'email',
-    minWidth: 170,
-    align: 'left',
-  },
-  {
-    id: 'dressmakers',
-    label: 'dressmakers',
+    id: 'nameSimple',
+    label: 'nameSimple',
     minWidth: 170,
     align: 'left',
   },
@@ -134,12 +122,6 @@ function Emails() {
                               <div className="province text-lybas-gray text-sm">{t(mail.welayat)}</div>
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell align={'left'}>
-                          {mail.mail}
-                        </TableCell>
-                        <TableCell align={'left'}>
-                          {/* {mail.mail} */}
                         </TableCell>
                         <TableCell align={'left'}>
                           {mail.createdAt.split('T')[0]} / {mail.createdAt.split('T')[1].split('.')[0]}

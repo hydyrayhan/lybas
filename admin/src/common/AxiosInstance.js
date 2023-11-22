@@ -1,7 +1,7 @@
 import axios, { AxiosInstance as Axios } from "axios";
 import { api as url } from './Config';
 
-export const BASE_URL = url + "admin/";
+export const BASE_URL = url + "chief/";
 const token = localStorage.getItem("token");
 
 const AxiosInstance = axios.create({
