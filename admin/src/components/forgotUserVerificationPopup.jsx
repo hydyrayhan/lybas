@@ -11,7 +11,7 @@ export default function ForgotUserVerificationPopup({ open, setOpen, data,setOpe
 
   const sendData = async () => {
     try {
-      var res = await axios.post(api + 'admin/check-code', {user_phone:data?.user_phone,code:verification});
+      var res = await axios.post(api + 'chief/check-code', {user_phone:data?.user_phone,code:verification});
       if (res.status === 200) {
         setOpen(false);
         setErrorText('')

@@ -15,7 +15,7 @@ export default function WritePhonePopup({ open, setOpen, setOpenVeri, setData2, 
     e.preventDefault();
     if (data.user_phone) {
       try {
-        var res = await axios.patch(api + 'admin/forgot-password', { user_phone: data.user_phone });
+        var res = await axios.patch(api + 'chief/forgot-password', { user_phone: data.user_phone });
         console.log(res);
         if (res.status === 200) {
           setErrorText('')

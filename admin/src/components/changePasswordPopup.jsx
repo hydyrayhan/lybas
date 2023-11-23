@@ -25,7 +25,7 @@ export default function ChangePasswordPopup({ open, setOpen, phone_number, isSel
     e.preventDefault();
     const data = { ...data2, user_checked_phone: phone_number.user_phone }
     try {
-      var res = await axios.patch(api + 'admin/forgot-password', data);
+      var res = await axios.patch(api + 'chief/forgot-password', data);
       if (res.status === 200) {
         localStorage.setItem('lybas-token',res.data.token)
         navigate('/')

@@ -60,7 +60,7 @@ function BannerAdd() {
       name: event.target.files[0].name,
       size: convertBytesToKBorMB(event.target.files[0].size),
     })
-    axios.post(api + 'admin/banners/upload-image', formData, {
+    axios.post(api + 'chief/banners/upload-image', formData, {
       onUploadProgress: (progressEvent) => {
         const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
         setProgress(progress);
@@ -100,7 +100,7 @@ function BannerAdd() {
     }
   }
   const deleteImage = () => {
-    axios.post(api + 'admin/banners/delete-image/' + data.image).then((response) => {
+    axios.post(api + 'chief/banners/delete-image/' + data.image).then((response) => {
       setFile(null)
     })
       .catch((error) => {
