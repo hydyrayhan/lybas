@@ -86,7 +86,7 @@ function Sidebar() {
             </div>
             <div className='w-full flex justify-between'>
               <div className="flex items-start flex-col">
-                <h3 className='text-xl font-semibold mb-1'>{t('hello')} {data?.name}</h3>
+                <h3 className='text-xl font-semibold mb-1'>{t('hi')} {data?.name}</h3>
                 <p className='text-sm text-lybas-gray'>{t('welcomeDashboard')}</p>
               </div>
               <div className='flex items-center'>

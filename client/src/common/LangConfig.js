@@ -46,7 +46,7 @@ const resources = {
       commentPageOneComment:"comment",
       commentPageMoreComment:"comments",
       similarDresses: "Similar goods",
-      addToCard: "Add to card",
+      addToCard: "Add to cart",
       numbers: "Quantity",
       total: "Total",
       order: "Order it",
@@ -86,6 +86,7 @@ const resources = {
       user: "User",
       whoWillUseWebsiteAs: "Do you want to be our customer or atelier/dressmaker?",
       customer: "Customer",
+      customer2: "Customer",
       dressmaker: "Atelier/Dressmaker",
       hello: "Hello",
       welcomeDashboard: "Welcome back to dashboard",
@@ -294,7 +295,7 @@ const resources = {
                               <li>After you complete your order on our website, our operator will call you to confirm the order.</li>
                               <li>The delivery service is carried out to the address and telephone number you specified. </li>
                               <li>If the order is not confirmed, then the order is not registered and is not executed. To confirm your order, make sure you can receive a call at the phone number you provided. Also, please check that the address you provided is correct.</li>
-                              <li>Payment is made after you check and accept the order. The courier's payment document indicates the amount of your payment. Delivery amount will be added to your total amount of the product due. Payment is made in cash in national currency. Accepted and paid for goods cannot be returned. </li>,
+                              <li>Payment is made after you check and accept the order. The courier's payment document indicates the amount of your payment. Delivery amount will be added to your total amount of the product due. Payment is made in cash in national currency. Accepted and paid for goods cannot be returned. </li>
                               <li>If the owner of the order cannot be found within 24 hours after confirmation of the order, then the order is cancelled.</li>`,
     },
   },
@@ -383,9 +384,10 @@ const resources = {
       doYouWantToLogout: "Вы действительно хотите выйти из системы?",
       ok: "Ок",
       buyAgain: "Buy again",
-      user: "User",
+      user: "Пользователь",
       whoWillUseWebsiteAs: "Хотите стать нашим клиентом или ателье/портнихой?",
       customer: "Клиентом",
+      customer2: "Клиент",
       dressmaker: "Ателье/Портниха",
       hello: "Привет",
       welcomeDashboard: "Добро пожаловать обратно на панель управления",
@@ -541,8 +543,8 @@ const resources = {
       stars: "звезды",
       star: "звезда",
       location: "Местонахождение",
-      sortBy:"Sort by",
-      all:"Hemmesi",
+      sortBy:"Сортировать по",
+      all:"Все",
       acceptedYourSignUp:"Мы получили ваш запрос на регистрацию",
       hi:"Здравствуйте",
       yourOrderConfirmedNotifStart:"Отличная новость! Ваш заказ ",
@@ -687,9 +689,10 @@ const resources = {
       doYouWantToLogout: "Hakykatdan çykmak isleýärsiňizmi?",
       ok: "Ok",
       buyAgain: "Buy again", //
-      user: "User", //
+      user: "Ulanyjy", //
       whoWillUseWebsiteAs: "Müşderimiz hökmündemi ýa-da atelýe /tikinçi hökmünde agza bolmak isleýärsiňiz? Birini saýlaň?",
       customer: "Müşderi",
+      customer2: "Müşderi",
       dressmaker: "Atelýe / Tikinçi",
       hello: "Salam",
       welcomeDashboard: "Hoş geldiňiz",
@@ -701,6 +704,7 @@ const resources = {
       thereAre: "Sebetiňizde ",
       thereIs: "Sebetiňizde ",
       productsInYourCart: " haryt bar",
+      productInYourCart: " haryt bar",
       billingDetails: "Eltip bermek üçin maglumatlar",
       firstName: "Adyňyz",
       lastName: "Familiýaňyz",
@@ -844,7 +848,7 @@ const resources = {
       stars: "ýyldyz",
       star: "ýyldyz",
       location: "Ýeri",
-      sortBy:"Sort by",
+      sortBy:"Tertibi",
       all:"Hemmesi",
       acceptedYourSignUp:"Siziň agza bolmak haýyşyňyzy aldyk",
       hi:"Salam",

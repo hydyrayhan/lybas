@@ -26,15 +26,8 @@ const Cart = createSlice({
   name: 'Cart',
   initialState,
   reducers: {
-    setAddToCart: (state, action) => {
-      console.log(action.payload,'addToCart')
-      // state.limit = action.payload;
-      // state.offset = 0; // Reset the offset when changing the limit
-    },
-    setRemoveToCart: (state, action) => {
-      console.log(action.payload,'removeToCart')
-      // state.limit = action.payload;
-      // state.offset = 0; // Reset the offset when changing the limit
+    setCartEmpty: (state, action) => {
+      state.data = [];
     },
   },
   extraReducers: (builder) => {
@@ -55,5 +48,5 @@ const Cart = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter } = Cart.actions;
+export const { setLimit, setOffset, setSearch, setFilter,setCartEmpty } = Cart.actions;
 export default Cart.reducer;

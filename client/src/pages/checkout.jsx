@@ -167,7 +167,7 @@ function Checkout() {
               }
             </div>
             <button disabled={addresses?.length > 3} onClick={() => setAddAddressPopupOpen(true)} className={"text-white rounded-lg py-2 px-10 mt-5 mb-10 " + (addresses?.length > 3 ? 'bg-gray-400' : 'bg-lybas-blue')}>{t('addAddress')}</button>
-            <div className='orderLaw' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('orderLaw')) }}></div>
+            <div className='orderLaw' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('deliveryAndPaymentBody')) }}></div>
           </div>
           <div className="order-1 lg:order-none mb-5 lg:mb-0">
             <h3 className="text-xl lg:text-2xl font-bold mb-5">{t('yourOrder')}</h3>

@@ -2,14 +2,19 @@ import { Fragment, useRef, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { t } from 'i18next';
 import { useNavigate } from 'react-router-dom';
+import { setCartEmpty } from '../redux/features/Cart';
+import { useDispatch } from 'react-redux';
+import { setNotificationEmpty } from '../redux/features/Notifications';
 
 export default function LogoutPopup({ open, setOpen }) {
-
+  const dispatch = useDispatch();
   const cancelButtonRef = useRef(null)
   const navigate = useNavigate();
   const logout = ()=>{
     localStorage.setItem('lybas-user-token','');
     localStorage.setItem('lybas-user','');
+    dispatch(setCartEmpty());
+    dispatch(setNotificationEmpty());
     navigate('/')
     setOpen(false);
   }

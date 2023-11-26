@@ -14,7 +14,6 @@ export const fetchDataNotifications = createAsyncThunk('data/fetchDataNotificati
   try {
     const { limit, offset } = getState().Notifications;
     const data = await AxiosUser(`/notifications?limit=${limit}&offset=${offset}`);
-    console.log(data,'notification');
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -33,6 +32,10 @@ const Notifications = createSlice({
   name: 'Notifications',
   initialState,
   reducers: {
+    setNotificationEmpty: (state, action) => {
+      state.data = [];
+      state.count = 0;
+    },
     setLimit: (state, action) => {
       state.limit = action.payload;
       state.offset = 0; // Reset the offset when changing the limit
@@ -63,5 +66,5 @@ const Notifications = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch } = Notifications.actions;
+export const { setLimit, setOffset, setSearch, setNotificationEmpty } = Notifications.actions;
 export default Notifications.reducer;

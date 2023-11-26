@@ -31,7 +31,6 @@ function Sidebar() {
   useEffect(() => {
     socket.connect();
     const path = window.location.pathname.split('/')[1]
-    console.log(path);
     if(path === 'orders'){
       setNotReadOrderLocal(0)
     }
@@ -50,8 +49,10 @@ function Sidebar() {
         await dispatch(fetchDataOrders())
       } else {
         if(path !== 'orders'){
+          console.log(55);
           setNotReadOrderLocal(res);
         } else{
+          console.log(58);
           await dispatch(fetchDataOrders())
         }
       }

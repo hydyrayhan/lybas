@@ -48,10 +48,9 @@ const tableHeader = ['clientPhoneNumber', 'product', 'number', 'dateTime', 'stat
 function Dashboard() {
   return (
     <div className='grid grid-cols-12 gap-5'>
-      <StatisticaBox icon={icon1} name={'totalBalance'} date={'thisMonth'} price={50357} percent={50} up={true} />
-      <StatisticaBox icon={icon2} name={'users'} date={'thisMonth'} price={50357} percent={5} up={false} />
-      <StatisticaBox icon={icon3} name={'orders'} date={'thisMonth'} price={507} percent={0} up={true} />
-      <StatisticaBox icon={icon4} name={'dressmakers'} date={'thisMonth'} price={5357} percent={0} up={true} />
+      <StatisticaBox icon={icon1} name={'totalBalance'} date={'thisMonth'} price={0} percent={0} up={true} />
+      {/* <StatisticaBox icon={icon2} name={'users'} date={'thisMonth'} price={50357} percent={5} up={false} /> */}
+      <StatisticaBox icon={icon3} name={'orders'} date={'thisMonth'} price={-1}  count={0} percent={0} up={true} />
 
       <Graphic className='col-span-12' />
 

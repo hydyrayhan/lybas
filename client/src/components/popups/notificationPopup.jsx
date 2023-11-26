@@ -74,7 +74,7 @@ function NotificationPopup({ open, setOpen }) {
               return (
                 <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
                   <div className={"notification_list_content text-sm " + (toggle === index ? '' : 'line-clamp-3')}>
-                    <div className='font-semibold mb-3'>{`${t('hello')} ${user?.username ? user?.username?.split(' ')[0] : ''}`}</div>
+                    <div className='font-semibold mb-3'>{`${t('hi')} ${user?.username ? user?.username?.split(' ')[0] : ''}`}</div>
                     <div className='font-semibold mb-3'>{t('waitingNotif1') + noti?.text + t('waitingNotif2')}</div>
                     <div className={'text-lybas-gray mb-3'}>{t('waitingNotif3')}</div>
                     <div>{t('waitingNotif4')}</div>
@@ -97,7 +97,6 @@ function NotificationPopup({ open, setOpen }) {
                 </div>
               )
             } else if (noti?.type === 'public') {
-              console.log(noti);
               return (
                 <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
                   <div className="notification_list_content text-sm">
@@ -121,9 +120,63 @@ function NotificationPopup({ open, setOpen }) {
               if (noti?.type === 'accepted') {
                 return (
                   <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
+                    <div className={"notification_list_content text-sm " + (toggle === index ? '' : 'line-clamp-3')}>
+                      <div className='font-semibold mb-3'>{`${t('hi')} ${user?.username ? user?.username?.split(' ')[0] : ''}`}</div>
+                      <div className='font-semibold mb-3'>{t('yourOrderConfirmedNotifStart') + noti?.text + t('yourOrderConfirmedNotifEnd')}</div>
+                      <div className={'text-lybas-gray mb-3'}>{t('yourOrderConfirmedNotif2')}</div>
+                      <div className={'text-lybas-gray'}>{t('yourOrderConfirmedNotif3')}</div>
+                    </div>
+                    <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
+                  </div>
+                )
+              } else if (noti?.type === 'register') {
+                return (
+                  <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
+                    <div className={"notification_list_content text-sm " + (toggle === index ? '' : 'line-clamp-3')}>
+                      <div className='font-semibold mb-3'>{`${t('welcomeAboardNotif')}`}</div>
+                      <div className='font-semibold mb-3'>{t('welcomeAboardNotif2')}</div>
+                      <div onClick={() => setOpen(false)} className={'text-lybas-gray mb-3'}>{t('welcomeAboardNotif3')} <Link className='text-lybas-blue' to={'/dresses'}>{t('link')}</Link></div>
+                      <div className={'text-lybas-gray mb-3'}>{t('welcomeAboardNotif4')}</div>
+                      <div>{t('welcomeAboardNotif5')}</div>
+                    </div>
+                    <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
+                  </div>
+                )
+              } else if (noti?.type === 'waiting') {
+                return (
+                  <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
+                    <div className={"notification_list_content text-sm " + (toggle === index ? '' : 'line-clamp-3')}>
+                      <div className='font-semibold mb-3'>{`${t('hi')} ${user?.username ? user?.username?.split(' ')[0] : ''}`}</div>
+                      <div className='font-semibold mb-3'>{t('waitingNotif1') + noti?.text + t('waitingNotif2')}</div>
+                      <div className={'text-lybas-gray mb-3'}>{t('waitingNotif3')}</div>
+                      <div>{t('waitingNotif4')}</div>
+                    </div>
+                    <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
+                  </div>
+                )
+              } else if (noti?.type === 'rate') {
+                return (
+                  <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
+                    <div className={"notification_list_content text-sm " + (toggle === index ? '' : 'line-clamp-3')}>
+                      <div className='font-semibold mb-3'>{`${t('hi')} ${user?.username ? user?.username?.split(' ')[0] : ''}`}</div>
+                      <div className='font-semibold mb-2'>{t('rateNotif1')}</div>
+                      <div onClick={() => { setOpen(false) }}>
+                        <Link to={'/account?type=orders'} className='text-lybas-blue mb-2 block'>{t('goOrder')}</Link>
+                      </div>
+                      <div>{t('rateNotif2')}</div>
+                    </div>
+                    <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
+                  </div>
+                )
+              } else if (noti?.type === 'public') {
+                return (
+                  <div onClick={() => toggleFunc(index)} key={index} className="notification_list flex justify-between p-4 hover:bg-gray-200 cursor-pointer">
                     <div className="notification_list_content text-sm">
-                      <div className='font-semibold'>{noti.name === 'order' ? t('orderNotification') : noti.name}</div>
-                      <div className={'text-lybas-gray ' + (toggle === index ? '' : 'line-clamp-2')}>{noti.name === 'order' ? t('orderNotificationBody') : noti.text}</div>
+                      <div className='font-semibold mb-3'>{noti.name === 'order' ? t('orderNotification') : noti.name}</div>
+                      <div className={'text-lybas-gray break-all ' + (toggle === index ? '' : 'line-clamp-2')}>{noti.name === 'order' ? t('orderNotificationBody') : noti.text}</div>
+                      <div onClick={() => setOpen(false)}>
+                        <Link to={noti?.link} className='text-lybas-blue font-semibold'>{t('link')}</Link>
+                      </div>
                     </div>
                     <div className="notification_list_date ml-3 min-w-[100px]">{noti?.createdAt?.split('T')[0]}</div>
                   </div>

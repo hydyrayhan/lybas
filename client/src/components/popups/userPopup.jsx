@@ -49,14 +49,14 @@ export default function UserPopup({ open, setOpen, dressmaker, user }) {
                 <div className="px-10 pt-3 pb-7 grid grid-cols-2 gap-5">
                   <button
                     type="button"
-                    className=" rounded-md  py-2 text-sm text-lybas-blue hover:bg-gray-100 shadow-lybas-1"
+                    className="rounded-md bg-lybas-blue py-2 text-sm text-white hover:text-lybas-blue hover:shadow-lybas-1 hover:bg-white" //text-lybas-blue shadow-lybas-1 bg-white
                     onClick={()=>(setOpen(false), user(true))}
                   >
-                    {t('customer')}
+                    {t('customer2')}
                   </button>
                   <button
                     type="button"
-                    className="rounded-md bg-lybas-blue  py-2 text-sm text-white hover:bg-blue-800"
+                    className="rounded-md bg-lybas-blue py-2 text-sm text-white hover:text-lybas-blue hover:shadow-lybas-1 hover:bg-white"
                     onClick={()=>(setOpen(false), dressmaker(true))}
                   >
                     {t('dressmaker')}

@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import React from 'react';
 
-function StatisticaBox({ icon, name, date, price, percent, up }) {
+function StatisticaBox({ icon, name, date, price, percent, up, count }) {
   return (
     <div className='statistica-box shadow-lybas-1 p-5 rounded-lg bg-white w-full col-span-3'>
       <div className="statistica-box_top flex flex-wrap">
@@ -14,7 +14,12 @@ function StatisticaBox({ icon, name, date, price, percent, up }) {
         </div>
       </div>
       <div className="statistica-box_bottom flex flex-wrap items-end my-5">
-        <div className='font-bold text-2xl mr-2'>{price}TMT</div>
+        {
+          price > -1 ?
+            <div className='font-bold text-2xl mr-2'>{price}TMT</div>
+            :
+            <div className='font-bold text-2xl mr-2'>{count}</div>
+        }
         <div className='flex items-center'>
           <span className={'text-sm ' + (up ? 'text-green-500' : 'text-red-500')}>{percent}%</span>
           {
@@ -29,7 +34,7 @@ function StatisticaBox({ icon, name, date, price, percent, up }) {
         </div>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div className={"bg-blue-600 h-2.5 rounded-full "+(percent ? `w-[${percent}%]` : 'w-0')} ></div>
+        <div className={"bg-blue-600 h-2.5 rounded-full " + (percent ? `w-[${percent}%]` : 'w-0')} ></div>
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ export default function TotalSpent({ className }) {
 		<div className={"bg-white p-5 shadow-lybas-1 rounded-lg " + className}>
 			<div className="graphic-header flex justify-between items-center">
 				<div className="graphic-header_money">
-					<div className="text-3xl font-bold">50 357 TMT</div>
+					<div className="text-3xl font-bold">0 TMT</div>
 					<div className="text-lybas-gray">{t('overalRevenue')}</div>
 				</div>
 				<div className="graphic-header_date relative border rounded-lg">
