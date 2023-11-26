@@ -17,16 +17,17 @@ function Search() {
       const user = localStorage.getItem('lybas-user-token');
       if (user) {
         var res = await AxiosUser('/products/search?keyword=' + keyword)
-        if(res.status === 201) setData(res.data)
+        if(res.status === 200) setData(res.data)
       } else {
         var res = await AxiosCustom('/products/search?keyword=' + keyword);
-        if (res.status === 201) {
+        if (res.status === 200) {
           setData(res.data);
         }
       }
     } catch (error) {
       console.log(error);
     }
+    console.log(res.data);
   }
   useEffect(() => {
     getData();

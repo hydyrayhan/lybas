@@ -3,7 +3,7 @@ import React from 'react';
 
 function StatisticaBox({ icon, name, date, price, percent, up, count }) {
   return (
-    <div className='statistica-box shadow-lybas-1 p-5 rounded-lg bg-white w-full col-span-3'>
+    <div className='statistica-box shadow-lybas-1 p-5 rounded-lg bg-white w-full col-span-6'>
       <div className="statistica-box_top flex flex-wrap">
         <div className="statistica-box_top_icon p-3 bg-lybas-light-blue rounded-lg mr-3">
           {icon}

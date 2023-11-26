@@ -12,6 +12,7 @@ import Comments from '../features/Comments';
 import Blogs from '../features/Blogs';
 import Notification from '../features/Notification';
 import Emails from '../features/Emails';
+import Statistics from '../features/Statistics'
 
 export const store = configureStore({
   reducer:{
@@ -26,7 +27,8 @@ export const store = configureStore({
     Comments,
     Blogs,
     Notification,
-    Emails
+    Emails,
+    Statistics
   },
   middleware:(getDefaultMiddleware)=>
     getDefaultMiddleware({
