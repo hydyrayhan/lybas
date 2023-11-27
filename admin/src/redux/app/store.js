@@ -13,6 +13,7 @@ import Blogs from '../features/Blogs';
 import Notification from '../features/Notification';
 import Emails from '../features/Emails';
 import Statistics from '../features/Statistics'
+import DayStatistics from '../features/DayStatistics'
 
 export const store = configureStore({
   reducer:{
@@ -28,7 +29,8 @@ export const store = configureStore({
     Blogs,
     Notification,
     Emails,
-    Statistics
+    Statistics,
+    DayStatistics,
   },
   middleware:(getDefaultMiddleware)=>
     getDefaultMiddleware({

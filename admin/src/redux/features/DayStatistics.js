@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosCustom } from '../../common/AxiosInstance.js'
 
 const initialState = {
-  data: {},
+  data: [],
   loading: false,
   error: null,
   limit: 5,
@@ -11,9 +11,11 @@ const initialState = {
   search: '',
   filter: {}
 };
-export const fetchDataStatistics = createAsyncThunk('data/fetchDataStatistics', async (_, { getState }) => {
+export const fetchDataDayStatistics = createAsyncThunk('data/fetchDataDayStatistics', async (_, { getState }) => {
+  const { limit, offset, filter, search } = getState().Statistics;
   try {
-    const data = await AxiosCustom(`/stats`);
+    const data = await AxiosCustom(`/orders/daily`);
+    console.log(data,'statisticaDay');
     return data;
   } catch (error) {
     console.log(error.response.data.message)
@@ -27,8 +29,8 @@ export const fetchDataStatistics = createAsyncThunk('data/fetchDataStatistics', 
 });
 
 // Create a slice using Redux Toolkit
-const Statistics = createSlice({
-  name: 'Statistics',
+const DayStatistics = createSlice({
+  name: 'DayStatistics',
   initialState,
   reducers: {
     setLimit: (state, action) => {
@@ -47,15 +49,16 @@ const Statistics = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDataStatistics.pending, (state) => {
+      .addCase(fetchDataDayStatistics.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDataStatistics.fulfilled, (state, action) => {
+      .addCase(fetchDataDayStatistics.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = {...action?.payload?.data};
+        console.log(action?.payload?.data,'bla');
+        state.data = action?.payload?.data;
       })
-      .addCase(fetchDataStatistics.rejected, (state, action) => {
+      .addCase(fetchDataDayStatistics.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'An error occurred';
       });
@@ -63,5 +66,5 @@ const Statistics = createSlice({
 });
 
 // Export the actions and reducer
-export const { setLimit, setOffset, setSearch, setFilter } = Statistics.actions;
-export default Statistics.reducer;
+export const { setLimit, setOffset, setSearch, setFilter } = DayStatistics.actions;
+export default DayStatistics.reducer;

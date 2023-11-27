@@ -9,7 +9,6 @@ const initialState = {
 export const fetchDataStatistics = createAsyncThunk('data/fetchDataStatistics', async (_, { getState }) => {
   try {
     const data = await AxiosSeller(`/stats`);
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error.response.data.message)

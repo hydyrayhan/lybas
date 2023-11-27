@@ -34,7 +34,7 @@ function StatisticaBox({ icon, name, date, price, percent, up, count }) {
         </div>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div className={"bg-blue-600 h-2.5 rounded-full " + (percent ? `w-[${percent}%]` : 'w-0')} ></div>
+        <div className={"bg-blue-600 h-2.5 rounded-full"} style={{width:(percent ? (percent > 100 ? `100%` : `${percent}%`) : 0)}}></div>
       </div>
     </div>
   );
