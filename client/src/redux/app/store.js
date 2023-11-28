@@ -17,6 +17,7 @@ import DressesUser from '../features/DressesUser';
 import BlogsUser from '../features/BlogsUser';
 import DressmakersUser from '../features/DressmakersUser';
 import Statistics from '../features/Statistics';
+import DayStatistics from '../features/DayStatistics';
 
 export const store = configureStore({
   reducer: {
@@ -39,6 +40,7 @@ export const store = configureStore({
     Orders,
     Comments,
     Statistics,
+    DayStatistics
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

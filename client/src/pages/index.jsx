@@ -24,6 +24,7 @@ function Index() {
   const [sale, setSale] = useState([]);
   const [dressmakers, setDressmakers] = useState([])
   const [blogs, setBlogs] = useState([]);
+  const [rec, setRec] = useState([]);
 
 
   useEffect(() => {
@@ -31,13 +32,17 @@ function Index() {
     const getData = async () => {
       try {
         if (localStorage.getItem('lybas-user-token')) {
+          const res = await AxiosUser("/products?sort=3&limit=1")
           const res2 = await AxiosUser("/products?sort=2&limit=5")
           const res3 = await AxiosUser("/products?sort=4&limit=5")
+          setRec(res.data)
           setPopular(res2.data)
           setSale(res3.data)
         } else {
+          const res = await AxiosCustom("/products?sort=3&limit=1")
           const res2 = await AxiosCustom("/products?sort=2&limit=5")
           const res3 = await AxiosCustom("/products?sort=4&limit=5")
+          setRec(res.data)
           setPopular(res2.data)
           setSale(res3.data)
         }
@@ -59,20 +64,23 @@ function Index() {
         <Banner />
       </Suspense>
       {/* Recommended */}
-      <Suspense fallback={<BigProductsSkeleton />}>
-        <div className="recommended-products">
-          <div className="section-header">
-            <div className="section-header_name text-lg">{t('recommendedDress')}</div>
-            <Link to="/dresses?type=3" className="section-header_link flex items-center">
-              <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
-              </svg>
-            </Link>
+      {
+        rec.length > 0 &&
+        <Suspense fallback={<BigProductsSkeleton />}>
+          <div className="recommended-products">
+            <div className="section-header">
+              <div className="section-header_name text-lg">{t('recommendedDress')}</div>
+              <Link to="/dresses?type=3" className="section-header_link flex items-center">
+                <span className='mr-2 text-lybas-blue hidden sm:block'>{t('viewAll')}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+                </svg>
+              </Link>
+            </div>
+            <BigProductsGroup />
           </div>
-          <BigProductsGroup />
-        </div>
-      </Suspense>
+        </Suspense>
+      }
 
       {/* Most Popular */}
       {

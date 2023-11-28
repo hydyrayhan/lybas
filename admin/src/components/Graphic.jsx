@@ -19,7 +19,6 @@ export default function TotalSpent({ className }) {
 		endDate: new Date().setMonth(11)
 	});
 	const [days, setDays] = useState();
-	const [options, setOptions] = useState();
 	const data = useSelector((state) => state?.DayStatistics?.data);
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -35,12 +34,17 @@ export default function TotalSpent({ className }) {
 
 	const setDaysToStatistics = () => {
 		const arr = []
-		// for (let i = 0; i < data?.length; i++) {
-		// 	arr.push(i + 1)
-		// }
+		for (let i = 0; i < data?.length; i++) {
+			// if(data[i] === undefined){
+			// 	arr.push(0);
+			// }else{
+			// 	arr.push(data[i].income)
+			// }
+			arr.push(data[i].income)
+		}
 		setDays([{
 			name: 'TMT',
-			data: ['1321TMT', '323TMT', '123TMT', 66, 49, 68, '2321TMT', '223TMT', '523TMT', 66, 49, 68, '321TMT', '123TMT', '23TMT', 66, 49, 68, '2321TMT', '123TMT', '12TMT', 66, 49, 68, '2321TMT', '123TMT', '123TMT', 66, 49, 68]
+			data: [...arr]
 		}])
 	}
 
