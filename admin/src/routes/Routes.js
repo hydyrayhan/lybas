@@ -36,18 +36,18 @@ const RoutesAdmin = () => {
   const [token, setToken] = useState(false);
 
   const checkToken = async () => {
-    if (location.pathname !== '/login') {
+    if (location.pathname !== '/super/login') {
       if (localStorage.getItem('lybas-token')) {
         setToken(true);
       }
       else {
         setToken(false);
-        navigate('/login')
+        navigate('/super/login')
       }
     } else {
       if (localStorage.getItem('lybas-token')) {
         setToken(true);
-        navigate('/')
+        navigate('/super')
       } else {
         setToken(false);
       }
@@ -60,39 +60,39 @@ const RoutesAdmin = () => {
   if (!token) {
     return (
       <Routes>
-        <Route path='/login' element={<Login />} />
+        <Route path='/super/login' element={<Login />} />
       </Routes>
     )
   }
   return (
 
     <Routes>
-      <Route path="/" element={<Sidebar />}>
+      <Route path="/super" element={<Sidebar />}>
         <Route index element={<Dashboard />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/orders/:id" element={<OneOrder />} />
-        <Route path="/dressmakers" element={<Dressmakers />} />
-        <Route path="/dressmakers/add" element={<DressmakersAdd />} />
-        <Route path="/dressmakers/:id" element={<DressmakersEdit />} />
-        <Route path="/dresses" element={<Dresses />} />
-        <Route path="/dresses/add" element={<DressesAdd />} />
-        <Route path="/dresses/:id" element={<DressesEdit />} />
-        <Route path="/comments" element={<SellerComments />} />
-        <Route path="/comments/:id" element={<CommentOne />} />
-        <Route path="/emails" element={<Emails />} />
-        <Route path="/emails/:id/:type" element={<EmailOne />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/filter" element={<Filter />} />
-        <Route path="/filter/:type" element={<FilterEdit />} />
-        <Route path="/banner" element={<Banner />} />
-        <Route path="/banner/add" element={<BannerAdd />} />
-        <Route path="/banner/:id" element={<BannerEdit />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/add" element={<BlogAdd />} />
-        <Route path="/blog/:id" element={<BlogEdit />} />
-        <Route path="/notification" element={<Notification />} />
-        <Route path="/notification/add" element={<NotificationAdd />} />
-        <Route path="/notification/:id" element={<NotificationEdit />} />
+        <Route path="/super/orders" element={<Orders />} />
+        <Route path="/super/orders/:id" element={<OneOrder />} />
+        <Route path="/super/dressmakers" element={<Dressmakers />} />
+        <Route path="/super/dressmakers/add" element={<DressmakersAdd />} />
+        <Route path="/super/dressmakers/:id" element={<DressmakersEdit />} />
+        <Route path="/super/dresses" element={<Dresses />} />
+        <Route path="/super/dresses/add" element={<DressesAdd />} />
+        <Route path="/super/dresses/:id" element={<DressesEdit />} />
+        <Route path="/super/comments" element={<SellerComments />} />
+        <Route path="/super/comments/:id" element={<CommentOne />} />
+        <Route path="/super/emails" element={<Emails />} />
+        <Route path="/super/emails/:id/:type" element={<EmailOne />} />
+        <Route path="/super/profile" element={<Profile />} />
+        <Route path="/super/filter" element={<Filter />} />
+        <Route path="/super/filter/:type" element={<FilterEdit />} />
+        <Route path="/super/banner" element={<Banner />} />
+        <Route path="/super/banner/add" element={<BannerAdd />} />
+        <Route path="/super/banner/:id" element={<BannerEdit />} />
+        <Route path="/super/blog" element={<Blog />} />
+        <Route path="/super/blog/add" element={<BlogAdd />} />
+        <Route path="/super/blog/:id" element={<BlogEdit />} />
+        <Route path="/super/notification" element={<Notification />} />
+        <Route path="/super/notification/add" element={<NotificationAdd />} />
+        <Route path="/super/notification/:id" element={<NotificationEdit />} />
       </Route>
     </Routes>
   );

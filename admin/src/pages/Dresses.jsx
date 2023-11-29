@@ -47,6 +47,12 @@ const columns = [
     align: 'left',
   },
   {
+    action: 'recommendedDress',
+    label: 'recommendedDress',
+    minWidth: 150,
+    align: 'right'
+  },
+  {
     id: 'edit',
     label: 'edit',
     minWidth: 100,
@@ -57,7 +63,7 @@ const columns = [
     label: 'action',
     minWidth: 100,
     align: 'right'
-  }
+  },
 ];
 
 function Dresses() {
@@ -106,6 +112,16 @@ function Dresses() {
   const changeIsActive = async (active, id) => {
     try {
       await AxiosCustom('/products/isActive', { method: "POST", data: { isActive: active, id } })
+      await dispatch(fetchDataDresses());
+    } catch (error) {
+      alert(error)
+    }
+  }
+  const changeIsRecommended = async (active, id) => {
+    console.log(active,id);
+    try {
+      const res = await AxiosCustom('/products/isRecommended', { method: "POST", data: { recommended: active, id } })
+      console.log(res,12312);
       await dispatch(fetchDataDresses());
     } catch (error) {
       alert(error)
@@ -187,7 +203,22 @@ function Dresses() {
                           {market.createdAt.split('T')[0]} / {market.createdAt.split('T')[1].split('.')[0]}
                         </TableCell>
                         <TableCell align={'right'}>
-                          <button onClick={() => navigate('/dresses/' + market.id)}>
+                          <div className='flex justify-end items-end'>
+                            <div
+                              className={"md:w-10 md:h-5 w-10 h-4 flex items-center rounded-full p-1 cursor-pointer " + (market.recommended ? 'bg-blue-600' : 'bg-gray-300')}
+                              onClick={() => (changeIsRecommended(!market.recommended, market.id))}
+                            >
+                              <div
+                                className={
+                                  "bg-white md:w-4 md:h-4 h-3 w-3 rounded-full shadow-md transform duration-300 ease-in-out " +
+                                  (market.isActive ? ' transform translate-x-4' : '')
+                                }
+                              ></div>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell align={'right'}>
+                          <button onClick={() => navigate('/super/dresses/' + market.id)}>
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M19.3 8.925L15.05 4.725L16.45 3.325C16.8333 2.94167 17.3042 2.75 17.8625 2.75C18.4208 2.75 18.8917 2.94167 19.275 3.325L20.675 4.725C21.0583 5.10833 21.2583 5.57083 21.275 6.1125C21.2917 6.65417 21.1083 7.11667 20.725 7.5L19.3 8.925ZM17.85 10.4L7.25 21H3V16.75L13.6 6.15L17.85 10.4Z" fill="#1A54EB" />
                             </svg>

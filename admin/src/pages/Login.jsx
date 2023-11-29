@@ -29,7 +29,7 @@ function Login() {
       const res = await AxiosCustom('/login',{method:"POST",data})
       if(res.status === 200){
         localStorage.setItem('lybas-token',res.data.token)
-        navigate('/')
+        navigate('/super')
       }
     } catch (error) {
       alert(error.response.data.message);

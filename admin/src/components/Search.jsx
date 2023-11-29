@@ -58,7 +58,7 @@ function Search({ className, title, action = null, filter = [], setDate, setSear
         <div className="search_header_title text-lg font-bold">{t(title)}</div>
         {
           action && (
-            <Link to={action.link} className='text-white bg-lybas-blue px-5 py-3 rounded-lg hover:bg-blue-700'>{t(action.text)}</Link>
+            <Link to={"/super"+action.link} className='text-white bg-lybas-blue px-5 py-3 rounded-lg hover:bg-blue-700'>{t(action.text)}</Link>
           )
         }
       </div>

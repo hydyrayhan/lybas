@@ -22,7 +22,7 @@ function NotificationEdit() {
         const res = await AxiosCustom("/notifications/"+id,{method:"PATCH",data})
         if(res.status === 200){
           dispatch(fetchDataNotification());
-          navigate('/notification');
+          navigate('/super/notification');
         }
       } catch (error) {
        console.log(error) 
@@ -65,7 +65,7 @@ function NotificationEdit() {
               <textarea name='text' value={data.text} onChange={(e)=>setData({...data,text:e.target.value})} className='w-full h-40 resize-none text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('writeTheDetail')} id='text-tm' />
             </div>
             <div className="actions col-span-2 flex mt-10">
-              <button onClick={()=>(navigate('/notification'))} className='bg-white border mr-5 px-20 py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+              <button onClick={()=>(navigate('/super/notification'))} className='bg-white border mr-5 px-20 py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
               <button onClick={sendData} className='bg-lybas-blue text-white border px-20 py-2 rounded hover:bg-blue-800'>{t("save")}</button>
             </div>
           </div>

@@ -19,6 +19,7 @@ export const fetchDataDresses = createAsyncThunk('data/fetchDataDresses', async 
   try {
     const { limit, offset, search, filter, category,size,material,welayat } = getState().Dresses;
     const data = await AxiosCustom(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}&categoryId=${category}&sizeId=${size}&materialId=${material}&welayat=${welayat}`);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error.response.data.message)

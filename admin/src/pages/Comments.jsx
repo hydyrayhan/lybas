@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataComments, setFilter, setLimit, setOffset, setSearch } from '../redux/features/Comments';
 import { AppContext } from '../App';
@@ -58,7 +58,6 @@ function Comments() {
   const offset = useSelector((state) => state?.Comments?.offset);
   const { lang } = useContext(AppContext);
   const [deleteId, setDeleteId] = useState('');
-  const navigate = useNavigate();
 
   const handleChangePage = async (event, newPage) => {
     await dispatch(setOffset(newPage * limit));
@@ -154,7 +153,7 @@ function Comments() {
                         </TableCell>
                         <TableCell align={'right'}>
                           <div className='flex justify-end items-end'>
-                            <Link to={`/comments/${comment.id}?rate=${comment.rate}`} className='mr-3'>
+                            <Link to={`/super/comments/${comment.id}?rate=${comment.rate}`} className='mr-3'>
                               <OpenInNewIcon sx={{ color: 'green' }} />
                             </Link>
                             <button onClick={() => (setOpen(true), setDeleteId(comment.id))} className='mr-3'>

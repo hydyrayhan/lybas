@@ -150,8 +150,8 @@ function DressesAdd() {
         const res1 = await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         const res2 = await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         if (res2.status === 201) {
-          // dispatch(fetchDataDresses());
-          // navigate('/dresses');
+          dispatch(fetchDataDresses());
+          navigate('/super/dresses');
           setLoading(false);
         } else {
           setLoading(false);
@@ -371,7 +371,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button onClick={() => navigate('/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={() => navigate('/super/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

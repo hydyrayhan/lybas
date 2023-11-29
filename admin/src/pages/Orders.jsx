@@ -120,7 +120,7 @@ function Orders() {
                 <TableBody>
                   {
                     data?.length > 0 && data.map((order, index) => (
-                      <TableRow key={index} hover role="checkbox" sx={{ cursor: 'pointer' }} onClick={() => navigate('/orders/' + order?.id)} tabIndex={-1}>
+                      <TableRow key={index} hover role="checkbox" sx={{ cursor: 'pointer' }} onClick={() => navigate('/super/orders/' + order?.id)} tabIndex={-1}>
                         <TableCell align={'left'}>
                           <div className={"table-with-grid_tr_data"}>
                             <div className="name font-semibold">{order?.user_name?.split(' ')[0]}</div>

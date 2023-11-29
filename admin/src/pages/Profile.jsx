@@ -38,7 +38,7 @@ function Profile() {
         console.log(error.response.data.message);
         if (error.response.status === 401) {
           localStorage.setItem('lybas-token', '');
-          navigate('/login')
+          navigate('/super/login')
         }
       }
     }
@@ -144,7 +144,7 @@ function Profile() {
             </div>
           </div>
           <div className="actions flex">
-            <button onClick={()=>navigate('/')} className='w-full bg-white rounded-lg py-2 mr-5 hover:bg-gray-100'>{t('cancel')}</button>
+            <button onClick={()=>navigate('/super')} className='w-full bg-white rounded-lg py-2 mr-5 hover:bg-gray-100'>{t('cancel')}</button>
             <button onClick={sendData} className='bg-lybas-blue text-white rounded-lg w-full py-2 hover:bg-blue-700'>{t('save')}</button>
           </div>
         </div>
