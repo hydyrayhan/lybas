@@ -211,7 +211,7 @@ function Dresses() {
                               <div
                                 className={
                                   "bg-white md:w-4 md:h-4 h-3 w-3 rounded-full shadow-md transform duration-300 ease-in-out " +
-                                  (market.isActive ? ' transform translate-x-4' : '')
+                                  (market.recommended ? ' transform translate-x-4' : '')
                                 }
                               ></div>
                             </div>
