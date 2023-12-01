@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import Person2Icon from '@mui/icons-material/Person2';
@@ -11,6 +11,7 @@ import { fetchDataDressmakers } from '../redux/features/Dressmakers';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Valid } from '../common/Valid';
 import { api } from '../common/Config';
+import { AppContext } from '../App';
 
 const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
 
@@ -29,6 +30,7 @@ function DressmakersAdd() {
     email: '',
     welayat: 'ashgabat',
   });
+  const {lang} = useContext(AppContext)
 
   useEffect(() => {
     if (!category.length) dispatch(fetchDataCategories());
@@ -93,7 +95,7 @@ function DressmakersAdd() {
 
   const getLabelForValue = (id) => {
     const selectedOption = category.find((option) => option.id === id);
-    return selectedOption ? selectedOption.name_tm : '';
+    return selectedOption ? selectedOption['name_'+lang] : '';
   };
 
 
@@ -137,7 +139,7 @@ function DressmakersAdd() {
                   >
                     {category.map((option) => (
                       <MenuItem key={option.id} value={option.id}>
-                        {option.name_tm}
+                        {option['name_'+lang]}
                       </MenuItem>
                     ))}
                   </Select>

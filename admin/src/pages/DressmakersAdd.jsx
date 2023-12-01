@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumb';
 import { t } from 'i18next';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -12,6 +12,7 @@ import { AxiosCustom } from '../common/AxiosInstance';
 import { fetchDataDressmakers } from '../redux/features/Dressmakers';
 import { useNavigate } from 'react-router-dom';
 import { Valid } from '../common/Valid';
+import { AppContext } from '../App';
 
 
 const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
@@ -36,6 +37,8 @@ function DressmakersAdd() {
   useEffect(() => {
     if (!category.length) dispatch(fetchDataCategories());
   }, [])
+
+  const {lang} = useContext(AppContext);
 
   const handleCategory = (e) => {
     setData({ ...data, categoryIds: e.target.value })
@@ -89,7 +92,7 @@ function DressmakersAdd() {
 
   const getLabelForValue = (id) => {
     const selectedOption = category.find((option) => option.id === id);
-    return selectedOption ? selectedOption.name_tm : '';
+    return selectedOption ? selectedOption['name_'+lang] : '';
   };
 
 
@@ -146,7 +149,7 @@ function DressmakersAdd() {
                     >
                       {category.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
-                          {option.name_tm}
+                          {option['name_'+lang]}
                         </MenuItem>
                       ))}
                     </Select>

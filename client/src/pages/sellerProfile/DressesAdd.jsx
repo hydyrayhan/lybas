@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Breadcrumb from './components/Breadcrumb';
 import { t } from 'i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { AxiosSeller } from '../../common/AxiosInstance';
 import { Valid } from '../../common/Valid';
 import { useNavigate } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
+import {AppContext} from './../../App'
 
 const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
 
@@ -43,6 +44,8 @@ function DressesAdd() {
   const [file, setFile] = useState([]);
   const [loading, setLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(null);
+
+  const {lang} = useContext(AppContext);
 
   useEffect(() => {
     dispatch(fetchDataCategories())
@@ -195,7 +198,7 @@ function DressesAdd() {
                 >
                   {dataMaterial.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option.name_tm}
+                      {option['name_'+lang]}
                     </MenuItem>
                   ))}
                 </Select>
@@ -221,7 +224,7 @@ function DressesAdd() {
                 >
                   {dataCategory.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option.name_tm}
+                      {option['name_'+lang]}
                     </MenuItem>
                   ))}
                 </Select>

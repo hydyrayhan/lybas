@@ -251,7 +251,7 @@ function DressesAdd() {
                 >
                   {dataMaterial.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option.name_tm}
+                      {option['name_'+lang]}
                     </MenuItem>
                   ))}
                 </Select>
@@ -277,7 +277,7 @@ function DressesAdd() {
                 >
                   {dataCategory.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option.name_tm}
+                      {option['name_'+lang]}
                     </MenuItem>
                   ))}
                 </Select>
