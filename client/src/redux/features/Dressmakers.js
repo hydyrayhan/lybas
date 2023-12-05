@@ -10,7 +10,6 @@ const initialState = {
 export const fetchDataDressmakers = createAsyncThunk('data/fetchDataDressmakers', async (_, { getState }) => {
   try {
     const data = await AxiosCustom(`/products?limit=10000`);
-    console.log(data,'products')
     return data;
   } catch (error) {
     console.log(error.response.data.message)

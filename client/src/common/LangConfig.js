@@ -120,6 +120,7 @@ const resources = {
       clickToUpload: "Click to Upload",
       addComment: "Add comment",
       myFeedback: "My feedbacks",
+      feedback:"Feedback",
       becomeMember: "Become a member",
       signUp: "Sign up",
       signIn: "Sign in",
@@ -421,6 +422,7 @@ const resources = {
       clickToUpload: "Нажмите, чтобы загрузить",
       addComment: "Добавить отзыв",
       myFeedback: "Мои отзывы",
+      feedback:"Oтзывы",
       becomeMember: "Становиться участником",
       signUp: "Зарегистрироваться",
       signIn: "Войти",
@@ -726,6 +728,7 @@ const resources = {
       clickToUpload: "Ýüklemek üçin basyň",
       addComment: "Syn goşmak",
       myFeedback: "Synlarym",
+      feedback:"Syn ýazmak",
       becomeMember: "Become a member", //Gerekdal
       signUp: "Agza bolmak",
       signIn: "Girmek",

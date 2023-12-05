@@ -29,7 +29,11 @@ function Comment({ data }) {
     <div className="dress-page_left_comments_comment flex flex-col md:flex-row items-start md:justify-between p-3 md:p-[25px] mb-[15px] bg-lybas-light-gray rounded-lg">
       <div className='flex'>
         <div className="dress-page_left_comments_comment_image mr-[15px]">
-          <img src={ip + '/' + user?.image} alt="" className="min-w-[60px] max-w-[60px] object-cover min-h-[60px] max-h-[60px] rounded-full" />
+          {
+            user?.image ?
+            <img src={ip + '/' + user?.image} alt="" className="min-w-[60px] max-w-[60px] object-cover min-h-[60px] max-h-[60px] rounded-full" />
+            : <svg className="min-w-[40px] max-w-[40px] object-cover min-h-[60px] max-h-[60px]" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 10C8.625 10 7.44792 9.51042 6.46875 8.53125C5.48958 7.55208 5 6.375 5 5C5 3.625 5.48958 2.44792 6.46875 1.46875C7.44792 0.489583 8.625 0 10 0C11.375 0 12.5521 0.489583 13.5312 1.46875C14.5104 2.44792 15 3.625 15 5C15 6.375 14.5104 7.55208 13.5312 8.53125C12.5521 9.51042 11.375 10 10 10ZM0 20V16.5C0 15.7917 0.182292 15.1406 0.546875 14.5469C0.911458 13.9531 1.39583 13.5 2 13.1875C3.29167 12.5417 4.60417 12.0573 5.9375 11.7344C7.27083 11.4115 8.625 11.25 10 11.25C11.375 11.25 12.7292 11.4115 14.0625 11.7344C15.3958 12.0573 16.7083 12.5417 18 13.1875C18.6042 13.5 19.0885 13.9531 19.4531 14.5469C19.8177 15.1406 20 15.7917 20 16.5V20H0Z" fill="#64748B"></path></svg>
+          }
         </div>
         <div className="dress-page_left_comments_comment_content">
           <div className="dress-page_left_comments_comment_content_name font-semibold">{user?.username}</div>

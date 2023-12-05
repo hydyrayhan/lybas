@@ -20,7 +20,6 @@ const initialState = {
 export const fetchDataDressmakersUser = createAsyncThunk('data/fetchDataDressmakersUser', async (_, { getState }) => {
   try {
     const { limit, offset, sort } = getState().DressmakersUser;
-    console.log(limit,offset);
     var data = await AxiosCustom(`/seller?limit=${limit}&offset=${offset}&welayat=${sort.welayat}`);
     console.log(data);
     return data;

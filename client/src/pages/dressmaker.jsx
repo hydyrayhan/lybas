@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Breadcrumb from '../components/Breadcrumb';
 import Dress from '../components/Dress';
-import { AxiosCustom } from '../common/AxiosInstance';
+import { AxiosCustom, AxiosUser } from '../common/AxiosInstance';
 import { useParams } from 'react-router-dom';
 import { t } from 'i18next';
 import { AppContext } from '../App';
@@ -26,9 +26,15 @@ function Dressmaker() {
     welayat: [],
     color: [],
   });
-  const getData = async () => {
+  const [type,setType] = useState(0);
+  const getData = async (sortBy=type) => {
+    console.log(sortBy,'route');
     try {
-      const res = await AxiosCustom(`/seller/${id}?sort=${JSON.stringify(sort)}`);
+      if(localStorage.getItem('lybas-user-token')){
+        var res = await AxiosUser(`/seller/${id}?sort=${JSON.stringify(sort)}&sortBy=${sortBy}`);
+      }else{
+        var res = await AxiosCustom(`/seller/${id}?sort=${JSON.stringify(sort)}&sortBy=${sortBy}`);
+      }
       console.log(res);
       setDressmaker(res?.data?.seller)
       setCategories(res?.data?.seller?.category)
@@ -71,9 +77,14 @@ function Dressmaker() {
     getMaterials();
     getColors();
   }, [])
+
+  const setSortBy = async(name,value)=>{
+    setType(value);
+    getData(value);
+  }
   return (
     <div className='dressmaker container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-      <Breadcrumb page1={{ text: 'dressmakers', link: '/dressmakers' }} />
+      <Breadcrumb page1={{ text: 'dressmakers', link: '/dressmakers' }} page2={{text:dressmaker?.name}} />
       <div className="dressmaker_header rounded-lg  p-3 mb-5 flex flex-wrap">
         {/* <div className='flex'> */}
           {
@@ -107,7 +118,7 @@ function Dressmaker() {
       </div>
       <div className="dresses_main flex justify-between">
         <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5">
-          <Sidebar sort={sort} setSort={setSort} categories={categories} sizes={sizes} materials={materials} colors={colors} />
+          <Sidebar setSortBy={setSortBy} sortBy={type} sort={sort} setSort={setSort} categories={categories} sizes={sizes} materials={materials} colors={colors} />
         </div>
         <div className="dresses_right w-full md:w-3/5 lg:w-4/5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:ml-5 lg:ml-[30px]">
           {

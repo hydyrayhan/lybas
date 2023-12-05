@@ -38,6 +38,10 @@ const RoutesAdmin = () => {
   const checkToken = async () => {
     if (location.pathname !== '/super/login') {
       if (localStorage.getItem('lybas-token')) {
+        if(location.pathname === '/'){
+          setToken(true);
+          navigate('/super')
+        }
         setToken(true);
       }
       else {
@@ -45,6 +49,7 @@ const RoutesAdmin = () => {
         navigate('/super/login')
       }
     } else {
+      console.log('hello');
       if (localStorage.getItem('lybas-token')) {
         setToken(true);
         navigate('/super')

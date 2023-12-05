@@ -25,13 +25,12 @@ function Dressmakers() {
   }
 
   useEffect(() => {
-    if (data?.length < 20) {
+    if (data?.length < 1) {
       dispatch(fetchDataDressmakersUser());
     }
   }, [])
 
   const setSortLocal = (obj)=>{
-    console.log(obj);
     dispatch(setSort(obj));
     dispatch(fetchDataDressmakersUser())
   }

@@ -6,32 +6,32 @@ function AboutUs() {
   return (
     <>
       <div className="aboutUs container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-5 md:pt-10">
-        <h1 className="aboutUs__title w-[100%] md:w-[90%] m-auto text-[20px] md:text-[26px] capitalize font-light">{t('aboutUsMain')}</h1>
+        <h1 className="aboutUs__title w-[100%] md:w-[90%] m-auto text-[20px] md:text-[26px] font-light">{t('aboutUsMain')}</h1>
 
         <div className="aboutUs__middle my-[40px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           <div className="aboutUs__middle__part">
-            <h1 className="aboutUs__middle__part__title text-[16px] capitalize font-semibold">{t('aboutUsTitle1')}</h1>
-            <p className="text-[16px] capitalize">
+            <h1 className="aboutUs__middle__part__title text-[16px] font-semibold">{t('aboutUsTitle1')}</h1>
+            <p className="text-[16px] text-justify">
               {t('aboutUsBody1')}
             </p>
           </div>
 
           <div className="aboutUs__middle__part">
-            <h1 className="aboutUs__middle__part__title text-[16px] capitalize font-semibold">{t('aboutUsTitle2')}</h1>
-            <p className="text-[16px] capitalize">
+            <h1 className="aboutUs__middle__part__title text-[16px] font-semibold">{t('aboutUsTitle2')}</h1>
+            <p className="text-[16px] text-justify">
               {t('aboutUsBody2')}
             </p>
           </div>
           <div className="aboutUs__middle__part">
-            <h1 className="aboutUs__middle__part__title text-[16px] capitalize font-semibold">{t('aboutUsTItle3')}</h1>
-            <p className="text-[16px] capitalize">
+            <h1 className="aboutUs__middle__part__title text-[16px] font-semibold">{t('aboutUsTItle3')}</h1>
+            <p className="text-[16px] text-justify">
               {t('aboutUsBody3')}
             </p>
           </div>
 
           <div className="aboutUs__middle__part">
-            <h1 className="aboutUs__middle__part__title text-[16px] capitalize font-semibold">{t('aboutUsTItle4')}</h1>
-            <p className="text-[16px] capitalize">
+            <h1 className="aboutUs__middle__part__title text-[16px] font-semibold">{t('aboutUsTitle4')}</h1>
+            <p className="text-[16px] text-justify">
               {t('aboutUsBody4')}
             </p>
           </div>
