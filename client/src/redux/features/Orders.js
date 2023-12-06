@@ -17,7 +17,6 @@ export const fetchDataOrders = createAsyncThunk('data/fetchDataOrders', async (_
   try {
     const { limit, offset, filter, search,status } = getState().Orders;
     const data = await AxiosSeller(`/orders?limit=${limit}&status=${status}&offset=${offset}&filter=${JSON.stringify(filter)}&keyword=${search}`);
-    console.log(data,'orders');
     return data;
   } catch (error) {
     console.log(error.response.data.message)

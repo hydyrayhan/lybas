@@ -76,7 +76,6 @@ function Orders() {
     await dispatch(fetchDataOrders());
   }
   const setStatusData = async (status) => {
-    console.log(status)
     await dispatch(setStatus(status));
     await dispatch(fetchDataOrders());
   }

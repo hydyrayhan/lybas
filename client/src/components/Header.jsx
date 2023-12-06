@@ -101,6 +101,14 @@ export default function Header() {
     }
   }, [location]);
 
+  useEffect(()=>{
+    if(notification){
+      document.querySelector('body').style.overflowY = 'hidden';
+    }else{
+      document.querySelector('body').style.overflowY = 'auto';
+    }
+  },[notification])
+
   return (
     <div className="bg-white w-full sticky top-0 sm:-top-[20px] md:-top-[40px] z-[13]">
       <ScrollToTop />

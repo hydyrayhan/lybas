@@ -31,7 +31,6 @@ function Sidebar() {
     const getData = async () => {
       try {
         const res = await AxiosSeller("/account/get-me");
-        console.log(res);
         setData(res.data);
       } catch (error) {
         console.log(error.response.data.message);
@@ -56,15 +55,16 @@ function Sidebar() {
         dispatch(fetchDataEmails())
       })
       socket.on('seller-order', async (res) => {
-        if (orderCount < 1) {
-          await dispatch(fetchDataOrders())
-        } else {
-          if(active === 'orders'){
-            await dispatch(fetchDataOrders())
-          }else{
-            setNotReadOrderLocal(res);
-          }
-        }
+        await dispatch(fetchDataOrders())
+        // if (orderCount < 1) {
+        //   await dispatch(fetchDataOrders())
+        // } else {
+        //   if(active === 'orders'){
+        //     await dispatch(fetchDataOrders())
+        //   }else{
+        //     setNotReadOrderLocal(res);
+        //   }
+        // }
       })
 
       return () => {
@@ -140,14 +140,9 @@ function Sidebar() {
                   <path d="M1.5 4.5C1.5 4.08579 1.83579 3.75 2.25 3.75H15.75C16.1642 3.75 16.5 4.08579 16.5 4.5C16.5 4.91421 16.1642 5.25 15.75 5.25H2.25C1.83579 5.25 1.5 4.91421 1.5 4.5Z" />
                   <path d="M6 6.75C6.41421 6.75 6.75 7.08579 6.75 7.5C6.75 8.09674 6.98705 8.66903 7.40901 9.09099C7.83097 9.51295 8.40326 9.75 9 9.75C9.59674 9.75 10.169 9.51295 10.591 9.09099C11.0129 8.66903 11.25 8.09674 11.25 7.5C11.25 7.08579 11.5858 6.75 12 6.75C12.4142 6.75 12.75 7.08579 12.75 7.5C12.75 8.49456 12.3549 9.44839 11.6517 10.1517C10.9484 10.8549 9.99456 11.25 9 11.25C8.00544 11.25 7.05161 10.8549 6.34835 10.1517C5.64509 9.44839 5.25 8.49456 5.25 7.5C5.25 7.08579 5.58579 6.75 6 6.75Z" />
                 </svg>
-
                 <span className="ml-3 text-lybas-gray group-hover:text-gray-900 min-w-fit">{t("orders")}</span>
                 {
-                  (notReadOrderLocal > 0) &&
-                  <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrderLocal}</span></div>
-                }
-                {
-                  (notReadOrderLocal < 1 && notReadOrder > 0) &&
+                  notReadOrder > 0 &&
                   <div className='flex justify-end w-full text-lybas-blue'><span className='w-6 h-6 rounded-full flex justify-center items-center bg-blue-100'>{notReadOrder}</span></div>
                 }
               </Link>

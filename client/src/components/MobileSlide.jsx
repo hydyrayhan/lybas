@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 function MobileSlide({ children, open, setOpen, title }) {
   return (
@@ -12,13 +12,15 @@ function MobileSlide({ children, open, setOpen, title }) {
         <div className="mobile-slide_header flex justify-between items-center px-5">
           <div className='w-[24px]'></div>
           <div className='font-semibold text-lg'>{t(title)}</div>
-          <button onClick={()=> setOpen(false)}>
+          <button onClick={() => setOpen(false)}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z" fill="#0B1527" />
             </svg>
           </button>
         </div>
-        {children}
+        <div className='slide-scroll overflow-auto h-[80vh]'>
+          {children}
+        </div>
       </div>
     </>
   );

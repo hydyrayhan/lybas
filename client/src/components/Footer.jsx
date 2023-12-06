@@ -46,10 +46,6 @@ function Footer() {
                 <Link to="#" className="mb-0 md:mb-6 inline-block max-w-[160px]">
                   <img className='h-16 min-w-[150px]' src={Logo} alt="" />
                 </Link>
-                {/* <p className="text-body-color mb-7 text-base hidden md:block">
-                  Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
-                  totam rem aperiam.
-                </p> */}
                 <p className="text-dark mt-5 md:mt-0 flex items-center text-sm font-medium">
                   <Link to='https://www.instagram.com/lybas.com.tm/?utm_source=ig_web_button_share_sheet&igshid=OGQ5ZDc2ODk2ZA==' target="_blank" className="text-primary mr-[36px]">
                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,9 +79,9 @@ function Footer() {
                 </p>
               </div>
             </div>
-            <div className="w-full px-4 sm:w-1/2 lg:w-3/12 hidden md:block">
+            <div className="w-full px-4 sm:w-1/2 lg:w-3/12">
               <div className="w-full">
-                <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('aboutUs')}</h4>
+                <h4 className="text-dark mb-2 md:mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('aboutUs')}</h4>
                 <ul>
                   <li>
                     <Link to='/aboutUs'
@@ -125,7 +121,7 @@ function Footer() {
             </div>
             <div className="contact w-full px-4 sm:w-1/2 lg:w-3/12 hidden md:block">
               <div className="w-full">
-                <h4 className="text-dark mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('contactUs')}</h4>
+                <h4 className="text-dark mb-2 md:mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('contactUs')}</h4>
                 <ul>
                   <li>
                     <span
@@ -149,12 +145,6 @@ function Footer() {
             <div className="w-full px-4 sm:w-1/2 lg:w-3/12 mb-6 md:mb-0">
               <div className="w-full">
                 <h4 className="text-dark mb-2 md:mb-[20px] text-lg font-bold" style={{ fontSize: '16px', textTransform: 'uppercase' }}>{t('subcribeNewsLetter')}</h4>
-                <div className="mb-6 flex items-center">
-                  {/* <p className="text-body-color mb-2 md:mb-7 text-base">
-                    Sed ut perspiciatis undmnis is iste natus error sit amet voluptatem
-                    totam rem aperiam.
-                  </p> */}
-                </div>
                 <div className="footer-input-focus relative mt-2 rounded-md shadow-sm">
                   <form onSubmit={sendNewsletter}>
                   <input
@@ -191,7 +181,7 @@ function Footer() {
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
-                      +993 61 101010
+                      +993 61 163167
                     </span>
                   </li>
                   <li>
