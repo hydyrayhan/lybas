@@ -28,14 +28,12 @@ function Dressmaker() {
   });
   const [type,setType] = useState(0);
   const getData = async (sortBy=type) => {
-    console.log(sortBy,'route');
     try {
       if(localStorage.getItem('lybas-user-token')){
         var res = await AxiosUser(`/seller/${id}?sort=${JSON.stringify(sort)}&sortBy=${sortBy}`);
       }else{
         var res = await AxiosCustom(`/seller/${id}?sort=${JSON.stringify(sort)}&sortBy=${sortBy}`);
       }
-      console.log(res);
       setDressmaker(res?.data?.seller)
       setCategories(res?.data?.seller?.category)
       setData(res?.data?.product?.rows);
@@ -44,7 +42,6 @@ function Dressmaker() {
     }
   }
   useEffect(() => {
-    console.log(sort);
     getData();
   }, [sort]);
 
@@ -117,7 +114,7 @@ function Dressmaker() {
         </div>
       </div>
       <div className="dresses_main flex justify-between">
-        <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5">
+        <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5 h-fit md:sticky top-[100px]">
           <Sidebar setSortBy={setSortBy} sortBy={type} sort={sort} setSort={setSort} categories={categories} sizes={sizes} materials={materials} colors={colors} />
         </div>
         <div className="dresses_right w-full md:w-3/5 lg:w-4/5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:ml-5 lg:ml-[30px]">

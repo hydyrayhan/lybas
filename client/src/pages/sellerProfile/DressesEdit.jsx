@@ -56,7 +56,6 @@ function DressesAdd() {
     const getData = async () => {
       try {
         const res = await AxiosSeller('/products/' + id);
-        console.log(res);
         if (res.status === 200) {
           setData({ ...data, ...res.data })
           const helpData = []
@@ -199,7 +198,6 @@ function DressesAdd() {
           }
           await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         }
-        console.log(res);
         if (res.status === 200) {
           dispatch(fetchDataDresses());
           navigate('/sellerProfile/dresses');

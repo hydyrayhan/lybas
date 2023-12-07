@@ -25,7 +25,6 @@ function Profile() {
     const getData = async () => {
       try {
         const res = await AxiosSeller("/account/get-me");
-        console.log(res);
         setData({
           image:'',
           username:res.data.name,
@@ -57,7 +56,6 @@ function Profile() {
   }
 
   const sendData = async ()=>{
-    console.log(data);
     try {
       const res = await AxiosSeller('/account/edit',{method:'PATCH',data})
       const formData = new FormData();

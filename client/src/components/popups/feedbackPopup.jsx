@@ -49,7 +49,6 @@ export default function FeedbackPopup({ open, setOpen, productId, orderproductId
         url: URL.createObjectURL(files[i]),
       })
     }
-    console.log(arr1, arr2);
     setImages([...images, ...arr1])
     setLocalImages([...localImages, ...arr2])
   }

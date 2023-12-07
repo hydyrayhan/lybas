@@ -4,9 +4,6 @@ const OutsideClickHandler = ({ children, onOutsideClick }) => {
   const wrapperRef = useRef(null);
 
   const handleClickOutside = (event) => {
-    console.log(event.target,'basylan')
-    console.log(wrapperRef.current,'geregi')
-    console.log(wrapperRef.current.contains(event.target))
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       // onOutsideClick();
     }

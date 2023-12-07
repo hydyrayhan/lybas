@@ -13,10 +13,6 @@ export default function Popup({ open, setOpen,size,data }) {
 
   const cancelButtonRef = useRef(null)
 
-  useEffect(()=>{
-    console.log(data)
-  },[])
-
   const sendEmail = async() => {
     if(full){
       try {

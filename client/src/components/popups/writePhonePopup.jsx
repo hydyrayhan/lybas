@@ -21,7 +21,6 @@ export default function WritePhonePopup({ open, setOpen, setOpenVeri,setData2,is
         }else if(isSeller === 'seller'){
           var res = await axios.patch(ip + '/seller/account/forgot-password', { user_phone: data.user_phone });
         }
-        console.log(res);
         if (res.status === 200) {
           setErrorText('')
           setData2(data);

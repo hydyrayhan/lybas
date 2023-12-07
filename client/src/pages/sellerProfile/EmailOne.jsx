@@ -11,7 +11,6 @@ function EmailOne() {
     const getData = async () => {
       try {
         const res = await AxiosSeller("/mails/" + id);
-        console.log(res);
         setData(res.data);
       } catch (error) {
         console.log(error);

@@ -26,10 +26,6 @@ export default function TotalSpent({ className }) {
 		setDaysToStatistics();
 	}, [data])
 
-	const handleValueChange = newValue => {
-		console.log("newValue:", newValue);
-		setValue(newValue);
-	};
 
 
 	const setDaysToStatistics = () => {

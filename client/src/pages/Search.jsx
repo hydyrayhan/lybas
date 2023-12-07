@@ -27,7 +27,6 @@ function Search() {
     } catch (error) {
       console.log(error);
     }
-    console.log(res.data);
   }
   useEffect(() => {
     getData();

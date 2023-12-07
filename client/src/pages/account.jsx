@@ -354,7 +354,6 @@ function Account() {
   const getMyFeedbackData = async () => {
     try {
       const res = await AxiosUser("/comments");
-      console.log(res);
       setMyFeedback(res?.data?.data)
     } catch (error) {
       console.log(error);
