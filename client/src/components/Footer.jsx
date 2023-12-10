@@ -136,7 +136,7 @@ function Footer() {
                       className="text-body-color hover:text-primary mb-2 inline-block text-base leading-loose"
                       style={{ fontSize: '14px' }}
                     >
-                      lybas_info@gmail.com
+                       info@lybas.com.tm
                     </span>
                   </li>
                 </ul>
