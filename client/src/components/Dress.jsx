@@ -88,7 +88,7 @@ function Dress({ hover, className, data = { rating: 0 } }) {
     <div className={'dress-card group relative ' + className}>
       <Link to={'/dresses/' + data.id}>
         <div className="dress-card_image">
-          <img className='w-full object-cover' src={ip + '/' + data.images[0].image} alt="" />
+          <img className='w-full object-cover' src={ip + '/' + data?.images[0]?.image} alt="" />
         </div>
         {
           !showSizes ? <>
