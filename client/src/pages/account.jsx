@@ -41,7 +41,7 @@ function Account() {
   const [editAccount, setEditAccount] = useState(false);
   const [passType, setPassType] = useState('password');
   const [feedbackPopupOpen, setFeedbackPopupOpen] = useState(false);
-  const [mobileSlideOpen, setMobileSlideOpen] = useState(true);
+  const [mobileSlideOpen, setMobileSlideOpen] = useState(false);
   const [imageUpload, setImageUpload] = useState();
   const [accountData, setAccountData] = useState({
     name: '',
@@ -136,21 +136,22 @@ function Account() {
                   </svg>
                 }
                 <div className="image_actions flex flex-col justify-center">
-                  <div className="image_actions_title font-semibold">{t('editPhoto')}</div>
                   {
-                    editAccount &&
-                    <div className="image_actoins_buttons flex">
-                      <label
-                        htmlFor={editAccount ? 'upload-image' : ''}
-                        className={'text-sm text-semibold text-lybas-blue mr-3 ' + (editAccount && 'cursor-pointer')}
-                      >
-                        {t('upload')}
-                      </label>
-                      <input onChange={handleImageAccount} className="hidden" type="file" id="upload-image" />
-                      <button disabled={!editAccount} className="text-sm text-semibold">
-                        {t('delete')}
-                      </button>
-                    </div>
+                    editAccount && <>
+                      <div className="image_actions_title font-semibold">{t('editPhoto')}</div>
+                      <div className="image_actoins_buttons flex">
+                        <label
+                          htmlFor={editAccount ? 'upload-image' : ''}
+                          className={'text-sm text-semibold text-lybas-blue mr-3 ' + (editAccount && 'cursor-pointer')}
+                        >
+                          {t('upload')}
+                        </label>
+                        <input onChange={handleImageAccount} className="hidden" type="file" id="upload-image" />
+                        <button disabled={!editAccount} className="text-sm text-semibold">
+                          {t('delete')}
+                        </button>
+                      </div>
+                    </>
                   }
                 </div>
               </div>
@@ -207,7 +208,7 @@ function Account() {
               <div className="account_card_content_number text-lybas-gray text-sm">{addresses.length}/4</div>
             </div>
             {/* my account card form */}
-            <div className="account_card_content_cards grid grid-cols-2 gap-5 md:pr-20">
+            <div className="account_card_content_cards grid grid-cols-1 sm:grid-cols-2 gap-5 md:pr-20">
               {addresses.map((address, index) => (
                 <AccountOneAddress key={index} address={address} action={true} setAddresses={setAddresses} addresses={addresses} />
               ))}
@@ -218,7 +219,7 @@ function Account() {
             <button
               onClick={() => setAddAddressOpen(true)}
               disabled={addresses.length > 3}
-              className={"account_card_content_button px-20 py-2 text-white rounded-lg mt-5 hover:opacity-75 " + (addresses.length > 3 ? 'bg-lybas-gray' : 'bg-lybas-blue')}
+              className={"account_card_content_button w-full sm:w-auto px-20 py-2 text-white rounded-lg mt-5 hover:opacity-75 " + (addresses.length > 3 ? 'bg-lybas-gray' : 'bg-lybas-blue')}
             >
               {t('add')}
             </button>
@@ -328,7 +329,7 @@ function Account() {
 
   useEffect(() => {
     const token = localStorage.getItem('lybas-user-token')
-    
+
     if (token) {
       const user = JSON.parse(localStorage.getItem('lybas-user'));
       setAccountData({

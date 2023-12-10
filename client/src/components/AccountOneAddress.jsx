@@ -10,7 +10,7 @@ function AccountOneAddress({active, address, action, className, data, setData, s
 
   return (
     <div
-      className={"account_card_content_cards_card flex relative group p-5 rounded-lg border hover:border-lybas-blue break-all "+className+(active ? ' border-lybas-blue' : '')}
+      className={"account_card_content_cards_card flex relative group p-5 pr-10 rounded-lg border hover:border-lybas-blue break-all "+className+(active ? ' border-lybas-blue' : '')}
       onClick={setData}
     >
       {/* hidden tick icon */}

@@ -21,13 +21,11 @@ const initialState = {
 export const fetchDataDressesUser = createAsyncThunk('data/fetchDataDressesUser', async (_, { getState }) => {
   try {
     const { limit, offset, sort, type } = getState().DressesUser;
-    console.log(limit,offset);
     if(localStorage.getItem('lybas-user-token')){
       var data = await AxiosUser(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(sort)}&sort=${type}`);
     }else{
       var data = await AxiosCustom(`/products?limit=${limit}&offset=${offset}&filter=${JSON.stringify(sort)}&sort=${type}`);
     }
-    console.log(data,limit,offset,type);
     return data;
   } catch (error) {
     console.log(error);
