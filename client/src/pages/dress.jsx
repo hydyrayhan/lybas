@@ -381,9 +381,9 @@ function Dress() {
             </div>
           </div>
           <div className="dress-page_left_devider w-full h-[2px] bg-lybas-light-gray my-[20px]"></div>
-          {
-            data?.comments?.length > 0 &&
-            <div className="comment-similars flex flex-col-reverse md:block">
+          <div className="comment-similars flex flex-col-reverse md:block">
+            {
+              data?.comments?.length > 0 &&
               <div className="dress-page_left_comments w-full mt-5 md:mt-0">
                 <div className="dress-page_left_comments_header flex items-center justify-between mb-[20px]">
                   <span className="text-xl font-semibold">{t('comments')}</span>
@@ -400,27 +400,27 @@ function Dress() {
                   ))
                 }
               </div>
-              {
-                similarData?.length > 0 &&
-                <div className="dress-page_left_similar-dresses">
-                  <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
-                    <span className="text-xl font-semibold">{t('similarDresses')}</span>
-                    <Link to={'/'} className="flex items-center text-lybas-blue">
-                      <span className="hidden md:inline">{t('viewAll')}</span>
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
-                      </svg>
-                    </Link>
-                  </div>
-                  <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    {similarData.map((sim, index) => (
-                      <DressComp key={index} hover="small" data={sim} />
-                    ))}
-                  </div>
+            }
+            {
+              similarData?.length > 0 &&
+              <div className="dress-page_left_similar-dresses">
+                <div className="dress-page_left_similar-dresses_header flex items-center justify-between my-[25px]">
+                  <span className="text-xl font-semibold">{t('similarDresses')}</span>
+                  {/* <Link to={'/'} className="flex items-center text-lybas-blue">
+                    <span className="hidden md:inline">{t('viewAll')}</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#1A54EB" />
+                    </svg>
+                  </Link> */}
                 </div>
-              }
-            </div>
-          }
+                <div className="dress-page_left_similar-dresses_dresses grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {similarData.map((sim, index) => (
+                    <DressComp key={index} hover="small" data={sim} />
+                  ))}
+                </div>
+              </div>
+            }
+          </div>
         </div>
         <div className="dress-page_right md:w-3/10 lg:w-1/5 hidden md:block">
           {/* Add card */}
