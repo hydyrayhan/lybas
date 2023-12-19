@@ -118,6 +118,10 @@ function Dresses() {
         type == 4 &&
         <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} page2={{ text: t('onSale') }} />
       }
+      {
+        !type &&
+        <Breadcrumb page1={{ text: 'dresses', link: '/dresses' }} />
+      }
       <div className="dresses_main flex justify-between">
         <div className="dresses_main_left w-0 md:w-2/5 lg:w-1/5 h-fit md:sticky top-[100px]">
           <Sidebar setSortBy={setSortBy} sortBy={type} sort={sort} setSort={setSortLocal} categories={categories} dressmakersData={dressmakers} sizes={sizes} materials={materials} colors={colors} />
