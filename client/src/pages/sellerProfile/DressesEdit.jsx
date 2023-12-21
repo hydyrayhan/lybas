@@ -57,7 +57,8 @@ function DressesAdd() {
       try {
         const res = await AxiosSeller('/products/' + id);
         if (res.status === 200) {
-          setData({ ...data, ...res.data })
+          const newData = {...res.data,price:(res?.data?.discount ? res.data.price_old : res?.data?.price)}
+          setData({ ...data, ...newData })
           const helpData = []
           for (let i = 0; i < res.data.product_sizes.length; i++) {
             helpData.push({
@@ -134,6 +135,14 @@ function DressesAdd() {
     helpData.splice(index, 1);
     setSizes(helpData);
   }
+  function calculateImageSize(size) {
+    const isImageTooBig = size > 10 * 1024 * 1024; // 10 MB in bytes
+
+    if (isImageTooBig) {
+      return false
+    }
+    return true
+  }
   function convertBytesToKBorMB(bytes) {
     const KB = 1024;
     const MB = 1024 * KB;
@@ -150,16 +159,22 @@ function DressesAdd() {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
+    let bigImage = false;
     for (let i = 0; i < (files.length + file.length < 5 ? files.length : 5 - file.length); i++) {
-      arr1.push(files[i]);
-      arr2.push({
-        url: URL.createObjectURL(files[i]),
-        name: files[i].name,
-        size: convertBytesToKBorMB(files[i].size),
-      })
+      if (calculateImageSize(files[i].size)) {
+        arr1.push(files[i]);
+        arr2.push({
+          url: URL.createObjectURL(files[i]),
+          name: files[i].name,
+          size: convertBytesToKBorMB(files[i].size),
+        })
+      } else {
+        bigImage = true;
+      }
     }
     setData({ ...data, image: [...data.image, ...arr1] })
     setFile([...file, ...arr2])
+    if (bigImage) alert(t('noLarger'))
   }
   const deleteImage = async (index, image) => {
     if (image.id) {
@@ -192,11 +207,14 @@ function DressesAdd() {
         const res = await AxiosSeller("/products/" + id, { method: "PATCH", data:dataNew })
         await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         if (data.image.length) {
-          const formData = new FormData();
           for (let i = 0; i < data.image.length; i++) {
+            const formData = new FormData();
             formData.append("Image", data.image[i]);
+            var res2 = await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
+            if (res2.status !== 201) {
+              break
+            }
           }
-          await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         }
         if (res.status === 200) {
           dispatch(fetchDataDresses());

@@ -7,13 +7,13 @@ import { fetchDataCategories, setLimit as setLimitCategory } from '../../redux/f
 import { fetchDataSizes, setLimit as setLimitSize } from '../../redux/features/Sizes';
 import { fetchDataColors, setLimit as setLimitColor } from '../../redux/features/Colors';
 import { Select, MenuItem, FormControl, Chip, Box, CircularProgress } from '@mui/material';
-import { AxiosSeller } from '../../common/AxiosInstance';
+import { AxiosSeller, AxiosSellerImages } from '../../common/AxiosInstance';
 import { Valid } from '../../common/Valid';
 import { useNavigate } from 'react-router-dom';
 import { fetchDataDresses } from '../../redux/features/Dresses';
-import {AppContext} from './../../App'
+import { AppContext } from './../../App'
 
-const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
 
 function DressesAdd() {
   const [data, setData] = useState({
@@ -28,7 +28,7 @@ function DressesAdd() {
     materialId: '',
     colorId: '',
     image: [],
-    discount:0,
+    discount: 0,
     welayat: 'ashgabat',
   });
 
@@ -45,7 +45,7 @@ function DressesAdd() {
   const [loading, setLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(null);
 
-  const {lang} = useContext(AppContext);
+  const { lang } = useContext(AppContext);
 
   useEffect(() => {
     dispatch(fetchDataCategories())
@@ -91,20 +91,34 @@ function DressesAdd() {
       return (bytes / MB).toFixed(2) + ' MB';
     }
   }
+  function calculateImageSize(size) {
+    const isImageTooBig = size > 10 * 1024 * 1024; // 10 MB in bytes
+
+    if (isImageTooBig) {
+      return false
+    }
+    return true
+  }
   const handleUploadImage = (event) => {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
+    let bigImage = false;
     for (let i = 0; i < (files.length + file.length < 5 ? files.length : 5 - file.length); i++) {
-      arr1.push(files[i]);
-      arr2.push({
-        url: URL.createObjectURL(files[i]),
-        name: files[i].name,
-        size: convertBytesToKBorMB(files[i].size),
-      })
+      if (calculateImageSize(files[i].size)) {
+        arr1.push(files[i]);
+        arr2.push({
+          url: URL.createObjectURL(files[i]),
+          name: files[i].name,
+          size: convertBytesToKBorMB(files[i].size),
+        })
+      } else {
+        bigImage = true;
+      }
     }
     setData({ ...data, image: [...data.image, ...arr1] })
     setFile([...file, ...arr2])
+    if (bigImage) alert(t('noLarger'))
   }
   const deleteImage = (index) => {
     const newData = data.image
@@ -121,14 +135,14 @@ function DressesAdd() {
     setData({ ...data, [name]: value });
   }
 
-  const localValid = ()=>{
-    if(sizes.length > 0){
-      for(let i = 0; i<sizes.length; i++){
-        if(!sizes[i].stock.toString().length){
+  const localValid = () => {
+    if (sizes.length > 0) {
+      for (let i = 0; i < sizes.length; i++) {
+        if (!sizes[i].stock.toString().length) {
           return false;
         }
       }
-    }else {
+    } else {
       return false
     }
     return true
@@ -136,20 +150,25 @@ function DressesAdd() {
 
   const sendData = async () => {
     setLoading(true);
-    const dataNew = {...data};
+
+    const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
     if (Valid(dataNew) && localValid()) {
       try {
-        const res = await AxiosSeller("/products/add", { method: "POST", data:dataNew })
-        const formData = new FormData();
-        for (let i = 0; i < data.image.length; i++) {
-          formData.append("Image", data.image[i]);
-        }
+        const res = await AxiosSeller("/products/add", { method: "POST", data: dataNew })
         await AxiosSeller("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
-        const res2 = await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
+        for (let i = 0; i < data.image.length; i++) {
+          const formData = new FormData();
+          formData.append("Image", data.image[i]);
+          var res2 = await AxiosSeller("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
+          if (res2.status !== 201) {
+            break
+          }
+        }
         if (res2.status === 201) {
           dispatch(fetchDataDresses());
           navigate('/sellerProfile/dresses');
+          setLoading(false)
         } else {
           setLoading(false);
         }
@@ -198,14 +217,14 @@ function DressesAdd() {
                 >
                   {dataMaterial.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('price')}</label>
+              <label className="label font-semibold block mb-2.5" htmlFor='price'>{t('price')}</label>
               <input name='price' value={data.price} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('price')} id='name-tm' />
             </div>
             <div className="dress-input">
@@ -213,7 +232,7 @@ function DressesAdd() {
               <input name='discount' value={data.discount} onChange={handleInput} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('discount')} id='discount' />
             </div>
             <div className="dress-input">
-              <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('category')}</label>
+              <label className="label font-semibold block mb-2.5" htmlFor='category'>{t('category')}</label>
               <FormControl fullWidth>
                 <Select
                   labelId="multi-select-label"
@@ -224,14 +243,14 @@ function DressesAdd() {
                 >
                   {dataCategory.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </div>
             <div className="dress-input sizes">
-              <div className="label font-semibold block mb-2.5" htmlFor='category'>{t('province')}</div>
+              <div className="label font-semibold block mb-2.5" htmlFor='province'>{t('province')}</div>
               <div className="size flex flex-wrap items-center">
                 <FormControl fullWidth>
                   <Select
@@ -250,7 +269,7 @@ function DressesAdd() {
               </div>
             </div>
             <div className="dress-input col-span-2">
-              <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('color')}</div>
+              <div className="label font-semibold block mb-2.5" htmlFor='color'>{t('color')}</div>
               <div className="colors flex flex-wrap items-center">
                 {
                   dataColor?.length > 0 && dataColor?.map((color, index) => (
@@ -262,7 +281,7 @@ function DressesAdd() {
               </div>
             </div>
             <div className="dress-input sizes col-span-2">
-              <div className="label font-semibold block mb-2.5" htmlFor='name-tm'>{t('size')}</div>
+              <div className="label font-semibold block mb-2.5" htmlFor='size'>{t('size')}</div>
               <div className="size flex flex-wrap items-center">
                 <FormControl fullWidth>
                   <Select
@@ -286,7 +305,7 @@ function DressesAdd() {
                 <div key={index} className='col-span-2'>
                   <div className="dress-input sizes flex justify-between items-center">
                     <div className="dress-input">
-                      <label className="label font-semibold block mb-2.5" htmlFor='name-tm'>{size.name} {t('quantity')}</label>
+                      <label className="label font-semibold block mb-2.5" htmlFor='qauntity'>{size.name} {t('quantity')}</label>
                       <input name='stock' id={index} onChange={handleSizeSub} type="number" className='w-full text-lybas-gray bg-gray-100 rounded-lg outline-none px-5 py-2.5' placeholder={t('quantity')} />
                     </div>
                     <button className='bg-red-400 rounded text-white h-10 py-1 px-10 mt-5' onClick={() => sizeDelete(index)}>{t('delete')}</button>
@@ -350,7 +369,7 @@ function DressesAdd() {
             </div>
           </div>
           <div className="actions flex mt-10">
-            <button onClick={()=>navigate('/sellerProfile/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
+            <button onClick={() => navigate('/sellerProfile/dresses')} className='bg-white border mr-5 w-full py-2 rounded hover:bg-gray-100'>{t("cancel")}</button>
             <button disabled={loading} onClick={sendData} className={'text-white border flex items-center justify-center w-full py-2 rounded ' + (loading ? 'bg-gray-500 opacity-60' : 'bg-lybas-blue hover:bg-blue-800')}>
               <span className='mr-3'>{t("save")}</span>
               {

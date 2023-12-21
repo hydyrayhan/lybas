@@ -240,70 +240,74 @@ function Account() {
           <div className="account_card_order_orders p-5">
             <div className="w-full account_card_order_list rounded-lg border mb-5">
               {
-                myOrders?.length > 0 && myOrders.map((order, index) => (
-                  <div key={index}>
-                    <div className="account_card_order_list_top grid grid-cols-3 md:grid-cols-5 gap-4 px-5 py-2 flex items-center border-b">
-                      {
-                        order.status === 'waiting' &&
-                        <div className="account_card_order_list_top_col text-left text-orange-600">{t(order.status)}</div>
-                      }
-                      {
-                        order.status === 'accepted' &&
-                        <div className="account_card_order_list_top_col text-left text-blue-600">{t(order.status)}</div>
-                      }
-                      {
-                        order.status === 'onTheWay' &&
-                        <div className="account_card_order_list_top_col text-left text-green-600">{t(order.status)}</div>
-                      }
-                      {
-                        order.status === 'cancelled' &&
-                        <div className="account_card_order_list_top_col text-left text-red-600">{t(order.status)}</div>
-                      }
-                      <div className="account_card_order_list_top_col text-left text-lybas-gray">{order.id.slice(0, 8)}</div>
-                      <div className="account_card_order_list_top_col text-right text-lybas-gray">{order.createdAt.split('T')[0]} / {order.createdAt.split('T')[1].split('.')[0]}</div>
-                      <div className="account_card_order_list_top_col text-center text-lybas-gray">{order.total_price}TMT</div>
-                      <button onClick={() => handleAccardion(index)} className="account_card_order_list_top_col col-span-2 md:col-span-1 flex justify-end items-center">
-                        <svg
-                          className={"w-8 h-8 text-gray-400 mx-1 cursor-pointer p-2 box-size " + (openAccordion === index ? '-rotate-90' : 'rotate-90')}
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 6 10"
-                        >
-                          <path stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"></path>
-                        </svg>
-                      </button>
-                    </div>
-                    <div className={"account_card_order_list_bottom overflow-hidden " + (openAccordion === index ? 'h-auto' : 'h-0')}>
-                      {
-                        order?.order_products.length > 0 && order?.order_products.map((product, index2) => (
-                          <div key={index2} className="account_card_order_list_bottom_order grid grid-cols-12 md:grid-cols-5 gap-4 flex items-center px-5 py-3 border-b">
-                            <div className="name-price-quantity col-span-6 md:col-span-2">
-                              <div className="name font-semibold">{product?.product?.name_tm ? product.product['name_' + lang] : ''}</div>
-                              <div className="price-quantity flex text-[12px] text-lybas-gray">
-                                <div className="material mr-2">{product?.material?.name_tm ? product.material['name_' + lang] : ''}</div>
-                                <div className="size mr-2">{product.size}</div>
-                                <div className="price">{product.price.toFixed(2)}{t('tmt')} X {product.quantity}</div>
+                myOrders?.length > 0 && myOrders.map((order, index) => {
+                  console.log(order);
+                  return (
+                    <div key={index}>
+                      <div className="account_card_order_list_top grid grid-cols-3 md:grid-cols-5 gap-4 px-5 py-2 flex items-center border-b">
+                        {
+                          order.status === 'waiting' &&
+                          <div className="account_card_order_list_top_col text-left text-orange-600">{t(order.status)}</div>
+                        }
+                        {
+                          order.status === 'accepted' &&
+                          <div className="account_card_order_list_top_col text-left text-blue-600">{t(order.status)}</div>
+                        }
+                        {
+                          order.status === 'onTheWay' &&
+                          <div className="account_card_order_list_top_col text-left text-green-600">{t(order.status)}</div>
+                        }
+                        {
+                          order.status === 'cancelled' &&
+                          <div className="account_card_order_list_top_col text-left text-red-600">{t(order.status)}</div>
+                        }
+                        <div className="account_card_order_list_top_col text-left text-lybas-gray">{order.id.slice(0, 8)}</div>
+                        <div className="account_card_order_list_top_col text-right text-lybas-gray">{order.createdAt.split('T')[0]} / {order.createdAt.split('T')[1].split('.')[0]}</div>
+                        <div className="account_card_order_list_top_col text-center text-lybas-gray">{order.total_price}TMT</div>
+                        <button onClick={() => handleAccardion(index)} className="account_card_order_list_top_col col-span-2 md:col-span-1 flex justify-end items-center">
+                          <svg
+                            className={"w-8 h-8 text-gray-400 mx-1 cursor-pointer p-2 box-size " + (openAccordion === index ? '-rotate-90' : 'rotate-90')}
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 6 10"
+                          >
+                            <path stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"></path>
+                          </svg>
+                        </button>
+                      </div>
+                      <div className={"account_card_order_list_bottom overflow-hidden " + (openAccordion === index ? 'h-auto' : 'h-0')}>
+                        {
+                          order?.order_products.length > 0 && order?.order_products.map((product, index2) => (
+                            <div key={index2} className="account_card_order_list_bottom_order grid grid-cols-12 md:grid-cols-5 gap-4 flex items-center px-5 py-3 border-b">
+                              <div className="name-price-quantity col-span-6 md:col-span-2">
+                                <div className="name font-semibold">{product?.product?.name_tm ? product.product['name_' + lang] : ''}</div>
+                                <div className="price-quantity flex text-[12px] text-lybas-gray">
+                                  <div className="material mr-2">{product?.material?.name_tm ? product.material['name_' + lang] : ''}</div>
+                                  <div className="size mr-2">{product.size}</div>
+                                  <div className="price">{product.price.toFixed(2)}{t('tmt')} X {product.quantity}</div>
+                                </div>
+                              </div>
+                              <div className="quantity col-span-4 md:col-span-1 text-right font-semibold">{product.quantity} pcs</div>
+                              <div className="price font-bold col-span-5 md:col-span-1 text-center">{product.total_price.toFixed(2)} {t('tmt')}</div>
+                              <div className="space flex items-center justify-between col-span-7 md:col-span-1 text-right">
+                                <button disabled={!(product.status === 'onTheWay' && !product.isCommented)} className={"text-white px-3 py-2 rounded-lg " + ((product.status === 'onTheWay' && !product.isCommented) ? 'bg-lybas-blue' : 'bg-gray-500')} onClick={() => (setProductId(product.productId), setOrderProductId(product.id), setFeedbackPopupOpen(true))}>
+                                  {t('feedback')}
+                                </button>
+                                <button onClick={() => deleteOrderedProduct(product.id)}>
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#FF3521" />
+                                  </svg>
+                                </button>
                               </div>
                             </div>
-                            <div className="quantity col-span-4 md:col-span-1 text-right font-semibold">{product.quantity} pcs</div>
-                            <div className="price font-bold col-span-5 md:col-span-1 text-center">{product.total_price.toFixed(2)} {t('tmt')}</div>
-                            <div className="space flex items-center justify-between col-span-7 md:col-span-1 text-right">
-                              <button disabled={!(product.status === 'onTheWay' && !product.isCommented)} className={"text-white px-3 py-2 rounded-lg " + ((product.status === 'onTheWay' && !product.isCommented) ? 'bg-lybas-blue' : 'bg-gray-500')} onClick={() => (setProductId(product.productId), setOrderProductId(product.id), setFeedbackPopupOpen(true))}>
-                                {t('feedback')}
-                              </button>
-                              <button onClick={() => deleteOrderedProduct(product.id)}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M7 21C6.45 21 5.97917 20.8042 5.5875 20.4125C5.19583 20.0208 5 19.55 5 19V6H4V4H9V3H15V4H20V6H19V19C19 19.55 18.8042 20.0208 18.4125 20.4125C18.0208 20.8042 17.55 21 17 21H7ZM9 17H11V8H9V17ZM13 17H15V8H13V17Z" fill="#FF3521" />
-                                </svg>
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      }
+                          ))
+                        }
+                      </div>
                     </div>
-                  </div>
-                ))
+                  )
+                }
+                )
               }
             </div>
           </div>

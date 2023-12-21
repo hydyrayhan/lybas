@@ -182,7 +182,7 @@ function Dresses() {
                           </div>
                         </TableCell>
                         <TableCell align={'left'}>
-                          {market.price}
+                          {market?.discount ? market?.price_old : market.price}
                         </TableCell>
                         <TableCell align={'left'}>
                           {market.material['name_' + lang]}

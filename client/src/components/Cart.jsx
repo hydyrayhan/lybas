@@ -17,32 +17,35 @@ export default function Cart({ open, setOpen }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartData = useSelector((state) => state?.Cart.data)
-  const [loading, setLoading] = useState(false);
 
   const calculateTotalPrice = (cart) => {
     return cart.reduce((sum, obj) => sum + obj.total_price, 0).toFixed(2);
   }
 
   const updateProductQuantity = async (product, quantity) => {
-    if (quantity > 0) {
-      try {
-        const data = {
-          id: product.productId,
-          productsizeId: product.productsizeId,
-          quantity
+    if (product.stock >= quantity) {
+      if (quantity > 0) {
+        try {
+          const data = {
+            id: product.productId,
+            productsizeId: product.productsizeId,
+            quantity
+          }
+          await AxiosUser('/to-my-cart', { method: 'POST', data })
+          await dispatch(fetchDataCart());
+        } catch (error) {
+          console.log(error);
         }
-        await AxiosUser('/to-my-cart', { method: 'POST', data })
-        await dispatch(fetchDataCart());
-      } catch (error) {
-        console.log(error);
+      } else {
+        try {
+          await AxiosUser('/delete/not-ordered/' + product.orderproductId, { method: 'POST' })
+          await dispatch(fetchDataCart());
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } else {
-      try {
-        await AxiosUser('/delete/not-ordered/' + product.orderproductId, { method: 'POST' })
-        await dispatch(fetchDataCart());
-      } catch (error) {
-        console.log(error);
-      }
+    }else{
+      toast.warning(t('outStock'),{ position: 'bottom-left', autoClose: 2000 })
     }
   }
 
@@ -146,7 +149,7 @@ export default function Cart({ open, setOpen }) {
                         </div>
                       </div>
                     </div>
-                    <ToastContainer />
+                    
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p className='font-semibold'>{t('totalPrice')}</p>
@@ -179,6 +182,7 @@ export default function Cart({ open, setOpen }) {
               </Transition.Child>
             </div>
           </div>
+          <ToastContainer />
         </div>
       </Dialog>
     </Transition.Root>

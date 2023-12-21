@@ -218,6 +218,7 @@ const resources = {
       changePassword:"Change password",
       phoneNumberError:"Phone number is not correct",
       addNotification:"Add notification",
+      noLarger:"Image must be no larger than 10mb",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -445,6 +446,7 @@ const resources = {
       changePassword:"Изменить пароль",
       phoneNumberError:"Номер телефона недействителен",
       addNotification:"Добавить уведомление",
+      noLarger:"Изображение должно быть не больше 10 МБ.",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>
@@ -677,6 +679,7 @@ const resources = {
       changePassword:"Paroly üýtget",
       phoneNumberError:"Telefon belgi dogry däl",
       addNotification:"Täzelik goşmak",
+      noLarger:"Surat 10mb-dan uly bolmaly däl",
       orderLaw: `<ul class='list-disc ml-5'>
                   <li>Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir;</li>
                   <li>Sargydyň iň pes çägi 50 manat bolmaly; 50-150 manat arasy eltip bermek hyzmatynyň tölegi 10 manat; sargydyňyz 150 manatdan geçse eltip bermek hyzmaty mugt;</li>

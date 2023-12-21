@@ -8,7 +8,7 @@ export const BASE_URL_SELLER = url + '/seller'
 export const BASE_URL_USERS = url + '/users'
 const AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 100000,
+  // timeout: 100000,
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -16,7 +16,7 @@ const AxiosInstance = axios.create({
 });
 const AxiosInstanceFormData = axios.create({
   baseURL: BASE_URL,
-  timeout: 100000,
+  // timeout: 100000,
   headers: {
     'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
     'Content-Type': 'multipart/form-data'
@@ -25,11 +25,13 @@ const AxiosInstanceFormData = axios.create({
 
 const AxiosSeller = async (url, options = { method: 'GET' }, file = false) => {
   const token = localStorage.getItem('lybas-seller-token')
+
   if (file) {
+
     const response = await axios({
       url,
       baseURL: BASE_URL_SELLER,
-      timeout: 100000,
+      // timeout: 100000,
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': token ? `Bearer ${token}` : "",
@@ -41,7 +43,7 @@ const AxiosSeller = async (url, options = { method: 'GET' }, file = false) => {
   const response = await axios({
     url,
     baseURL: BASE_URL_SELLER,
-    timeout: 100000,
+    // timeout: 100000,
     headers: {
       "Content-Type": "application/json",
       'Authorization': token ? `Bearer ${token}` : "",
@@ -57,7 +59,7 @@ const AxiosUser = async (url, options = { method: 'GET' }, file = false) => {
     const response = await axios({
       url,
       baseURL: BASE_URL_USERS,
-      timeout: 100000,
+      // timeout: 100000,
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': token ? `Bearer ${token}` : "",
@@ -69,7 +71,7 @@ const AxiosUser = async (url, options = { method: 'GET' }, file = false) => {
   const response = await axios({
     url,
     baseURL: BASE_URL_USERS,
-    timeout: 100000,
+    // timeout: 100000,
     headers: {
       "Content-Type": "application/json",
       'Authorization': token ? `Bearer ${token}` : "",
@@ -85,7 +87,7 @@ const AxiosCustom = async (url, options = { method: 'GET' }, file = false) => {
     const response = await axios({
       url,
       baseURL: BASE_URL,
-      timeout: 100000,
+      // timeout: 100000,
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': token ? `Bearer ${token}` : "",
@@ -97,7 +99,7 @@ const AxiosCustom = async (url, options = { method: 'GET' }, file = false) => {
   const response = await axios({
     url,
     baseURL: BASE_URL,
-    timeout: 100000,
+    // timeout: 100000,
     headers: {
       "Content-Type": "application/json",
       'Authorization': token ? `Bearer ${token}` : "",

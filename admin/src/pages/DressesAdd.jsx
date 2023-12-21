@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchDataDresses } from '../redux/features/Dresses';
 import { AppContext } from '../App';
 
-const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
 
 function DressesAdd() {
   const [data, setData] = useState({
@@ -48,7 +48,7 @@ function DressesAdd() {
   const [file, setFile] = useState([]);
   const [loading, setLoading] = useState(false);
   const [colorIndex, setColorIndex] = useState(null);
-  const {lang} = useContext(AppContext);
+  const { lang } = useContext(AppContext);
 
   useEffect(() => {
     dispatch(setLimitDressmaker(1000))
@@ -92,20 +92,34 @@ function DressesAdd() {
       return (bytes / MB).toFixed(2) + ' MB';
     }
   }
+  function calculateImageSize(size) {
+    const isImageTooBig = size > 10 * 1024 * 1024; // 10 MB in bytes
+
+    if (isImageTooBig) {
+      return false
+    }
+    return true
+  }
   const handleUploadImage = (event) => {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
+    let bigImage = false;
     for (let i = 0; i < (files.length + file.length < 5 ? files.length : 5 - file.length); i++) {
-      arr1.push(files[i]);
-      arr2.push({
-        url: URL.createObjectURL(files[i]),
-        name: files[i].name,
-        size: convertBytesToKBorMB(files[i].size),
-      })
+      if (calculateImageSize(files[i].size)) {
+        arr1.push(files[i]);
+        arr2.push({
+          url: URL.createObjectURL(files[i]),
+          name: files[i].name,
+          size: convertBytesToKBorMB(files[i].size),
+        })
+      } else {
+        bigImage = true;
+      }
     }
     setData({ ...data, image: [...data.image, ...arr1] })
     setFile([...file, ...arr2])
+    if (bigImage) alert(t('noLarger'))
   }
   const deleteImage = (index) => {
     const newData = data.image
@@ -125,14 +139,14 @@ function DressesAdd() {
     setData({ ...data, welayat: e.target.value })
   }
 
-  const localValid = ()=>{
-    if(sizes.length > 0){
-      for(let i = 0; i<sizes.length; i++){
-        if(!sizes[i].stock.toString().length){
+  const localValid = () => {
+    if (sizes.length > 0) {
+      for (let i = 0; i < sizes.length; i++) {
+        if (!sizes[i].stock.toString().length) {
           return false;
         }
       }
-    }else {
+    } else {
       return false
     }
     return true
@@ -145,12 +159,15 @@ function DressesAdd() {
     if (Valid(dataNew) && localValid()) {
       try {
         const res = await AxiosCustom("/products/add", { method: "POST", data: dataNew })
-        const formData = new FormData();
+        await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         for (let i = 0; i < dataNew.image.length; i++) {
+          const formData = new FormData();
           formData.append("Image", dataNew.image[i]);
+          var res2 = await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
+          if (res2.status !== 201) {
+            break
+          }
         }
-        const res1 = await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
-        const res2 = await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         if (res2.status === 201) {
           dispatch(fetchDataDresses());
           navigate('/super/dresses');
@@ -203,7 +220,7 @@ function DressesAdd() {
                 >
                   {dataMaterial.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>
@@ -229,7 +246,7 @@ function DressesAdd() {
                 >
                   {dataCategory.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>

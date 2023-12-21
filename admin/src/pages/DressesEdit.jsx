@@ -15,7 +15,7 @@ import { fetchDataDresses } from '../redux/features/Dresses';
 import { api } from '../common/Config';
 import { AppContext } from '../App'
 
-const velayats = ['ashgabat','ahal','balkan','mary','dashoguz'];
+const velayats = ['ashgabat', 'ahal', 'balkan', 'mary', 'dashoguz'];
 
 function DressesAdd() {
   const [data, setData] = useState({
@@ -62,7 +62,8 @@ function DressesAdd() {
       try {
         const res = await AxiosCustom('/products/' + id);
         if (res.status === 200) {
-          setData({ ...data, ...res.data })
+          const newData = {...res.data,price:(res?.data?.discount ? res?.data?.price_old : res?.data?.price)}
+          setData({ ...data, ...newData })
           const helpData = []
           for (let i = 0; i < res.data.product_sizes.length; i++) {
             helpData.push({
@@ -123,20 +124,34 @@ function DressesAdd() {
       return (bytes / MB).toFixed(2) + ' MB';
     }
   }
+  function calculateImageSize(size) {
+    const isImageTooBig = size > 10 * 1024 * 1024; // 10 MB in bytes
+
+    if (isImageTooBig) {
+      return false
+    }
+    return true
+  }
   const handleUploadImage = (event) => {
     const files = event.target.files;
     const arr1 = []
     const arr2 = []
+    let bigImage = false;
     for (let i = 0; i < (files.length + file.length < 5 ? files.length : 5 - file.length); i++) {
-      arr1.push(files[i]);
-      arr2.push({
-        url: URL.createObjectURL(files[i]),
-        name: files[i].name,
-        size: convertBytesToKBorMB(files[i].size),
-      })
+      if (calculateImageSize(files[i].size)) {
+        arr1.push(files[i]);
+        arr2.push({
+          url: URL.createObjectURL(files[i]),
+          name: files[i].name,
+          size: convertBytesToKBorMB(files[i].size),
+        })
+      } else {
+        bigImage = true;
+      }
     }
     setData({ ...data, image: [...data.image, ...arr1] })
     setFile([...file, ...arr2])
+    if (bigImage) alert(t('noLarger'))
   }
   const deleteImage = async (index, image) => {
     if (image.id) {
@@ -160,31 +175,31 @@ function DressesAdd() {
     setData({ ...data, [name]: value });
   }
 
-  const localValid = ()=>{
-    if(!data.body_en || 
-      !data.body_ru || 
-      !data.body_tm || 
-      !data.categoryId || 
-      !data.colorId || 
-      !data.name_en || 
+  const localValid = () => {
+    if (!data.body_en ||
+      !data.body_ru ||
+      !data.body_tm ||
+      !data.categoryId ||
+      !data.colorId ||
+      !data.name_en ||
       !data.name_tm ||
-      !data.name_ru ||  
-      !data.materialId ||  
-      !data.price ||  
-      !data?.sellerId ||  
-      !data.welayat ||  
-      !data.welayat || 
-      !file.length 
-    ){
+      !data.name_ru ||
+      !data.materialId ||
+      !data.price ||
+      !data?.sellerId ||
+      !data.welayat ||
+      !data.welayat ||
+      !file.length
+    ) {
       return false
     }
-    if(sizes.length > 0){
-      for(let i = 0; i<sizes.length; i++){
-        if(!sizes[i].stock.toString().length){
+    if (sizes.length > 0) {
+      for (let i = 0; i < sizes.length; i++) {
+        if (!sizes[i].stock.toString().length) {
           return false;
         }
       }
-    }else {
+    } else {
       return false
     }
     return true
@@ -194,16 +209,16 @@ function DressesAdd() {
     setLoading(true);
     const dataNew = { ...data };
     dataNew.discount = (data.discount < 0 || !data.discount) ? 0 : data.discount;
-    if(localValid()){
+    if (localValid()) {
       try {
         const res = await AxiosCustom("/products/" + id, { method: "PATCH", data: dataNew })
         await AxiosCustom("/products/add/size/" + res.data.id, { method: "POST", data: { sizes } })
         if (data.image.length) {
-          const formData = new FormData();
           for (let i = 0; i < data.image.length; i++) {
+            const formData = new FormData();
             formData.append("Image", data.image[i]);
+            await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
           }
-          await AxiosCustom("/products/upload-image/" + res.data.id, { method: "POST", data: formData }, true)
         }
         if (res.status === 200) {
           dispatch(fetchDataDresses());
@@ -216,7 +231,7 @@ function DressesAdd() {
         setLoading(false);
         console.log(error);
       }
-    }else{
+    } else {
       setLoading(false);
       alert(t('fillTheGaps'))
     }
@@ -257,7 +272,7 @@ function DressesAdd() {
                 >
                   {dataMaterial.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>
@@ -302,7 +317,7 @@ function DressesAdd() {
                 >
                   {dataCategory.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
-                      {option['name_'+lang]}
+                      {option['name_' + lang]}
                     </MenuItem>
                   ))}
                 </Select>

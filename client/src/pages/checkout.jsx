@@ -75,33 +75,38 @@ function Checkout() {
   }
 
   const updateProductQuantity = async (product, quantity) => {
-    if (instantOrder) {
-      setInstantOrderData({ ...instantOrderData, quantity })
-    } else {
-      if (quantity > 0) {
-        try {
-          const data = {
-            id: product.productId,
-            productsizeId: product.productsizeId,
-            quantity
-          }
-          await AxiosUser('/to-my-cart', { method: 'POST', data })
-          await dispatch(fetchDataCart());
-        } catch (error) {
-          console.log(error);
-        }
+    if (product.stock >= quantity) {
+      if (instantOrder) {
+        setInstantOrderData({ ...instantOrderData, quantity })
       } else {
-        try {
-          await AxiosUser('/delete/not-ordered/' + product.orderproductId, { method: 'POST' })
-          await dispatch(fetchDataCart());
-        } catch (error) {
-          console.log(error);
+        if (quantity > 0) {
+          try {
+            const data = {
+              id: product.productId,
+              productsizeId: product.productsizeId,
+              quantity
+            }
+            await AxiosUser('/to-my-cart', { method: 'POST', data })
+            await dispatch(fetchDataCart());
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          try {
+            await AxiosUser('/delete/not-ordered/' + product.orderproductId, { method: 'POST' })
+            await dispatch(fetchDataCart());
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
+    } else {
+      toast.warning(t('outStock'), { position: 'bottom-left', autoClose: 2000 })
     }
   }
 
   const sendData = async () => {
+    console.log(data);
     if (data.user_phone && data.address && data.name && data.surname) {
       if (instantOrder) {
         const newData = {

@@ -32,7 +32,6 @@ function Dress() {
   const [quantity, setQuantity] = useState(0);
   const [orderedData, setOrderedData] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
-
   const isOrdered = async (id) => {
     try {
       const res = await AxiosUser("/is-ordered?productsizeId=" + id);
@@ -42,7 +41,8 @@ function Dress() {
         setTotalPrice(res?.data?.order_product?.total_price.toFixed(2))
       } else {
         setQuantity(0)
-        setTotalPrice(0)
+        const zero = 0;
+        setTotalPrice(zero.toFixed(2))
         setOrderedData(null)
       }
     } catch (error) {
@@ -79,7 +79,7 @@ function Dress() {
     document.addEventListener("click", handleClickOutside);
 
     return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+  }, [id]);
 
   const handleLike = async (id) => {
     if (localStorage.getItem('lybas-user-token')) {
@@ -150,6 +150,16 @@ function Dress() {
       }
     } else {
       toast.warning(t('loginWorning'), { position: 'bottom-right', autoClose: 2000 });
+    }
+  }
+
+  const setQuantityFunc = () => {
+    console.log(inStock);
+    if(inStock > quantity){
+      setQuantity(quantity + 1)
+      setTotalPrice(((quantity + 1) * data?.price).toFixed(2))
+    }else{
+      toast.warning(t('outStock'), { position: 'bottom-right', autoClose: 2000 });
     }
   }
 
@@ -429,7 +439,7 @@ function Dress() {
             <div className="dress-page_right_add-card_number my-[15px] flex flex-wrap justify-between items-center">
               <span className="text-lybas-gray">{t('numbers')}:</span>
               <div className="buttons shadow-lybas-1 h-[32px] flex items-center rounded-lg">
-                <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity - 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
+                <button onClick={() => (setQuantity(quantity > 0 ? quantity - 1 : 0), setTotalPrice(((quantity > 0 && quantity - 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-r border-r-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="16"
@@ -442,7 +452,7 @@ function Dress() {
                   </svg>
                 </button>
                 <span className="w-10 text-center text-semibold">{quantity}</span>
-                <button onClick={() => (setQuantity(quantity + 1), setTotalPrice(((quantity + 1) * data?.price).toFixed(2)))} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
+                <button onClick={()=>setQuantityFunc('add')} className="h-full px-[8px] group border-l border-l-lybas-light-gray">
                   <svg
                     className="fill-lybas-gray group-hover:fill-lybas-blue"
                     width="12"
